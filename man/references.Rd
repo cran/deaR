@@ -5,7 +5,7 @@
 \title{References}
 \usage{
 references(deasol,
-                  thr = 1e-4)
+           thr = 1e-4)
 }
 \arguments{
 \item{deasol}{Object of class \code{dea} obtained with some of the DEA model functions.}
@@ -20,7 +20,7 @@ Extract the reference set for each DMU (inefficient DMUs and efficicent DMUs tha
 # Replication results model DEA1 in Tomkins and Green (1988).
 data("Departments")
 # Calculate Total income
-Departments$Total_income <- Departments[,5] + Departments[,6]+Departments[,7] 
+Departments$Total_income <- Departments[, 5] + Departments[, 6]+Departments[, 7] 
 data_DEA1 <- read_data(Departments,
                        inputs = 9,
                        outputs = c(2, 3, 4, 12))

@@ -4,10 +4,14 @@
 \alias{plot.dea}
 \title{Plot for DEA models.}
 \usage{
-\method{plot}{dea}(x, ...)
+\method{plot}{dea}(x, showPlots = TRUE, ...)
 }
 \arguments{
 \item{x}{An object of class \code{"dea"} obtained by a dea model function.}
+
+\item{showPlots}{Logical. When TRUE (default) the plots are shown one by one. When it 
+is FALSE the plots are not shown and are returned by the function (invisiblily) as a 
+list.}
 
 \item{...}{Ignored, for compatibility issues.}
 }
@@ -22,7 +26,6 @@ Plot some attribute of a DEA model (conventional, fuzzy or Malmquist).
 }
 \examples{
 data_example <- read_data(datadea = Fortune500,
-                          dmus = 1,
                           inputs = 2:4, 
                           outputs = 5:6)
 result <- model_basic(data_example)

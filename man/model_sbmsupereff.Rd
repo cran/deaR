@@ -5,18 +5,17 @@
 \title{Slack based measure of superefficiency model}
 \usage{
 model_sbmsupereff(datadea,
-            dmu_eval = NULL,
-            dmu_ref = NULL,
-            weight_input = 1,
-            weight_output = 1,
-            orientation = c("no", "io", "oo"),
-            rts = c("crs", "vrs", "nirs", "ndrs", "grs"),
-            L = 1,
-            U = 1,
-            compute_target = TRUE,
-            compute_rho = FALSE,
-            thr = 1e-6,
-            returnlp = FALSE)
+                  dmu_eval = NULL,
+                  dmu_ref = NULL,
+                  weight_input = 1,
+                  weight_output = 1,
+                  orientation = c("no", "io", "oo"),
+                  rts = c("crs", "vrs", "nirs", "ndrs", "grs"),
+                  L = 1,
+                  U = 1,
+                  compute_target = TRUE,
+                  compute_rho = FALSE,
+                  returnlp = FALSE)
 }
 \arguments{
 \item{datadea}{The data, including DMUs, inputs and outputs.}
@@ -42,10 +41,7 @@ with weights to outputs corresponding to the relative importance of items.}
 
 \item{compute_target}{Logical. If it is \code{TRUE}, it computes targets, superslacks (\code{t_input} and \code{t_output}) and slacks.}
 
-\item{compute_rho}{Logical. If it is \code{TRUE}, it computes \code{rho} applying \code{model_sbmeff} to the DMU (\code{project_input}, \code{project_output})
-if the slacks are not numerically zero (i.e. this DMU is inefficient).}
-
-\item{thr}{A value. Threshold for numerical zero.}
+\item{compute_rho}{Logical. If it is \code{TRUE}, it computes \code{rho} applying \code{model_sbmeff} to the DMU (\code{project_input}, \code{project_output}).}
 
 \item{returnlp}{Logical. If it is \code{TRUE}, it returns the linear problems (objective function and constraints).}
 }
@@ -55,8 +51,12 @@ Slack based measure of superefficiency model (Tone 2002) with n DMUs, m inputs, 
 \examples{
 # Replication of results in Tone(2002, p.39)
 data("Power_plants")
-data_example <- read_data(Power_plants, ni = 4, no = 2)
-result <- model_sbmsupereff(data_example, orientation = "io", rts = "crs") 
+data_example <- read_data(Power_plants,
+                          ni = 4,
+                          no = 2)
+result <- model_sbmsupereff(data_example,
+                            orientation = "io",
+                            rts = "crs") 
 efficiencies(result)
 slacks(result)$slack_input
 references(result)

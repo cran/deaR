@@ -12,7 +12,7 @@
   \item{y2}{Output2}
 }}
 \source{
-Tone, K. (2001). "A Slacks-Based Beasure of Efficiency in Data Envelopment Analysis", European Journal of Operational Research, 130, 498-509. \code{doi}: 10.1016/S0377-2217(99)00407-5
+Tone, K. (2001). "A Slacks-Based Measure of Efficiency in Data Envelopment Analysis", European Journal of Operational Research, 130, 498-509. \code{doi}: 10.1016/S0377-2217(99)00407-5
 }
 \usage{
 data("Tone2001")

@@ -5,12 +5,13 @@
 #' The model_basic function allows to treat with non-discretional, uncontrollable and undesirable inputs/outputs. 
 #' 
 #' Finally, you can use the \code{model_basic} function to solve directional DEA models by choosing \code{orientation} = "dir".
+#'
+#' @note (1) With undesirable inputs/outputs and non-directional orientation, you should select "vrs" returns to scale (BCC model) in order to maintain translation invariance (Seiford and Zhu, 2002). If deaR detects that you are not specifying \code{rts} = "vrs", it makes the change to "vrs" automatically. 
 #' 
-#' @note (1) With undesirable inputs/outputs, you should select vrs returns to scale in order to maintain translation invariance (Seiford y Zhu, 2002). If deaR detects that you are not specifying \code{rts} = "vrs", it makes the change to vrs automatically. 
+#' (2) With undesirable inputs and non-directional orientation use input-oriented BCC model, and with undesirable outputs and non-directional orientation use output-oriented BCC model. Alternatively, you can also treat the undesirable outputs as inputs and then apply the input-oriented BCC model (similarly with undesirable inputs).
 #' 
-#' (2) With undesirable inputs use input-oriented BCC model, and with undesirable outputs use output-oriented BCC model. Alternatively, you can also treat the undesirable outputs as inputs and the apply the input-oriented BCC model (similarly with undesirable inputs).
+#' (3) With \code{orientation} = "dir" (directional distance function model), efficient DMUs are those for which \code{beta} = 0.
 #' 
-#' (3) With \code{dir} orientation (directional distance functions model), efficient DMUs are those for which \code{beta}=0.
 #' @usage model_basic(datadea,
 #'             dmu_eval = NULL,
 #'             dmu_ref = NULL,
@@ -31,8 +32,8 @@
 #'             ...)
 #' 
 #' @param datadea The data, including \code{n} DMUs, \code{m} inputs and \code{s} outputs.
-#' @param dmu_ref A numeric vector containing which DMUs are the evaluation reference set.
 #' @param dmu_eval A numeric vector containing which DMUs have to be evaluated.
+#' @param dmu_ref A numeric vector containing which DMUs are the evaluation reference set.
 #' @param orientation A string, equal to "io" (input oriented), "oo" (output oriented), or "dir" (directional).
 #' @param dir_input A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the lenght of \code{dmu_eval}) with the input directions.
 #'                  If \code{dir_input} == input matrix (of DMUS in \code{dmu_eval}) and \code{dir_output} == 0, it is equivalent to input oriented (\code{beta} = 1 - \code{efficiency}).
@@ -49,11 +50,11 @@
 #'                       with the weights of the input slacks for the max slack solution.
 #' @param weight_slack_o A value, vector of length \code{s}, or matrix \code{s} x \code{ne} (where \code{ne} is the lenght of \code{dmu_eval})
 #'                       with the weights of the output slacks for the max slack solution.
-#' @param vtrans_i Numeric vector of translation for undesirable inputs. If \code{vtrans_i[i]} is
+#' @param vtrans_i Numeric vector of translation for undesirable inputs with non-directional orientation. If \code{vtrans_i[i]} is
 #'  \code{NA}, then it applies the "max + 1" translation to the i-th undesirable input. If \code{vtrans_i} is
 #'  a constant, then it applies the same translation to all undesirable inputs. If \code{vtrans_i} is \code{NULL},
 #'  then it applies the "max + 1" translation to all undesirable inputs.
-#' @param vtrans_o Numeric vector of translation for undesirable outputs, analogous to
+#' @param vtrans_o Numeric vector of translation for undesirable outputs with non-directional orientation, analogous to
 #'  \code{vtrans_i}, but applied to outputs.
 #' @param compute_target Logical. If it is \code{TRUE}, it computes targets of the max slack solution. 
 #' @param compute_multiplier Logical. If it is \code{TRUE}, it computes multipliers (dual solution) when \code{orientation} is "io" or "oo".
@@ -87,6 +88,8 @@
 #'
 #' Seiford, L.M.; Zhu, J. (2002). “Modeling undesirable factors in efficiency evaluation”, European Journal of Operational Research 142, 16-20.
 #' 
+#' Färe, R. ; Grosskopf, S. (2004). “Modeling undesirable factors in efficiency evaluation: Comment”, European Journal of Operational Research 157, 242-245.
+#' 
 #' Hua Z.; Bian Y. (2007). DEA with Undesirable Factors. In: Zhu J., Cook W.D. (eds) Modeling Data Irregularities and Structural Complexities in Data Envelopment Analysis. Springer, Boston, MA. 
 #' 
 #' Non-discretionary/Non-controllable inputs/outputs:  
@@ -108,7 +111,6 @@
 #' # Selecting DMUs in Program Follow Through (PFT)
 #' PFT <- PFT1981[1:49, ] 
 #' PFT <- read_data(PFT, 
-#'                  dmus = 1, 
 #'                  inputs = 2:6, 
 #'                  outputs = 7:9 )
 #' eval_pft <- model_basic(PFT, 
@@ -142,7 +144,8 @@
 #' data("Ruggiero2007") 
 #' # The second input is a non-discretionary input.
 #' datadea <- read_data(Ruggiero2007, 
-#'                      ni = 2, no = 1, 
+#'                      ni = 2,
+#'                      no = 1, 
 #'                      nd_inputs = 2) 
 #' result <- model_basic(datadea,
 #'                       orientation = "io", 
@@ -190,25 +193,30 @@ model_basic <-
   
   # Checking undesirable io and rts
   if (!is.null(datadea$ud_inputs) || !is.null(datadea$ud_outputs)) {
-    datadea_old <- datadea
-    res_und <- undesirable_basic(datadea = datadea, vtrans_i = vtrans_i, vtrans_o = vtrans_o)
-    datadea <- res_und$u_datadea
-    if (orientation == "oo") {
-      vtrans_i <- res_und$vtrans_o
-      vtrans_o <- res_und$vtrans_i
+    if (orientation == "dir") {
+      warning("Model proposed by Fare and Grosskopf (2004) is applied for undesirable inputs/outputs.")
     } else {
-      vtrans_i <- res_und$vtrans_i
-      vtrans_o <- res_und$vtrans_o
-    }
-    if (!is.null(datadea$ud_inputs) && (orientation != "io")) {
-      warning("Undesirable (good) inputs with no input-oriented model.")
-    }
-    if (!is.null(datadea$ud_outputs) && (orientation != "oo")) {
-      warning("Undesirable (bad) outputs with no output-oriented model.")
-    }
-    if (rts != "vrs") {
-      rts <- "vrs"
-      warning("Returns to scale changed to variable (vrs) because there is data with undesirable inputs/outputs.")
+      warning("Model proposed by Seiford and Zhu (2002) is applied for undesirable inputs/outputs.")
+      datadea_old <- datadea
+      res_und <- undesirable_basic(datadea = datadea, vtrans_i = vtrans_i, vtrans_o = vtrans_o)
+      datadea <- res_und$u_datadea
+      if (orientation == "oo") {
+        vtrans_i <- res_und$vtrans_o
+        vtrans_o <- res_und$vtrans_i
+      } else {
+        vtrans_i <- res_und$vtrans_i
+        vtrans_o <- res_und$vtrans_o
+      }
+      if (!is.null(datadea$ud_inputs) && (orientation != "io")) {
+        warning("Undesirable (good) inputs with no input-oriented model.")
+      }
+      if (!is.null(datadea$ud_outputs) && (orientation != "oo")) {
+        warning("Undesirable (bad) outputs with no output-oriented model.")
+      }
+      if (rts != "vrs") {
+        rts <- "vrs"
+        warning("Returns to scale changed to variable (vrs) because there are data with undesirable inputs/outputs.")
+      }
     }
   }
   
@@ -293,6 +301,7 @@ model_basic <-
       nc_inputs <- datadea$nc_inputs
       nc_outputs <- datadea$nc_outputs
       nd_inputs <- datadea$nd_inputs
+      nd_outputs <- datadea$nd_outputs
       ud_inputs <- datadea$ud_inputs
       ud_outputs <- datadea$ud_outputs
       obj <- "min"
@@ -303,8 +312,12 @@ model_basic <-
       nc_inputs <- datadea$nc_outputs
       nc_outputs <- datadea$nc_inputs
       nd_inputs <- datadea$nd_outputs
+      nd_outputs <- datadea$nd_inputs
       ud_inputs <- datadea$ud_outputs
       ud_outputs <- datadea$ud_inputs
+      aux <- weight_slack_i
+      weight_slack_i <- weight_slack_o
+      weight_slack_o <- aux
       obj <- "max"
       orient <- -1
     }
@@ -373,6 +386,7 @@ model_basic <-
     }
     rownames(weight_slack_i) <- inputnames
     colnames(weight_slack_i) <- dmunames[dmu_eval]
+    weight_slack_i[nd_inputs, ] <- 0 # Non-discretionary io not taken into account for maxslack solution
     
     if (is.matrix(weight_slack_o)) {
       if ((nrow(weight_slack_o) != no) || (ncol(weight_slack_o) != nde)) {
@@ -385,6 +399,7 @@ model_basic <-
     }
     rownames(weight_slack_o) <- outputnames
     colnames(weight_slack_o) <- dmunames[dmu_eval]
+    weight_slack_o[nd_outputs, ] <- 0 # Non-discretionary io not taken into account for maxslack solution
     
     nnci <- length(nc_inputs) # number of non-controllable inputs
     nnco <- length(nc_outputs) # number of non-controllable outputs
@@ -499,7 +514,7 @@ model_basic <-
             names(target_output) <- outputnames
             
             slack_input <- efficiency * input[, ii] - orient * target_input
-            slack_input[ncd_inputs] <- input[, ii] - orient * target_input
+            slack_input[ncd_inputs] <- input[ncd_inputs, ii] - orient * target_input[ncd_inputs]
             names(slack_input) <- inputnames
             slack_output <- orient * target_output - output[, ii]
             names(slack_output) <- outputnames
@@ -534,6 +549,9 @@ model_basic <-
                            slack_input = slack_output, slack_output = slack_input,
                            target_input = target_output, target_output = target_input,
                            multiplier_input = multiplier_output, multiplier_output = multiplier_input)
+          aux <- weight_slack_i
+          weight_slack_i <- weight_slack_o
+          weight_slack_o <- aux
         }
         
       }
@@ -550,10 +568,15 @@ model_basic <-
       
       # Matriz técnica stage 1
       f.con.1 <- cbind(dir_input[, i], inputref)
+      f.con.1[ud_inputs, 1] <- -dir_input[ud_inputs, i]
       f.con.1[ncd_inputs, 1] <- 0
       f.con.2 <- cbind(-dir_output[, i], outputref)
+      f.con.2[ud_outputs, 1] <- dir_output[ud_outputs, i]
       f.con.2[ncd_outputs, 1] <- 0
       f.con <- rbind(f.con.1, f.con.2, f.con.rs)
+      
+      # Vector de dirección de restricciones
+      f.dir[c(ud_inputs, ni + ud_outputs)] <- "="
       
       # Vector de términos independientes stage 1
       f.rhs <- c(input[, ii], output[, ii], f.rhs.rs)
@@ -600,6 +623,8 @@ model_basic <-
             
             # Vector de términos independientes stage 2
             f.rhs2 <- c(input[, ii] - beta * dir_input[, i], output[, ii] + beta * dir_output[, i], rep(0, nnci + nnco), f.rhs.rs)
+            f.rhs2[ud_inputs] <- input[ud_inputs, ii] + beta * dir_input[ud_inputs, i]
+            f.rhs2[ni + ud_outputs] <- output[ud_outputs, ii] - beta * dir_output[ud_outputs, i]
             f.rhs2[ncd_inputs] <- input[ncd_inputs, ii]
             f.rhs2[ni + ncd_outputs] <- output[ncd_outputs, ii]
             
@@ -616,12 +641,8 @@ model_basic <-
             if (compute_target) {
               target_input <- as.vector(inputref %*% lambda)
               target_output <- as.vector(outputref %*% lambda)
-              #target_input <- input[, ii] - beta * dir_input[, i] - slack_input
               names(target_input) <- inputnames
-              #target_output <- slack_output + output[, ii] + beta * dir_output[, i]
               names(target_output) <- outputnames
-              target_input[ud_inputs] <- vtrans_i - target_input[ud_inputs]
-              target_output[ud_outputs] <- vtrans_o - target_output[ud_outputs]
             }
             
           } else {
@@ -635,14 +656,13 @@ model_basic <-
             names(target_output) <- outputnames
             
             slack_input <- input[, ii] - beta * dir_input[, i] - target_input
-            slack_input[ncd_inputs] <- input[, ii] - target_input
+            slack_input[ud_inputs] <- input[ud_inputs, ii] + beta * dir_input[ud_inputs, i] - target_input[ud_inputs]
+            slack_input[ncd_inputs] <- input[ncd_inputs, ii] - target_input[ncd_inputs]
             names(slack_input) <- inputnames
             slack_output <- target_output - output[, ii] - beta * dir_output[, i]
-            slack_output[ncd_outputs] <- target_output - output[, ii]
+            slack_output[ud_outputs] <- target_output[ud_outputs] - output[ud_outputs, ii] + beta * dir_output[ud_outputs, i]
+            slack_output[ncd_outputs] <- target_output[ncd_outputs] - output[ncd_outputs, ii]
             names(slack_output) <- outputnames
-            
-            target_input[ud_inputs] <- vtrans_i - target_input[ud_inputs]
-            target_output[ud_outputs] <- vtrans_o - target_output[ud_outputs]
             
           }
           
@@ -676,7 +696,7 @@ model_basic <-
     
   }
   
-  if (!is.null(datadea$ud_inputs) || !is.null(datadea$ud_outputs)) {
+  if ((!is.null(datadea$ud_inputs) || !is.null(datadea$ud_outputs)) && (orientation != "dir")) {
     datadea <- datadea_old
     vtrans_i <- res_und$vtrans_i
     vtrans_o <- res_und$vtrans_o
@@ -693,7 +713,10 @@ model_basic <-
                    dmu_eval = dmu_eval,
                    dmu_ref = dmu_ref,
                    vtrans_i = vtrans_i,
-                   vtrans_o = vtrans_o)
+                   vtrans_o = vtrans_o,
+                   maxslack = maxslack,
+                   weight_slack_i = weight_slack_i,
+                   weight_slack_o = weight_slack_o)
  
   return(structure(deaOutput, class = "dea"))
 }

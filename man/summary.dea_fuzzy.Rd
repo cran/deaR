@@ -5,7 +5,7 @@
 \title{Summary Fuzzy DEA models.}
 \usage{
 \method{summary}{dea_fuzzy}(object, ..., exportExcel = TRUE,
-  filename = NULL)
+  filename = NULL, returnList = FALSE)
 }
 \arguments{
 \item{object}{An object of class \code{"dea_fuzzy"} obtained with a fuzzy dea 
@@ -18,6 +18,9 @@ model function (\code{modelfuzzy_guotanaka}, \code{modelfuzzy_kaoliu},
 
 \item{filename}{Character string. Absolute filename (including path) of the exported Excel file. 
 If NULL, then the name of the file will be "ResultsDEA"+timestamp.xlsx.}
+
+\item{returnList}{Logical value. If TRUE then the results are given as a list of data frames. 
+If FALSE (default) all the data frames are merged into a single data frame.}
 }
 \value{
 If the model is that from Guo and Tanaka (\code{modelfuzzy_guotanaka}), it returns a data.frame
@@ -37,7 +40,6 @@ Summary of the results obtained by a fuzzy DEA model.
 \examples{
 data("Leon2003")
 data_example <- read_data_fuzzy(Leon2003,
-                                dmus = 1, 
                                 inputs.mL = 2, 
                                 inputs.dL = 3, 
                                 outputs.mL = 4, 
@@ -46,7 +48,7 @@ result <- modelfuzzy_possibilistic(data_example,
                                    h = seq(0, 1, by = 0.1), 
                                    orientation = "io", 
                                    rts = "vrs")
-summary(result)
+summary(result, exportExcel = FALSE)
 }
 \references{
 León, T.; Liern, V. Ruiz, J.; Sirvent, I. (2003). "A Possibilistic Programming Approach to the Assessment of Efficiency with DEA Models", Fuzzy Sets and Systems, 139, 407–419. \url{https://doi.org/10.1016/S0165-0114(02)00608-5}

@@ -21,7 +21,6 @@
 #' @examples 
 #'  data("Coll_Blasco_2006")
 #'  data_example <- read_data(Coll_Blasco_2006,
-#'                            dmus = 1, 
 #'                            ni = 2, 
 #'                            no = 2)
 #'  result <- model_multiplier(data_example,
@@ -77,7 +76,7 @@ slacks <- function(deasol) {
                           slack_output = slack_output)
       }
       
-    if(is.null(slack_input) && is.null(slack_output) && is.null(t_input) && is.null(t_output)) {
+    if (is.null(slack_input) && is.null(slack_output) && is.null(t_input) && is.null(t_output)) {
       stop("No slack/superslack parameters in this solution!")
     }
     
@@ -175,7 +174,7 @@ slacks <- function(deasol) {
                           slack_output.B = slack_output.B)
       }
       
-      if(is.null(slack_input.W) && is.null(slack_output.W) && is.null(t_input.W) && is.null(t_output.W)) {
+      if (is.null(slack_input.W) && is.null(slack_output.W) && is.null(t_input.W) && is.null(t_output.W)) {
         stop("No slack/superslack parameters in this solution!")
       }
       

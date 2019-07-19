@@ -124,7 +124,7 @@
 
 #' Data: Zhu (2014).
 #'
-#' This dataset consists of 15 firms from the Fortune 500 list 1995 (\url{fortune.com/fortune500/}) with 3 inputs and 2 outputs.
+#' This dataset consists of 15 firms from the Fortune 500 list 1995 (\url{https://fortune.com/fortune500/}) with 3 inputs and 2 outputs.
 #' @usage data("Fortune500")
 #' @format Data frame with 15 rows and 6 columns. Definition of inputs X) and outputs (Y):
 #' \describe{
@@ -316,7 +316,7 @@
 #'   \item{y1}{Output1}
 #'   \item{y2}{Output2}
 #' }
-#' @source Tone, K. (2001). "A Slacks-Based Beasure of Efficiency in Data Envelopment Analysis", European Journal of Operational Research, 130, 498-509. \code{doi}: 10.1016/S0377-2217(99)00407-5
+#' @source Tone, K. (2001). "A Slacks-Based Measure of Efficiency in Data Envelopment Analysis", European Journal of Operational Research, 130, 498-509. \code{doi}: 10.1016/S0377-2217(99)00407-5
 #'
 #' @author
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).
@@ -994,3 +994,140 @@
 #' @seealso \code{\link{read_data}}
 
 "Coll_Blasco_2006"
+
+#' Data: Coelli, Rao and Battese (1998).
+#'
+#' Data of five DMUs with two inputs and one output. Prices for inputs are available. Price for output is not from Coelli et al. (1998).
+#' @usage data("Coelli_1998")
+#' @format Data frame with 6 rows and 5 columns. Definition of inputs (X) and outputs (Y):
+#' \describe{
+#'   \item{Input1}{Input 1}
+#'   \item{Input2}{Input 2}
+#'   \item{Output}{Output}
+#'   \item{Price_input1}{Price input 1}
+#'   \item{Price_input2}{Price input 2}
+#'   \item{Price_output}{Price output}
+#' }
+#' 
+#' @source Coelli, T.; Prasada Rao, D.S.; Battese, G.E. An introduction to efficiency and productivity analysis. Boston: Kluwer Academic Publishers.
+#'
+#' @author
+#' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).
+#' \emph{Quantitative Methods for Measuring Culture (MC2). Applied Economics.}
+#'
+#' \strong{Vicente Bolos} (\email{vicente.bolos@@uv.es}).
+#' \emph{Department of Business Mathematics}
+#'
+#' \strong{Rafael Benitez} (\email{rafael.suarez@@uv.es}).
+#' \emph{Department of Business Mathematics}
+#'
+#' University of Valencia (Spain)
+#'
+#' @examples
+#' # Example. Replication of results in Coelli et al. (1998, p.166).
+#' # Cost efficiency model.
+#' data("Coelli_1994")
+#' # Selection of prices: data_prices is the trasnpose where the prices for inputs are. 
+#' data_prices <- t(Coelli_1998[,5:6]) 
+#' 
+#' data_example <- read_data(Coelli_1998,
+#'                           dmus=1,
+#'                           ni=2,
+#'                           no=1)
+#' result <- model_profit(data_example,
+#'                        price_input=data_prices,
+#'                        rts="crs", 
+#'                        restricted_optimal=FALSE) 
+#' # notice that the option by default is restricted_optimal=TRUE
+#' efficiencies(result)
+#'
+#' @seealso \code{\link{read_data}}
+
+"Coelli_1998"
+
+#' Data: Tone (2003).
+#'
+#' Data of 9 DMUs producing 2 outputs, being second ouput undesirable, by using 1 input. 
+#' @usage data("Tone2003")
+#' @format Data frame with 9 rows and 4 columns. Definition of inputs (X) and outputs (Y):
+#' \describe{
+#'   \item{x}{Input}
+#'   \item{yg}{Output1 ("good" output)}
+#'   \item{yb}{Output2 (undesirable "bad" output)}
+#' }
+#' @source Tone, K. (2003). "Dealing with undesirable outputs in DEA: A Slacks-Based Measure (SBM) approach", GRIPS Research Report Series I-2003-0005.
+#'
+#' @author
+#' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).
+#' \emph{Quantitative Methods for Measuring Culture (MC2). Applied Economics.}
+#'
+#' \strong{Vicente Bolos} (\email{vicente.bolos@@uv.es}).
+#' \emph{Department of Business Mathematics}
+#'
+#' \strong{Rafael Benitez} (\email{rafael.suarez@@uv.es}).
+#' \emph{Department of Business Mathematics}
+#'
+#' University of Valencia (Spain)
+#'
+#' @examples
+#' # Example. Replication of results in Tone (2003), pp 10-11.
+#' data("Tone2003")
+#' data_example <- read_data(Tone2003,
+#'                           ni = 1,
+#'                           no = 2,
+#'                           ud_outputs = 2)
+#' result <- model_sbmeff(data_example,
+#'                        rts = "vrs")
+#' efficiencies(result)
+#' targets(result)
+#'
+#' @seealso \code{\link{read_data}}, \code{\link{model_sbmeff}}
+
+"Tone2003"
+
+#' Data: Grifell-Tatjé and Lovell (1999).
+#'
+#' Data of 8 DMUs producing 1 output (Y) by using 1 input (X) for two periods of time. 
+#' @usage data("Grifell_Lovell_1999")
+#' @format Data frame with 16 rows and 4 columns. Definition of inputs (X) and outputs (Y):
+#' \describe{
+#'   \item{X}{Input}
+#'   \item{Y}{Output}
+#' }
+#' @source Grifell-Tatjé, E.; Lovel, C.A.K. (1999). "A Generalized Malmquist productivity index". Top, 7(1), 81-101.  
+#'
+#' @author
+#' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).
+#' \emph{Quantitative Methods for Measuring Culture (MC2). Applied Economics.}
+#'
+#' \strong{Vicente Bolos} (\email{vicente.bolos@@uv.es}).
+#' \emph{Department of Business Mathematics}
+#'
+#' \strong{Rafael Benitez} (\email{rafael.suarez@@uv.es}).
+#' \emph{Department of Business Mathematics}
+#'
+#' University of Valencia (Spain)
+#'
+#' @examples
+#' 
+#' # Example. Replication of results in Grifell-Tatjé and Lovell (1999, p. 100).
+#' data("Grifell_Lovell_1999")
+#' data_example <- read_malmquist(Grifell_Lovell_1999,
+#'                                percol=1,
+#'                                dmus = 2,
+#'                                inputs = 3,
+#'                                outputs = 4,
+#'                                arrangement="vertical")
+#'
+#' result_fgnz <- malmquist_index(data_example,
+#'                                orientation= "oo",
+#'                                rts="vrs",
+#'                                type1 = "cont",
+#'                                type2 = "fgnz")
+#' 
+#' result_fgnz$mi
+#'                                                              
+#'
+#' @seealso \code{\link{read_malmquist}}, \code{\link{malmquist_index}}
+
+"Grifell_Lovell_1999"

@@ -64,7 +64,7 @@
 #'                        rts = "vrs")
 #'  efficiencies(result)
 #'  
-#' @seealso \code{\link{model_nonradial}}, \code{\link{model_sbmeff}}
+#' @seealso \code{\link{model_nonradial}}, \code{\link{model_profit}}, \code{\link{model_sbmeff}}
 #'  
 #' @import lpSolve
 #' 
@@ -141,6 +141,7 @@ model_deaps <-
     output <- datadea$output
     nc_inputs <- datadea$nc_inputs
     nc_outputs <- datadea$nc_outputs
+    nd_outputs <- datadea$nd_outputs
     obj <- "min"
     orient <- 1
   } else {
@@ -148,6 +149,7 @@ model_deaps <-
     output <- -datadea$input
     nc_inputs <- datadea$nc_outputs
     nc_outputs <- datadea$nc_inputs
+    nd_outputs <- datadea$nd_inputs
     obj <- "max"
     orient <- -1
   }
@@ -188,6 +190,7 @@ model_deaps <-
   }
   rownames(weight_slack) <- outputnames
   colnames(weight_slack) <- dmunames[dmu_eval]
+  weight_slack[nd_outputs, ] <- 0 # Non-discretionary io not taken into account for maxslack solution
 
   target_input <- NULL
   target_output <- NULL
@@ -376,7 +379,9 @@ model_deaps <-
                     dmu_eval = dmu_eval,
                     dmu_ref = dmu_ref,
                     restricted_eff = restricted_eff,
-                    weight_eff = weight_eff)
+                    weight_eff = weight_eff,
+                    maxslack = maxslack,
+                    weight_slack = weight_slack)
  
   return(structure(deaOutput, class = "dea"))
  

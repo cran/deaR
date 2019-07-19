@@ -4,6 +4,9 @@
 #' @description Plot some attribute of a DEA model (conventional, fuzzy or Malmquist).
 #' 
 #' @param x An object of class \code{"dea"} obtained by a dea model function.
+#' @param showPlots Logical. When TRUE (default) the plots are shown one by one. When it 
+#' is FALSE the plots are not shown and are returned by the function (invisiblily) as a 
+#' list.
 #' @param ... Ignored, for compatibility issues.
 #' 
 #'   
@@ -25,7 +28,6 @@
 #' 
 #' @examples
 #' data_example <- read_data(datadea = Fortune500,
-#'                           dmus = 1,
 #'                           inputs = 2:4, 
 #'                           outputs = 5:6)
 #' result <- model_basic(data_example)
@@ -44,217 +46,324 @@
 #' @export
 #' 
 
-plot.dea <- function(x, ...){
+plot.dea <- function(x, showPlots = TRUE, ...){
   object <- x
-  if(!is.dea(object)){
+  if (!is.dea(object)) {
     stop("Input should be of class dea!")
   }
 
  modelname <- object$modelname
  # For check CRAN pass...
- Period <- value <- DMU <- Pos <- Count <- . <- index <- iseff <- ..count.. <- eff.mean_eff <- Aspect <-  NULL
+ Period <- value <- DMU <- Pos <- Count <- . <- index <- iseff <- isefflab <- ..count.. <- eff.mean_eff <- Aspect <-  NULL
  `V<-` <- NULL
- if(modelname == "deaps"){
-   if(object$restricted_eff == FALSE){
-     stop("Plotting a Preference Structure model with unrestricted efficiencies is not available!")
+ if (modelname == "deaps") {
+   if (object$restricted_eff == FALSE) {
+     warning("Plotting a Preference Structure model with unrestricted efficiencies is not
+             available!")
+     return(NULL)
    }
  }
- if(modelname == "additive"){  
-   stop("Plotting additive models are not implemented yet!")
-   
+ if (grepl("add", modelname)) {
+   warning("Plotting additive models are not implemented yet!")
+   return(NULL)
  }
- if(modelname == "basic"){
-   if(!object$orientation %in% c("io","oo"))
-     stop("Plotting Basic model with is only available with input/output orientations!")
-     
+ if (modelname == "basic") {
+   if (!object$orientation %in% c("io", "oo")) {
+     warning("Plotting Basic model with is only available with input/output orientations!")
+     return(NULL)
+   }
  } 
  
  
- if(modelname %in% c("malmquist","cross_efficiency")){
-   if(modelname == "malmquist"){
+ if(modelname %in% c("malmquist", "cross_efficiency")){
+   if (modelname == "malmquist") {
      malmdata <- summary(object, exportExcel = FALSE)
      results <- malmdata$Results
      sumres <- malmdata$means_by_period
-     colnames(results) <- c("Period","DMU","EC", "TC", "PTEC","SEC","MI")
-     colnames(sumres) <- c("Period","EC", "TC", "PTEC","SC","MI")
-     results <- results[,c("Period","DMU","EC","PTEC","SEC","TC","MI")]
-     invisible(readline(prompt="Press [enter] to continue"))
-     results %>% gather(key= "index", value = "value", -c("Period","DMU")) -> resmelt 
+     #colnames(results) <- c("Period", "DMU", "EC", "TC", "PTEC", "SEC", "MI")
+     #colnames(sumres) <- c("Period", "EC", "TC", "PTEC", "SC", "MI")
+     #colnames(results) <- toupper(colnames(results))
+     #colnames(sumres) <- toupper(colnames(sumres))
+     #results <- results[,c("Period", "DMU", "EC", "PTEC", "SEC", "TC", "MI")]
+     
+     
+     
+     results %>% gather(key = "index", value = "value", -c("Period", "DMU")) -> resmelt 
      resmelt$index <- as.factor(resmelt$index)
      resmelt$index <- factor(resmelt$index, levels(resmelt$index)[c(1,3,4,5,2)])
      resmelt %>% group_by(index) %>% 
        do(p = plot_ly(., x =~Period, y=~value, color = ~DMU, mode = 'lines', type = 'scatter', colors = "Paired") %>% 
-            layout(yaxis=list(title=~index)))  %>% 
+            layout(yaxis = list(title=~index)))  %>% 
        subplot(nrows = NROW(.), shareX = TRUE,titleY=TRUE)-> resplot
      
-     show(resplot)
-     invisible(readline(prompt="Press [enter] to continue"))
+     
      
      sumres %>% gather(key= "index", value = "value", -c("Period")) -> sumresmelt 
      sumresmelt$index <- as.factor(sumresmelt$index)
      sumresmelt$index <- factor(sumresmelt$index, levels(sumresmelt$index)[c(1,3,4,5,2)])
-       sumresmelt %>% plot_ly(x = ~Period, y = ~value, type = 'scatter', mode = 'lines', color = ~index) -> sumplot
-     show(sumplot)
+     sumresmelt %>% plot_ly(x = ~Period, y = ~value, type = 'scatter', mode = 'lines', color = ~index) -> sumplot
      
-   }else{
+     
+     if (showPlots) {
+     invisible(readline(prompt = "Press [enter] to continue"))
+     show(resplot)
+     invisible(readline(prompt = "Press [enter] to continue"))
+     show(sumplot)
+     }
+     invisible(list(`Results plot` = resplot, `Summary plot` = sumplot))
+   } else {
      results <- list(Arb = object$Arbitrary$cross_eff,
-     M2_agg = object$M2_agg$cross_eff,
-     M2_ben = object$M2_ben$cross_eff,
-     M3_agg = object$M3_agg$cross_eff,
-     M3_ben = object$M3_ben$cross_eff)
+                     M2_agg = object$M2_agg$cross_eff,
+                     M2_ben = object$M2_ben$cross_eff,
+                     M3_agg = object$M3_agg$cross_eff,
+                     M3_ben = object$M3_ben$cross_eff)
      titles <- list("Arbitrary Method", "Method II - Aggresive", "Method II - Benevolent",
                     "Method III - Aggresive", "Method III - Benevolent")
      titles[sapply(results, is.null)] <- NULL 
-    results[sapply(results, is.null)] <- NULL
-    
-      for(i in seq_along(results)){
-        invisible(readline(prompt="Press [enter] for next plot"))
-      xlab <- ylab <- colnames(results[[i]])
-      p <- plot_ly(x = xlab, y = rev(ylab), z  = results[[i]][nrow(results[[i]]):1,], type = "heatmap" ) %>% layout(title = titles[[i]])
-      print(p)
-      }
+     results[sapply(results, is.null)] <- NULL
+     p <- list()
+     for (i in seq_along(results)) {
+       xlab <- ylab <- colnames(results[[i]])
+       p[[i]] <- plot_ly(x = xlab, y = rev(ylab), z  = results[[i]][nrow(results[[i]]):1, ], type = "heatmap" ) %>% 
+         layout(title = titles[[i]])
+       if (showPlots) {
+         invisible(readline(prompt = "Press [enter] for next plot"))
+         show(p[[i]])
+       }
+     }
+     names(p) <- titles
+     invisible(p)
+     
    }
  }else{
+   
    # Efficiencies histogram ----------
-   if(!modelname %in% c("nonradial", "deaps")){
-    
-   eff <- data.frame(DMU = object$data$dmunames, eff = efficiencies(object))
-   eff <- eff[complete.cases(eff),]
-   #eff$iseff <- ifelse(eff$eff<1, "Inefficient" , "Efficient")
-   
-   # Efficient DMUS have eff = 1 and slacks  = 0
-   slk <- slk <- slacks(object)
-   slk[sapply(slk, is.null)] <- NULL
-   null_slk <- apply(do.call(cbind,slk), MARGIN = 1, FUN = function(x) sum(x^2)) < 1e-4 # Null slacks
-   eff_1 <- abs(eff$eff-1) < 1e-4 # Efficiencie = 1
-    
-   eff$iseff <- ifelse(null_slk & eff_1, 1,0)
-    
-   if(!modelname %in% c("supereff_basic", "sbmsupereff")){
-     eff %>% filter(iseff == 0) %>% ggplot(aes(x = eff)) + 
-       geom_histogram(breaks = c(seq(from = min(eff$eff), to = max(eff$eff[eff$iseff == 0]), 
-                                     length.out = 10)),col = "white", 
-                      aes(fill = ifelse(iseff == 0, "red","lightgreen"))) + 
-       theme_bw() + scale_fill_identity() + xlab("Efficiency") + ylab("Count") + 
-       ggtitle("Non-efficient DMU distribution")-> p2
+   if (!modelname %in% c("nonradial", "deaps")) {
+     eff <-
+       data.frame(DMU = object$data$dmunames[object$dmu_eval], eff = efficiencies(object))
+     eff <- eff[complete.cases(eff), ]
      
-     eff %>% ggplot(aes(x = factor(iseff))) + geom_bar(aes(fill = ifelse(iseff == 0, "red","lightgreen"))) + theme_bw() +
-       scale_fill_identity() + xlab("") + scale_x_discrete(labels = c("Non-efficient","Efficient")) + ylab("Count") + 
-       ggtitle("Efficient/Non Efficient DMUs") + geom_text(stat='count', aes(label=..count..), vjust=-0.5) -> p1
-     grid.arrange(p1,p2,nrow = 1)
-   }else{
-     eff %>% ggplot(aes(x = eff)) + geom_histogram(bins = 10,
-                                                   col = "white", 
-                                                   aes(fill = ifelse(iseff == 0, 
-                                                                     "red",
-                                                                     "lightgreen")
-                                                   )
-     ) + 
-       theme_bw() + scale_fill_identity() + xlab("Efficiency") + ylab("Count") -> effplot
-     show(effplot)
+     if (modelname == "profit") {
+       # Efficient DMUS have eff = 1 and optimio  = io 
+       iseff <- sapply(seq_len(length(object$DMU)), function(i) {
+         sum(c((object$DMU[[i]]$optimal_output - object$data$output[, i]) ^ 2 , 
+               (object$DMU[[i]]$optimal_input - object$data$input[, i]) ^ 2)) < 1e-10
+       }
+       )
+       eff$iseff <- ifelse(iseff, 1, 0)
+       
+       
+     } else {
+     # Efficient DMUS have eff = 1 and slacks  = 0
+     slk <- slacks(object)
+     slk[sapply(slk, is.null)] <- NULL
+     null_slk <-
+       apply(
+         do.call(cbind, slk),
+         MARGIN = 1,
+         FUN = function(x)
+           sum(x ^ 2)
+       ) < 1e-4 # Null slacks
+     eff_1 <- abs(eff$eff - 1) < 1e-8 # Efficiency = 1
+     
+     eff$iseff <-
+        ifelse(null_slk & eff_1, 1, ifelse(eff$eff >= 1 + 1e-8, 2, 0))
+     eff$isefflab <- ifelse(eff$iseff == 1, "Efficient",ifelse(eff$iseff == 0, "Inefficient","Super-efficient"))
      }
-    
-   
-   }else{
+     if (!modelname %in% c("supereff_basic", "sbmsupereff")) {
+        
+        
+        if (sum(eff$iseff != 1)  > 0){
+           eff %>% filter(iseff != 1) %>% ggplot(aes(x = eff)) +
+              geom_histogram(breaks = c(seq(
+                 from = min(eff$eff),
+                 to = max(eff$eff[eff$iseff != 1]),
+                 length.out = 10
+              )),
+              col = "white",
+              aes(fill = ifelse(iseff == 0, "red", ifelse(iseff == 1,"lightgreen","lightblue")))) +
+              theme_bw() + scale_fill_identity() + xlab("Efficiency") + ylab("Count") +
+              ggtitle("Non-efficient DMU distribution") -> p2
+        } else{
+           warning("All DMUs are efficient!")
+        }
+       
+       eff %>% ggplot(aes(x = isefflab)) + geom_bar(aes(fill = ifelse(iseff == 0, "red", ifelse(iseff == 1,"lightgreen","lightblue")))) +
+          theme_bw() + scale_fill_identity() + xlab("") + #scale_x_discrete(labels = isefflab) +
+          ylab("Count") +
+         ggtitle("Efficient/Non Efficient DMUs") + geom_text(stat = 'count',
+                                                             aes(label = ..count..),
+                                                             vjust = -0.5) -> p1
+       if (showPlots) {
+          if(sum(eff$iseff != 1)  > 0){
+         grid.arrange(p1, p2, nrow = 1)
+          } else{
+             grid.arrange(p1, nrow = 1)
+          }
+       }
+     } else {
+       eff %>% ggplot(aes(x = eff)) + geom_histogram(bins = 10,
+                                                     col = "white",
+                                                     aes(fill = ifelse(iseff == 0,
+                                                                       "red",
+                                                                       ifelse(iseff == 1,
+                                                                       "lightgreen","lightblue")))) +
+         theme_bw() + scale_fill_identity() + xlab("Efficiency") + ylab("Count") -> effplot
+       
+       if (showPlots) {
+         show(effplot)
+       }
+     }
      
-     eff <- data.frame(DMU = object$data$dmunames, eff = efficiencies(object))
-     eff %>% mutate(iseff = ifelse(abs(eff.mean_eff-1)<1e-4, 1 , 0)) -> eff
-     effmelted <- eff %>% gather(key = "Aspect", value = "eff", -c(DMU,iseff))
+   
+   } else {
+     eff <-
+       data.frame(DMU = object$data$dmunames, eff = efficiencies(object))
+     eff %>% mutate(iseff = ifelse(abs(eff.mean_eff - 1) < 1e-4, 1 , 0)) -> eff
+     effmelted <-
+       eff %>% gather(key = "Aspect", value = "eff",-c(DMU, iseff))
      effmelted$Aspect <- gsub("eff.", "", x = effmelted$Aspect)
-     effmelted %>% filter(iseff==0 & Aspect!= "mean_eff") %>% 
-       ggplot(aes(x = eff)) + geom_histogram(bins = 10, fill = "red", col = "white")+
-       theme_bw() + scale_fill_identity() + xlab("Efficiency") + ylab("Count") + facet_wrap(~Aspect, scales = "free") -> p1
+     effmelted %>% filter(iseff == 0 & Aspect != "mean_eff") %>%
+       ggplot(aes(x = eff)) + geom_histogram(bins = 10, fill = "red", col = "white") +
+       theme_bw() + scale_fill_identity() + xlab("Efficiency") + ylab("Count") + facet_wrap( ~
+                                                                                               Aspect, scales = "free") -> p2
+     
+     
+     effmelted %>% filter(Aspect == "mean_eff") %>% ggplot(aes(x = factor(iseff))) +
+       geom_bar(aes(fill = ifelse(iseff == 0, "red", "lightgreen")), width = 0.5) + theme_bw() +
+       scale_fill_identity() + xlab("") + scale_x_discrete(labels = c("Non-efficient", "Efficient")) + ylab("Count") +
+       ggtitle("Efficient/Non Efficient DMUs") + geom_text(stat = 'count', aes(label =
+                                                                                 ..count..), vjust = -0.5) -> p1
+     
+     if (showPlots) {
      show(p1)
-     invisible(readline(prompt="Press [enter] to continue"))
-     
-     effmelted %>% filter(Aspect == "mean_eff") %>% ggplot(aes(x = factor(iseff))) + 
-       geom_bar(aes(fill = ifelse(iseff == 0, "red","lightgreen")), width = 0.5) + theme_bw() +
-       scale_fill_identity() + xlab("") + scale_x_discrete(labels = c("Non-efficient","Efficient")) + ylab("Count") + 
-       ggtitle("Efficient/Non Efficient DMUs") + geom_text(stat='count', aes(label=..count..), vjust=-0.5)-> p2
+     invisible(readline(prompt = "Press [enter] to continue"))
      show(p2)
-    
+     }
    }
    
-   invisible(readline(prompt="Press [enter] to continue"))
    # Reference ranking --------------
-   if(!modelname %in% c("supereff_basic","sbmsupereff")){
-   
-         
-   ref <- references(object) 
-   lmbd <- lambdas(object)
-   dmunames <- object$data$dmunames
-   refnames <- unique(unlist(lapply(ref, function (x) names(x))))
-   urefnames <- names(ref)
-   effdmus <- dmunames[which(! dmunames %in% urefnames)]
-
-   
-   RefMat <- matrix(0, nrow = length(urefnames), ncol = length(effdmus),dimnames = list( urefnames, sort(effdmus)))
-   RefMat[urefnames,refnames] <- round(lmbd[urefnames, refnames],4)
-   RefMatl <- RefMat>0
-   ranking <- sort(colSums(RefMatl))
-   realcount <- ranking
-   ranking[ranking==0] <- min(ranking[ranking>0])*1e-2
-   effnames <- names(ranking)
-   
-   rkdf <- data.frame(DMU = effnames, Count = ranking, realcount = realcount, Pos = seq(length(effdmus)))
-   
-   rkdf %>% ggplot(aes(x = as.factor(Pos), y = Count)) + geom_col(aes(fill = Count)) + coord_flip() + 
-     scale_x_discrete(labels = rkdf$DMU, drop = FALSE) + theme_bw() + xlab("Efficient DMUs") + 
-     ylab("# times appearing in reference sets") + geom_text(aes(label = realcount), hjust=-0.5) +
-     guides(fill=FALSE) -> refplot
-   show(refplot)
-   
-   invisible(readline(prompt="Press [enter] to continue"))
-   } else{
+ 
+   if ((!modelname %in% c("supereff_basic", "sbmsupereff")) & (sum(eff$iseff != 1)  > 0)) {
+     ref <- references(object)
+     lmbd <- lambdas(object)
+     dmunames <- object$data$dmunames[object$dmu_eval]
+     refnames <- unique(unlist(lapply(ref, function (x)
+       names(x))))
+     urefnames <- names(ref)
+     effdmus <- dmunames[which(!dmunames %in% urefnames)]
+     refnames <- refnames[refnames %in% effdmus]
      
-   warning("Ranking plots with those models are not implemented yet!")  
+     RefMat <-
+       matrix(
+         0,
+         nrow = length(urefnames),
+         ncol = length(effdmus),
+         dimnames = list(urefnames, sort(effdmus))
+       )
+     RefMat[urefnames, refnames] <- round(lmbd[urefnames, refnames], 4)
+     RefMatl <- RefMat > 0
+     ranking <- sort(colSums(RefMatl))
+     realcount <- ranking
+     ranking[ranking == 0] <- min(ranking[ranking > 0]) * 1e-2
+     effnames <- names(ranking)
+     
+     rkdf <-
+       data.frame(
+         DMU = effnames,
+         Count = ranking,
+         realcount = realcount,
+         Pos = seq(length(effdmus))
+       )
+     
+     rkdf %>% ggplot(aes(x = as.factor(Pos), y = Count)) + geom_col(aes(fill = Count)) + coord_flip() +
+       scale_x_discrete(labels = rkdf$DMU, drop = FALSE) + theme_bw() + xlab("Efficient DMUs") +
+       ylab("# times appearing in reference sets") + geom_text(aes(label = realcount), hjust =
+                                                                 -0.5) +
+       guides(fill = FALSE) -> refplot
+     
+     if (showPlots){
+       invisible(readline(prompt = "Press [enter] to continue"))
+       show(refplot)
+       invisible(readline(prompt = "Press [enter] to continue"))
+     }
+   } else {
+     warning("Ranking plots with those models are not implemented yet!")
      
      
    }
+    
    
    # Reference Graph ------------------------
    
-   if(!modelname %in% c("supereff_basic","sbmsupereff")){
-  
-   lmbd <- lmbd[complete.cases(lmbd),]
-   adjmatrix <- lmbd>0
-   G <- graph.adjacency(adjmatrix,diag = FALSE )
-   
-   efficient <- which(dmunames %in% effdmus)
-   non_efficient <- which(dmunames %in% urefnames)
-   
-   
-   rnd <- runif(1)
-   nefflocX <- 2*cos(2*pi*(0:(length(non_efficient)-1))/length(non_efficient) + rnd)
-   nefflocY <- 2*sin(2*pi*(0:(length(non_efficient)-1))/length(non_efficient)+ rnd)
-   efflocX <- 4*cos(2*pi*(0:(length(efficient)-1))/length(efficient))
-   efflocY <- 4*sin(2*pi*(0:(length(efficient)-1))/length(efficient))
-   
-   relations <- degree(G, mode = "in") - degree(G, mode = "out")
-   
-   
-   locX <- numeric(length(relations))
-   locY <- numeric(length(relations))
-   locX[efficient] <- efflocX
-   locX[non_efficient] <- nefflocX
-   
-   locY[efficient] <- efflocY
-   locY[non_efficient] <- nefflocY
-   locations <- cbind(locX ,locY)
-   
-   V(G)$color <- numeric(length(dmunames))
-   V(G)$color[efficient] <- rep("green", length(efficient))
-   V(G)$color[non_efficient] <- rep("red", length(non_efficient))
-   lmbd2 <- lmbd / rowSums(lmbd) 
-   V(G)$size <- colSums(lmbd2)^1.1+10#0.6*degree(G, mode = "in") + 10
-   
-   
-   
-   plot(G, layout = locations, xlim = c(-2,2), ylim = c(-.4,.4),
-        edge.arrow.size=1, edge.arrow.width = 0.5,edge.curved=FALSE)
-   
+   if ((!modelname %in% c("supereff_basic", "sbmsupereff"))&(sum(eff$iseff != 1)  > 0)) {
+      #dimlmbd <- dim(lmbd)
+     lmbd <- matrix(lmbd[complete.cases(lmbd), ], ncol = ncol(lmbd), dimnames = dimnames(lmbd))
+    
+     
+     # Make the matrix square in case dmu_eval != dmu_ref
+     
+     allnames <- unique(unlist(dimnames(lmbd)))
+     
+     extendedlmbd <- matrix(0,
+                            nrow = length(allnames),
+                            ncol = length(allnames),
+                            dimnames = list(allnames, allnames))
+     extendedlmbd[dimnames(lmbd)[[1]],dimnames(lmbd)[[2]]] <- lmbd
+     
+     adjmatrix <- extendedlmbd > 0
+     G <- graph.adjacency(adjmatrix, diag = FALSE)
+     
+     efficient <- which(dmunames %in% effdmus)
+     non_efficient <- which(dmunames %in% urefnames) # Non-efficient includes inefficent and superefficient DMUs
+     names(non_efficient) <- ifelse(eff$iseff[non_efficient] == 0,"red","lightblue")
+     
+     rnd <- runif(1)
+     nefflocX <-
+       2 * cos(2 * pi * (0:(length(non_efficient) - 1)) / length(non_efficient) + rnd)
+     nefflocY <-
+       2 * sin(2 * pi * (0:(length(non_efficient) - 1)) / length(non_efficient) + rnd)
+     efflocX <-
+       4 * cos(2 * pi * (0:(length(efficient) - 1)) / length(efficient))
+     efflocY <-
+       4 * sin(2 * pi * (0:(length(efficient) - 1)) / length(efficient))
+     
+     relations <- degree(G, mode = "in") - degree(G, mode = "out")
+     
+     
+     locX <- numeric(length(relations))
+     locY <- numeric(length(relations))
+     locX[efficient] <- efflocX
+     locX[non_efficient] <- nefflocX
+     
+     locY[efficient] <- efflocY
+     locY[non_efficient] <- nefflocY
+     locations <- cbind(locX , locY)
+     
+     V(G)$color <- numeric(length(dmunames))
+     V(G)$color[efficient] <- rep("green", length(efficient))
+     V(G)$color[non_efficient] <- names(non_efficient) #rep("red", length(non_efficient))
+     lmbd2 <- lmbd / rowSums(lmbd)
+     lmbd2[is.nan(lmbd2)] <- 0
+     V(G)$size <-
+       colSums(lmbd2) ^ 1.1 + 10#0.6*degree(G, mode = "in") + 10
+     
+     
+     graphPlot <- list(G = G, locations = locations)  
+    
+     if (showPlots) {
+       plot(
+         G,
+         layout = locations,
+         xlim = c(-2, 2),
+         ylim = c(-.4, .4),
+         edge.arrow.size = 1,
+         edge.arrow.width = 0.5,
+         edge.curved = FALSE
+       )
+     }
    }
-
+   invisible(list(`Eff/Ineff count` = p1, `Ineff Dstr` = p2, `References Plot`= refplot, `References Graph` = graphPlot))
  }
  
  

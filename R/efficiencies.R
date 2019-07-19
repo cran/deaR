@@ -3,10 +3,10 @@
 #' @param x dea / deafuzzy object
 #' @param ... ignored
 #' @export 
-efficiencies <- function(x,...){
+efficiencies <- function(x,...) {
   UseMethod("efficiencies",x)
 }
 
-efficiencies.default <- function(x,...){
+efficiencies.default <- function(x,...) {
   "Unknown class"
 }

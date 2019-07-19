@@ -1,9 +1,12 @@
 #' @title read_malmquist
 #'  
-#' @description This function creates, from a data frame, a list \code{deadata},
+#' @description This function creates, from a data frame, a list \code{deadata}.
 #'
 #' @usage read_malmquist(datadea,
-#' nper = NULL, percol = NULL,arrangement  = c("horizontal","vertical"),...) 
+#'                nper = NULL,
+#'                percol = NULL,
+#'                arrangement  = c("horizontal", "vertical"),
+#'                ...) 
 #'              
 #' @param datadea Dataframe with DEA data.
 #' @param nper Number of time periods (with dataset in wide format).
@@ -57,15 +60,15 @@ read_malmquist <- function(datadea,
   {
   
   # Checking datadea
-  if(!is.data.frame(datadea)){
-    stop("Invalid input data (should be a data frame)!")
+  if (!is.data.frame(datadea)) {
+    stop("Invalid data datadea (should be a data frame)!")
   }
-
+  datadea <- as.data.frame(datadea)
   
   arrangement <- tolower(arrangement)
   arrangement <- match.arg(arrangement)
   
-  if(arrangement == "horizontal"){
+  if (arrangement == "horizontal") {
     if(is.null(nper)){
       stop("nper must be specified with horizontal arrangement!")
     }
@@ -74,20 +77,20 @@ read_malmquist <- function(datadea,
     NioPeriod <- Nio / nper # Number of i/o columns per period
     datalist <- list()
     for (i in 1:nper){
-      datalist[[i]] <- datadea[,c(1,(2+(i-1)*NioPeriod):(i*NioPeriod +1))]
+      datalist[[i]] <- datadea[, c(1, (2 + (i - 1) * NioPeriod):(i * NioPeriod + 1))]
       names(datalist)[i] <- paste("Period",i,sep = ".")
     }
     datalist %>% lapply( function(x) read_data(x, ...)) -> dealist
-  }else {
-    if(is.null(percol)){
+  } else {
+    if (is.null(percol)) {
       stop("percol must be supplied with vertical arrangement!")
     }
-    periods <- unique(datadea[,percol])
+    periods <- unique(datadea[, percol])
     nper <- length(periods)
     dealist <- list()
     
-    for(i in 1:nper){
-      data_temp <- datadea[datadea[,percol] == periods[i],]
+    for (i in 1:nper) {
+      data_temp <- datadea[datadea[, percol] == periods[i], ]
       dealist[[i]] <- read_data(datadea = data_temp, ...)
       names(dealist)[i] <- periods[i]
     }

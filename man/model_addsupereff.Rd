@@ -5,16 +5,17 @@
 \title{Additive super-efficiency DEA model.}
 \usage{
 model_addsupereff(datadea,
-            dmu_eval = NULL,
-            dmu_ref = NULL,
-            weight_slack_i = NULL,
-            weight_slack_o = NULL,
-            rts = c("crs", "vrs", "nirs", "ndrs", "grs"),
-            L = 1,
-            U = 1,
-            compute_target = TRUE,
-            returnlp = FALSE,
-            ...)
+                  dmu_eval = NULL,
+                  dmu_ref = NULL,
+                  orientation = NULL,
+                  weight_slack_i = NULL,
+                  weight_slack_o = NULL,
+                  rts = c("crs", "vrs", "nirs", "ndrs", "grs"),
+                  L = 1,
+                  U = 1,
+                  compute_target = TRUE,
+                  returnlp = FALSE,
+                  ...)
 }
 \arguments{
 \item{datadea}{The data, including \code{n} DMUs, \code{m} inputs and \code{s} outputs.}
@@ -23,12 +24,19 @@ model_addsupereff(datadea,
 
 \item{dmu_ref}{A numeric vector containing which DMUs are the evaluation reference set.}
 
+\item{orientation}{This parameter is either \code{NULL} (default) or a string, equal to
+"io" (input-oriented) or "oo" (output-oriented). It is used to modify the weight slacks. 
+If input-oriented, \code{weight_slack_o} are taken 0.
+If output-oriented, \code{weight_slack_i} are taken 0.}
+
 \item{weight_slack_i}{A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the lenght of \code{dmu_eval})
 with the weights of the input superslacks (\code{t_input}).
+If 0, output-oriented.
 If \code{weight_slack_i} is the matrix of the inverses of inputs (of DMUS in \code{dmu_eval}), the model is unit invariant.}
 
 \item{weight_slack_o}{A value, vector of length \code{s}, or matrix \code{s} x \code{ne} (where \code{ne} is the lenght of \code{dmu_eval})
 with the weights of the output superslacks (\code{t_output}).
+If 0, input-oriented.
 If \code{weight_slack_o} is the matrix of the inverses of outputs (of DMUS in \code{dmu_eval}), the model is unit invariant.}
 
 \item{rts}{A string, determining the type of returns to scale, equal to "crs" (constant),

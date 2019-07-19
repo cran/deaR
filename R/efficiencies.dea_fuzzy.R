@@ -22,13 +22,13 @@
 #' # Replication results model DEA1 in Tomkins and Green (1988)
 #' data("Departments")
 #' # Calculate Total income
-#' Departments$Total_income <- Departments[,5]+Departments[,6]+Departments[,7] 
+#' Departments$Total_income <- Departments[, 5] + Departments[, 6] + Departments[, 7] 
 #' data_DEA1 <- read_data(Departments,
-#'                        inputs=9,
-#'                        outputs=c(2,3,4,12))
+#'                        inputs = 9,
+#'                        outputs = c(2, 3, 4, 12))
 #' result <- model_basic(data_DEA1, 
-#'                       orientation="io",
-#'                       rts="crs")
+#'                       orientation = "io",
+#'                       rts = "crs")
 #' efficiencies(result) # Table 3 (p.156) 
 #'  
 #' @export
@@ -47,13 +47,13 @@ efficiencies.dea_fuzzy <-
         
         neff <- length(deasol$alphacut[[1]]$DMU$Worst[[1]]$efficiency)
         
-        if (neff == 1) {
-          
+         if (neff == 1) {
+
           eff.W <- matrix(0, nrow = nde, ncol = nalpha)
           rownames(eff.W) <- dmunames_eval
           colnames(eff.W) <- names(deasol$alphacut)
           eff.B <- eff.W
-          
+
           for (j in 1:nalpha) {
             eff.W[, j] <- unlist(lapply(deasol$alphacut[[j]]$DMU$Worst, function(x)
               x$efficiency))

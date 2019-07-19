@@ -3,17 +3,17 @@
 #' @description Non-radial DEA model allows for non-proportional reductions in each input or augmentations in each output. 
 #' 
 #' @usage model_nonradial(datadea,
-#'             dmu_eval = NULL,
-#'             dmu_ref = NULL,
-#'             orientation = c("io", "oo"),
-#'             rts = c("crs", "vrs", "nirs", "ndrs", "grs"),
-#'             L = 1,
-#'             U = 1,
-#'             maxslack = TRUE,
-#'             weight_slack = 1,
-#'             compute_target = TRUE,
-#'             returnlp = FALSE,
-#'             ...)
+#'                 dmu_eval = NULL,
+#'                 dmu_ref = NULL,
+#'                 orientation = c("io", "oo"),
+#'                 rts = c("crs", "vrs", "nirs", "ndrs", "grs"),
+#'                 L = 1,
+#'                 U = 1,
+#'                 maxslack = TRUE,
+#'                 weight_slack = 1,
+#'                 compute_target = TRUE,
+#'                 returnlp = FALSE,
+#'                 ...)
 #' 
 #' @param datadea The data, including \code{n} DMUs, \code{m} inputs and \code{s} outputs.
 #' @param dmu_eval A numeric vector containing which DMUs have to be evaluated.
@@ -55,7 +55,6 @@
 #' # Replication of results in Wu, Tsai and Zhou (2011)
 #' data("Hotels")
 #' data_hotels <- read_data(Hotels, 
-#'                          dmus = 1, 
 #'                          inputs = 2:5, 
 #'                          outputs = 6:8)
 #' result <- model_nonradial(data_hotels, 
@@ -63,7 +62,7 @@
 #'                           rts = "vrs")
 #' efficiencies(result)
 #' 
-#' @seealso \code{\link{model_deaps}}, \code{\link{model_sbmeff}}
+#' @seealso \code{\link{model_deaps}}, \code{\link{model_profit}}, \code{\link{model_sbmeff}}
 #'  
 #' @import lpSolve
 #' 
@@ -138,6 +137,7 @@ model_nonradial <-
     output <- datadea$output
     nc_inputs <- datadea$nc_inputs
     nc_outputs <- datadea$nc_outputs
+    nd_outputs <- datadea$nd_outputs
     obj <- "min"
     orient <- 1
   } else {
@@ -145,6 +145,7 @@ model_nonradial <-
     output <- -datadea$input
     nc_inputs <- datadea$nc_outputs
     nc_outputs <- datadea$nc_inputs
+    nd_outputs <- datadea$nd_inputs
     obj <- "max"
     orient <- -1
   }
@@ -176,6 +177,7 @@ model_nonradial <-
   }
   rownames(weight_slack) <- outputnames
   colnames(weight_slack) <- dmunames[dmu_eval]
+  weight_slack[nd_outputs, ] <- 0 # Non-discretionary io not taken into account for maxslack solution
 
   target_input <- NULL
   target_output <- NULL
@@ -351,7 +353,9 @@ model_nonradial <-
                     DMU = DMU,
                     data = datadea,
                     dmu_eval = dmu_eval,
-                    dmu_ref = dmu_ref)
+                    dmu_ref = dmu_ref,
+                    maxslack = maxslack,
+                    weight_slack = weight_slack)
  
   return(structure(deaOutput, class = "dea"))
  

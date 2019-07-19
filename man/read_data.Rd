@@ -4,10 +4,18 @@
 \alias{read_data}
 \title{read_data}
 \usage{
-read_data(datadea,
-ni = NULL, no = NULL, dmus = 1, inputs = NULL, outputs = NULL, nc_inputs = NULL,
-nc_outputs = NULL, nd_inputs = NULL, nd_outputs = NULL, ud_inputs = NULL, 
-ud_outputs = NULL)
+read_data(datadea = NULL,
+          ni = NULL,
+          no = NULL,
+          dmus = 1,
+          inputs = NULL,
+          outputs = NULL,
+          nc_inputs = NULL,
+          nc_outputs = NULL,
+          nd_inputs = NULL,
+          nd_outputs = NULL,
+          ud_inputs = NULL, 
+          ud_outputs = NULL)
 }
 \arguments{
 \item{datadea}{Data frame with DEA data.}
@@ -17,11 +25,15 @@ ud_outputs = NULL)
 \item{no}{Number of outputs, if outputs are in columns (\code{ni} + 2):(\code{ni} + \code{no} + 1) (if DMUs are in the first column) or (\code{ni} + 1):(\code{ni} + \code{no}) (no DMUs column).
 If not specified, DMUs are in the first column.}
 
-\item{dmus}{Column (number or name) of DMUs (optional). If there is not any DMU column, then it must be \code{NULL}.}
+\item{dmus}{Column (number or name) of DMUs (optional). By default, it is the first column.
+If there is not any DMU column, then it must be \code{NULL}.}
 
-\item{inputs}{Columns (numbers or names) of inputs (optional). It prevails over \code{ni}.}
+\item{inputs}{Columns (numbers or names) of inputs (optional). It prevails over \code{ni}.
+Alternatively to \code{datadea}, it can be a matrix with the inputs (DMUs in columns). In this case, DMUs names
+are taken from the columns names.}
 
-\item{outputs}{Columns (numbers or names) of outputs (optional). It prevails over \code{no}.}
+\item{outputs}{Columns (numbers or names) of outputs (optional). It prevails over \code{no}.
+Alternatively to \code{datadea}, it can be a matrix with the outputs (DMUs in columns).}
 
 \item{nc_inputs}{A numeric vector containing non-controllable inputs.}
 
@@ -49,24 +61,33 @@ data_example <- read_data(datadea = Coll_Blasco_2006,
                           no = 2)
 # This is the same as:
 data_example <- read_data(Coll_Blasco_2006,
-                          dmus = 1,
                           inputs = 2:3, 
                           outputs = 4:5)
+# And the same as:
+dmunames <- c("A", "B", "C", "D", "E", "F")
+nd <- length(dmunames) # Number of DMUs
+inputnames <- c("Employees", "Capital")
+ni <- length(inputnames) # Number of Inputs
+outputnames <- c("Vehicles", "Orders")
+no <- length(outputnames) # Number of Outputs
+inputs <- matrix(c(8, 8, 11, 15, 14, 12, 12, 13, 11, 18, 18, 20),
+                 nrow = ni, ncol = nd, dimnames = list(inputnames, dmunames))
+outputs <- matrix(c(14, 20, 25, 42, 8, 30, 25, 8, 40, 22, 24, 30),
+                  nrow = no, ncol = nd, dimnames = list(outputnames, dmunames))
+data_example <- read_data(inputs = inputs,
+                          outputs = outputs)                
 # If the first input is a non-controllable input:
 data_example <- read_data(Coll_Blasco_2006,
-                          dmus = 1,
                           inputs = 2:3,
                           outputs = 4:5, 
                           nc_inputs = 1)
 # If the second output is a non-discretionary output:
 data_example <- read_data(Coll_Blasco_2006,
-                          dmus = 1, 
                           inputs = 2:3, 
                           outputs = 4:5, 
                           nd_outputs = 2)
 # If the second input is a non-discretionary input and the second output is an undesirable:
 data_example <- read_data(Coll_Blasco_2006,
-                          dmus = 1, 
                           inputs = 2:3, 
                           outputs = 4:5, 
                           nd_inputs = 2, 

@@ -55,12 +55,12 @@ with the weights of the input slacks for the max slack solution.}
 \item{weight_slack_o}{A value, vector of length \code{s}, or matrix \code{s} x \code{ne} (where \code{ne} is the lenght of \code{dmu_eval})
 with the weights of the output slacks for the max slack solution.}
 
-\item{vtrans_i}{Numeric vector of translation for undesirable inputs. If \code{vtrans_i[i]} is
+\item{vtrans_i}{Numeric vector of translation for undesirable inputs with non-directional orientation. If \code{vtrans_i[i]} is
 \code{NA}, then it applies the "max + 1" translation to the i-th undesirable input. If \code{vtrans_i} is
 a constant, then it applies the same translation to all undesirable inputs. If \code{vtrans_i} is \code{NULL},
 then it applies the "max + 1" translation to all undesirable inputs.}
 
-\item{vtrans_o}{Numeric vector of translation for undesirable outputs, analogous to
+\item{vtrans_o}{Numeric vector of translation for undesirable outputs with non-directional orientation, analogous to
 \code{vtrans_i}, but applied to outputs.}
 
 \item{compute_target}{Logical. If it is \code{TRUE}, it computes targets of the max slack solution.}
@@ -79,11 +79,11 @@ The model_basic function allows to treat with non-discretional, uncontrollable a
 Finally, you can use the \code{model_basic} function to solve directional DEA models by choosing \code{orientation} = "dir".
 }
 \note{
-(1) With undesirable inputs/outputs, you should select vrs returns to scale in order to maintain translation invariance (Seiford y Zhu, 2002). If deaR detects that you are not specifying \code{rts} = "vrs", it makes the change to vrs automatically. 
+(1) With undesirable inputs/outputs and non-directional orientation, you should select "vrs" returns to scale (BCC model) in order to maintain translation invariance (Seiford and Zhu, 2002). If deaR detects that you are not specifying \code{rts} = "vrs", it makes the change to "vrs" automatically. 
 
-(2) With undesirable inputs use input-oriented BCC model, and with undesirable outputs use output-oriented BCC model. Alternatively, you can also treat the undesirable outputs as inputs and the apply the input-oriented BCC model (similarly with undesirable inputs).
+(2) With undesirable inputs and non-directional orientation use input-oriented BCC model, and with undesirable outputs and non-directional orientation use output-oriented BCC model. Alternatively, you can also treat the undesirable outputs as inputs and then apply the input-oriented BCC model (similarly with undesirable inputs).
 
-(3) With \code{dir} orientation (directional distance functions model), efficient DMUs are those for which \code{beta}=0.
+(3) With \code{orientation} = "dir" (directional distance function model), efficient DMUs are those for which \code{beta} = 0.
 }
 \examples{
 # Example 1. Basic DEA model with desirable inputs/outputs.
@@ -92,7 +92,6 @@ data("PFT1981")
 # Selecting DMUs in Program Follow Through (PFT)
 PFT <- PFT1981[1:49, ] 
 PFT <- read_data(PFT, 
-                 dmus = 1, 
                  inputs = 2:6, 
                  outputs = 7:9 )
 eval_pft <- model_basic(PFT, 
@@ -126,7 +125,8 @@ eff <- efficiencies(result)
 data("Ruggiero2007") 
 # The second input is a non-discretionary input.
 datadea <- read_data(Ruggiero2007, 
-                     ni = 2, no = 1, 
+                     ni = 2,
+                     no = 1, 
                      nd_inputs = 2) 
 result <- model_basic(datadea,
                       orientation = "io", 
@@ -148,6 +148,8 @@ Undesirable inputs/outputs:
 Pastor, J.T. (1996). "Translation Invariance in Data Envelopment Analysis: a Generalization", Annals of Operations Research, 66(2), 91-102. 
 
 Seiford, L.M.; Zhu, J. (2002). “Modeling undesirable factors in efficiency evaluation”, European Journal of Operational Research 142, 16-20.
+
+Färe, R. ; Grosskopf, S. (2004). “Modeling undesirable factors in efficiency evaluation: Comment”, European Journal of Operational Research 157, 242-245.
 
 Hua Z.; Bian Y. (2007). DEA with Undesirable Factors. In: Zhu J., Cook W.D. (eds) Modeling Data Irregularities and Structural Complexities in Data Envelopment Analysis. Springer, Boston, MA. 
 

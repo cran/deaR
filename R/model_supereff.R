@@ -3,10 +3,10 @@
 #' @description Solve Andersen and Petersen radial Super-efficiency DEA model. 
 #' 
 #' @usage model_supereff(datadea,
-#'             dmu_eval = NULL,
-#'             dmu_ref = NULL,
-#'             supereff_modelname = c("basic"),
-#'             ...)
+#'                dmu_eval = NULL,
+#'                dmu_ref = NULL,
+#'                supereff_modelname = c("basic"),
+#'                ...)
 #' 
 #' @param datadea The data, including DMUs, inputs and outputs.
 #' @param dmu_eval A numeric vector containing which DMUs have to be evaluated.

@@ -3,10 +3,10 @@
 #' @description Solve the possibilistic fuzzy DEA model proposed by León et. al (2003).
 #' 
 #' @usage modelfuzzy_possibilistic(datadea,
-#'             dmu_eval = NULL,
-#'             poss_modelname = c("basic"),
-#'             h = 1,
-#'             ...)
+#'                          dmu_eval = NULL,
+#'                          poss_modelname = c("basic"),
+#'                          h = 1,
+#'                          ...)
 #' 
 #' @param datadea The data, including DMUs, inputs and outputs.
 #' @param dmu_eval A numeric vector containing which DMUs have to be evaluated.
@@ -32,7 +32,6 @@
 #' # Replication of results in Leon et. al (2003, p. 416)
 #' data("Leon2003")
 #' data_example <- read_data_fuzzy(Leon2003,
-#'                                 dmus = 1, 
 #'                                 inputs.mL = 2, 
 #'                                 inputs.dL = 3, 
 #'                                 outputs.mL = 4, 

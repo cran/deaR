@@ -5,20 +5,25 @@
 #' Besides, the user can set weights for the input slacks and/or output slacks. So, it is also possible to solve weighted additive models. For example: Measure of Inefficiency Proportions (MIP), Range Adjusted Measure (RAM), etc.
 #' @note In this model, the efficiency score is the sum of the slacks. Therefore, a DMU is efficient when the objective value (\code{objval}) is zero.
 #' @usage model_additive(datadea,
-#'             dmu_eval = NULL,
-#'             dmu_ref = NULL,
-#'             weight_slack_i = 1,
-#'             weight_slack_o = 1,
-#'             rts = c("crs", "vrs", "nirs", "ndrs", "grs"),
-#'             L = 1,
-#'             U = 1,
-#'             compute_target = TRUE,
-#'             returnlp = FALSE,
-#'             ...)
+#'                dmu_eval = NULL,
+#'                dmu_ref = NULL,
+#'                orientation = NULL,
+#'                weight_slack_i = 1,
+#'                weight_slack_o = 1,
+#'                rts = c("crs", "vrs", "nirs", "ndrs", "grs"),
+#'                L = 1,
+#'                U = 1,
+#'                compute_target = TRUE,
+#'                returnlp = FALSE,
+#'                ...)
 #' 
 #' @param datadea The data, including \code{n} DMUs, \code{m} inputs and \code{s} outputs.
 #' @param dmu_eval A numeric vector containing which DMUs have to be evaluated.
 #' @param dmu_ref A numeric vector containing which DMUs are the evaluation reference set.
+#' @param orientation This parameter is either \code{NULL} (default) or a string, equal to
+#'                    "io" (input-oriented) or "oo" (output-oriented). It is used to modify the weight slacks. 
+#'                    If input-oriented, \code{weight_slack_o} are taken 0.
+#'                    If output-oriented, \code{weight_slack_i} are taken 0.
 #' @param weight_slack_i A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the lenght of \code{dmu_eval})
 #'                       with the weights of the input slacks. If 0, output-oriented.
 #' @param weight_slack_o A value, vector of length \code{s}, or matrix \code{s} x \code{ne} (where \code{ne} is the lenght of \code{dmu_eval})
@@ -44,7 +49,7 @@
 #' University of Valencia (Spain) 
 #' 
 #' @references
-#' Charnes, A.; Cooper, W.W.; Golany, B.; Seiford, L.; Stuz, J. "Foundations of Data Envelopment Analysis for Pareto-Koopmans Efficient Empirical Production Functions", Journal of Econometrics, 30(1-2), 91-107. \url{https://doi.org/10.1016/0304-4076(85)90133-2}
+#' Charnes, A.; Cooper, W.W.; Golany, B.; Seiford, L.; Stuz, J. (1985) "Foundations of Data Envelopment Analysis for Pareto-Koopmans Efficient Empirical Production Functions", Journal of Econometrics, 30(1-2), 91-107. \url{https://doi.org/10.1016/0304-4076(85)90133-2}
 #'   
 #' Charnes, A.; Cooper, W.W.; Lewin, A.Y.; Seiford, L.M. (1994). Data Envelopment Analysis: Theory, Methology, and Application. Boston: Kluwer Academic Publishers. \url{https://doi.org/10.1007/978-94-011-0637-5}
 #' 
@@ -101,6 +106,7 @@ model_additive <-
   function(datadea,
            dmu_eval = NULL,
            dmu_ref = NULL,
+           orientation = NULL,
            weight_slack_i = 1,
            weight_slack_o = 1,
            rts = c("crs", "vrs", "nirs", "ndrs", "grs"),
@@ -115,24 +121,19 @@ model_additive <-
     stop("Data should be of class deadata. Run read_data function first!")
   }
     
-  # Checking non-controllable or non-discretionary inputs/outputs
-  #if ((!is.null(datadea$nc_inputs)) || (!is.null(datadea$nc_outputs))
-  #    || (!is.null(datadea$nd_inputs)) || (!is.null(datadea$nd_outputs))) {
-  #  warning("This model does not take into account non-controllable or non-discretionary feature for inputs/outputs.")
-  #}
+  # Checking non-discretionary inputs/outputs
+  if ((!is.null(datadea$nd_inputs)) || (!is.null(datadea$nd_outputs))) {
+    warning("This model does not take into account the non-discretionary feature for inputs/outputs.")
+  }
+    
+  # Checking undesirable inputs/outputs
+  if (!is.null(datadea$ud_inputs) || !is.null(datadea$ud_outputs)) {
+    warning("This model does not take into account the undesirable feature for inputs/outputs.")
+  }
       
   # Checking rts
   rts <- tolower(rts)
   rts <- match.arg(rts)
-  
-  # Checking undesirable io and rts
-  #if (((!is.null(datadea$ud_inputs)) || (!is.null(datadea$ud_outputs))) && (rts != "vrs")) {
-  #  rts <- "vrs"
-  #  warning("Returns to scale changed to variable (vrs) because there is data with undesirable inputs/outputs.")
-  #}
-  if (!is.null(datadea$ud_inputs) || !is.null(datadea$ud_outputs)) {
-    warning("This model does not take into account the undesirable feature for inputs/outputs.")
-  }
   
   if (rts == "grs") {
     if (L > 1) {
@@ -184,7 +185,6 @@ model_additive <-
     weight_slack_o <- 1
   }
   
-  
   if (is.matrix(weight_slack_i)) {
     if ((nrow(weight_slack_i) != ni) || (ncol(weight_slack_i) != nde)) {
       stop("Invalid weight input matrix (number of inputs x number of evaluated DMUs).")
@@ -193,6 +193,9 @@ model_additive <-
     weight_slack_i <- matrix(weight_slack_i, nrow = ni, ncol = nde)
   } else {
     stop("Invalid weight input vector (number of inputs).")
+  }
+  if ((!is.null(orientation)) && (orientation == "oo")) {
+    weight_slack_i <- matrix(0, nrow = ni, ncol = nde)
   }
   rownames(weight_slack_i) <- inputnames
   colnames(weight_slack_i) <- dmunames[dmu_eval]
@@ -205,6 +208,9 @@ model_additive <-
     weight_slack_o <- matrix(weight_slack_o, nrow = no, ncol = nde)
   } else {
     stop("Invalid weight output vector (number of outputs).")
+  }
+  if ((!is.null(orientation)) && (orientation == "io")) {
+    weight_slack_o <- matrix(0, nrow = no, ncol = nde)
   }
   rownames(weight_slack_o) <- outputnames
   colnames(weight_slack_o) <- dmunames[dmu_eval]
@@ -328,7 +334,7 @@ model_additive <-
                     dmu_ref = dmu_ref,
                     weight_slack_i = weight_slack_i,
                     weight_slack_o = weight_slack_o,
-                    orientation = "NA")
+                    orientation = NA)
   
   return(structure(deaOutput, class = "dea"))
   

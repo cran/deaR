@@ -4,7 +4,8 @@
 \alias{summary.dea}
 \title{Summary conventional DEA models.}
 \usage{
-\method{summary}{dea}(object, exportExcel = TRUE, filename = NULL, ...)
+\method{summary}{dea}(object, exportExcel = TRUE, filename = NULL,
+  returnList = FALSE, ...)
 }
 \arguments{
 \item{object}{An object of class \code{"dea"} obtained by a dea model function.}
@@ -13,6 +14,9 @@
 
 \item{filename}{Character string. Absolute filename (including path) of the exported Excel file. 
 If NULL, then the name of the file will be "ResultsDEA"+timestamp.xlsx.}
+
+\item{returnList}{Logical value. If TRUE then the results are given as a list of data frames. 
+If FALSE (default) all the data frames are merged into a single data frame.}
 
 \item{...}{Ignored. Used for compatibility issues.}
 }
@@ -30,16 +34,18 @@ data("PFT1981")
 # Selecting DMUs in Program Follow Through (PFT)
 PFT <- PFT1981[1:49, ] 
 PFT <- read_data(PFT, 
-                 dmus = 1, 
                  inputs = 2:6, 
                  outputs = 7:9 )
 eval_pft <- model_basic(PFT, 
                         orientation = "io", 
                         rts = "crs")
-summary(eval_pft, exporExcel = FALSE)
+summary(eval_pft, exportExcel = FALSE)
 }
 \references{
-Charnes, A.; Cooper, W.W.; Rhodes, E. (1981). "Evaluating Program and Managerial Efficiency: An Application of Data Envelopment Analysis to Program Follow Through", Management Science, 27(6), 668-697. \url{https://pubsonline.informs.org/doi/abs/10.1287/mnsc.27.6.668}
+Charnes, A.; Cooper, W.W.; Rhodes, E. (1981). "Evaluating Program and Managerial 
+Efficiency: An Application of Data Envelopment Analysis to Program Follow Through", 
+Management Science, 27(6), 668-697. 
+\url{https://pubsonline.informs.org/doi/abs/10.1287/mnsc.27.6.668}
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

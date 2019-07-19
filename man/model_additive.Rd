@@ -5,16 +5,17 @@
 \title{Additive DEA model.}
 \usage{
 model_additive(datadea,
-            dmu_eval = NULL,
-            dmu_ref = NULL,
-            weight_slack_i = 1,
-            weight_slack_o = 1,
-            rts = c("crs", "vrs", "nirs", "ndrs", "grs"),
-            L = 1,
-            U = 1,
-            compute_target = TRUE,
-            returnlp = FALSE,
-            ...)
+               dmu_eval = NULL,
+               dmu_ref = NULL,
+               orientation = NULL,
+               weight_slack_i = 1,
+               weight_slack_o = 1,
+               rts = c("crs", "vrs", "nirs", "ndrs", "grs"),
+               L = 1,
+               U = 1,
+               compute_target = TRUE,
+               returnlp = FALSE,
+               ...)
 }
 \arguments{
 \item{datadea}{The data, including \code{n} DMUs, \code{m} inputs and \code{s} outputs.}
@@ -22,6 +23,11 @@ model_additive(datadea,
 \item{dmu_eval}{A numeric vector containing which DMUs have to be evaluated.}
 
 \item{dmu_ref}{A numeric vector containing which DMUs are the evaluation reference set.}
+
+\item{orientation}{This parameter is either \code{NULL} (default) or a string, equal to
+"io" (input-oriented) or "oo" (output-oriented). It is used to modify the weight slacks. 
+If input-oriented, \code{weight_slack_o} are taken 0.
+If output-oriented, \code{weight_slack_i} are taken 0.}
 
 \item{weight_slack_i}{A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the lenght of \code{dmu_eval})
 with the weights of the input slacks. If 0, output-oriented.}
@@ -93,7 +99,7 @@ slacks(result3)
 
 }
 \references{
-Charnes, A.; Cooper, W.W.; Golany, B.; Seiford, L.; Stuz, J. "Foundations of Data Envelopment Analysis for Pareto-Koopmans Efficient Empirical Production Functions", Journal of Econometrics, 30(1-2), 91-107. \url{https://doi.org/10.1016/0304-4076(85)90133-2}
+Charnes, A.; Cooper, W.W.; Golany, B.; Seiford, L.; Stuz, J. (1985) "Foundations of Data Envelopment Analysis for Pareto-Koopmans Efficient Empirical Production Functions", Journal of Econometrics, 30(1-2), 91-107. \url{https://doi.org/10.1016/0304-4076(85)90133-2}
   
 Charnes, A.; Cooper, W.W.; Lewin, A.Y.; Seiford, L.M. (1994). Data Envelopment Analysis: Theory, Methology, and Application. Boston: Kluwer Academic Publishers. \url{https://doi.org/10.1007/978-94-011-0637-5}
 

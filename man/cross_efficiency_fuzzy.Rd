@@ -5,9 +5,9 @@
 \title{Cross efficiency fuzzy tables}
 \usage{
 cross_efficiency_fuzzy(datadea,
-            orientation = c("io", "oo"),
-            h = 1,
-            selfapp = TRUE)
+                       orientation = c("io", "oo"),
+                       h = 1,
+                       selfapp = TRUE)
 }
 \arguments{
 \item{datadea}{An object of class \code{dea_fuzzy} or \code{deadata_fuzzy}. If it is of class \code{dea_fuzzy} it must have
@@ -27,7 +27,6 @@ The (crisp) relative efficiencies for the case \code{h} = 1 are obtained from th
 \examples{
  data("Guo_Tanaka_2001")
  datadea <- read_data_fuzzy(datadea = Guo_Tanaka_2001, 
-                            dmus = 1, 
                             inputs.mL = 2:3, 
                             inputs.dL = 4:5, 
                             outputs.mL = 6:7, 
@@ -37,7 +36,7 @@ The (crisp) relative efficiencies for the case \code{h} = 1 are obtained from th
  
 }
 \references{
-Doyle, J.; Green, R. (1994). “Efficiency and Cross Efficiency in DEA: Derivations, Meanings and the Uses”,  Journal of Operational Research Society, 45(5), 567–578. DOI: \url{10.2307/2584392} 
+Doyle, J.; Green, R. (1994). “Efficiency and Cross Efficiency in DEA: Derivations, Meanings and the Uses”,  Journal of Operational Research Society, 45(5), 567–578. DOI: 10.2307/2584392 
  
 Guo, P.; Tanaka, H. (2001). "Fuzzy DEA: A Perceptual Evaluation Method", Fuzzy Sets and Systems, 119, 149–160. \url{https://doi.org/10.1016/S0165-0114(99)00106-2}
 

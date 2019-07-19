@@ -5,8 +5,8 @@
 #' Onwards, it is recommended to use a dea model with variable returns to scale (vrs).
 #'
 #' @usage undesirable_basic(datadea,
-#'                       vtrans_i = NULL,
-#'                       vtrans_o = NULL)
+#'                   vtrans_i = NULL,
+#'                   vtrans_o = NULL)
 #' 
 #' @param datadea The data, including DMUs, inputs and outputs.
 #' @param vtrans_i Numeric vector of translation for undesirable inputs. If \code{vtrans_i[i]} is

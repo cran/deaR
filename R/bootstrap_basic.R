@@ -3,13 +3,13 @@
 #' @description To bootstrap efficiency scores, deaR uses the algorithm proposed by Simar and Wilson (1998). For now, the function bootstrap_basic can only be used with basic DEA models (input- and output-oriented under constant and variable returns-to-scale).
 #' 
 #' @usage bootstrap_basic(datadea,
-#'             orientation = c("io", "oo"),
-#'             rts = c("crs", "vrs", "nirs", "ndrs", "grs"),
-#'             L = 1,
-#'             U = 1,
-#'             B = 2000,
-#'             h = NULL,
-#'             alpha = 0.05)
+#'                 orientation = c("io", "oo"),
+#'                 rts = c("crs", "vrs", "nirs", "ndrs", "grs"),
+#'                 L = 1,
+#'                 U = 1,
+#'                 B = 2000,
+#'                 h = NULL,
+#'                 alpha = 0.05)
 #' 
 #' @param datadea The data, including \code{n} DMUs, \code{m} inputs and \code{s} outputs.
 #' @param orientation A string, equal to "io" (input oriented) or "oo" (output oriented).
@@ -49,15 +49,15 @@
 #' 
 #' @examples 
 #' # To replicate the results in Simar y Wilson (1998, p. 58) you have to
-#' # set B=2000 (in the example B=100 to save time)
+#' # set B=2000 (in the example B = 100 to save time)
 #' data("Electric_plants")
 #' data_example <- read_data(Electric_plants, 
 #'                           ni = 3, 
 #'                           no = 1)
 #' result <- bootstrap_basic(datadea = data_example,
-#'                              orientation="io",
-#'                              rts="vrs",
-#'                              B=100)
+#'                              orientation = "io",
+#'                              rts = "vrs",
+#'                              B = 100)
 #' result$score_bc
 #' result$CI
 #' 

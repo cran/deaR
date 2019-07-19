@@ -5,10 +5,10 @@
 \title{Fuzzy DEA model}
 \usage{
 modelfuzzy_guotanaka(datadea,
-            dmu_eval = NULL,
-            dmu_ref = NULL,
-            orientation = c("io", "oo"),
-            h = 1)
+                     dmu_eval = NULL,
+                     dmu_ref = NULL,
+                     orientation = c("io", "oo"),
+                     h = 1)
 }
 \arguments{
 \item{datadea}{The data, including DMUs, inputs and outputs.}
@@ -40,7 +40,6 @@ The optimal solution of model (16) is not unique.
 # The fuzzy efficiencies are calculated according to equations in (17) (Guo and Tanaka, 2001,p.155).
 data("Guo_Tanaka_2001")
 data_example <- read_data_fuzzy(Guo_Tanaka_2001, 
-                                dmus = 1, 
                                 inputs.mL = 2:3, 
                                 inputs.dL = 4:5, 
                                 outputs.mL = 6:7,
@@ -53,7 +52,6 @@ efficiencies(result)
 # Example 2. 
 data("Guo_Tanaka_2001")
 data_example <- read_data_fuzzy(Guo_Tanaka_2001, 
-                                dmus = 1, 
                                 inputs.mL = 2:3, 
                                 inputs.dL = 4:5, 
                                 outputs.mL = 6:7, 

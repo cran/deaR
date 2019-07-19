@@ -74,7 +74,7 @@ Zhu, J. (1996). “Data Envelopment Analysis with Preference Structure”, The J
 Zhu, J. (2014). Quantitative Models for Performance Evaluation and Benchmarking. Data Envelopment Analysis with Spreadsheets. 3rd Edition Springer, New York. DOI: 10.1007/978-3-319-06647-9
 }
 \seealso{
-\code{\link{model_nonradial}}, \code{\link{model_sbmeff}}
+\code{\link{model_nonradial}}, \code{\link{model_profit}}, \code{\link{model_sbmeff}}
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

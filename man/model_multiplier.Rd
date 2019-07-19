@@ -5,16 +5,16 @@
 \title{Multiplier DEA model}
 \usage{
 model_multiplier(datadea,
-            dmu_eval = NULL,
-            dmu_ref = NULL,
-            epsilon = 0,
-            orientation = c("io", "oo"),
-            rts = c("crs", "vrs", "nirs", "ndrs", "grs"),
-            L = 1,
-            U = 1,
-            returnlp = FALSE,
-            compute_lambda = TRUE,
-            ...)
+                 dmu_eval = NULL,
+                 dmu_ref = NULL,
+                 epsilon = 0,
+                 orientation = c("io", "oo"),
+                 rts = c("crs", "vrs", "nirs", "ndrs", "grs"),
+                 L = 1,
+                 U = 1,
+                 returnlp = FALSE,
+                 compute_lambda = TRUE,
+                 ...)
 }
 \arguments{
 \item{datadea}{The data, including DMUs, inputs and outputs.}
@@ -56,7 +56,6 @@ Solve input-oriented and output-oriented basic DEA  models (multiplicative form)
 # Replication of results in Golany and Roll (1989).
 data("Golany_Roll_1989")
 data_example <- read_data(datadea = Golany_Roll_1989[1:10, ],
-                          dmus = 1, 
                           inputs = 2:4, 
                           outputs = 5:6) 
 result <- model_multiplier(data_example, 
@@ -70,7 +69,6 @@ multipliers(result)
 # Multiplier model with infeasible solutions (See note).
 data("Fortune500")
 data_Fortune <- read_data(datadea = Fortune500, 
-                          dmus = 1, 
                           inputs = 2:4, 
                           outputs = 5:6) 
 result2 <- model_multiplier(data_Fortune, 

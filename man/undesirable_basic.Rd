@@ -5,8 +5,8 @@
 \title{Undesirable inputs and outputs for basic DEA model.}
 \usage{
 undesirable_basic(datadea,
-                      vtrans_i = NULL,
-                      vtrans_o = NULL)
+                  vtrans_i = NULL,
+                  vtrans_o = NULL)
 }
 \arguments{
 \item{datadea}{The data, including DMUs, inputs and outputs.}

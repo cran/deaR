@@ -5,10 +5,10 @@
 \title{Radial superefficiency basic DEA model}
 \usage{
 model_supereff(datadea,
-            dmu_eval = NULL,
-            dmu_ref = NULL,
-            supereff_modelname = c("basic"),
-            ...)
+               dmu_eval = NULL,
+               dmu_ref = NULL,
+               supereff_modelname = c("basic"),
+               ...)
 }
 \arguments{
 \item{datadea}{The data, including DMUs, inputs and outputs.}

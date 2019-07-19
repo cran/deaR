@@ -5,12 +5,12 @@
 \title{Fuzzy DEA model.}
 \usage{
 modelfuzzy_kaoliu(datadea,
-            dmu_eval = NULL,
-            kaoliu_modelname = c("basic", "additive", "addsupereff", 
-                                 "deaps", "fdh", "multiplier", "nonradial",
-                                 "sbmeff", "sbmsupereff", "supereff"),
-            alpha = 1,
-            ...)
+                  dmu_eval = NULL,
+                  kaoliu_modelname = c("basic", "additive", "addsupereff", 
+                                       "deaps", "fdh", "multiplier", "nonradial",
+                                       "sbmeff", "sbmsupereff", "supereff"),
+                  alpha = 1,
+                  ...)
 }
 \arguments{
 \item{datadea}{The data, including DMUs, inputs and outputs.}
@@ -19,7 +19,8 @@ modelfuzzy_kaoliu(datadea,
 
 \item{kaoliu_modelname}{a string containing the name of the model.}
 
-\item{alpha}{A numeric vector with the alpha-cuts (in [0,1]).}
+\item{alpha}{A numeric vector with the alpha-cuts (in [0,1]). If \code{alpha}>1, it
+determines the number of alpha-cuts, equispatially distributed in [0,1].}
 
 \item{...}{\code{dmu_ref}, \code{orientation}, \code{rts} and other model parameters.}
 }
@@ -34,7 +35,6 @@ Solve the fuzzy DEA model by Kao and Liu (2000)
 # Replication of results in Boscá, Liern, Sala and Martínez (2011, p.125)
 data("Leon2003")
 data_example <- read_data_fuzzy(datadea = Leon2003,
-                                dmus = 1, 
                                 inputs.mL = 2, 
                                 inputs.dL = 3, 
                                 outputs.mL = 4, 
@@ -50,7 +50,6 @@ efficiencies(result)
 # Replication of results in Kao and Liu (2003, p.152)
 data("Kao_Liu_2003")
 data_example <- read_data_fuzzy(Kao_Liu_2003, 
-                                dmus = 1, 
                                 inputs.mL = 2, 
                                 outputs.mL = 3:7, 
                                 outputs.dL = c(NA, NA, 8, NA, 10),

@@ -5,17 +5,17 @@
 \title{Slack based measure (SBM) of efficiency model.}
 \usage{
 model_sbmeff(datadea,
-            dmu_eval = NULL,
-            dmu_ref = NULL,
-            weight_input = 1,
-            weight_output = 1,
-            orientation = c("no", "io", "oo"),
-            rts = c("crs", "vrs", "nirs", "ndrs", "grs"),
-            L = 1,
-            U = 1,
-            compute_target = TRUE,
-            returnlp = FALSE,
-            ...)
+             dmu_eval = NULL,
+             dmu_ref = NULL,
+             weight_input = 1,
+             weight_output = 1,
+             orientation = c("no", "io", "oo"),
+             rts = c("crs", "vrs", "nirs", "ndrs", "grs"),
+             L = 1,
+             U = 1,
+             compute_target = TRUE,
+             returnlp = FALSE,
+             ...)
 }
 \arguments{
 \item{datadea}{The data, including \code{n} DMUs, \code{m} inputs and \code{s} outputs.}
@@ -65,6 +65,18 @@ efficiencies(result_CCR)
 slacks(result_SBM)
 slacks(result_CCR)
  
+# Example. Replication of results in Tone (2003), pp 10-11 case 1:1.
+data("Tone2003")
+data_example <- read_data(Tone2003,
+                          ni = 1,
+                          no = 2,
+                          ud_outputs = 2)
+result <- model_sbmeff(data_example,
+                       rts = "vrs")
+efficiencies(result)
+targets(result)
+ 
+ 
 }
 \references{
 Tone, K. (2001). "A Slacks-Based Beasure of Efficiency in Data Envelopment Analysis", European Journal of Operational Research, 130, 498-509. \url{https://doi.org/10.1016/S0377-2217(99)00407-5}
@@ -72,7 +84,7 @@ Tone, K. (2001). "A Slacks-Based Beasure of Efficiency in Data Envelopment Analy
 Cooper, W.W.; Seiford, L.M.; Tone, K. (2007). Data Envelopment Analysis. A Comprehensive Text with Models, Applications, References and DEA-Solver Software. 2nd Edition. Springer, New York. \url{https://doi.org/10.1007/978-0-387-45283-8}
 }
 \seealso{
-\code{\link{model_nonradial}}, \code{\link{model_deaps}}, \code{\link{model_deaps}}, \code{\link{model_sbmsupereff}}
+\code{\link{model_nonradial}}, \code{\link{model_deaps}}, \code{\link{model_profit}}, \code{\link{model_sbmsupereff}}
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

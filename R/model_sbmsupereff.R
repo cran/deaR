@@ -3,18 +3,17 @@
 #' @description Slack based measure of superefficiency model (Tone 2002) with n DMUs, m inputs, s outputs...
 #' 
 #' @usage model_sbmsupereff(datadea,
-#'             dmu_eval = NULL,
-#'             dmu_ref = NULL,
-#'             weight_input = 1,
-#'             weight_output = 1,
-#'             orientation = c("no", "io", "oo"),
-#'             rts = c("crs", "vrs", "nirs", "ndrs", "grs"),
-#'             L = 1,
-#'             U = 1,
-#'             compute_target = TRUE,
-#'             compute_rho = FALSE,
-#'             thr = 1e-6,
-#'             returnlp = FALSE)
+#'                   dmu_eval = NULL,
+#'                   dmu_ref = NULL,
+#'                   weight_input = 1,
+#'                   weight_output = 1,
+#'                   orientation = c("no", "io", "oo"),
+#'                   rts = c("crs", "vrs", "nirs", "ndrs", "grs"),
+#'                   L = 1,
+#'                   U = 1,
+#'                   compute_target = TRUE,
+#'                   compute_rho = FALSE,
+#'                   returnlp = FALSE)
 #' 
 #' @param datadea The data, including DMUs, inputs and outputs.
 #' @param dmu_eval A numeric vector containing which DMUs have to be evaluated.
@@ -29,9 +28,7 @@
 #' @param L Lower bound for the generalized returns to scale (grs).
 #' @param U Upper bound for the generalized returns to scale (grs).
 #' @param compute_target Logical. If it is \code{TRUE}, it computes targets, superslacks (\code{t_input} and \code{t_output}) and slacks.
-#' @param compute_rho Logical. If it is \code{TRUE}, it computes \code{rho} applying \code{model_sbmeff} to the DMU (\code{project_input}, \code{project_output})
-#'                    if the slacks are not numerically zero (i.e. this DMU is inefficient).
-#' @param thr A value. Threshold for numerical zero.                  
+#' @param compute_rho Logical. If it is \code{TRUE}, it computes \code{rho} applying \code{model_sbmeff} to the DMU (\code{project_input}, \code{project_output}).
 #' @param returnlp Logical. If it is \code{TRUE}, it returns the linear problems (objective function and constraints).
 #'   
 #' @author 
@@ -55,8 +52,12 @@
 #' @examples 
 #' # Replication of results in Tone(2002, p.39)
 #' data("Power_plants")
-#' data_example <- read_data(Power_plants, ni = 4, no = 2)
-#' result <- model_sbmsupereff(data_example, orientation = "io", rts = "crs") 
+#' data_example <- read_data(Power_plants,
+#'                           ni = 4,
+#'                           no = 2)
+#' result <- model_sbmsupereff(data_example,
+#'                             orientation = "io",
+#'                             rts = "crs") 
 #' efficiencies(result)
 #' slacks(result)$slack_input
 #' references(result)
@@ -79,7 +80,6 @@ model_sbmsupereff <-
            U = 1,
            compute_target = TRUE,
            compute_rho = FALSE,
-           thr = 1e-6,
            returnlp = FALSE) {
     
   # Cheking whether datadea is of class "deadata" or not...  
@@ -96,6 +96,11 @@ model_sbmsupereff <-
   #  datadea$nd_inputs <- NULL
   #  datadea$nd_outputs <- NULL
   #}
+    
+  # Checking undesirable io and rts
+  if (!is.null(datadea$ud_inputs) || !is.null(datadea$ud_outputs)) {
+    warning("This model does not take into account the undesirable feature for inputs/outputs.")
+  }
   
   # Checking orientation
   orientation <- tolower(orientation)
@@ -105,13 +110,10 @@ model_sbmsupereff <-
   rts <- tolower(rts)
   rts <- match.arg(rts)
   
-  # Checking undesirable io and rts
-  #if (((!is.null(datadea$ud_inputs)) || (!is.null(datadea$ud_outputs))) && (rts != "vrs")) {
-  #  rts <- "vrs"
-  #  warning("Returns to scale changed to variable (vrs) because there is data with undesirable inputs/outputs.")
-  #}
-  if (!is.null(datadea$ud_inputs) || !is.null(datadea$ud_outputs)) {
-    warning("This model does not take into account the undesirable feature for inputs/outputs.")
+  # Possible non-feasibilities
+  if ((rts != "crs") && (orientation != "no")) {
+    warning("For oriented models and non constant returns to scale, feasibility is not
+             guaranteed. Proceed with caution, some DMUs results may be missing!")
   }
   
   if (rts == "grs") {
@@ -164,6 +166,16 @@ model_sbmsupereff <-
   nc_outputs <- datadea$nc_outputs
   nnci <- length(nc_inputs)
   nnco <- length(nc_outputs)
+  #ud_inputs <- datadea$ud_inputs
+  #ud_outputs <- datadea$ud_outputs
+  dir1 <- rep("<=", ni)
+  #dir1[ud_inputs] <- ">="
+  dir2 <- rep(">=", no)
+  #dir2[ud_outputs] <- "<="
+  dir3 <- rep(">=", ni)
+  #dir3[ud_inputs] <- "<="
+  dir4 <- rep("<=", no)
+  #dir4[ud_outputs] <- ">="
   
   if (orientation == "oo") {
     obj <- "max"
@@ -224,6 +236,11 @@ model_sbmsupereff <-
     f.con.rs <- NULL
     f.dir.rs <- NULL
     f.rhs.rs <- NULL
+  } else if (rts == "grs") {
+    f.con.rs <- rbind(cbind(-L, matrix(1, nrow = 1, ncol = ndr), matrix(0, nrow = 1, ncol = ni + no)),
+                      cbind(-U, matrix(1, nrow = 1, ncol = ndr), matrix(0, nrow = 1, ncol = ni + no)))
+    f.dir.rs <- c(">=", "<=")
+    f.rhs.rs <- c(0, 0)
   } else {
     f.con.rs <- cbind(-1, matrix(1, nrow = 1, ncol = ndr), matrix(0, nrow = 1, ncol = ni + no))
     f.rhs.rs <- 0
@@ -231,19 +248,30 @@ model_sbmsupereff <-
       f.dir.rs <- "="
     } else if (rts == "nirs") {
       f.dir.rs <- "<="
-    } else if (rts == "ndrs") {
-      f.dir.rs <- ">="
     } else {
-      f.con.rs <- rbind(cbind(-L, matrix(1, nrow = 1, ncol = ndr), matrix(0, nrow = 1, ncol = ni + no)),
-                        cbind(-U, matrix(1, nrow = 1, ncol = ndr), matrix(0, nrow = 1, ncol = ni + no)))
-      f.dir.rs <- c(">=", "<=")
-      f.rhs.rs <- c(0, 0)
+      f.dir.rs <- ">="
     }
   }
   
   # Matriz técnica
   f.con.1 <- cbind(0, inputref, -diag(ni), matrix(0, nrow = ni, ncol = no))
   f.con.2 <- cbind(0, outputref, matrix(0, nrow = no, ncol = ni), -diag(no))
+  
+  # Vector de dirección de restricciones y matriz técnica
+  if (orientation == "no") {
+    f.dir <- c("=", dir1, dir2, dir3, dir4)
+  } else if (orientation == "io") {
+    f.con.0 <- c(1, rep(0, ndr + ni + no))
+    f.dir <- c("=", dir1, dir2, dir3, rep("=", no))
+  } else {
+    f.con.0 <- c(1, rep(0, ndr + ni + no))
+    f.dir <- c("=", dir1, dir2, rep("=", ni), dir4)
+  }
+  f.dir[1 + c(nc_inputs, ni + nc_outputs, ni + no + nc_inputs, ni + no + ni + nc_outputs)] <- "="
+  f.dir <- c(f.dir, "=", f.dir.rs)
+  
+  # Vector de términos independientes
+  f.rhs <- c(1, rep(0, ni + no + ni + no + 1), f.rhs.rs)
   
   for (i in 1:nde) {
     
@@ -253,15 +281,10 @@ model_sbmsupereff <-
     if (orientation == "no") {
       f.obj <- c(0, rep(0, ndr), weight_input[, i] / (sumwi[i] * input[, ii]), rep(0, no))
       f.con.0 <- c(0, rep(0, ndr), rep(0, ni), weight_output[, i] / (sumwo[i] * output[, ii]))
-      f.dir <- c("=", rep("<=", ni), rep (">=", no + ni), rep("<=", no))
     } else if (orientation == "io") {
       f.obj <- c(0, rep(0, ndr), weight_input[, i] / (sumwi[i] * input[, ii]), rep(0, no))
-      f.con.0 <- c(1, rep(0, ndr + ni + no))
-      f.dir <- c("=", rep("<=", ni), rep (">=", no + ni), rep("=", no))
     } else {
       f.obj <- c(0, rep(0, ndr), rep(0, ni), weight_output[, i] / (sumwo[i] * output[, ii]))
-      f.con.0 <- c(1, rep(0, ndr + ni + no))
-      f.dir <- c("=", rep("<=", ni), rep (">=", no), rep("=", ni), rep("<=", no))
     }
       
     # Matriz técnica
@@ -271,14 +294,6 @@ model_sbmsupereff <-
     f.con.se[dmu_ref == ii] <- 1
     f.con.se <- c(0, f.con.se, rep(0, ni + no))
     f.con <- rbind(f.con.0, f.con.1, f.con.2, f.con.3, f.con.4, f.con.se, f.con.rs)
-    
-    # Vector de dirección de restricciones
-    f.dir[1 + c(nc_inputs, ni + nc_outputs, ni + no + nc_inputs, ni + no + ni + nc_outputs)] <- "="
-    f.dir <- c(f.dir, "=", f.dir.rs)
-    
-    # Vector de términos independientes
-    f.rhs <- c(1, rep(0, ni + no + ni + no + 1), f.rhs.rs)
-    
     
     if (returnlp) {
       
@@ -292,7 +307,7 @@ model_sbmsupereff <-
       names(tproject_output) <- outputnames
       var <- list(t = t, tlambda = tlambda, tproject_input = tproject_input, tproject_output = tproject_output)
       DMU[[i]] <- list(direction = obj, objective.in = f.obj, const.mat = f.con, const.dir = f.dir, const.rhs = f.rhs,
-                       var)
+                       var = var)
       
     } else {
       
@@ -334,39 +349,34 @@ model_sbmsupereff <-
         
         if (compute_rho) {
           
-          if (sum(slack_input) + sum(slack_output) > thr) {
-            
-            dmunames2 <- c(dmunames[ii], dmunames[-ii])
-            input2 <- cbind(matrix(project_input, nrow = ni, ncol = 1),
-                            matrix(input[, -ii], nrow = ni))
-            rownames(input2) <- inputnames
-            colnames(input2) <- dmunames2
-            output2 <- cbind(matrix(project_output, nrow = no, ncol = 1),
-                             matrix(output[, -ii], nrow = no))
-            rownames(output2) <- outputnames
-            colnames(output2) <- dmunames2
-            datadea2 <- structure(list(input = input2,
-                                       output = output2,
-                                       dmunames = dmunames2,
-                                       nc_inputs = nc_inputs,
-                                       nc_outputs = nc_outputs),
-                                  class = "deadata")
-            
-            deasol <- model_sbmeff(datadea = datadea2,
-                                   dmu_eval = 1,
-                                   dmu_ref = dmu_ref,
-                                   weight_input = weight_input[, i],
-                                   weight_output = weight_output[, i],
-                                   orientation = orientation,
-                                   rts = rts,
-                                   L = L,
-                                   U = U,
-                                   compute_target = FALSE)
-            
-            rho <- deasol$DMU[[1]]$efficiency
-          } else {
-            rho <- 1
-          }
+          dmunames2 <- c(dmunames[ii], dmunames[-ii])
+          input2 <- cbind(matrix(project_input, nrow = ni, ncol = 1),
+                          matrix(input[, -ii], nrow = ni))
+          rownames(input2) <- inputnames
+          colnames(input2) <- dmunames2
+          output2 <- cbind(matrix(project_output, nrow = no, ncol = 1),
+                           matrix(output[, -ii], nrow = no))
+          rownames(output2) <- outputnames
+          colnames(output2) <- dmunames2
+          datadea2 <- structure(list(input = input2,
+                                     output = output2,
+                                     dmunames = dmunames2,
+                                     nc_inputs = nc_inputs,
+                                     nc_outputs = nc_outputs),
+                                class = "deadata")
+          
+          deasol <- model_sbmeff(datadea = datadea2,
+                                 dmu_eval = 1,
+                                 dmu_ref = dmu_ref,
+                                 weight_input = weight_input[, i],
+                                 weight_output = weight_output[, i],
+                                 orientation = orientation,
+                                 rts = rts,
+                                 L = L,
+                                 U = U,
+                                 compute_target = FALSE)
+          
+          rho <- deasol$DMU[[1]]$efficiency
           mix <- rho + delta - 1
           
         }

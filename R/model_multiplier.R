@@ -9,16 +9,16 @@
 #' (3) Epsilon is usually set equal to \10^-6. However, if epsilon is not set correctly, the multiplier model can be infeasible (Zhu,2014:49).        
 #' 
 #' @usage model_multiplier(datadea,
-#'             dmu_eval = NULL,
-#'             dmu_ref = NULL,
-#'             epsilon = 0,
-#'             orientation = c("io", "oo"),
-#'             rts = c("crs", "vrs", "nirs", "ndrs", "grs"),
-#'             L = 1,
-#'             U = 1,
-#'             returnlp = FALSE,
-#'             compute_lambda = TRUE,
-#'             ...)
+#'                  dmu_eval = NULL,
+#'                  dmu_ref = NULL,
+#'                  epsilon = 0,
+#'                  orientation = c("io", "oo"),
+#'                  rts = c("crs", "vrs", "nirs", "ndrs", "grs"),
+#'                  L = 1,
+#'                  U = 1,
+#'                  returnlp = FALSE,
+#'                  compute_lambda = TRUE,
+#'                  ...)
 #' 
 #' @param datadea The data, including DMUs, inputs and outputs.
 #' @param dmu_eval A numeric vector containing which DMUs have to be evaluated.
@@ -63,7 +63,6 @@
 #' # Replication of results in Golany and Roll (1989).
 #' data("Golany_Roll_1989")
 #' data_example <- read_data(datadea = Golany_Roll_1989[1:10, ],
-#'                           dmus = 1, 
 #'                           inputs = 2:4, 
 #'                           outputs = 5:6) 
 #' result <- model_multiplier(data_example, 
@@ -77,7 +76,6 @@
 #' # Multiplier model with infeasible solutions (See note).
 #' data("Fortune500")
 #' data_Fortune <- read_data(datadea = Fortune500, 
-#'                           dmus = 1, 
 #'                           inputs = 2:4, 
 #'                           outputs = 5:6) 
 #' result2 <- model_multiplier(data_Fortune, 
@@ -244,7 +242,21 @@ model_multiplier <-
        
     if (returnlp) {
       
-      DMU[[i]] <- list(direction = obj, objective.in = f.obj, const.mat = f.con, const.dir = f.dir, const.rhs = f.rhs)
+      multiplier_input <- rep(0, ni)
+      names(multiplier_input) <- inputnames
+      multiplier_output <- rep(0, no)
+      names(multiplier_output) <- outputnames
+      multiplier_rts <- rep(0, 2)
+      names(multiplier_rts) <- c("L","U")
+      if (orientation == "io") {
+        var = list(multiplier_input = multiplier_input, multiplier_output = multiplier_output,
+                   multiplier_rts = multiplier_rts)
+      } else {
+        var = list(multiplier_output = multiplier_input, multiplier_input = multiplier_output,
+                   multiplier_rts = multiplier_rts)
+      }
+      DMU[[i]] <- list(direction = obj, objective.in = f.obj, const.mat = f.con,
+                       const.dir = f.dir, const.rhs = f.rhs, var = var)
       
     } else {
     

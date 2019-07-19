@@ -3,17 +3,18 @@
 #' @description Solve the fuzzy DEA model by Kao and Liu (2000)
 #' 
 #' @usage modelfuzzy_kaoliu(datadea,
-#'             dmu_eval = NULL,
-#'             kaoliu_modelname = c("basic", "additive", "addsupereff", 
-#'                                  "deaps", "fdh", "multiplier", "nonradial",
-#'                                  "sbmeff", "sbmsupereff", "supereff"),
-#'             alpha = 1,
-#'             ...)
+#'                   dmu_eval = NULL,
+#'                   kaoliu_modelname = c("basic", "additive", "addsupereff", 
+#'                                        "deaps", "fdh", "multiplier", "nonradial",
+#'                                        "sbmeff", "sbmsupereff", "supereff"),
+#'                   alpha = 1,
+#'                   ...)
 #' 
 #' @param datadea The data, including DMUs, inputs and outputs.
 #' @param dmu_eval A numeric vector containing which DMUs have to be evaluated.
 #' @param kaoliu_modelname a string containing the name of the model.
-#' @param alpha A numeric vector with the alpha-cuts (in [0,1]).
+#' @param alpha A numeric vector with the alpha-cuts (in [0,1]). If \code{alpha}>1, it
+#'              determines the number of alpha-cuts, equispatially distributed in [0,1]. 
 #' @param ... \code{dmu_ref}, \code{orientation}, \code{rts} and other model parameters.
 #'   
 #' @return An object of class \code{deadata_fuzzy}.
@@ -48,7 +49,6 @@
 #' # Replication of results in Boscá, Liern, Sala and Martínez (2011, p.125)
 #' data("Leon2003")
 #' data_example <- read_data_fuzzy(datadea = Leon2003,
-#'                                 dmus = 1, 
 #'                                 inputs.mL = 2, 
 #'                                 inputs.dL = 3, 
 #'                                 outputs.mL = 4, 
@@ -64,7 +64,6 @@
 #' # Replication of results in Kao and Liu (2003, p.152)
 #' data("Kao_Liu_2003")
 #' data_example <- read_data_fuzzy(Kao_Liu_2003, 
-#'                                 dmus = 1, 
 #'                                 inputs.mL = 2, 
 #'                                 outputs.mL = 3:7, 
 #'                                 outputs.dL = c(NA, NA, 8, NA, 10),
@@ -88,7 +87,9 @@
 modelfuzzy_kaoliu <-
   function(datadea,
            dmu_eval = NULL,
-           kaoliu_modelname = c("basic", "additive", "addsupereff", "deaps", "fdh", "multiplier", "nonradial", "sbmeff", "sbmsupereff", "supereff"),
+           kaoliu_modelname = c("basic", "additive", "addsupereff", "deaps", "fdh",
+                                "multiplier", "nonradial", "sbmeff", "sbmsupereff",
+                                "supereff"),
            alpha = 1,
            ...) {
  
@@ -158,7 +159,9 @@ modelfuzzy_kaoliu <-
   }
   
   # Checking alpha
-  if (any(alpha > 1) || any(alpha < 0)){
+  if ((length(alpha) = 1) && (alpha > 1)) {
+    alpha <- seq(from = 0, to = 1, length.out = alpha)
+  } else if (any(alpha > 1) || any(alpha < 0)) {
     stop("Invalid alpha vector.")
   }
   nalpha <- length(alpha) # number of alpha-cuts

@@ -6,10 +6,10 @@
 #' The (crisp) relative efficiencies and multipliers for the case \code{h} = 1 are obtained from the CCR model (\code{model_multiplier}).
 #' @note The optimal solution of model (16) is not unique. 
 #' @usage modelfuzzy_guotanaka(datadea,
-#'             dmu_eval = NULL,
-#'             dmu_ref = NULL,
-#'             orientation = c("io", "oo"),
-#'             h = 1)
+#'                      dmu_eval = NULL,
+#'                      dmu_ref = NULL,
+#'                      orientation = c("io", "oo"),
+#'                      h = 1)
 #' 
 #' @param datadea The data, including DMUs, inputs and outputs.
 #' @param dmu_eval A numeric vector containing which DMUs have to be evaluated.
@@ -45,7 +45,6 @@
 #' # The fuzzy efficiencies are calculated according to equations in (17) (Guo and Tanaka, 2001,p.155).
 #' data("Guo_Tanaka_2001")
 #' data_example <- read_data_fuzzy(Guo_Tanaka_2001, 
-#'                                 dmus = 1, 
 #'                                 inputs.mL = 2:3, 
 #'                                 inputs.dL = 4:5, 
 #'                                 outputs.mL = 6:7,
@@ -58,7 +57,6 @@
 #' # Example 2. 
 #' data("Guo_Tanaka_2001")
 #' data_example <- read_data_fuzzy(Guo_Tanaka_2001, 
-#'                                 dmus = 1, 
 #'                                 inputs.mL = 2:3, 
 #'                                 inputs.dL = 4:5, 
 #'                                 outputs.mL = 6:7, 

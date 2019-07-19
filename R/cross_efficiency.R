@@ -5,9 +5,15 @@
 #' 
 #' (2) The multiplier model can have alternate optimal solutions (see note 1 in model_multiplier). So, depending on the optimal weights selected we can obtain different cross-efficinecy scores.
 #' 
-#' @usage cross_efficiency(datadea, dmu_eval = NULL, dmu_ref = NULL, epsilon = 0, 
-#' orientation = c("io", "oo"), rts = c("crs", "vrs"), selfapp = TRUE, M2 = TRUE,
-#'  M3 = TRUE)
+#' @usage cross_efficiency(datadea,
+#'                  dmu_eval = NULL,
+#'                  dmu_ref = NULL,
+#'                  epsilon = 0, 
+#'                  orientation = c("io", "oo"),
+#'                  rts = c("crs", "vrs"),
+#'                  selfapp = TRUE,
+#'                  M2 = TRUE,
+#'                  M3 = TRUE)
 #' 
 #' @param datadea An object of class \code{dea} or \code{deadata}. If it is of class \code{dea} it must have
 #'                been obtained with some of the multiplier DEA models.
@@ -26,7 +32,7 @@
 #' @references
 #' Sexton, T.R., Silkman, R.H.; Hogan, A.J. (1986). Data envelopment analysis: critique and extensions. In: Silkman RH (ed) Measuring efficiency: an assessment of data envelopment analysis, vol 32. Jossey-Bass, San Francisco, pp 73–104. \url{https://doi.org/10.1002/ev.1441}  
 #' 
-#' Doyle, J.; Green, R. (1994). “Efficiency and cross efficiency in DEA: derivations, meanings and the uses”,  Journal of Operational Research Society, 45(5), 567–578. DOI: \url{10.2307/2584392} 
+#' Doyle, J.; Green, R. (1994). “Efficiency and cross efficiency in DEA: derivations, meanings and the uses”,  Journal of Operational Research Society, 45(5), 567–578. DOI: 10.2307/2584392 
 #'  
 #' Cook, W.D.; Zhu, J. (2015). DEA Cross Efficiency. In: Zhu, J. (ed) Data Envelopment Analysis. A Handbook of Models and Methods. International Series in Operations Research & Management Science, vol 221. Springer, Boston, MA, 23-43 \url{https://doi.org/10.1007/978-1-4899-7553-9_2} 
 #'  
@@ -49,7 +55,6 @@
 #' # Arbitrary formulation. Input-oriented model under constant returns-to-scale.
 #' data("Golany_Roll_1989")
 #' data_example <- read_data(datadea = Golany_Roll_1989, 
-#'                           dmus = 1, 
 #'                           inputs = 2:4, 
 #'                           outputs = 5:6)
 #' result <- cross_efficiency(data_example, 
@@ -63,7 +68,6 @@
 #' # Benevolent formulation (method II). Input-oriented.
 #' data("Golany_Roll_1989")
 #' data_example <- read_data(datadea = Golany_Roll_1989, 
-#'                           dmus = 1, 
 #'                           inputs = 2:4, 
 #'                           outputs = 5:6)
 #' result <- cross_efficiency(data_example, 
@@ -76,7 +80,6 @@
 #' # Benevolent formulation (method III). Input-oriented.
 #' data("Golany_Roll_1989")
 #' data_example <- read_data(datadea = Golany_Roll_1989, 
-#'                           dmus = 1, 
 #'                           inputs = 2:4, 
 #'                           outputs = 5:6)
 #' result <- cross_efficiency(data_example, 
@@ -89,7 +92,6 @@
 #' # Arbitrary formulation. Output-oriented.
 #' data("Golany_Roll_1989")
 #' data_example <- read_data(datadea = Golany_Roll_1989,
-#'                           dmus = 1, 
 #'                           inputs = 2:4, 
 #'                           outputs = 5:6)
 #' result <- cross_efficiency(data_example, 
@@ -102,7 +104,6 @@
 #' # Arbitrary formulation. Input-oriented model under vrs returns-to-scale.
 #' data("Lim_Zhu_2015")
 #' data_example <- read_data(Lim_Zhu_2015,
-#'                           dmus = 1, 
 #'                           ni = 1, 
 #'                           no = 5)
 #' cross <- cross_efficiency(data_example,

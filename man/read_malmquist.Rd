@@ -5,7 +5,10 @@
 \title{read_malmquist}
 \usage{
 read_malmquist(datadea,
-nper = NULL, percol = NULL,arrangement  = c("horizontal","vertical"),...)
+               nper = NULL,
+               percol = NULL,
+               arrangement  = c("horizontal", "vertical"),
+               ...)
 }
 \arguments{
 \item{datadea}{Dataframe with DEA data.}
@@ -22,7 +25,7 @@ nper = NULL, percol = NULL,arrangement  = c("horizontal","vertical"),...)
 An object of class \code{deadata}
 }
 \description{
-This function creates, from a data frame, a list \code{deadata},
+This function creates, from a data frame, a list \code{deadata}.
 }
 \examples{
 # Example 1. If you have a dataset in wide format.
