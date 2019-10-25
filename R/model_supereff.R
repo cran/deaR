@@ -10,8 +10,10 @@
 #' 
 #' @param datadea The data, including DMUs, inputs and outputs.
 #' @param dmu_eval A numeric vector containing which DMUs have to be evaluated.
+#' If \code{NULL} (default), all DMUs are considered.
 #' @param dmu_ref A numeric vector containing which DMUs are the evaluation reference set.
-#' @param supereff_modelname A string containing the name of the radial model to apply superefficiency.
+#' If \code{NULL} (default), all DMUs are considered.
+#' @param supereff_modelname A string containing the name of the radial model to apply super-efficiency.
 #' @param ... \code{orientation}, \code{rts} and other model parameters.
 #' 
 #' @author 
@@ -82,7 +84,7 @@ model_supereff <-
   
   if (is.null(dmu_eval)) {
     dmu_eval <- 1:nd
-  } else if (all(dmu_eval %in% (1:nd)) == FALSE) {
+  } else if (!all(dmu_eval %in% (1:nd))) {
     stop("Invalid set of DMUs to be evaluated (dmu_eval).")
   }
   names(dmu_eval) <- dmunames[dmu_eval]
@@ -90,7 +92,7 @@ model_supereff <-
   
   if (is.null(dmu_ref)) {
     dmu_ref <- 1:nd
-  } else if (all(dmu_ref %in% (1:nd)) == FALSE) {
+  } else if (!all(dmu_ref %in% (1:nd))) {
     stop("Invalid set of reference DMUs (dmu_ref).")
   }
   names(dmu_ref) <- dmunames[dmu_ref]

@@ -1,6 +1,6 @@
 #' @title dea class check.
 #'   
-#' @description Checks wether an R object is of dea class or not.
+#' @description Checks whether an R object is of dea class or not.
 #' @usage is.dea(x)
 #' 
 #' @param x Any \bold{R} object.

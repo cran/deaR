@@ -12,6 +12,7 @@
 #' 
 #' @param datadea The data, including DMUs, inputs and outputs.
 #' @param dmu_eval A numeric vector containing which DMUs have to be evaluated.
+#' If \code{NULL} (default), all DMUs are considered.
 #' @param kaoliu_modelname a string containing the name of the model.
 #' @param alpha A numeric vector with the alpha-cuts (in [0,1]). If \code{alpha}>1, it
 #'              determines the number of alpha-cuts, equispatially distributed in [0,1]. 
@@ -108,7 +109,7 @@ modelfuzzy_kaoliu <-
   
   if (is.null(dmu_eval)) {
     dmu_eval <- 1:nd
-  } else if (all(dmu_eval %in% (1:nd)) == FALSE) {
+  } else if (!all(dmu_eval %in% (1:nd))) {
     stop("Invalid set of DMUs to be evaluated (dmu_eval).")
   }
   names(dmu_eval) <- dmunames[dmu_eval]
@@ -159,7 +160,7 @@ modelfuzzy_kaoliu <-
   }
   
   # Checking alpha
-  if ((length(alpha) = 1) && (alpha > 1)) {
+  if ((length(alpha) == 1) && (alpha > 1)) {
     alpha <- seq(from = 0, to = 1, length.out = alpha)
   } else if (any(alpha > 1) || any(alpha < 0)) {
     stop("Invalid alpha vector.")

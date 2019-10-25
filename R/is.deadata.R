@@ -1,6 +1,6 @@
 #' @title deadata class check.
 #'   
-#' @description Checks wether an R object is of deadata class or not.
+#' @description Checks whether an R object is of deadata class or not.
 #' @usage is.deadata(x)
 #' 
 #' @param x Any \bold{R} object.

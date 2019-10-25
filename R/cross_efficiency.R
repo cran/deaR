@@ -18,7 +18,9 @@
 #' @param datadea An object of class \code{dea} or \code{deadata}. If it is of class \code{dea} it must have
 #'                been obtained with some of the multiplier DEA models.
 #' @param dmu_eval A numeric vector. Only the multipliers of DMUs in \code{dmu_eval} are computed.
+#'                 If \code{NULL} (default), all DMUs are considered.
 #' @param dmu_ref A numeric vector containing which DMUs are the evaluation reference set.
+#'                If \code{NULL} (default), all DMUs are considered.
 #' @param epsilon Numeric, multipliers must be >= \code{epsilon}.
 #' @param orientation A string, equal to "io" (input-oriented) or "oo" (output-oriented).
 #' @param rts A string, determining the type of returns to scale, equal to "crs" (constant) or
@@ -168,7 +170,7 @@ cross_efficiency <- function(datadea,
     
     if (is.null(dmu_eval)) {
       dmu_eval <- 1:nd
-    } else if (all(dmu_eval %in% (1:nd)) == FALSE) {
+    } else if (!all(dmu_eval %in% (1:nd))) {
       stop("Invalid set of DMUs to be evaluated (dmu_eval).")
     }
     names(dmu_eval) <- dmunames[dmu_eval]
@@ -176,7 +178,7 @@ cross_efficiency <- function(datadea,
     
     if (is.null(dmu_ref)) {
       dmu_ref <- 1:nd
-    } else if (all(dmu_ref %in% (1:nd)) == FALSE) {
+    } else if (!all(dmu_ref %in% (1:nd))) {
       stop("Invalid set of reference DMUs (dmu_ref).")
     }
     names(dmu_ref) <- dmunames[dmu_ref]

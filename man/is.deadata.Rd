@@ -14,7 +14,7 @@ Returns \code{TRUE} if its argument is a deadata object (that is, has "deadata"
   amongst its classes) and \code{FALSE} otherwise.
 }
 \description{
-Checks wether an R object is of deadata class or not.
+Checks whether an R object is of deadata class or not.
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

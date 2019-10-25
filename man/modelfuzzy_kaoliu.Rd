@@ -15,7 +15,8 @@ modelfuzzy_kaoliu(datadea,
 \arguments{
 \item{datadea}{The data, including DMUs, inputs and outputs.}
 
-\item{dmu_eval}{A numeric vector containing which DMUs have to be evaluated.}
+\item{dmu_eval}{A numeric vector containing which DMUs have to be evaluated.
+If \code{NULL} (default), all DMUs are considered.}
 
 \item{kaoliu_modelname}{a string containing the name of the model.}
 

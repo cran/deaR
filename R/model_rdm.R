@@ -16,7 +16,9 @@
 #' 
 #' @param datadea The data, including \code{n} DMUs, \code{m} inputs and \code{s} outputs.
 #' @param dmu_eval A numeric vector containing which DMUs have to be evaluated.
+#' If \code{NULL} (default), all DMUs are considered.
 #' @param dmu_ref A numeric vector containing which DMUs are the evaluation reference set.
+#' If \code{NULL} (default), all DMUs are considered.
 #' @param orientation A string, equal to "no" (non-oriented), "io" (input oriented), or "oo" (output oriented).
 #' @param irdm Logical. If it is \code{TRUE}, it applies the IRDM (inverse range directional model).
 #' @param maxslack Logical. If it is \code{TRUE}, it computes the max slack solution.
@@ -72,14 +74,14 @@ model_rdm <-
     
     if (is.null(dmu_eval)) {
       dmu_eval <- 1:nd
-    } else if (all(dmu_eval %in% (1:nd)) == FALSE) {
+    } else if (!all(dmu_eval %in% (1:nd))) {
       stop("Invalid set of DMUs to be evaluated (dmu_eval).")
     }
     nde <- length(dmu_eval)
     
     if (is.null(dmu_ref)) {
       dmu_ref <- 1:nd
-    } else if (all(dmu_ref %in% (1:nd)) == FALSE) {
+    } else if (!all(dmu_ref %in% (1:nd))) {
       stop("Invalid set of reference DMUs (dmu_ref).")
     }
     ndr <- length(dmu_ref)

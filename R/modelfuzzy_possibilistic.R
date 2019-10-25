@@ -10,6 +10,7 @@
 #' 
 #' @param datadea The data, including DMUs, inputs and outputs.
 #' @param dmu_eval A numeric vector containing which DMUs have to be evaluated.
+#' If \code{NULL} (default), all DMUs are considered.
 #' @param poss_modelname a string containing the name of the model.
 #' @param h A numeric vector with the h-levels (in [0,1]).
 #' @param ... \code{dmu_ref}, \code{orientation}, \code{rts} and other model parameters.
@@ -88,7 +89,7 @@ modelfuzzy_possibilistic <-
   
   if (is.null(dmu_eval)) {
     dmu_eval <- 1:nd
-  } else if (all(dmu_eval %in% (1:nd)) == FALSE) {
+  } else if (!all(dmu_eval %in% (1:nd))) {
     stop("Invalid set of DMUs to be evaluated (dmu_eval).")
   }
   names(dmu_eval) <- dmunames[dmu_eval]

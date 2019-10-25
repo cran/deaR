@@ -1,6 +1,6 @@
 #' @title deadata_fuzzy class check.
 #'   
-#' @description Checks wether an R object is of deadata_fuzzy class or not.
+#' @description Checks whether an R object is of deadata_fuzzy class or not.
 #' @usage is.deadata_fuzzy(x)
 #' 
 #' @param x Any \bold{R} object.

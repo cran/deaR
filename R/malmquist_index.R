@@ -14,7 +14,9 @@
 #' 
 #' @param datadealist A list with the data at different times, including DMUs, inputs and outputs.
 #' @param dmu_eval A numeric vector containing which DMUs have to be evaluated.
+#' If \code{NULL} (default), all DMUs are considered.
 #' @param dmu_ref A numeric vector containing which DMUs are the evaluation reference set.
+#' If \code{NULL} (default), all DMUs are considered.
 #' @param orientation A string, equal to "io" (input oriented) or "oo" (output oriented).
 #' @param rts A string, determining the type of returns to scale, equal to "crs" (constant) or
 #'            "vrs" (variable).
@@ -158,7 +160,7 @@ malmquist_index <- function(datadealist,
   
   if (is.null(dmu_eval)) {
     dmu_eval <- 1:nd
-  } else if (all(dmu_eval %in% (1:nd)) == FALSE) {
+  } else if (!all(dmu_eval %in% (1:nd))) {
     stop("Invalid set of DMUs to be evaluated (dmu_eval).")
   }
   names(dmu_eval) <- dmunames[dmu_eval]
@@ -166,7 +168,7 @@ malmquist_index <- function(datadealist,
   
   if (is.null(dmu_ref)) {
     dmu_ref <- 1:nd
-  } else if (all(dmu_ref %in% (1:nd)) == FALSE) {
+  } else if (!all(dmu_ref %in% (1:nd))) {
     stop("Invalid set of reference DMUs (dmu_ref).")
   }
   names(dmu_ref) <- dmunames[dmu_ref]

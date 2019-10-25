@@ -124,7 +124,7 @@ plot.dea <- function(x, showPlots = TRUE, ...){
      p <- list()
      for (i in seq_along(results)) {
        xlab <- ylab <- colnames(results[[i]])
-       p[[i]] <- plot_ly(x = xlab, y = rev(ylab), z  = results[[i]][nrow(results[[i]]):1, ], type = "heatmap" ) %>% 
+       p[[i]] <- plot_ly(x = xlab, y = rev(ylab), z  = results[[i]][nrow(results[[i]]):1, ], colors = "RdYlGn",type = "heatmap" ) %>% 
          layout(title = titles[[i]])
        if (showPlots) {
          invisible(readline(prompt = "Press [enter] for next plot"))

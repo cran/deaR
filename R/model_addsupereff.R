@@ -17,7 +17,9 @@
 #' 
 #' @param datadea The data, including \code{n} DMUs, \code{m} inputs and \code{s} outputs.
 #' @param dmu_eval A numeric vector containing which DMUs have to be evaluated.
+#' If \code{NULL} (default), all DMUs are considered.
 #' @param dmu_ref A numeric vector containing which DMUs are the evaluation reference set.
+#' If \code{NULL} (default), all DMUs are considered.
 #' @param orientation This parameter is either \code{NULL} (default) or a string, equal to
 #'                    "io" (input-oriented) or "oo" (output-oriented). It is used to modify the weight slacks. 
 #'                    If input-oriented, \code{weight_slack_o} are taken 0.
@@ -127,7 +129,7 @@ model_addsupereff <-
   
   if (is.null(dmu_eval)) {
     dmu_eval <- 1:nd
-  } else if (all(dmu_eval %in% (1:nd)) == FALSE) {
+  } else if (!all(dmu_eval %in% (1:nd))) {
     stop("Invalid set of DMUs to be evaluated (dmu_eval).")
   }
   names(dmu_eval) <- dmunames[dmu_eval]
@@ -135,7 +137,7 @@ model_addsupereff <-
   
   if (is.null(dmu_ref)) {
     dmu_ref <- 1:nd
-  } else if (all(dmu_ref %in% (1:nd)) == FALSE) {
+  } else if (!all(dmu_ref %in% (1:nd))) {
     stop("Invalid set of reference DMUs (dmu_ref).")
   }
   names(dmu_ref) <- dmunames[dmu_ref]

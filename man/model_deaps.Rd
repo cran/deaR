@@ -22,9 +22,11 @@ model_deaps(datadea,
 \arguments{
 \item{datadea}{The data, including \code{n} DMUs, \code{m} inputs and \code{s} outputs.}
 
-\item{dmu_eval}{A numeric vector containing which DMUs have to be evaluated.}
+\item{dmu_eval}{A numeric vector containing which DMUs have to be evaluated.
+If \code{NULL} (default), all DMUs are considered.}
 
-\item{dmu_ref}{A numeric vector containing which DMUs are the evaluation reference set.}
+\item{dmu_ref}{A numeric vector containing which DMUs are the evaluation reference set.
+If \code{NULL} (default), all DMUs are considered.}
 
 \item{weight_eff}{Preference weights. If input-oriented, it is a value, vector of length \code{
 m}, or matrix \code{m} x \code{ne} (where \code{ne} is the lenght of \code{dmu_eval})

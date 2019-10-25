@@ -13,6 +13,10 @@ model_sbmeff(datadea,
              rts = c("crs", "vrs", "nirs", "ndrs", "grs"),
              L = 1,
              U = 1,
+             kaizen = FALSE,
+             maxfr = NULL,
+             tol = 1e-6,
+             silent = FALSE,
              compute_target = TRUE,
              returnlp = FALSE,
              ...)
@@ -20,9 +24,11 @@ model_sbmeff(datadea,
 \arguments{
 \item{datadea}{The data, including \code{n} DMUs, \code{m} inputs and \code{s} outputs.}
 
-\item{dmu_eval}{A numeric vector containing which DMUs have to be evaluated.}
+\item{dmu_eval}{A numeric vector containing which DMUs have to be evaluated.
+If \code{NULL} (default), all DMUs are considered.}
 
-\item{dmu_ref}{A numeric vector containing which DMUs are the evaluation reference set.}
+\item{dmu_ref}{A numeric vector containing which DMUs are the evaluation reference set.
+If \code{NULL} (default), all DMUs are considered.}
 
 \item{weight_input}{A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the lenght of \code{dmu_eval})
 with weights to inputs corresponding to the relative importance of items.}
@@ -39,9 +45,19 @@ with weights to outputs corresponding to the relative importance of items.}
 
 \item{U}{Upper bound for the generalized returns to scale (grs).}
 
+\item{kaizen}{Logical. If \code{TRUE}, the kaizen version of SBM (Tone 2010), also known as SBM-Max, is computed.}
+
+\item{maxfr}{A list with the maximal friends sets, as it is returned by function \code{maximal_friends}. If \code{NULL} (default)
+this list is computed internally.}
+
+\item{tol}{Numeric, a tolerance margin for checking efficiency (only for the kaizen version).}
+
+\item{silent}{Logical. If \code{FALSE} (default) it prints all the messages from function \code{maximal_friends}.}
+
 \item{compute_target}{Logical. If it is \code{TRUE}, it computes targets.}
 
-\item{returnlp}{Logical. If it is \code{TRUE}, it returns the linear problems (objective function and constraints).}
+\item{returnlp}{Logical. If it is \code{TRUE}, it returns the linear problems (objective function and constraints).
+If \code{kaizen} is \code{TRUE} it is ignored.}
 
 \item{...}{Other options (currently not implemented)}
 }
@@ -80,6 +96,8 @@ targets(result)
 }
 \references{
 Tone, K. (2001). "A Slacks-Based Beasure of Efficiency in Data Envelopment Analysis", European Journal of Operational Research, 130, 498-509. \url{https://doi.org/10.1016/S0377-2217(99)00407-5}
+
+Tone, K. (2010). "Variations on the theme of slacks-based measure of efficiency in DEA", European Journal of Operational Research, 200, 901-907. \url{https://doi.org/10.1016/j.ejor.2009.01.027}
 
 Cooper, W.W.; Seiford, L.M.; Tone, K. (2007). Data Envelopment Analysis. A Comprehensive Text with Models, Applications, References and DEA-Solver Software. 2nd Edition. Springer, New York. \url{https://doi.org/10.1007/978-0-387-45283-8}
 }

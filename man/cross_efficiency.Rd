@@ -18,9 +18,11 @@ cross_efficiency(datadea,
 \item{datadea}{An object of class \code{dea} or \code{deadata}. If it is of class \code{dea} it must have
 been obtained with some of the multiplier DEA models.}
 
-\item{dmu_eval}{A numeric vector. Only the multipliers of DMUs in \code{dmu_eval} are computed.}
+\item{dmu_eval}{A numeric vector. Only the multipliers of DMUs in \code{dmu_eval} are computed.
+If \code{NULL} (default), all DMUs are considered.}
 
-\item{dmu_ref}{A numeric vector containing which DMUs are the evaluation reference set.}
+\item{dmu_ref}{A numeric vector containing which DMUs are the evaluation reference set.
+If \code{NULL} (default), all DMUs are considered.}
 
 \item{epsilon}{Numeric, multipliers must be >= \code{epsilon}.}
 

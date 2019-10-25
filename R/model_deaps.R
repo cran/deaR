@@ -18,7 +18,9 @@
 #' 
 #' @param datadea The data, including \code{n} DMUs, \code{m} inputs and \code{s} outputs.
 #' @param dmu_eval A numeric vector containing which DMUs have to be evaluated.
+#' If \code{NULL} (default), all DMUs are considered.
 #' @param dmu_ref A numeric vector containing which DMUs are the evaluation reference set.
+#' If \code{NULL} (default), all DMUs are considered.
 #' @param weight_eff Preference weights. If input-oriented, it is a value, vector of length \code{
 #' m}, or matrix \code{m} x \code{ne} (where \code{ne} is the lenght of \code{dmu_eval})
 #'                   with the weights applied to the input efficiencies.
@@ -122,7 +124,7 @@ model_deaps <-
   
   if (is.null(dmu_eval)) {
     dmu_eval <- 1:nd
-  } else if (all(dmu_eval %in% (1:nd)) == FALSE) {
+  } else if (!all(dmu_eval %in% (1:nd))) {
     stop("Invalid set of DMUs to be evaluated (dmu_eval).")
   }
   names(dmu_eval) <- dmunames[dmu_eval]
@@ -130,7 +132,7 @@ model_deaps <-
   
   if (is.null(dmu_ref)) {
     dmu_ref <- 1:nd
-  } else if (all(dmu_ref %in% (1:nd)) == FALSE) {
+  } else if (!all(dmu_ref %in% (1:nd))) {
     stop("Invalid set of reference DMUs (dmu_ref).")
   }
   names(dmu_ref) <- dmunames[dmu_ref]
@@ -367,6 +369,21 @@ model_deaps <-
       
     }
     
+  }
+  
+  # Checking if a DMU is in its own reference set (when rts = "grs")
+  if (rts == "grs") {
+    eps <- 1e-6
+    for (i in 1:nde) {
+      j <- which(dmu_ref == dmu_eval[i])
+      if (length(j) == 1) {
+        kk <- DMU[[i]]$lambda[j]
+        kk2 <- sum(DMU[[i]]$lambda[-j])
+        if ((kk > eps) && (kk2 > eps)) {
+          warning(paste("Under generalized returns to scale,", dmunames[dmu_eval[i]], "appears in its own reference set."))
+        }
+      }
+    }
   }
  
   deaOutput <- list(modelname = "deaps",

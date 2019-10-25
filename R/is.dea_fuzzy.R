@@ -1,6 +1,6 @@
 #' @title dea_fuzzy class check.
 #'   
-#' @description Checks wether an R object is of dea_fuzzy class or not.
+#' @description Checks whether an R object is of dea_fuzzy class or not.
 #' @usage is.dea_fuzzy(x)
 #' 
 #' @param x Any \bold{R} object.

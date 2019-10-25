@@ -15,14 +15,18 @@ model_sbmsupereff(datadea,
                   U = 1,
                   compute_target = TRUE,
                   compute_rho = FALSE,
+                  kaizen = FALSE,
+                  silent = FALSE,
                   returnlp = FALSE)
 }
 \arguments{
 \item{datadea}{The data, including DMUs, inputs and outputs.}
 
-\item{dmu_eval}{A numeric vector containing which DMUs have to be evaluated.}
+\item{dmu_eval}{A numeric vector containing which DMUs have to be evaluated.
+If \code{NULL} (default), all DMUs are considered.}
 
-\item{dmu_ref}{A numeric vector containing which DMUs are the evaluation reference set.}
+\item{dmu_ref}{A numeric vector containing which DMUs are the evaluation reference set.
+If \code{NULL} (default), all DMUs are considered.}
 
 \item{weight_input}{A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the lenght of \code{dmu_eval})
 with weights to inputs corresponding to the relative importance of items.}
@@ -41,7 +45,13 @@ with weights to outputs corresponding to the relative importance of items.}
 
 \item{compute_target}{Logical. If it is \code{TRUE}, it computes targets, superslacks (\code{t_input} and \code{t_output}) and slacks.}
 
-\item{compute_rho}{Logical. If it is \code{TRUE}, it computes \code{rho} applying \code{model_sbmeff} to the DMU (\code{project_input}, \code{project_output}).}
+\item{compute_rho}{Logical. If it is \code{TRUE}, it computes the SBM efficiency score (applying \code{model_sbmeff})
+of the DMU (\code{project_input}, \code{project_output}).}
+
+\item{kaizen}{Logical. If \code{TRUE}, the kaizen version of SBM (Tone 2010), also known as SBM-Max, is computed for the efficiency score
+of the DMU (\code{project_input}, \code{project_output}).}
+
+\item{silent}{Logical. If \code{FALSE} (default) it prints all the messages from function \code{maximal_friends}.}
 
 \item{returnlp}{Logical. If it is \code{TRUE}, it returns the linear problems (objective function and constraints).}
 }
@@ -65,6 +75,8 @@ references(result)
 \references{
 Tone, K. (2002). "A slacks-based measure of super-efficiency in data envelopment analysis", European Journal of Operational Research, 143, 32-41. \url{https://doi.org/10.1016/S0377-2217(01)00324-1}  
 
+Tone, K. (2010). "Variations on the theme of slacks-based measure of efficiency in DEA", European Journal of Operational Research, 200, 901-907. \url{https://doi.org/10.1016/j.ejor.2009.01.027}
+  
 Cooper, W.W.; Seiford, L.M.; Tone, K. (2007). Data Envelopment Analysis. A Comprehensive Text with Models, Applications, References and DEA-Solver Software. 2nd Edition. Springer, New York. \url{https://doi.org/10.1007/978-0-387-45283-8}
 }
 \seealso{
