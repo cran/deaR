@@ -4,8 +4,7 @@
 \alias{summary.dea}
 \title{Summary conventional DEA models.}
 \usage{
-\method{summary}{dea}(object, exportExcel = TRUE, filename = NULL,
-  returnList = FALSE, ...)
+\method{summary}{dea}(object, exportExcel = TRUE, filename = NULL, returnList = FALSE, ...)
 }
 \arguments{
 \item{object}{An object of class \code{"dea"} obtained by a dea model function.}

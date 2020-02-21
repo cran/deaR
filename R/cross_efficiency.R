@@ -12,6 +12,7 @@
 #'                  orientation = c("io", "oo"),
 #'                  rts = c("crs", "vrs"),
 #'                  selfapp = TRUE,
+#'                  correction = FALSE,
 #'                  M2 = TRUE,
 #'                  M3 = TRUE)
 #' 
@@ -27,6 +28,8 @@
 #'            "vrs" (variable).
 #' @param selfapp Logical. If it is \code{TRUE}, self-appraisal is included in the average scores of
 #'                \code{A} and \code{e}.
+#' @param correction Logical. If it is \code{TRUE}, a correction is applied in the "vrs" input-oriented
+#' model in order to avoid negative cross-efficiencies, according to Lim & Zhu (2015).
 #' @param M2 Logical. If it is \code{TRUE}, it computes Method II for aggresive/benevolent estimations.
 #' @param M3 Logical. If it is \code{TRUE}, it computes Method III for aggresive/benevolent estimations.
 #'   
@@ -127,6 +130,7 @@ cross_efficiency <- function(datadea,
                              orientation = c("io", "oo"),
                              rts = c("crs", "vrs"),
                              selfapp = TRUE,
+                             correction = FALSE,
                              M2 = TRUE,
                              M3 = TRUE) {
   
@@ -226,8 +230,14 @@ cross_efficiency <- function(datadea,
     }
   } else {
     if (orientation == "io") {
-      cross_eff <- mul_output %*% output[, dmu_eval] /
-        (mul_input %*% input[, dmu_eval] - matrix(mul_rts, nrow = nde, ncol = nde))
+      if (correction) {
+        cross_eff <- mul_output %*% output[, dmu_eval] /
+          (mul_input %*% input[, dmu_eval] - matrix(mul_rts, nrow = nde, ncol = nde))
+        diag(cross_eff) <- eff
+      } else {
+        cross_eff <- (mul_output %*% output[, dmu_eval] + matrix(mul_rts, nrow = nde, ncol = nde)) /
+        mul_input %*% input[, dmu_eval]
+      }
     } else {
       cross_eff <-  mul_output %*% output[, dmu_eval] /
         (mul_input %*% input[, dmu_eval] + matrix(mul_rts, nrow = nde, ncol = nde))

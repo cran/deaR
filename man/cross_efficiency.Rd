@@ -11,6 +11,7 @@ cross_efficiency(datadea,
                  orientation = c("io", "oo"),
                  rts = c("crs", "vrs"),
                  selfapp = TRUE,
+                 correction = FALSE,
                  M2 = TRUE,
                  M3 = TRUE)
 }
@@ -33,6 +34,9 @@ If \code{NULL} (default), all DMUs are considered.}
 
 \item{selfapp}{Logical. If it is \code{TRUE}, self-appraisal is included in the average scores of
 \code{A} and \code{e}.}
+
+\item{correction}{Logical. If it is \code{TRUE}, a correction is applied in the "vrs" input-oriented
+model in order to avoid negative cross-efficiencies, according to Lim & Zhu (2015).}
 
 \item{M2}{Logical. If it is \code{TRUE}, it computes Method II for aggresive/benevolent estimations.}
 
