@@ -1,6 +1,6 @@
 #' @title Additive DEA model.
 #'   
-#' @description Solve the additive model of Charnes et. al (1985). With the current version of deaR, it is possible to solve input-oriented, output-oriented, and non-oriented additive dea model under constant and non-constants returns-to-scale.
+#' @description Solve the additive model of Charnes et. al (1985). With the current version of deaR, it is possible to solve input-oriented, output-oriented, and non-oriented additive dea model under constant and non-constant returns-to-scale.
 #' 
 #' Besides, the user can set weights for the input slacks and/or output slacks. So, it is also possible to solve weighted additive models. For example: Measure of Inefficiency Proportions (MIP), Range Adjusted Measure (RAM), etc.
 #' @note In this model, the efficiency score is the sum of the slacks. Therefore, a DMU is efficient when the objective value (\code{objval}) is zero.

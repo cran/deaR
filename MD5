@@ -1,5 +1,5 @@
-116ccdf05278cec6907018a5b9553894 *DESCRIPTION
-85ef1beabd60093e75350bc392bb9b2a *NAMESPACE
+e246833df851664f4ae51c7f0ff6b4ea *DESCRIPTION
+90e351bd0e81bdb9ceacd9501f28b38f *NAMESPACE
 e46996d8c14d7111cf0c741e56650dc7 *R/bootstrap_basic.R
 87e99a39db295a884d169bbba006280b *R/cross_efficiency.R
 fe498828f0107d8345b047674436e781 *R/cross_efficiency_fuzzy.R
@@ -15,9 +15,9 @@ e3c90d3104796e5b99288ac2224331ed *R/is.deadata_fuzzy.R
 5e7d74e8f4054e88769c1150c9e1d918 *R/lambdas.R
 c395eecffcac51f56bee02658239da24 *R/malmquist_index.R
 e536a24eb5198855ecc6b88a1fc7eafc *R/maximal_friends.R
-dd07644b59426c44af6bed3d3a045b3f *R/model_additive.R
+7b0724b1be2279473ab6859079d3fcd3 *R/model_additive.R
 366d96aa70722acb88782be2ba9614d1 *R/model_addsupereff.R
-80a6bf6ff70073d681fb5c5c32b1e4cd *R/model_basic.R
+7d01f87e8f86bc9bd900a1a5247496aa *R/model_basic.R
 a19bc64a04ea95cc10a7f03a86ef9226 *R/model_deaps.R
 b11938b0e7f32c5458abac401c1ecb1c *R/model_fdh.R
 e504c073686d830e40a2a6ec608a4d45 *R/model_multiplier.R
@@ -25,15 +25,15 @@ e504c073686d830e40a2a6ec608a4d45 *R/model_multiplier.R
 2427f1ad5f6fe75104beea0d2d5706c9 *R/model_profit.R
 66365529cc2ebcdb11ff079340a2ad8a *R/model_rdm.R
 3fd8d89e661ec9f6b04495f8cba49ff9 *R/model_sbmeff.R
-33814d3fd6fb9b56cde73983d24c2cb2 *R/model_sbmsupereff.R
+dc2a356c5e8bd7baf998aadbd69ade04 *R/model_sbmsupereff.R
 0003ec3399546cccf8a1a07880fc7921 *R/model_supereff.R
 c94528683c67b25004df10a95e64d13f *R/modelfuzzy_guotanaka.R
 a730562842d2317ed0bdb63fa87ccfdd *R/modelfuzzy_kaoliu.R
 5d6ee25d5856d1e2fd98210366047742 *R/modelfuzzy_possibilistic.R
 ad451ed6de3e54f701b349cfb3519936 *R/multipliers.R
-c197874c29acc2eb607c7777e904d68c *R/plot.dea.R
+6bd061b86951367c12525c248c04b8c2 *R/plot.dea.R
 7010853fbdbbdf0362299cb0c6be3ada *R/plot.deafuzzy.R
-8e29b3be7bb179935f0e5d219566864f *R/read_data.R
+d4d60f740a0e397d4eb5ffcb8deda816 *R/read_data.R
 d252a725d92aa6fa10a63bc3e3aafd5e *R/read_data_fuzzy.R
 402336ebd28034d01589de66dc4e17f2 *R/read_malmquist.R
 9e8e748ca79efab41754d9ce6bb04127 *R/references.R
@@ -106,7 +106,7 @@ ec0097ae7b08232248397240bcbd51bd *man/is.dea_fuzzy.Rd
 4a3d50dc09f2c645b3929f8085b0cab3 *man/lambdas.Rd
 c89dd0133d0232e0bebdeed4bb3fb098 *man/malmquist_index.Rd
 3c00cd63e80930ad2bed516f4238ae4f *man/maximal_friends.Rd
-b0e1dc768af034b933d010b5787448b9 *man/model_additive.Rd
+177807a7e499db696f4eda7bf4ffdda1 *man/model_additive.Rd
 0150317ec0cda98fbc935c3884062260 *man/model_addsupereff.Rd
 e5f5b88da162d5e9891a71d4c3f56855 *man/model_basic.Rd
 00ec70c7ffc8d59efcc64dfb4652e80c *man/model_deaps.Rd

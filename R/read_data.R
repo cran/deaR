@@ -255,6 +255,17 @@ read_data <- function(datadea = NULL,
   if (!is.null(ud_outputs)) {
     names(ud_outputs) <- outputnames[ud_outputs]
   }
+  
+  # Checking orders of magnitude in data
+  maxio <- max(max(input), max(output))
+  minio <- min(min(input), min(output))
+  if (minio > 0) {
+    if (maxio / minio > 1e6) {
+      warning("There are data with very different orders of magnitude. Try to re-define the units of measure or some linear problems may be ill-posed.")
+    }
+  } else {
+    warning("There are negative or zero data.")
+  }
 
   res <- list(
     input = input,

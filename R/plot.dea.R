@@ -40,6 +40,7 @@
 #' @importFrom ggplot2 ggplot geom_line geom_histogram geom_col facet_wrap scale_x_discrete theme_bw scale_fill_identity guides xlab ylab coord_flip aes ggtitle geom_bar geom_text
 #' @importFrom methods show
 #' @importFrom graphics plot
+#' @importFrom grDevices pdf
 #' @importFrom stats runif complete.cases
 #' @importFrom gridExtra grid.arrange
 #' @import plotly dplyr
@@ -48,6 +49,7 @@
 
 plot.dea <- function(x, showPlots = TRUE, ...){
   object <- x
+  orientation <- x$orientation
   if (!is.dea(object)) {
     stop("Input should be of class dea!")
   }
@@ -105,35 +107,38 @@ plot.dea <- function(x, showPlots = TRUE, ...){
      
      
      if (showPlots) {
-     invisible(readline(prompt = "Press [enter] to continue"))
-     show(resplot)
-     invisible(readline(prompt = "Press [enter] to continue"))
-     show(sumplot)
+        invisible(readline(prompt = "Press [enter] to continue"))
+        pdf(NULL)
+        show(resplot)
+        invisible(readline(prompt = "Press [enter] to continue"))
+        pdf(NULL)
+        show(sumplot)
      }
      invisible(list(`Results plot` = resplot, `Summary plot` = sumplot))
    } else {
-     results <- list(Arb = object$Arbitrary$cross_eff,
-                     M2_agg = object$M2_agg$cross_eff,
-                     M2_ben = object$M2_ben$cross_eff,
-                     M3_agg = object$M3_agg$cross_eff,
-                     M3_ben = object$M3_ben$cross_eff)
-     titles <- list("Arbitrary Method", "Method II - Aggresive", "Method II - Benevolent",
-                    "Method III - Aggresive", "Method III - Benevolent")
-     titles[sapply(results, is.null)] <- NULL 
-     results[sapply(results, is.null)] <- NULL
-     p <- list()
-     for (i in seq_along(results)) {
-       xlab <- ylab <- colnames(results[[i]])
-       p[[i]] <- plot_ly(x = xlab, y = rev(ylab), z  = results[[i]][nrow(results[[i]]):1, ], colors = "RdYlGn",type = "heatmap" ) %>% 
-         layout(title = titles[[i]])
-       if (showPlots) {
-         invisible(readline(prompt = "Press [enter] for next plot"))
-         show(p[[i]])
-       }
-     }
-     names(p) <- titles
-     invisible(p)
-     
+      results <- list(Arb = object$Arbitrary$cross_eff,
+                      M2_agg = object$M2_agg$cross_eff,
+                      M2_ben = object$M2_ben$cross_eff,
+                      M3_agg = object$M3_agg$cross_eff,
+                      M3_ben = object$M3_ben$cross_eff)
+      titles <- list("Arbitrary Method", "Method II - Aggresive", "Method II - Benevolent",
+                     "Method III - Aggresive", "Method III - Benevolent")
+      titles[sapply(results, is.null)] <- NULL 
+      results[sapply(results, is.null)] <- NULL
+      p <- list()
+      for (i in seq_along(results)) {
+         xlab <- ylab <- colnames(results[[i]])
+         p[[i]] <- plot_ly(x = xlab, y = rev(ylab), z  = results[[i]][nrow(results[[i]]):1, ], colors = "RdYlGn",type = "heatmap" ) %>% 
+            layout(title = titles[[i]])
+         if (showPlots) {
+            invisible(readline(prompt = "Press [enter] for next plot"))
+            pdf(NULL)
+            show(p[[i]])
+         }
+      }
+      names(p) <- titles
+      invisible(p)
+      
    }
  }else{
    
@@ -167,7 +172,14 @@ plot.dea <- function(x, showPlots = TRUE, ...){
      eff_1 <- abs(eff$eff - 1) < 1e-8 # Efficiency = 1
      
      eff$iseff <-
-        ifelse(null_slk & eff_1, 1, ifelse(eff$eff >= 1 + 1e-8, 2, 0))
+        ifelse(null_slk & eff_1, # Slacks = 0 and efficiency = 1
+               1, 
+               ifelse(eff$eff >= 1 + 1e-8 & orientation != "oo", 
+                      2, 
+                      0)
+               )
+     
+     
      eff$isefflab <- ifelse(eff$iseff == 1, "Efficient",ifelse(eff$iseff == 0, "Inefficient","Super-efficient"))
      }
      if (!modelname %in% c("supereff_basic", "sbmsupereff")) {
@@ -188,13 +200,15 @@ plot.dea <- function(x, showPlots = TRUE, ...){
            warning("All DMUs are efficient!")
         }
        
-       eff %>% ggplot(aes(x = isefflab)) + geom_bar(aes(fill = ifelse(iseff == 0, "red", ifelse(iseff == 1,"lightgreen","lightblue")))) +
+       eff %>% ggplot(aes(x = isefflab)) + 
+          geom_bar(aes(fill = ifelse(iseff == 0, "red", ifelse(iseff == 1,"lightgreen","lightblue")))) +
           theme_bw() + scale_fill_identity() + xlab("") + #scale_x_discrete(labels = isefflab) +
           ylab("Count") +
          ggtitle("Efficient/Non Efficient DMUs") + geom_text(stat = 'count',
                                                              aes(label = ..count..),
                                                              vjust = -0.5) -> p1
        if (showPlots) {
+          #pdf(NULL)
           if(sum(eff$iseff != 1)  > 0){
          grid.arrange(p1, p2, nrow = 1)
           } else{
@@ -202,17 +216,22 @@ plot.dea <- function(x, showPlots = TRUE, ...){
           }
        }
      } else {
-       eff %>% ggplot(aes(x = eff)) + geom_histogram(bins = 10,
-                                                     col = "white",
-                                                     aes(fill = ifelse(iseff == 0,
-                                                                       "red",
-                                                                       ifelse(iseff == 1,
-                                                                       "lightgreen","lightblue")))) +
-         theme_bw() + scale_fill_identity() + xlab("Efficiency") + ylab("Count") -> effplot
-       
-       if (showPlots) {
-         show(effplot)
-       }
+        eff %>% mutate(isefflabel = ifelse(iseff == 1, "Efficient",ifelse(iseff == 0, "Inefficient","Superefficient"))) %>% 
+           filter(iseff !=1) %>% ggplot(aes(x = eff)) + 
+           geom_histogram(bins = 5,
+                          col = "white",
+                          aes(fill = ifelse(iseff == 0,
+                                            "red",
+                                            ifelse(iseff == 1,
+                                                   "lightgreen","lightblue")))) +
+           theme_bw() + scale_fill_identity() + xlab("Efficiency / Superefficiency") + ylab("Count") +
+           facet_wrap(~isefflabel, scales = "free")-> p2
+           p1 <- NULL
+           
+        if (showPlots) {
+          # pdf(NULL)
+           show(p2)
+        }
      }
      
    
@@ -236,8 +255,10 @@ plot.dea <- function(x, showPlots = TRUE, ...){
                                                                                  ..count..), vjust = -0.5) -> p1
      
      if (showPlots) {
+    # pdf(NULL)
      show(p1)
      invisible(readline(prompt = "Press [enter] to continue"))
+    # pdf(NULL)
      show(p2)
      }
    }
@@ -283,11 +304,13 @@ plot.dea <- function(x, showPlots = TRUE, ...){
        guides(fill = FALSE) -> refplot
      
      if (showPlots){
+     #  pdf(NULL)
        invisible(readline(prompt = "Press [enter] to continue"))
        show(refplot)
        invisible(readline(prompt = "Press [enter] to continue"))
      }
    } else {
+      refplot <- NULL
      warning("Ranking plots with those models are not implemented yet!")
      
      
@@ -352,6 +375,7 @@ plot.dea <- function(x, showPlots = TRUE, ...){
      graphPlot <- list(G = G, locations = locations)  
     
      if (showPlots) {
+      # pdf(NULL)
        plot(
          G,
          layout = locations,
@@ -362,7 +386,12 @@ plot.dea <- function(x, showPlots = TRUE, ...){
          edge.curved = FALSE
        )
      }
-   }
+   }  else {
+   graphPlot <- NULL
+   warning("Graph plots with those models are not implemented yet!")
+   
+   
+}
    invisible(list(`Eff/Ineff count` = p1, `Ineff Dstr` = p2, `References Plot`= refplot, `References Graph` = graphPlot))
  }
  

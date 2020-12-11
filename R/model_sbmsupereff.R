@@ -238,6 +238,7 @@ model_sbmsupereff <-
   slack_output <- NULL
   rho <- NULL
   gamma <- NULL
+  csbm <- NULL
     
   DMU <- vector(mode = "list", length = nde)
   names(DMU) <- dmunames[dmu_eval]
@@ -391,6 +392,10 @@ model_sbmsupereff <-
           
           rho <- deasol$DMU[[1]]$efficiency
           gamma <- rho * delta
+          s_input <- deasol$DMU[[1]]$slack_input
+          s_output <- deasol$DMU[[1]]$slack_output
+          csbm <- (1 - sum((weight_input[, i] * (s_input - t_input)) / (sumwi[i] * input[, ii]))) /
+            (1 + sum((weight_output[, i] * (s_output - t_output)) / (sumwo[i] * output[, ii])))
           
         }
         
@@ -411,6 +416,7 @@ model_sbmsupereff <-
         if (compute_rho) {
           rho <- NA
           gamma <- NA
+          csbm <- NA
         }
         
       }
@@ -418,6 +424,7 @@ model_sbmsupereff <-
       DMU[[i]] <- list(delta = delta,
                        rho = rho,
                        gamma = gamma,
+                       csbm = csbm,
                        kaizen = kaizen,
                        lambda = lambda,
                        project_input = project_input, project_output = project_output,

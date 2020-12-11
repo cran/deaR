@@ -421,6 +421,20 @@ model_basic <-
     # Vector de dirección de restricciones stage 2
     f.dir2 <- c(rep("=", ni + no + nnci + nnco), f.dir.rs)
     
+    ### If orientation == "dir", slacks for undesirable i/o are 0 ###
+    if (orientation == "dir") {
+      nudi <- length(ud_inputs)
+      nudo <- length(ud_outputs)
+      if ((nudi + nudo) > 0) {
+        f.con2.s0.1 <- cbind(matrix(0, nrow = nudi, ncol = ndr),
+                             matrix(diag(ni)[ud_inputs, ], nrow = nudi, ncol = ni),
+                             matrix(0, nrow = nudi, ncol = no))
+        f.con2.s0.2 <- cbind(matrix(0, nrow = nudo, ncol = ndr + ni),
+                             matrix(diag(no)[ud_outputs, ], nrow = nudo, ncol = no))
+        f.con2 <- rbind(f.con2, f.con2.s0.1, f.con2.s0.2)
+        f.dir2 <- c(f.dir2, rep("=", nudi + nudo))
+      }
+    }
   }
   
   if (orientation != "dir") { ############## orientation != "dir" ##############
@@ -624,7 +638,8 @@ model_basic <-
             f.obj2 <- c(rep(0, ndr), weight_slack_i[, i], weight_slack_o[, i])
             
             # Vector de términos independientes stage 2
-            f.rhs2 <- c(input[, ii] - beta * dir_input[, i], output[, ii] + beta * dir_output[, i], rep(0, nnci + nnco), f.rhs.rs)
+            f.rhs2 <- c(input[, ii] - beta * dir_input[, i], output[, ii] + beta * dir_output[, i],
+                        rep(0, nnci + nnco), f.rhs.rs, rep(0, nudi + nudo))
             f.rhs2[ud_inputs] <- input[ud_inputs, ii] + beta * dir_input[ud_inputs, i]
             f.rhs2[ni + ud_outputs] <- output[ud_outputs, ii] - beta * dir_output[ud_outputs, i]
             f.rhs2[ncd_inputs] <- input[ncd_inputs, ii]
