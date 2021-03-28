@@ -4,7 +4,8 @@
 \name{Power_plants}
 \alias{Power_plants}
 \title{Data: Tone (2002).}
-\format{Data frame with 15 rows and 7 columns. Definition of inputs (X) and outputs (Y):
+\format{
+Data frame with 15 rows and 7 columns. Definition of inputs (X) and outputs (Y):
 \describe{
   \item{x1}{Manpower requiered}
   \item{x2}{Construction costs in millions of dollars}
@@ -12,7 +13,8 @@
   \item{x4}{Number of villages to be evacuated }
   \item{y1}{Power generated in megawatts}
   \item{y2}{Safety level}
-}}
+}
+}
 \source{
 Andersen, P.; Petersen, N.C. (1993). "A procedure for ranking efficient units in data envelopment analysis", Management Science, 39, 1261-1264.
 

@@ -4,7 +4,8 @@
 \name{Guo_Tanaka_2001}
 \alias{Guo_Tanaka_2001}
 \title{Data: Guo and Tanaka (2001).}
-\format{Data frame with 5 rows and 9 columns. Definition of fuzzy inputs (X) and fuzzy outputs (Y):
+\format{
+Data frame with 5 rows and 9 columns. Definition of fuzzy inputs (X) and fuzzy outputs (Y):
 \describe{
   \item{x1}{Input 1}
   \item{x2}{Input 2}
@@ -14,7 +15,8 @@
   \item{y2}{Output 2}
   \item{beta1}{spread vector Output 1}
   \item{beta2}{spread vector Output 2}
-}}
+}
+}
 \source{
 Guo, P.; Tanaka, H. (2001). "Fuzzy DEA: A Perceptual Evaluation Method", Fuzzy Sets and Systems, 119, 149–160. \code{doi}: 10.1016/S0165-0114(99)00106-2
 }

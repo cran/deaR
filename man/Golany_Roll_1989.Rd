@@ -4,14 +4,16 @@
 \name{Golany_Roll_1989}
 \alias{Golany_Roll_1989}
 \title{Data: Golany and Roll (1989).}
-\format{Data frame with 13 rows and 6 columns. Definition of inputs (X) and outputs (Y):
+\format{
+Data frame with 13 rows and 6 columns. Definition of inputs (X) and outputs (Y):
 \describe{
   \item{x1}{Input 1}
   \item{x2}{Input 2}
   \item{x3}{Input 3}
   \item{y1}{Output 1}
   \item{y1}{Output 2}
-}}
+}
+}
 \source{
 Golany, B.; Roll, Y. (1989). "An Application Procedure for DEA". OMEGA, International Journal of Management Science, 17(3), 237-250. \code{doi}: 10.1016/0305-0483(89)90029-7
 }

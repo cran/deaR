@@ -4,7 +4,8 @@
 \name{Departments}
 \alias{Departments}
 \title{Data: Tomkins and Green (1988).}
-\format{Data frame with 20 rows and 11 columns. Definition of inputs (X) and outputs (Y):
+\format{
+Data frame with 20 rows and 11 columns. Definition of inputs (X) and outputs (Y):
 \describe{
   \item{x1 = Staff}{Average Full Time Academic Staff 82/3-84/5)}
   \item{x2 = Salaries}{1984-5 Salaries Academics and Related (in pounds))}
@@ -16,7 +17,8 @@
   \item{y5 = Other_res_income}{Other research income (in pounds)}
   \item{y6 = Other_income}{Other income (in pounds)}
   \item{y7 = Publications}{Number of publications}
-}}
+}
+}
 \source{
 Tomkins, C.; Green, R. (1988). "An Experiment in the Use of Data Envelopment Analysis for Evaluating the Efficiency of UK University Departments of Accounting", Financial Accountability and Management, 4(2), 147-164. \code{doi}: 10.1111/j.1468-0408.1988.tb00296.x
 }

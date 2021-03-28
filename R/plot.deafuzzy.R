@@ -62,14 +62,14 @@ plot.dea_fuzzy <- function(x, showPlots = TRUE, ...) {
      data.frame(cbind(data.frame(DMU = DMU, EFF)), row.names = NULL)
    
    eff_df$alpha_cut <- rep(as.numeric(dimnames(eff)[[3]]), each = length(object$dmu_eval))
-   eff_df %>% mutate(xmin = m - dL, xmax = m + dR) %>%
+   p <- eff_df %>% mutate(xmin = m - dL, xmax = m + dR) %>%
      gather(variable, value,-c(DMU, alpha_cut)) %>%
      filter(!variable %in% c("dL", "dR")) %>%
      ggplot(aes(x = value, y = DMU, color = DMU)) + geom_point() +
      geom_line() +
      facet_wrap( ~ alpha_cut) +
      theme_bw() +
-     xlab("Efficiency") -> p
+     xlab("Efficiency")
    
  } else if (grepl("kaoliu",modelname)) {
    if (grepl("add", modelname)) {
@@ -107,12 +107,12 @@ plot.dea_fuzzy <- function(x, showPlots = TRUE, ...) {
    eff_best$Case <- "Best"
    eff_df <- rbind(eff_worst, eff_best)
    eff_df$DMU <- as.factor(eff_df$DMU)
-   eff_df  %>% ggplot(aes(
+   p <- eff_df  %>% ggplot(aes(
      x = Efficiency,
      y = DMU,
      color = DMU)) +
      geom_point() + geom_line() + ylab("DMU") + 
-     facet_wrap( ~ alpha_cut) -> p
+     facet_wrap( ~ alpha_cut)
  }
  if (showPlots) {
    ggplotly(p)

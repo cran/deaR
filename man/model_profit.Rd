@@ -96,7 +96,7 @@ efficiencies(result3)
 
 }
 \references{
-Coelli, T.; Prasada Rao, D.S.; Battese, G.E. (1998). An introduction to efficiency and productivity analysis. Jossey-Bass, San Francisco, pp 73–104. \url{https://doi.org/10.1002/ev.1441}
+Coelli, T.; Prasada Rao, D.S.; Battese, G.E. (1998). An introduction to efficiency and productivity analysis. Jossey-Bass, San Francisco, pp 73–104. \doi{10.1002/ev.1441}
 
 Coelli, T.; Prasada Rao, D.S.; Battese, G.E. An introduction to efficiency and productivity analysis. Boston: Kluwer Academic Publishers.
 }

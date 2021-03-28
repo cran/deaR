@@ -4,7 +4,8 @@
 \name{Lim_Zhu_2015}
 \alias{Lim_Zhu_2015}
 \title{Data: Lim and Zhu (2015).}
-\format{Data frame with 37 rows and 7 columns. Definition of inputs (X) and outputs (Y):
+\format{
+Data frame with 37 rows and 7 columns. Definition of inputs (X) and outputs (Y):
 \describe{
   \item{x1 = Budget}{Budget}
   \item{y1 = Indirect_economic}{Indirect economic contribution}
@@ -12,7 +13,8 @@
   \item{y3 = Technical}{Technical contribution}
   \item{y4 = Social}{Social contribution}
   \item{y5 = Scientific}{Scientific contribution}
-}}
+}
+}
 \source{
 Lim, S.; Zhu, J. (2015). "DEA Cross-Efficiency Under Variable Returns to Scale". Journal of Operational Research Society, 66(3), p. 476-487. \code{doi}: 10.1057/jors.2014.13
 }

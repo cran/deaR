@@ -66,7 +66,7 @@ undesirable_basic <- function(datadea,
   
     if (is.null(vtrans_i)) {
       vtrans_i <- rep(NA, nui)
-    } else if ((length(vtrans_i == 1)) && (nui > 1)) {
+    } else if ((length(vtrans_i) == 1) && (nui > 1)) {
       vtrans_i <- rep(vtrans_i, nui)
     } else if (length(vtrans_i) != nui) {
       stop("Translation vector vtrans_i must be NULL, a constant or a vector of the same length as ud_inputs.")
@@ -103,7 +103,7 @@ undesirable_basic <- function(datadea,
   
     if (is.null(vtrans_o)) {
       vtrans_o <- rep(NA, nuo)
-    } else if ((length(vtrans_o == 1)) && (nuo > 1)) {
+    } else if ((length(vtrans_o) == 1) && (nuo > 1)) {
       vtrans_o <- rep(vtrans_o, nuo)
     } else if (length(vtrans_o) != nuo) {
       stop("Translation vector vtrans_o must be NULL, a constant or a vector of the same length as ud_outputs.")
@@ -151,7 +151,7 @@ undesirable_basic <- function(datadea,
     
     if (is.null(vtrans_i)) {
       vtrans_i <- rep(NA, nui)
-    } else if ((length(vtrans_i == 1)) && (nui > 1)) {
+    } else if ((length(vtrans_i) == 1) && (nui > 1)) {
       vtrans_i <- rep(vtrans_i, nui)
     } else if (length(vtrans_i) != nui) {
       stop("Translation vector vtrans_i must be NULL, a constant or a vector of the same length as ud_inputs.")
@@ -198,7 +198,7 @@ undesirable_basic <- function(datadea,
     
     if (is.null(vtrans_o)) {
       vtrans_o <- rep(NA, nuo)
-    } else if ((length(vtrans_o == 1)) && (nuo > 1)) {
+    } else if ((length(vtrans_o) == 1) && (nuo > 1)) {
       vtrans_o <- rep(vtrans_o, nuo)
     } else if (length(vtrans_o) != nuo) {
       stop("Translation vector vtrans_o must be NULL, a constant or a vector of the same length as ud_outputs.")

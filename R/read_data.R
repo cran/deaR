@@ -27,12 +27,12 @@
 #' are taken from the columns names.
 #' @param outputs Columns (numbers or names) of outputs (optional). It prevails over \code{no}.
 #' Alternatively to \code{datadea}, it can be a matrix with the outputs (DMUs in columns).
-#' @param nc_inputs A numeric vector containing non-controllable inputs.
-#' @param nc_outputs A numeric vector containing non-controllable outputs.
-#' @param nd_inputs A numeric vector containing non-discretionary inputs.
-#' @param nd_outputs A numeric vector containing non-discretionary outputs.
-#' @param ud_inputs A numeric vector containing undesirable (good) inputs.
-#' @param ud_outputs A numeric vector containing undesirable (bad) outputs.
+#' @param nc_inputs A numeric vector containing the indices of non-controllable inputs.
+#' @param nc_outputs A numeric vector containing the indices of non-controllable outputs.
+#' @param nd_inputs A numeric vector containing the indices of non-discretionary inputs.
+#' @param nd_outputs A numeric vector containing the indices of non-discretionary outputs.
+#' @param ud_inputs A numeric vector containing the indices of undesirable (good) inputs.
+#' @param ud_outputs A numeric vector containing the indices of undesirable (bad) outputs.
 #'
 #' @return An object of class \code{deadata}
 #' 
@@ -194,7 +194,7 @@ read_data <- function(datadea = NULL,
     } else {
       inputnames <- colnames(datadea)[inputs]
     }
-    if (is.character(inputs)) {
+    if (is.character(outputs)) {
       outputnames <- outputs
     } else {
       outputnames <- colnames(datadea)[outputs]
@@ -257,8 +257,8 @@ read_data <- function(datadea = NULL,
   }
   
   # Checking orders of magnitude in data
-  maxio <- max(max(input), max(output))
-  minio <- min(min(input), min(output))
+  maxio <- max(max(input), max(output), na.rm = TRUE)
+  minio <- min(min(input), min(output), na.rm = TRUE)
   if (minio > 0) {
     if (maxio / minio > 1e6) {
       warning("There are data with very different orders of magnitude. Try to re-define the units of measure or some linear problems may be ill-posed.")

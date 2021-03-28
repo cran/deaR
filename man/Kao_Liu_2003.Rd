@@ -4,7 +4,8 @@
 \name{Kao_Liu_2003}
 \alias{Kao_Liu_2003}
 \title{Data: Kao and Liu (2003).}
-\format{Data frame with 24 rows and 11 columns. Definition of fuzzy inputs (X) and fuzzy outputs (Y):
+\format{
+Data frame with 24 rows and 11 columns. Definition of fuzzy inputs (X) and fuzzy outputs (Y):
 \describe{
   \item{x1 = Patronage}{It is a weighted sum of the standardized scores of faculty, graduate students, undergraduate students, and extension students in the range of 0 and 1.}
   \item{y1 = Collections}{Books, serials, microforms, audiovisual works, and database.}
@@ -16,7 +17,8 @@
   \item{beta3_u}{upper spread vector Expenditures}
   \item{beta5_l}{lower spread vector Services}
   \item{beta5_u}{upper spread vector Services}
-}}
+}
+}
 \source{
 Kao, C., Liu, S.T. (2003). “A mathematical programming approach to fuzzy efficiency ranking”, International Journal of Production Economics, 85, \code{doi}: 10.1016/S0925-5273(03)00026-4
 }

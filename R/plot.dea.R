@@ -381,8 +381,8 @@ plot.dea <- function(x, showPlots = TRUE, ...){
          layout = locations,
          xlim = c(-2, 2),
          ylim = c(-.4, .4),
-         edge.arrow.size = 1,
-         edge.arrow.width = 0.5,
+         edge.arrow.size = 0.75,
+         edge.arrow.width = 0.25,
          edge.curved = FALSE
        )
      }

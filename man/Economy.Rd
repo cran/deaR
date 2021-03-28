@@ -4,12 +4,14 @@
 \name{Economy}
 \alias{Economy}
 \title{Data: Wang and Lan (2011).}
-\format{Data frame with 31 rows and 16 columns. Definition of inputs (X) and outputs (Y):
+\format{
+Data frame with 31 rows and 16 columns. Definition of inputs (X) and outputs (Y):
 \describe{
   \item{x1 = Capital}{Total assets (in 100 million RMB)}
   \item{x2 = Labor}{Annual average employed persons (in 10000 persons)}
   \item{y1 = GIOV}{Gross industrial output value (in 100 million RMB)}
-}}
+}
+}
 \source{
 Wang, Y.; Lan, Y. (2011). "Measuring Malmquist Productiviy Index: A New Approach Based on Double Frontiers Data Envelopment Analysis". Mathematical and Computer Modelling, 54, 2760-2771. \code{doi}: 10.1016/j.mcm.2011.06.064
 }

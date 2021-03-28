@@ -33,7 +33,7 @@
 #' University of Valencia (Spain) 
 #' 
 #' @references 
-#' Tone, K. (2010). "Variations on the theme of slacks-based measure of efficiency in DEA", European Journal of Operational Research, 200, 901-907. \url{https://doi.org/10.1016/j.ejor.2009.01.027}
+#' Tone, K. (2010). "Variations on the theme of slacks-based measure of efficiency in DEA", European Journal of Operational Research, 200, 901-907. \doi{10.1016/j.ejor.2009.01.027}
 #' 
 #' @examples
 #' \dontrun{

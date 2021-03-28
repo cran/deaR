@@ -4,13 +4,15 @@
 \name{Electric_plants}
 \alias{Electric_plants}
 \title{Data: Färe, Grosskopf and Kokkelenberg (1989).}
-\format{Data frame with 18 rows and 5 columns. Definition of inputs (X) and outputs (Y):
+\format{
+Data frame with 18 rows and 5 columns. Definition of inputs (X) and outputs (Y):
 \describe{
   \item{x1 = Labor}{Labor average annual employment}
   \item{x2 = Fuel}{Fuel \eqn{10^{10}} Btu}
   \item{x3 = Capital}{Capital MW (fixed input)}
   \item{y1 = Output}{Output \eqn{10^6} Kwh}
-}}
+}
+}
 \source{
 Färe, R.; Grosskopf, S.; Kokkenlenberg, E. (1989). "Measuring Plant Capacity, Utilization and Technical Change: A Nonparametric Approach". International Economic Review, 30(3), 655-666.
 

@@ -4,12 +4,14 @@
 \name{Tone2003}
 \alias{Tone2003}
 \title{Data: Tone (2003).}
-\format{Data frame with 9 rows and 4 columns. Definition of inputs (X) and outputs (Y):
+\format{
+Data frame with 9 rows and 4 columns. Definition of inputs (X) and outputs (Y):
 \describe{
   \item{x}{Input}
   \item{yg}{Output1 ("good" output)}
   \item{yb}{Output2 (undesirable "bad" output)}
-}}
+}
+}
 \source{
 Tone, K. (2003). "Dealing with undesirable outputs in DEA: A Slacks-Based Measure (SBM) approach", GRIPS Research Report Series I-2003-0005.
 }

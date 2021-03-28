@@ -4,11 +4,13 @@
 \name{Grifell_Lovell_1999}
 \alias{Grifell_Lovell_1999}
 \title{Data: Grifell-Tatjé and Lovell (1999).}
-\format{Data frame with 16 rows and 4 columns. Definition of inputs (X) and outputs (Y):
+\format{
+Data frame with 16 rows and 4 columns. Definition of inputs (X) and outputs (Y):
 \describe{
   \item{X}{Input}
   \item{Y}{Output}
-}}
+}
+}
 \source{
 Grifell-Tatjé, E.; Lovel, C.A.K. (1999). "A Generalized Malmquist productivity index". Top, 7(1), 81-101.
 }

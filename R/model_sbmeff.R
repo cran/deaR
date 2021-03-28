@@ -56,11 +56,11 @@
 #' University of Valencia (Spain) 
 #' 
 #' @references 
-#' Tone, K. (2001). "A Slacks-Based Beasure of Efficiency in Data Envelopment Analysis", European Journal of Operational Research, 130, 498-509. \url{https://doi.org/10.1016/S0377-2217(99)00407-5}
+#' Tone, K. (2001). "A Slacks-Based Beasure of Efficiency in Data Envelopment Analysis", European Journal of Operational Research, 130, 498-509. \doi{10.1016/S0377-2217(99)00407-5}
 #'
-#' Tone, K. (2010). "Variations on the theme of slacks-based measure of efficiency in DEA", European Journal of Operational Research, 200, 901-907. \url{https://doi.org/10.1016/j.ejor.2009.01.027}
+#' Tone, K. (2010). "Variations on the theme of slacks-based measure of efficiency in DEA", European Journal of Operational Research, 200, 901-907. \doi{10.1016/j.ejor.2009.01.027}
 #'
-#' Cooper, W.W.; Seiford, L.M.; Tone, K. (2007). Data Envelopment Analysis. A Comprehensive Text with Models, Applications, References and DEA-Solver Software. 2nd Edition. Springer, New York. \url{https://doi.org/10.1007/978-0-387-45283-8}
+#' Cooper, W.W.; Seiford, L.M.; Tone, K. (2007). Data Envelopment Analysis. A Comprehensive Text with Models, Applications, References and DEA-Solver Software. 2nd Edition. Springer, New York. \doi{10.1007/978-0-387-45283-8}
 #' 
 #' @examples 
 #' # Replication of results in Tone (2001, p.505)

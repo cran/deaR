@@ -4,7 +4,8 @@
 \name{Coelli_1998}
 \alias{Coelli_1998}
 \title{Data: Coelli, Rao and Battese (1998).}
-\format{Data frame with 6 rows and 5 columns. Definition of inputs (X) and outputs (Y):
+\format{
+Data frame with 6 rows and 5 columns. Definition of inputs (X) and outputs (Y):
 \describe{
   \item{Input1}{Input 1}
   \item{Input2}{Input 2}
@@ -12,7 +13,8 @@
   \item{Price_input1}{Price input 1}
   \item{Price_input2}{Price input 2}
   \item{Price_output}{Price output}
-}}
+}
+}
 \source{
 Coelli, T.; Prasada Rao, D.S.; Battese, G.E. An introduction to efficiency and productivity analysis. Boston: Kluwer Academic Publishers.
 }

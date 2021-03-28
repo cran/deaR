@@ -28,13 +28,13 @@
 #' University of Valencia (Spain)
 #'
 #' @references
-#' Doyle, J.; Green, R. (1994). “Efficiency and Cross Efficiency in DEA: Derivations, Meanings and the Uses”,  Journal of Operational Research Society, 45(5), 567–578. DOI: 10.2307/2584392 
+#' Doyle, J.; Green, R. (1994). “Efficiency and Cross Efficiency in DEA: Derivations, Meanings and the Uses”,  Journal of Operational Research Society, 45(5), 567–578. \doi{10.2307/2584392}
 #'  
-#' Guo, P.; Tanaka, H. (2001). "Fuzzy DEA: A Perceptual Evaluation Method", Fuzzy Sets and Systems, 119, 149–160. \url{https://doi.org/10.1016/S0165-0114(99)00106-2}
+#' Guo, P.; Tanaka, H. (2001). "Fuzzy DEA: A Perceptual Evaluation Method", Fuzzy Sets and Systems, 119, 149–160. \doi{10.1016/S0165-0114(99)00106-2}
 #' 
-#' León, T.; Liern, V.; Ruiz, J.L.; Sirvent, I. (2003). "A Fuzzy Mathematical Programming Approach to the assessment of efficiency with DEA Models", Fuzzy Sets Systems, 139(2), 407–419. \url{https://doi.org/10.1016/S0165-0114(02)00608-5}
+#' León, T.; Liern, V.; Ruiz, J.L.; Sirvent, I. (2003). "A Fuzzy Mathematical Programming Approach to the assessment of efficiency with DEA Models", Fuzzy Sets Systems, 139(2), 407–419. \doi{10.1016/S0165-0114(02)00608-5}
 #' 
-#' Sexton, T.R., Silkman, R.H.; Hogan, A.J. (1986). Data envelopment analysis: critique and extensions. In: Silkman RH (ed) Measuring efficiency: an assessment of data envelopment analysis, vol 32. Jossey-Bass, San Francisco, pp 73–104. \url{https://doi.org/10.1002/ev.1441}  
+#' Sexton, T.R., Silkman, R.H.; Hogan, A.J. (1986). Data envelopment analysis: critique and extensions. In: Silkman RH (ed) Measuring efficiency: an assessment of data envelopment analysis, vol 32. Jossey-Bass, San Francisco, pp 73–104. \doi{10.1002/ev.1441}  
 #' 
 #' @examples 
 #'  data("Guo_Tanaka_2001")

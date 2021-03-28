@@ -62,13 +62,13 @@ efficiencies(result)
 
 }
 \references{
-Banker, R.D.; Morey, R.C. (1986). "Efficiency Analysis for Exogenously Fixed Inputs and Outputs", Operations Research, 34, 80-97. \url{https://doi.org/10.1287/opre.34.4.513}
+Banker, R.D.; Morey, R.C. (1986). "Efficiency Analysis for Exogenously Fixed Inputs and Outputs", Operations Research, 34, 80-97. \doi{10.1287/opre.34.4.513}
 
-Färe, R.; Lovell, C.K. (1978). "Measuring the Technical Efficiency of Production", Journal of Economic Theory, 19(1), 150-162. \url{https://doi.org/10.1016/0022-0531(78)90060-1}
+Färe, R.; Lovell, C.K. (1978). "Measuring the Technical Efficiency of Production", Journal of Economic Theory, 19(1), 150-162. \doi{10.1016/0022-0531(78)90060-1}
 
-Wh, J.; Tsai, H.; Zhou, Z. (2011). "Improving Efficiency in International Tourist Hotels in Taipei Using a Non-Radial DEA Model", International Journal of Contemporary Hospitatlity Management, 23(1), 66-83. \url{https://doi.org/10.1108/09596111111101670} 
+Wh, J.; Tsai, H.; Zhou, Z. (2011). "Improving Efficiency in International Tourist Hotels in Taipei Using a Non-Radial DEA Model", International Journal of Contemporary Hospitatlity Management, 23(1), 66-83. \doi{10.1108/09596111111101670} 
 
-Zhu, J. (1996). “Data Envelopment Analysis with Preference Structure”, The Journal of the Operational Research Society, 47(1), 136. DOI: 10.2307/2584258
+Zhu, J. (1996). “Data Envelopment Analysis with Preference Structure”, The Journal of the Operational Research Society, 47(1), 136. \doi{10.2307/2584258}
 }
 \seealso{
 \code{\link{model_deaps}}, \code{\link{model_profit}}, \code{\link{model_sbmeff}}

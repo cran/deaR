@@ -4,13 +4,15 @@
 \name{Coll_Blasco_2006}
 \alias{Coll_Blasco_2006}
 \title{Data: Coll and Blasco (2006).}
-\format{Data frame with 6 rows and 5 columns. Definition of inputs (X) and outputs (Y):
+\format{
+Data frame with 6 rows and 5 columns. Definition of inputs (X) and outputs (Y):
 \describe{
   \item{x1 = Employees}{Number of employees}
   \item{x2 = Capital}{Impairment of assets}
   \item{y1 = Vehicles}{Number of vehicles sold}
   \item{y2 = Orders}{Number of orders received at the garage}
-}}
+}
+}
 \source{
 Coll-Serrano, V.; Blasco-Blasco, O. (2006). Evaluacion de la Eficiencia mediante el Análisis Envolvente de Datos. Introduccion a los Modelos Básicos.
 }

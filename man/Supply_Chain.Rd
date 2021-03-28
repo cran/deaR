@@ -4,12 +4,14 @@
 \name{Supply_Chain}
 \alias{Supply_Chain}
 \title{Data: Sanei and Mamizadeh Chatghayeb (2013).}
-\format{Data frame with 17 rows and 8 columns. Definition of inputs (X) and outputs (Y):
+\format{
+Data frame with 17 rows and 8 columns. Definition of inputs (X) and outputs (Y):
 \describe{
   \item{X1 to X3}{Inputs of buyers}
   \item{I1 to I2}{Outputs of buyers, Inputs of suppliers}
   \item{Y1 to Y2}{Outputs of suppliers}
-}}
+}
+}
 \source{
 Sanei, M.; Mamizadeh Chatghayeb, S. (2013). “Free Disposal Hull Models in Supply Chain Management”, International Journal of Mathematical Modelling and Computations, 3(3), 125-129.
 }

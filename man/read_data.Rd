@@ -35,17 +35,17 @@ are taken from the columns names.}
 \item{outputs}{Columns (numbers or names) of outputs (optional). It prevails over \code{no}.
 Alternatively to \code{datadea}, it can be a matrix with the outputs (DMUs in columns).}
 
-\item{nc_inputs}{A numeric vector containing non-controllable inputs.}
+\item{nc_inputs}{A numeric vector containing the indices of non-controllable inputs.}
 
-\item{nc_outputs}{A numeric vector containing non-controllable outputs.}
+\item{nc_outputs}{A numeric vector containing the indices of non-controllable outputs.}
 
-\item{nd_inputs}{A numeric vector containing non-discretionary inputs.}
+\item{nd_inputs}{A numeric vector containing the indices of non-discretionary inputs.}
 
-\item{nd_outputs}{A numeric vector containing non-discretionary outputs.}
+\item{nd_outputs}{A numeric vector containing the indices of non-discretionary outputs.}
 
-\item{ud_inputs}{A numeric vector containing undesirable (good) inputs.}
+\item{ud_inputs}{A numeric vector containing the indices of undesirable (good) inputs.}
 
-\item{ud_outputs}{A numeric vector containing undesirable (bad) outputs.}
+\item{ud_outputs}{A numeric vector containing the indices of undesirable (bad) outputs.}
 }
 \value{
 An object of class \code{deadata}

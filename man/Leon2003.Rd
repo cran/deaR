@@ -4,13 +4,15 @@
 \name{Leon2003}
 \alias{Leon2003}
 \title{Data: Leon, Liern, Ruiz and Sirvent (2003).}
-\format{Data frame with 8 rows and 5 columns. Definition of fuzzy inputs (X) and fuzzy outputs (Y):
+\format{
+Data frame with 8 rows and 5 columns. Definition of fuzzy inputs (X) and fuzzy outputs (Y):
 \describe{
   \item{x1}{Input 1}
   \item{alpha1}{spread vector Input 1}
   \item{y1}{Output 1}
   \item{beta1}{spread vector Output 1}
-}}
+}
+}
 \source{
 Leon, T.; Liern, V. Ruiz, J.; Sirvent, I. (2003). "A Possibilistic Programming Approach to the Assessment of Efficiency with DEA Models", Fuzzy Sets and Systems, 139, 407–419. \code{doi}: 10.1016/S0165-0114(02)00608-5
 }

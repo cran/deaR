@@ -4,13 +4,15 @@
 \name{Tone2001}
 \alias{Tone2001}
 \title{Data: Tone (2001).}
-\format{Data frame with 5 rows and 5 columns. Definition of inputs (X) and outputs (Y):
+\format{
+Data frame with 5 rows and 5 columns. Definition of inputs (X) and outputs (Y):
 \describe{
   \item{x1}{Input1}
   \item{x2}{Input2}
   \item{y1}{Output1}
   \item{y2}{Output2}
-}}
+}
+}
 \source{
 Tone, K. (2001). "A Slacks-Based Measure of Efficiency in Data Envelopment Analysis", European Journal of Operational Research, 130, 498-509. \code{doi}: 10.1016/S0377-2217(99)00407-5
 }

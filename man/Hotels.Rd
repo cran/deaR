@@ -4,7 +4,8 @@
 \name{Hotels}
 \alias{Hotels}
 \title{Data: Wu, Tsai and Zhou (2011).}
-\format{Data frame with 23 rows and 8 columns. Definition of inputs (X) and outputs (Y):
+\format{
+Data frame with 23 rows and 8 columns. Definition of inputs (X) and outputs (Y):
 \describe{
   \item{x1 = Employees}{Total number of employees)}
   \item{x2 = Guest_rooms}{Total number of guest rooms)}
@@ -13,7 +14,8 @@
   \item{y1 = Room_revenue}{Room revenues (in NT$)}
   \item{y2 = F&B_revenue}{F&B revenues (in NT$)}
   \item{y3 = Other_revenue}{Other revenues (in NT$)}
-}}
+}
+}
 \source{
 Wu, J.; Tsai, H. and Zhou, Z. (2011). "Improving efficiency in International tourist hotels in Taipei using a non-radial DEA mode", Internationl Journal of Contemporary Hospitality Management, 23(1), 66-83. \code{doi}: 10.1108/09596111111101670
 }

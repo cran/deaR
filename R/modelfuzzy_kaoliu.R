@@ -115,19 +115,6 @@ modelfuzzy_kaoliu <-
   names(dmu_eval) <- dmunames[dmu_eval]
   nde <- length(dmu_eval)
   
-  input.mL <- datadea$input$mL
-  output.mL <- datadea$output$mL
-  input.mR <- datadea$input$mR
-  output.mR <- datadea$output$mR
-  input.dL <- datadea$input$dL
-  output.dL <- datadea$output$dL
-  input.dR <- datadea$input$dR
-  output.dR <- datadea$output$dR
-  inputnames <- rownames(input.mL)
-  outputnames <- rownames(output.mL)
-  ni <- length(inputnames) # number of inputs
-  no <- length(outputnames) # number of outputs
-  
   arguments <- list(...)
   
   # Checking undesirable io and rts
@@ -158,6 +145,19 @@ modelfuzzy_kaoliu <-
       warning("This model does not take into account the undesirable feature for inputs/outputs.")
     }
   }
+  
+  input.mL <- datadea$input$mL
+  output.mL <- datadea$output$mL
+  input.mR <- datadea$input$mR
+  output.mR <- datadea$output$mR
+  input.dL <- datadea$input$dL
+  output.dL <- datadea$output$dL
+  input.dR <- datadea$input$dR
+  output.dR <- datadea$output$dR
+  inputnames <- rownames(input.mL)
+  outputnames <- rownames(output.mL)
+  ni <- length(inputnames) # number of inputs
+  no <- length(outputnames) # number of outputs
   
   # Checking alpha
   if ((length(alpha) == 1) && (alpha > 1)) {

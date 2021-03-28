@@ -4,14 +4,16 @@
 \name{Hua_Bian_2007}
 \alias{Hua_Bian_2007}
 \title{Data: Hua and Bian (2007).}
-\format{Data frame with 30 rows and 6 columns. Definition of inputs (X) and outputs (Y):
+\format{
+Data frame with 30 rows and 6 columns. Definition of inputs (X) and outputs (Y):
 \describe{
   \item{x1 = D-Input1}{Desirable Input 1}
   \item{x2 = D-Input2}{Desirable Input 2}
   \item{y1 = D-Output1}{Desirable Output 1}
   \item{y2 = D-Output2}{Desirable Output 2}
   \item{y3 = UD-Output1}{Undesirable Output 1}
-}}
+}
+}
 \source{
 Hua Z.; Bian Y. (2007). DEA with Undesirable Factors. In: Zhu J., Cook W.D. (eds) Modeling Data Irregularities and Structural Complexities in Data Envelopment Analysis. Springer, Boston, MA. \code{doi}: 10.1007/978-0-387-71607-7_6
 }

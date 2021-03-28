@@ -4,7 +4,8 @@
 \name{Doyle_Green_1994}
 \alias{Doyle_Green_1994}
 \title{Data: Doyle and Green (1994).}
-\format{Data frame with 13 rows and 6 columns. Definition of inputs (X) and outputs (Y):
+\format{
+Data frame with 13 rows and 6 columns. Definition of inputs (X) and outputs (Y):
 \describe{
   \item{y1 = Undergraduate}{Number of undergraduates}
   \item{y2 = Postgraduates}{Number of postgraduates (taught and research)}
@@ -12,7 +13,8 @@
   \item{y4 = Publications}{Number of publications}
   \item{x1 = Salaries}{Salaries of academic and related staff}
   \item{x2 = Other_expenses}{Other expenses}
-}}
+}
+}
 \source{
 Doyle, J.; Green, R. (1994). “Efficiency and cross efficiency in DEA: derivations, meanings and the uses”,  Journal of Operational Research Society, 45(5), 567–578. \code{doi}: 10.2307/2584392
 }

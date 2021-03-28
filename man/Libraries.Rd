@@ -4,7 +4,8 @@
 \name{Libraries}
 \alias{Libraries}
 \title{Data: Cooper, Seiford and Tone (2007).}
-\format{Data frame with 23 rows and 7 columns. Definition of inputs (X) and outputs (Y):
+\format{
+Data frame with 23 rows and 7 columns. Definition of inputs (X) and outputs (Y):
 \describe{
   \item{x1 = AREA}{Floor area (unit=1000 m2)}
   \item{x2 = BOOKS}{Number of books (unit=1000)}
@@ -12,7 +13,8 @@
   \item{x4 = POPULATION}{Population (unit=1000)}
   \item{y1 = REGISTERED}{Registered residents (unit=1000)}
   \item{y2 = BORROWED}{Borrowed books (unit=1000)}
-}}
+}
+}
 \source{
 Cooper, W.W.; Seiford, L.M. and Tone, K. (2007). Data Envelopment Analysis. A Comprehensive Text with Models, Applications, References and DEA-Solver Software. Springer
 }

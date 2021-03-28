@@ -4,7 +4,8 @@
 \name{PFT1981}
 \alias{PFT1981}
 \title{Data: Charnes, Cooper and Rhodes (1981).}
-\format{Data frame with 70 rows and 10 columns. Definition of inputs (X) and outputs (Y):
+\format{
+Data frame with 70 rows and 10 columns. Definition of inputs (X) and outputs (Y):
 \describe{
   \item{Y1 = Reading}{Total Reading Scores (as measured by the Metropolitan Achievement Test).}
   \item{Y2 = Math}{Total Math Scores (total mathematics score by the Metropolitan Achievement Test.}
@@ -15,7 +16,8 @@
   \item{X4 = Counseling}{Counseling Index (parent counselling index calculated from data on time spent with child on school-related topics such as reading together, etc.).}
   \item{X5 = Teachers}{Number of Teachers (number of teachers at a given site).}
   \item{Progrmam}{PFT or NFT.}
-}}
+}
+}
 \source{
 Charnes, A.; Cooper, W.W.; Rhodes, E. (1981). "Evaluating Program and Managerial Efficiency: An Application of Data Envelopment Analysis to Program Follow Through", Management Science, 27(6), 668-697. \code{doi}: 10.1287/mnsc.27.6.668
 }

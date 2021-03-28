@@ -69,7 +69,7 @@ efficiencies(result)
 
 }
 \references{
-Du, J.; Liang, L.; Zhu, J. (2010). "A Slacks-based Measure of Super-efficiency in Data Envelopment Analysis. A Comment", European Journal of Operational Research, 204, 694-697. \url{https://doi.org/10.1016/j.ejor.2009.12.007}
+Du, J.; Liang, L.; Zhu, J. (2010). "A Slacks-based Measure of Super-efficiency in Data Envelopment Analysis. A Comment", European Journal of Operational Research, 204, 694-697. \doi{10.1016/j.ejor.2009.12.007}
 
 Zhu, J. (2014). Quantitative Models for Performance Evaluation and Benchmarking. Data Envelopment Analysis with Spreadsheets. 3rd Edition Springer, New York. Doi: 10.1007/978-3-319-06647-9.
 }

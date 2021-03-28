@@ -49,7 +49,7 @@
 #'                                    rts = "vrs")
 #' summary(result, exportExcel = FALSE)
 #' @references 
-#' León, T.; Liern, V. Ruiz, J.; Sirvent, I. (2003). "A Possibilistic Programming Approach to the Assessment of Efficiency with DEA Models", Fuzzy Sets and Systems, 139, 407–419. \url{https://doi.org/10.1016/S0165-0114(02)00608-5}
+#' León, T.; Liern, V. Ruiz, J.; Sirvent, I. (2003). "A Possibilistic Programming Approach to the Assessment of Efficiency with DEA Models", Fuzzy Sets and Systems, 139, 407–419. \doi{10.1016/S0165-0114(02)00608-5}
 #' @method summary dea_fuzzy
 #' @import writexl tidyr
 #' @export

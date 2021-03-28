@@ -101,11 +101,11 @@ slacks(result3)
 
 }
 \references{
-Charnes, A.; Cooper, W.W.; Golany, B.; Seiford, L.; Stuz, J. (1985) "Foundations of Data Envelopment Analysis for Pareto-Koopmans Efficient Empirical Production Functions", Journal of Econometrics, 30(1-2), 91-107. \url{https://doi.org/10.1016/0304-4076(85)90133-2}
+Charnes, A.; Cooper, W.W.; Golany, B.; Seiford, L.; Stuz, J. (1985) "Foundations of Data Envelopment Analysis for Pareto-Koopmans Efficient Empirical Production Functions", Journal of Econometrics, 30(1-2), 91-107. \doi{10.1016/0304-4076(85)90133-2}
   
-Charnes, A.; Cooper, W.W.; Lewin, A.Y.; Seiford, L.M. (1994). Data Envelopment Analysis: Theory, Methology, and Application. Boston: Kluwer Academic Publishers. \url{https://doi.org/10.1007/978-94-011-0637-5}
+Charnes, A.; Cooper, W.W.; Lewin, A.Y.; Seiford, L.M. (1994). Data Envelopment Analysis: Theory, Methology, and Application. Boston: Kluwer Academic Publishers. \doi{10.1007/978-94-011-0637-5}
 
-Cooper, W.W.; Park, K.S.; Pastor, J.T. (1999). "RAM: A Range Adjusted Measure of Inefficiencies for Use with Additive Models, and Relations to Other Models and Measures in DEA". Journal of Productivity Analysis, 11, p. 5-42. \url{https://doi.org/10.1023/A:1007701304281}
+Cooper, W.W.; Park, K.S.; Pastor, J.T. (1999). "RAM: A Range Adjusted Measure of Inefficiencies for Use with Additive Models, and Relations to Other Models and Measures in DEA". Journal of Productivity Analysis, 11, p. 5-42. \doi{10.1023/A:1007701304281}
 }
 \seealso{
 \code{\link{model_addsupereff}}

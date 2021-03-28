@@ -4,14 +4,16 @@
 \name{Fortune500}
 \alias{Fortune500}
 \title{Data: Zhu (2014).}
-\format{Data frame with 15 rows and 6 columns. Definition of inputs X) and outputs (Y):
+\format{
+Data frame with 15 rows and 6 columns. Definition of inputs X) and outputs (Y):
 \describe{
   \item{x1 = Assets}{Assets (millions of dollars)}
   \item{x2 = Equity}{Equity (millions of dollars)}
   \item{x3 = Employees}{Number of employees}
   \item{y1 = Revenue}{Revenue (millions of dollars)}
   \item{y2 = Profit}{Profit (millions of dollars)}
-}}
+}
+}
 \source{
 Zhu, J. (2014). Quantitative Models for Performance Evaluation and Benchmarking. Data Envelopment Analysis with Spreadsheets. 3rd Edition Springer, New York. \code{doi}: 10.1007/978-3-319-06647-9
 }

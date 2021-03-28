@@ -66,7 +66,7 @@ Simar, L.; Wilson, P.W. (1998). "Sensitivity Analysis of Efficiency Scores: How 
 
 Simar, L.; Wilson, P.W. (1999). "Estimating and Bootstrapping Malmquist Indices". European Journal of Operational Research, 115, 459-471. 
 
-Simar, L.; Wilson, P.W. (2008). Statistical Inference in Nonparametric Frontier Models: Recent Developments and Perspective. In H.O. Fried; C.A. Knox Lovell and S.S. Schmidt (eds.) The Measurement of Productive Efficiency and Productivity Growth. New York: Oxford University Press. DOI:10.1093/acprof:oso/9780195183528.001.0001
+Simar, L.; Wilson, P.W. (2008). Statistical Inference in Nonparametric Frontier Models: Recent Developments and Perspective. In H.O. Fried; C.A. Knox Lovell and S.S. Schmidt (eds.) The Measurement of Productive Efficiency and Productivity Growth. New York: Oxford University Press. \doi{10.1093/acprof:oso/9780195183528.001.0001}
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

@@ -35,13 +35,13 @@
 #'   
 #'
 #' @references
-#' Sexton, T.R., Silkman, R.H.; Hogan, A.J. (1986). Data envelopment analysis: critique and extensions. In: Silkman RH (ed) Measuring efficiency: an assessment of data envelopment analysis, vol 32. Jossey-Bass, San Francisco, pp 73–104. \url{https://doi.org/10.1002/ev.1441}  
+#' Sexton, T.R., Silkman, R.H.; Hogan, A.J. (1986). Data envelopment analysis: critique and extensions. In: Silkman RH (ed) Measuring efficiency: an assessment of data envelopment analysis, vol 32. Jossey-Bass, San Francisco, pp 73–104. \doi{10.1002/ev.1441}  
 #' 
 #' Doyle, J.; Green, R. (1994). “Efficiency and cross efficiency in DEA: derivations, meanings and the uses”,  Journal of Operational Research Society, 45(5), 567–578. DOI: 10.2307/2584392 
 #'  
-#' Cook, W.D.; Zhu, J. (2015). DEA Cross Efficiency. In: Zhu, J. (ed) Data Envelopment Analysis. A Handbook of Models and Methods. International Series in Operations Research & Management Science, vol 221. Springer, Boston, MA, 23-43 \url{https://doi.org/10.1007/978-1-4899-7553-9_2} 
+#' Cook, W.D.; Zhu, J. (2015). DEA Cross Efficiency. In: Zhu, J. (ed) Data Envelopment Analysis. A Handbook of Models and Methods. International Series in Operations Research & Management Science, vol 221. Springer, Boston, MA, 23-43 \doi{10.1007/978-1-4899-7553-9_2} 
 #'  
-#' Lim, S.; Zhu, J. (2015). "DEA Cross-Efficiency Under Variable Returns to Scale". Journal of Operational Research Society, 66(3), p. 476-487. \url{https://doi.org/10.1057/jors.2014.13}
+#' Lim, S.; Zhu, J. (2015). "DEA Cross-Efficiency Under Variable Returns to Scale". Journal of Operational Research Society, 66(3), p. 476-487. \doi{10.1057/jors.2014.13}
 #' 
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).

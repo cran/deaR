@@ -61,12 +61,12 @@
 #' @param outputs.mR Analogous to \code{inputs.mR}, but relating to outputs.
 #' @param outputs.dL Analogous to \code{inputs.dL}, but relating to outputs.
 #' @param outputs.dR Analogous to \code{inputs.dR}, but relating to outputs.
-#' @param nc_inputs A numeric vector containing non-controllable inputs.
-#' @param nc_outputs A numeric vector containing non-controllable outputs.
-#' @param nd_inputs A numeric vector containing non-discretionary inputs.
-#' @param nd_outputs A numeric vector containing non-discretionary outputs.
-#' @param ud_inputs A numeric vector containing undesirable (good) inputs.
-#' @param ud_outputs A numeric vector containing undesirable (bad) outputs.
+#' @param nc_inputs A numeric vector containing the indices of non-controllable inputs.
+#' @param nc_outputs A numeric vector containing the indices of non-controllable outputs.
+#' @param nd_inputs A numeric vector containing the indices of non-discretionary inputs.
+#' @param nd_outputs A numeric vector containing the indices of non-discretionary outputs.
+#' @param ud_inputs A numeric vector containing the indices of undesirable (good) inputs.
+#' @param ud_outputs A numeric vector containing the indices of undesirable (bad) outputs.
 #'
 #' @return An object of class \code{deadata_fuzzy}.
 #'  

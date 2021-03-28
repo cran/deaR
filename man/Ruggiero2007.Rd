@@ -4,12 +4,14 @@
 \name{Ruggiero2007}
 \alias{Ruggiero2007}
 \title{Data: Ruggiero (2007).}
-\format{Data frame with 35 rows and 4 columns. Definition of inputs (X) and outputs (Y):
+\format{
+Data frame with 35 rows and 4 columns. Definition of inputs (X) and outputs (Y):
 \describe{
   \item{x1}{Input 1}
   \item{x2}{Input 2}
   \item{y1}{Output 1}
-}}
+}
+}
 \source{
 Ruggiero J. (2007). Non-Discretionary Inputs. In: Zhu J., Cook W.D. (eds) Modeling Data Irregularities and Structural Complexities in Data Envelopment Analysis. Springer, Boston, MA. \code{doi}: 10.1007/978-0-387-71607-7_5
 }

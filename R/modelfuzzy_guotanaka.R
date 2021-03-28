@@ -34,11 +34,11 @@
 #' University of Valencia (Spain)
 #'  
 #' @references 
-#' Emrouznejad, A.; Tavana, M.; Hatami-Marbini, A. (2014). “The State of the Art in Fuzzy Data Envelopment Analysis”, in A. Emrouznejad and M. Tavana (eds.), Performance Measurement with Fuzzy Data Envelopment Analysis. Studies in Fuzziness and Soft Computing 309. Springer, Berlin. \url{https://doi.org/10.1007/978-3-642-41372-8_1}
+#' Emrouznejad, A.; Tavana, M.; Hatami-Marbini, A. (2014). “The State of the Art in Fuzzy Data Envelopment Analysis”, in A. Emrouznejad and M. Tavana (eds.), Performance Measurement with Fuzzy Data Envelopment Analysis. Studies in Fuzziness and Soft Computing 309. Springer, Berlin. \doi{10.1007/978-3-642-41372-8_1}
 #' 
-#' Guo, P.; Tanaka, H. (2001). "Fuzzy DEA: A Perceptual Evaluation Method", Fuzzy Sets and Systems, 119, 149–160. \url{https://doi.org/10.1016/S0165-0114(99)00106-2}
+#' Guo, P.; Tanaka, H. (2001). "Fuzzy DEA: A Perceptual Evaluation Method", Fuzzy Sets and Systems, 119, 149–160. \doi{10.1016/S0165-0114(99)00106-2}
 #' 
-#' Hatami-Marbini, A.; Emrouznejad, A.; Tavana, M. (2011). "A Taxonomy and Review of the Fuzzy Data Envelopment Analysis Literature: Two Decades in the Making", European Journal of Operational Research, 214, 457–472. \url{https://doi.org/10.1016/j.ejor.2011.02.001}
+#' Hatami-Marbini, A.; Emrouznejad, A.; Tavana, M. (2011). "A Taxonomy and Review of the Fuzzy Data Envelopment Analysis Literature: Two Decades in the Making", European Journal of Operational Research, 214, 457–472. \doi{10.1016/j.ejor.2011.02.001}
 #' 
 #' @examples
 #' # Example 1.

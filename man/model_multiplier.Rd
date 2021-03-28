@@ -84,15 +84,15 @@ multipliers(result2)
 
 }
 \references{
-Charnes, A.; Cooper, W.W. (1962). “Programming with Linear Fractional Functionals”, Naval Research Logistics Quarterly 9, 181-185. \url{https://doi.org/10.1002/nav.3800090303}  
+Charnes, A.; Cooper, W.W. (1962). “Programming with Linear Fractional Functionals”, Naval Research Logistics Quarterly 9, 181-185. \doi{10.1002/nav.3800090303}  
 
-Charnes, A.; Cooper, W.W.; Rhodes, E. (1978). “Measuring the Efficiency of Decision Making Units”, European Journal of Operational Research 2, 429–444. \url{https://doi.org/10.1016/0377-2217(78)90138-8}  
+Charnes, A.; Cooper, W.W.; Rhodes, E. (1978). “Measuring the Efficiency of Decision Making Units”, European Journal of Operational Research 2, 429–444. \doi{10.1016/0377-2217(78)90138-8}  
 
-Charnes, A.; Cooper, W.W.; Rhodes, E. (1979). “Short Communication: Measuring the Efficiency of Decision Making Units”, European Journal of Operational Research 3, 339. \url{https://doi.org/10.1016/0377-2217(79)90229-7}  
+Charnes, A.; Cooper, W.W.; Rhodes, E. (1979). “Short Communication: Measuring the Efficiency of Decision Making Units”, European Journal of Operational Research 3, 339. \doi{10.1016/0377-2217(79)90229-7}  
 
-Golany, B.; Roll, Y. (1989). "An Application Procedure for DEA", OMEGA International Journal of Management Science, 17(3), 237-250. \url{https://doi.org/10.1016/0305-0483(89)90029-7}
+Golany, B.; Roll, Y. (1989). "An Application Procedure for DEA", OMEGA International Journal of Management Science, 17(3), 237-250. \doi{10.1016/0305-0483(89)90029-7}
 
-Seiford, L.M.; Thrall, R.M. (1990). “Recent Developments in DEA. The Mathematical Programming Approach to Frontier Analysis”, Journal of Econometrics 46, 7-38. \url{https://doi.org/10.1016/0304-4076(90)90045-U}
+Seiford, L.M.; Thrall, R.M. (1990). “Recent Developments in DEA. The Mathematical Programming Approach to Frontier Analysis”, Journal of Econometrics 46, 7-38. \doi{10.1016/0304-4076(90)90045-U}
 
 Zhu, J. (2014). Quantitative Models for Performance Evaluation and Benchmarking. Data Envelopment Analysis with Spreadsheets. 3rd Edition Springer, New York. DOI: 10.1007/978-3-319-06647-9
 }

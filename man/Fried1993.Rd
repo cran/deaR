@@ -4,12 +4,14 @@
 \name{Fried1993}
 \alias{Fried1993}
 \title{Data: Fried, Knox Lovell and Schmidt (1993).}
-\format{Data frame with 11 rows and 4 columns. Definition of inputs (X) and outputs (Y):
+\format{
+Data frame with 11 rows and 4 columns. Definition of inputs (X) and outputs (Y):
 \describe{
   \item{x1}{Input 1}
   \item{x2}{Input 2}
   \item{y1}{Output 1}
-}}
+}
+}
 \source{
 Ali, A.I.; Seiford, L.M. (1993). The Mathematical Programming Approach to Efficiency Analysis. In Fried, H.O.; Knox Lovell, C.A.; Schmidt, S.S.(eds.), The Measurement of Productive Efficiency. Techniques and Applications. New York: Oxford University Press.
 }
