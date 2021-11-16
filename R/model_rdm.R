@@ -22,9 +22,9 @@
 #' @param orientation A string, equal to "no" (non-oriented), "io" (input oriented), or "oo" (output oriented).
 #' @param irdm Logical. If it is \code{TRUE}, it applies the IRDM (inverse range directional model).
 #' @param maxslack Logical. If it is \code{TRUE}, it computes the max slack solution.
-#' @param weight_slack_i A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the lenght of \code{dmu_eval})
+#' @param weight_slack_i A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the length of \code{dmu_eval})
 #'                       with the weights of the input slacks for the max slack solution.
-#' @param weight_slack_o A value, vector of length \code{s}, or matrix \code{s} x \code{ne} (where \code{ne} is the lenght of \code{dmu_eval})
+#' @param weight_slack_o A value, vector of length \code{s}, or matrix \code{s} x \code{ne} (where \code{ne} is the length of \code{dmu_eval})
 #'                       with the weights of the output slacks for the max slack solution.
 #' @param compute_target Logical. If it is \code{TRUE}, it computes targets of the max slack solution. 
 #' @param returnlp Logical. If it is \code{TRUE}, it returns the linear problems (objective function and constraints) of stage 1.

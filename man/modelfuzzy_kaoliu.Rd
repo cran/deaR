@@ -33,7 +33,7 @@ Solve the fuzzy DEA model by Kao and Liu (2000)
 }
 \examples{
 # Example 1. 
-# Replication of results in BoscÃ¡, Liern, Sala and MartÃ­nez (2011, p.125)
+# Replication of results in Boscá, Liern, Sala and Martínez (2011, p.125)
 data("Leon2003")
 data_example <- read_data_fuzzy(datadea = Leon2003,
                                 inputs.mL = 2, 

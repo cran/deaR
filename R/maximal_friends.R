@@ -15,7 +15,7 @@
 #'                If \code{NULL} (default), all DMUs are considered.
 #' @param rts A string, determining the type of returns to scale, equal to "crs" (constant),
 #'            "vrs" (variable), "nirs" (non-increasing) or "ndrs" (non-decreasing).
-#' @param tol Numeric, a tolerance margin for checking efficiency.
+#' @param tol Numeric, a tolerance margin for checking efficiency. It is 1e-6 by default.
 #' @param silent Logical, if \code{FALSE} (default) steps are printed.
 #' 
 #' @return A list with numeric vectors representing maximal friends subsets of DMUs.
@@ -80,7 +80,7 @@ maximal_friends <- function(datadea,
   }
   names(dmu_ref) <- dmunames[dmu_ref]
   
-  tol <- 1e-6
+  # tol <- 1e-6
   
   # Find efficient DMUs in dmu_ref
   result_sbm <- model_sbmeff(datadea = datadea,
@@ -111,48 +111,65 @@ maximal_friends <- function(datadea,
   nomaxfr <- list()
   cand <- list() # candidatos
   
-  if (is.friends(datadea = datadeaeff, rts = rts)) {
-    maxfr[[1]] <- effDMUs
-  } else {
-    nomaxfr[[1]] <- 1:ne
+  cand <- append(cand, 1:ne) 
+  #cand <- lapply(1:ne, FUN = function(x){x}) # Esto es equivalente
+  
+  for (k in seq_len(ne - 1)) {
     
-    for (k in seq_len(ne - 2)) {
-      if (!silent) {
-        print(paste("Step", toString(k), "of", toString(ne - 2), "(computing", toString((ne - k + 1) * (length(nomaxfr))), "subsets)"))
-      }
-      cand <- nomaxfr
-      nomaxfr <- list()
+    if (!silent) {
+      print(paste("Computing maximal friends with", toString(k), "DMUs (step",
+                  toString(k), "of", toString(ne - 1), ")"))
+    }
+    
+    for (kk in seq_along(cand)) {
       
-      for (kk in seq_along(cand)) {
-        
-        for (kkk in seq_along(cand[[kk]])) {
-          dmu_eval <- cand[[kk]][-kkk]
-          
-          #aux <- !any(unlist(lapply(maxfr, function(x) all(effDMUs[dmu_eval] %in% x))))
-          aux <- TRUE
-          for (ii in seq_along(maxfr)) {
-            if (all(effDMUs[dmu_eval] %in% maxfr[[ii]]))
-            {
-              aux <- FALSE
-              break
-            }
-          }
-          
-          if ((aux) && (!list(dmu_eval) %in% nomaxfr)) {
-            if (is.friends(datadea = datadeaeff, dmu_eval = dmu_eval, rts = rts)) {
-              maxfr <- c(maxfr, list(effDMUs[dmu_eval]))
-            } else {
-              nomaxfr <- c(nomaxfr, list(dmu_eval))
-            }
+      aux <- TRUE
+      jk <- cand[[kk]][k] # last element of cand[[kk]]
+      if (jk < ne) {
+        for (j in seq(from = jk + 1, to = ne)) {
+          dmu_eval <- c(cand[[kk]], j)
+          #kkprueba <- is.friends(datadea = datadeaeff, dmu_eval = dmu_eval, rts = rts)
+          #if (kkprueba == 2) {print(effDMUs[dmu_eval])}
+          #if (is.friends(datadea = datadeaeff, dmu_eval = dmu_eval, rts = rts)) {
+          if (is.friends(datadea = datadea, dmu_eval = effDMUs[dmu_eval], dmu_ref = effDMUs, rts = rts)) {
+            nomaxfr <- c(nomaxfr, list(dmu_eval))
+            aux <- FALSE
           }
         }
-        
+      }
+      if (aux) {
+        maxfr <- c(maxfr, list(effDMUs[cand[[kk]]]))
       }
       
     }
-    # Add sets of just 1 DMU that are not in maxfr
-    maxfr <- append(maxfr, effDMUs[!effDMUs %in% unique(unlist(maxfr))])
     
+    cand <- nomaxfr
+    nomaxfr <- list()
+    
+  }
+  
+  # If in the last step cand is not empty, there is only one facet
+  if (length(cand) > 0) {
+    maxfr <- list(effDMUs)
+  }
+  
+  # Remove dominated friends from maxfr
+  nmf <- 1:length(maxfr)
+  auxmaxfr <- maxfr
+  for (i in nmf) {
+    for (j in nmf[-i]) {
+      if (all(auxmaxfr[[i]] %in% auxmaxfr[[j]])) {
+        auxmaxfr[[i]] <- 0
+      }
+    }
+  }
+  maxfr <- list()
+  k <- 1
+  for (i in nmf) {
+    if (auxmaxfr[[i]][1] != 0) {
+      maxfr[[k]] <- auxmaxfr[[i]]
+      k <- k + 1
+    }
   }
   
   names(maxfr) <- paste("Facet", seq_along(maxfr))
@@ -160,3 +177,50 @@ maximal_friends <- function(datadea,
   return(maxfr)
   
 }
+
+# Descending search algorithm (slower)
+#
+#if (is.friends(datadea = datadeaeff, rts = rts)) {
+#  maxfr[[1]] <- effDMUs
+#} else {
+#  nomaxfr[[1]] <- 1:ne
+#  
+#  for (k in seq_len(ne - 2)) {
+#    if (!silent) {
+#      print(paste("Step", toString(k), "of", toString(ne - 2), "(computing", toString((ne - k + 1) * (length(nomaxfr))), "subsets)"))
+#    }
+#    cand <- nomaxfr
+#    nomaxfr <- list()
+#    
+#    for (kk in seq_along(cand)) {
+#      
+#      for (kkk in seq_along(cand[[kk]])) {
+#        dmu_eval <- cand[[kk]][-kkk]
+#        
+#        aux <- !any(unlist(lapply(maxfr, function(x) all(effDMUs[dmu_eval] %in% x))))
+#        aux <- TRUE
+#        for (ii in seq_along(maxfr)) {
+#          if (all(effDMUs[dmu_eval] %in% maxfr[[ii]]))
+#          {
+#            aux <- FALSE
+#            break
+#          }
+#        }
+#        
+#        if ((aux) && (!list(dmu_eval) %in% nomaxfr)) {
+#          if (is.friends(datadea = datadeaeff, dmu_eval = dmu_eval, rts = rts)) {
+#            maxfr <- c(maxfr, list(effDMUs[dmu_eval]))
+#          } else {
+#            nomaxfr <- c(nomaxfr, list(dmu_eval))
+#          }
+#        }
+#      }
+#      
+#    }
+#    
+#  }
+#  # Add sets of just 1 DMU that are not in maxfr
+#  maxfr <- append(maxfr, effDMUs[!effDMUs %in% unique(unlist(maxfr))])
+#  
+#}
+

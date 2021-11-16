@@ -26,9 +26,9 @@
 #'                    "io" (input-oriented) or "oo" (output-oriented). It is used to modify the weight slacks. 
 #'                    If input-oriented, \code{weight_slack_o} are taken 0.
 #'                    If output-oriented, \code{weight_slack_i} are taken 0.
-#' @param weight_slack_i A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the lenght of \code{dmu_eval})
+#' @param weight_slack_i A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the length of \code{dmu_eval})
 #'                       with the weights of the input slacks. If 0, output-oriented.
-#' @param weight_slack_o A value, vector of length \code{s}, or matrix \code{s} x \code{ne} (where \code{ne} is the lenght of \code{dmu_eval})
+#' @param weight_slack_o A value, vector of length \code{s}, or matrix \code{s} x \code{ne} (where \code{ne} is the length of \code{dmu_eval})
 #'                       with the weights of the output slacks. If 0, input-oriented.
 #' @param rts A string, determining the type of returns to scale, equal to "crs" (constant),
 #'            "vrs" (variable), "nirs" (non-increasing), "ndrs" (non-decreasing) or "grs" (generalized).

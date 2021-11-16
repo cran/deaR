@@ -20,7 +20,7 @@ If \code{NULL} (default), all DMUs are considered.}
 \item{rts}{A string, determining the type of returns to scale, equal to "crs" (constant),
 "vrs" (variable), "nirs" (non-increasing) or "ndrs" (non-decreasing).}
 
-\item{tol}{Numeric, a tolerance margin for checking efficiency.}
+\item{tol}{Numeric, a tolerance margin for checking efficiency. It is 1e-6 by default.}
 
 \item{silent}{Logical, if \code{FALSE} (default) steps are printed.}
 }

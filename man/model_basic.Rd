@@ -34,11 +34,11 @@ If \code{NULL} (default), all DMUs are considered.}
 
 \item{orientation}{A string, equal to "io" (input oriented), "oo" (output oriented), or "dir" (directional).}
 
-\item{dir_input}{A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the lenght of \code{dmu_eval}) with the input directions.
+\item{dir_input}{A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the length of \code{dmu_eval}) with the input directions.
 If \code{dir_input} == input matrix (of DMUS in \code{dmu_eval}) and \code{dir_output} == 0, it is equivalent to input oriented (\code{beta} = 1 - \code{efficiency}).
 If \code{dir_input} is omitted, input matrix (of DMUS in \code{dmu_eval}) is assigned.}
 
-\item{dir_output}{A value, vector of length \code{s}, or matrix \code{s} x \code{ne} (where \code{ne} is the lenght of \code{dmu_eval}) with the output directions.
+\item{dir_output}{A value, vector of length \code{s}, or matrix \code{s} x \code{ne} (where \code{ne} is the length of \code{dmu_eval}) with the output directions.
 If \code{dir_input} == 0 and \code{dir_output} == output matrix (of DMUS in \code{dmu_eval}), it is equivalent to output oriented (\code{beta} = \code{efficiency} - 1).
 If \code{dir_output} is omitted, output matrix (of DMUS in \code{dmu_eval}) is assigned.}
 
@@ -51,10 +51,10 @@ If \code{dir_output} is omitted, output matrix (of DMUS in \code{dmu_eval}) is a
 
 \item{maxslack}{Logical. If it is \code{TRUE}, it computes the max slack solution.}
 
-\item{weight_slack_i}{A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the lenght of \code{dmu_eval})
+\item{weight_slack_i}{A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the length of \code{dmu_eval})
 with the weights of the input slacks for the max slack solution.}
 
-\item{weight_slack_o}{A value, vector of length \code{s}, or matrix \code{s} x \code{ne} (where \code{ne} is the lenght of \code{dmu_eval})
+\item{weight_slack_o}{A value, vector of length \code{s}, or matrix \code{s} x \code{ne} (where \code{ne} is the length of \code{dmu_eval})
 with the weights of the output slacks for the max slack solution.}
 
 \item{vtrans_i}{Numeric vector of translation for undesirable inputs with non-directional orientation. If \code{vtrans_i[i]} is

@@ -30,10 +30,10 @@ If \code{NULL} (default), all DMUs are considered.}
 \item{dmu_ref}{A numeric vector containing which DMUs are the evaluation reference set.
 If \code{NULL} (default), all DMUs are considered.}
 
-\item{weight_input}{A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the lenght of \code{dmu_eval})
+\item{weight_input}{A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the length of \code{dmu_eval})
 with weights to inputs corresponding to the relative importance of items.}
 
-\item{weight_output}{A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the lenght of \code{dmu_eval})
+\item{weight_output}{A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the length of \code{dmu_eval})
 with weights to outputs corresponding to the relative importance of items.}
 
 \item{orientation}{A string, equal to "no" (non-oriented), "io" (input-oriented) or "oo" (output-oriented).}
@@ -95,7 +95,7 @@ targets(result)
  
 }
 \references{
-Tone, K. (2001). "A Slacks-Based Beasure of Efficiency in Data Envelopment Analysis", European Journal of Operational Research, 130, 498-509. \doi{10.1016/S0377-2217(99)00407-5}
+Tone, K. (2001). "A Slacks-Based Measure of Efficiency in Data Envelopment Analysis", European Journal of Operational Research, 130, 498-509. \doi{10.1016/S0377-2217(99)00407-5}
 
 Tone, K. (2010). "Variations on the theme of slacks-based measure of efficiency in DEA", European Journal of Operational Research, 200, 901-907. \doi{10.1016/j.ejor.2009.01.027}
 

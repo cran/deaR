@@ -22,9 +22,9 @@
 #' If \code{NULL} (default), all DMUs are considered.
 #' @param dmu_ref A numeric vector containing which DMUs are the evaluation reference set.
 #' If \code{NULL} (default), all DMUs are considered.
-#' @param weight_input A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the lenght of \code{dmu_eval})
+#' @param weight_input A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the length of \code{dmu_eval})
 #'                     with weights to inputs corresponding to the relative importance of items.
-#' @param weight_output A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the lenght of \code{dmu_eval})
+#' @param weight_output A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the length of \code{dmu_eval})
 #'                      with weights to outputs corresponding to the relative importance of items.
 #' @param orientation A string, equal to "no" (non-oriented), "io" (input-oriented) or "oo" (output-oriented).
 #' @param rts A string, determining the type of returns to scale, equal to "crs" (constant),

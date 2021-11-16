@@ -212,7 +212,7 @@ summary.dea <- function(object,
       return(dflist)
     } else {
       dffinal <- do.call(cbind, dflist)
-      dffinal <- cbind(DMU = object$data$dmunames, dffinal)
+      dffinal <- cbind(DMU = names(object$dmu_eval), dffinal)
       return(dffinal)
     }
   } else if (modelname == "malmquist") {
@@ -250,12 +250,14 @@ summary.dea <- function(object,
     rownames(dff) <- NULL
     cnames <- colnames(dff)
     # Geometric means by Period vars(3:ncol(dff))
-    dff %>% group_by(Period) %>% summarise_at(vars(cnames[3]:cnames[ncol(dff)]), list(geomean = ~exp(mean(log(
+    dff %>% group_by(Period) %>% summarise_at(vars(cnames[3]:cnames[ncol(dff)]),
+                                              list(geomean = ~exp(mean(log(
       .
     ))))) %>% as.data.frame() -> dfsumPer
     colnames(dfsumPer) <- colnames(dff)[-2]
     # Geometric means by DMU
-    dff %>% group_by(DMU) %>% summarise_at(vars(cnames[3]:cnames[ncol(dff)]), list(geomean = ~exp(mean(log(
+    dff %>% group_by(DMU) %>% summarise_at(vars(cnames[3]:cnames[ncol(dff)]), 
+                                           list(geomean = ~exp(mean(log(
       .
     ))))) %>% as.data.frame() -> dfsumDMU
     colnames(dfsumDMU) <- colnames(dff)[-1]

@@ -31,12 +31,12 @@ If \code{NULL} (default), all DMUs are considered.}
 If input-oriented, \code{weight_slack_o} are taken 0.
 If output-oriented, \code{weight_slack_i} are taken 0.}
 
-\item{weight_slack_i}{A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the lenght of \code{dmu_eval})
+\item{weight_slack_i}{A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the length of \code{dmu_eval})
 with the weights of the input superslacks (\code{t_input}).
 If 0, output-oriented.
 If \code{weight_slack_i} is the matrix of the inverses of inputs (of DMUS in \code{dmu_eval}), the model is unit invariant.}
 
-\item{weight_slack_o}{A value, vector of length \code{s}, or matrix \code{s} x \code{ne} (where \code{ne} is the lenght of \code{dmu_eval})
+\item{weight_slack_o}{A value, vector of length \code{s}, or matrix \code{s} x \code{ne} (where \code{ne} is the length of \code{dmu_eval})
 with the weights of the output superslacks (\code{t_output}).
 If 0, input-oriented.
 If \code{weight_slack_o} is the matrix of the inverses of outputs (of DMUS in \code{dmu_eval}), the model is unit invariant.}

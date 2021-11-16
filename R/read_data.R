@@ -264,7 +264,7 @@ read_data <- function(datadea = NULL,
       warning("There are data with very different orders of magnitude. Try to re-define the units of measure or some linear problems may be ill-posed.")
     }
   } else {
-    warning("There are negative or zero data.")
+    warning("There are negative or zero data. Try to translate the base point of the inputs/outputs with negative data in order to get only positive values.")
   }
 
   res <- list(

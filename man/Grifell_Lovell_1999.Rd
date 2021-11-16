@@ -22,7 +22,7 @@ Data of 8 DMUs producing 1 output (Y) by using 1 input (X) for two periods of ti
 }
 \examples{
 
-# Example. Replication of results in Grifell-TatjÃ© and Lovell (1999, p. 100).
+# Example. Replication of results in Grifell-Tatjé and Lovell (1999, p. 100).
 data("Grifell_Lovell_1999")
 data_example <- read_malmquist(Grifell_Lovell_1999,
                                percol=1,

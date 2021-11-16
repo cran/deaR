@@ -31,10 +31,10 @@ If \code{NULL} (default), all DMUs are considered.}
 
 \item{maxslack}{Logical. If it is \code{TRUE}, it computes the max slack solution.}
 
-\item{weight_slack_i}{A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the lenght of \code{dmu_eval})
+\item{weight_slack_i}{A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the length of \code{dmu_eval})
 with the weights of the input slacks for the max slack solution.}
 
-\item{weight_slack_o}{A value, vector of length \code{s}, or matrix \code{s} x \code{ne} (where \code{ne} is the lenght of \code{dmu_eval})
+\item{weight_slack_o}{A value, vector of length \code{s}, or matrix \code{s} x \code{ne} (where \code{ne} is the length of \code{dmu_eval})
 with the weights of the output slacks for the max slack solution.}
 
 \item{compute_target}{Logical. If it is \code{TRUE}, it computes targets of the max slack solution.}

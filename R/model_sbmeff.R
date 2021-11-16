@@ -24,9 +24,9 @@
 #'                 If \code{NULL} (default), all DMUs are considered.
 #' @param dmu_ref A numeric vector containing which DMUs are the evaluation reference set.
 #'                If \code{NULL} (default), all DMUs are considered.
-#' @param weight_input A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the lenght of \code{dmu_eval})
+#' @param weight_input A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the length of \code{dmu_eval})
 #'                     with weights to inputs corresponding to the relative importance of items.
-#' @param weight_output A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the lenght of \code{dmu_eval})
+#' @param weight_output A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the length of \code{dmu_eval})
 #'                      with weights to outputs corresponding to the relative importance of items.
 #' @param orientation A string, equal to "no" (non-oriented), "io" (input-oriented) or "oo" (output-oriented).
 #' @param rts A string, determining the type of returns to scale, equal to "crs" (constant),
@@ -56,7 +56,7 @@
 #' University of Valencia (Spain) 
 #' 
 #' @references 
-#' Tone, K. (2001). "A Slacks-Based Beasure of Efficiency in Data Envelopment Analysis", European Journal of Operational Research, 130, 498-509. \doi{10.1016/S0377-2217(99)00407-5}
+#' Tone, K. (2001). "A Slacks-Based Measure of Efficiency in Data Envelopment Analysis", European Journal of Operational Research, 130, 498-509. \doi{10.1016/S0377-2217(99)00407-5}
 #'
 #' Tone, K. (2010). "Variations on the theme of slacks-based measure of efficiency in DEA", European Journal of Operational Research, 200, 901-907. \doi{10.1016/j.ejor.2009.01.027}
 #'
@@ -187,6 +187,9 @@ model_sbmeff <-
   nnci <- length(nc_inputs)
   nnco <- length(nc_outputs)
   ud_inputs <- datadea$ud_inputs
+  if ((is.null(ud_inputs) == FALSE) && orientation != "oo"){
+    warning("Undesirable inputs with not output-oriented model could generate negative efficiencies. The lower the efficiency, the more inefficient the DMU.")
+  }
   ud_outputs <- datadea$ud_outputs
   aux_udi <- rep(1, ni)
   aux_udi[ud_inputs] <- -1
@@ -213,7 +216,7 @@ model_sbmeff <-
   }
   weight_input[nc_inputs, ] <- 0
   sumwi <- colSums(weight_input)
-  if (any(sumwi == 0)) {
+  if (any(sumwi == 0) && aux_i == 1) {
     stop("A sum of input weights is 0.")
   }
   rownames(weight_input) <- inputnames
@@ -230,7 +233,7 @@ model_sbmeff <-
   }
   weight_output[nc_outputs, ] <- 0
   sumwo <- colSums(weight_output)
-  if (any(sumwo == 0)) {
+  if (any(sumwo == 0) && aux_o == 1) {
     stop("A sum of output weights is 0.")
   }
   rownames(weight_output) <- outputnames
@@ -289,9 +292,12 @@ model_sbmeff <-
       nzinput <- input[, ii]
       nzinput[zero_inputs] <- 1 # zero inputs become 1
       weight_input[zero_inputs, i] <- 0 # weights corresponding to zero inputs become 0
-      nzi_sumwi <- sum(weight_input[, i])
+      nzi_sumwi <- 1
+      if (aux_i == 1) {
+        nzi_sumwi <- sum(weight_input[, i])
+      }
       if (nzi_sumwi == 0) {
-        stop("A sum of nonzero-input weights is 0.")
+          stop("A sum of nonzero-input weights is 0.")
       }
       
       # Vector de coeficientes de la función objetivo
@@ -343,7 +349,7 @@ model_sbmeff <-
           }
           
         } else {
-          
+
           efficiency <- NA
           lambda <- NA
           slack_input <- NA
@@ -426,7 +432,10 @@ model_sbmeff <-
         nzinput <- input[, ii]
         nzinput[zero_inputs] <- 1 # zero inputs become 1
         weight_input[zero_inputs, i] <- 0 # weights corresponding to zero inputs become 0
-        nzi_sumwi <- sum(weight_input[, i])
+        nzi_sumwi <- 1
+        if (aux_i == 1) {
+          nzi_sumwi <- sum(weight_input[, i])
+        }
         if (nzi_sumwi == 0) {
           stop("A sum of nonzero-input weights is 0.")
         }

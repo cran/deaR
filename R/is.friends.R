@@ -15,7 +15,7 @@
 #'                If \code{NULL} (default), all DMUs are considered.
 #' @param rts A string, determining the type of returns to scale, equal to "crs" (constant),
 #'            "vrs" (variable), "nirs" (non-increasing) or "ndrs" (non-decreasing).
-#' @param tol Numeric, a tolerance margin for checking efficiency.
+#' @param tol Numeric, a tolerance margin for checking efficiency. It is 1e-6 by default.
 #' 
 #' @return Returns \code{TRUE} if \code{dmu_eval} is friends of \code{dmu_ref},
 #'         and \code{FALSE} otherwise.
@@ -96,6 +96,8 @@ is.friends <- function(datadea,
   outputeval <- matrix(output[, dmu_eval], nrow = no)
   inputtest = apply(inputeval, MARGIN = 1, FUN = sum) / nde
   outputtest = apply(outputeval, MARGIN = 1, FUN = sum) / nde
+  #inputtest = apply(inputeval, MARGIN = 1, FUN = sum)
+  #outputtest = apply(outputeval, MARGIN = 1, FUN = sum)
   
   datadeatest <- structure(list(
     input = cbind(input, matrix(inputtest, nrow = ni)),
@@ -115,8 +117,41 @@ is.friends <- function(datadea,
                              rts = rts)
   eff <- result_sbm$DMU[[1]]$efficiency
   #lambself <- result_sbm$DMU[[1]]$lambda[ndr + 1] # For rts = "grs", efficiency is not reliable
+  
+  if (!is.numeric(eff)) {
+    result_radial <- model_basic(datadea = datadeatest,
+                                 dmu_ref = c(dmu_ref, nd + 1),
+                                 dmu_eval = nd + 1,
+                                 rts = rts)
+    eff <- result_radial$DMU[[1]]$efficiency
+    slacks_input <- result_radial$DMU[[1]]$slacks_input
+    slacks_output <- result_radial$DMU[[1]]$slacks_output
+    if ((is.numeric(eff)) && (eff >= 1 - tol) && sum(c(slacks_input, slacks_output)) >= tol) eff <- 0
+  }
 
   #return((eff >= 1 - tol) || (lambself >= tol))
+  #res <- FALSE
+  #if (is.numeric(eff)) {
+  #  if (eff >= (1 - tol)) {
+  #    res <- TRUE
+  #  }
+  #} else {
+  #  res <- 2
+  #  warning("An error has occured in the computation of an efficiency inside is.friends.")
+  #}
+  
+  if (!is.numeric(eff)) {
+    eff <- 1
+    #res <- model_sbmeff(datadea = datadeatest,
+    #                    dmu_ref = c(dmu_ref, nd + 1),
+    #                    dmu_eval = nd + 1,
+    #                    rts = rts, returnlp = TRUE)
+    #print(datadeatest$input[, nd+1])
+    #print(datadeatest$output[, nd+1])
+    warning("Error in the computation of SBM efficiency inside is.friends with DMUs ", toString(dmu_eval))
+  }
+  
+  #return(res)
   return(eff >= (1 - tol))
   
 }
