@@ -337,6 +337,7 @@ model_basic <-
   target_output <- NULL
   multiplier_input <- NULL
   multiplier_output <- NULL
+  multiplier_rts <- NULL
   orientation_param <- NULL
   
   DMU <- vector(mode = "list", length = nde)
@@ -474,9 +475,17 @@ model_basic <-
             names(multiplier_input) <- inputnames
             multiplier_output <- orient * res$duals[(ni + 1) : (ni + no)]
             names(multiplier_output) <- outputnames
+            if (rts == "grs") {
+              multiplier_rts <- res$duals[(ni + no + 1):(ni + no + 2)]
+              names(multiplier_rts) <- c("grs_L", "grs_U")
+            } else if (rts != "crs") {
+              multiplier_rts <- res$duals[ni + no + 1]
+              names(multiplier_rts) <- rts
+            }
           } else {
             multiplier_input <- NA
             multiplier_output <- NA
+            multiplier_rts <- NA
           }
           
         } else {
@@ -554,20 +563,36 @@ model_basic <-
         }
         
         if (orientation == "io") {
-          DMU[[i]] <- list(efficiency = efficiency,
-                           lambda = lambda,
-                           slack_input = slack_input, slack_output = slack_output,
-                           target_input = target_input, target_output = target_output,
-                           multiplier_input = multiplier_input, multiplier_output = multiplier_output)
+          if (rts == "crs") {
+            DMU[[i]] <- list(efficiency = efficiency,
+                             lambda = lambda,
+                             slack_input = slack_input, slack_output = slack_output,
+                             target_input = target_input, target_output = target_output,
+                             multiplier_input = multiplier_input, multiplier_output = multiplier_output)
+          } else {
+            DMU[[i]] <- list(efficiency = efficiency,
+                             lambda = lambda,
+                             slack_input = slack_input, slack_output = slack_output,
+                             target_input = target_input, target_output = target_output,
+                             multiplier_input = multiplier_input, multiplier_output = multiplier_output, multiplier_rts = multiplier_rts)
+          }
         } else {
-          DMU[[i]] <- list(efficiency = efficiency, # 1/ efficiency
-                           lambda = lambda,
-                           slack_input = slack_output, slack_output = slack_input,
-                           target_input = target_output, target_output = target_input,
-                           multiplier_input = multiplier_output, multiplier_output = multiplier_input)
           aux <- weight_slack_i
           weight_slack_i <- weight_slack_o
           weight_slack_o <- aux
+          if (rts == "crs") {
+            DMU[[i]] <- list(efficiency = efficiency, # 1/ efficiency
+                             lambda = lambda,
+                             slack_input = slack_output, slack_output = slack_input,
+                             target_input = target_output, target_output = target_input,
+                             multiplier_input = multiplier_output, multiplier_output = multiplier_input)
+          } else {
+            DMU[[i]] <- list(efficiency = efficiency, # 1/ efficiency
+                             lambda = lambda,
+                             slack_input = slack_output, slack_output = slack_input,
+                             target_input = target_output, target_output = target_input,
+                             multiplier_input = multiplier_output, multiplier_output = multiplier_input, multiplier_rts = multiplier_rts)
+          }
         }
         
       }

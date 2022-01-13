@@ -209,7 +209,6 @@ model_multiplier <-
     f.dir.rs <- NULL
     f.rhs.rs <- NULL
   }
-  multiplier_rts <- 0
   
   if (epsilon > 0) {
     f.con.eps <- cbind(diag(ni + no), matrix(0, nrow = ni + no, ncol = 2))
@@ -222,7 +221,7 @@ model_multiplier <-
   }
     
   # Matriz técnica del 2º bloque de restricciones
-  f.con.2 <- cbind(-t(inputref), t(outputref), matrix(U, nrow = ndr, ncol = 1), matrix(-L, nrow = ndr, ncol = 1))
+  f.con.2 <- cbind(-t(inputref), t(outputref), matrix(1, nrow = ndr, ncol = 1), matrix(-1, nrow = ndr, ncol = 1))
   
   # Vector de dirección de restricciones
   f.dir <- c("=", rep("<=", ndr), f.dir.eps, f.dir.rs) # Efficiency is considered free
@@ -236,7 +235,7 @@ model_multiplier <-
     ii <- dmu_eval[i]
     
     # Vector de coeficientes de la función objetivo
-    f.obj <- c(rep(0, ni), output[, ii], U, -L)
+    f.obj <- c(rep(0, ni), output[, ii], L, -U)
       
     # Matriz técnica
     f.con.1 <- c(input[, ii], rep(0, no), 0, 0)
@@ -249,7 +248,7 @@ model_multiplier <-
       multiplier_output <- rep(0, no)
       names(multiplier_output) <- outputnames
       multiplier_rts <- rep(0, 2)
-      names(multiplier_rts) <- c("L","U")
+      names(multiplier_rts) <- c("grs_L", "grs_U")
       if (orientation == "io") {
         var = list(multiplier_input = multiplier_input, multiplier_output = multiplier_output,
                    multiplier_rts = multiplier_rts)
@@ -312,18 +311,28 @@ model_multiplier <-
         names(multiplier_input) <- inputnames
         multiplier_output <- res$solution[(ni + 1) : (ni + no)]
         names(multiplier_output) <- outputnames
+        if (rts == "vrs") {
+          multiplier_rts <- res$solution[1 + ni + no] - res$solution[2 + ni + no]
+          names(multiplier_rts) <- "vrs"
+        } else if (rts == "nirs") {
+          multiplier_rts <- -res$solution[2 + ni + no]
+          names(multiplier_rts) <- "nirs"
+        } else if (rts == "ndrs") {
+          multiplier_rts <- res$solution[1 + ni + no]
+          names(multiplier_rts) <- "ndrs"
+        } else if (rts == "grs") {
+          multiplier_rts <- c(res$solution[1 + ni + no], -res$solution[2 + ni + no])
+          names(multiplier_rts) <- c("grs_L", "grs_U")
+        }
         
         if (orientation == "oo") {
           aux <- multiplier_input
           multiplier_input <- multiplier_output
           multiplier_output <- aux
+          if (rts != "crs") {
+            multiplier_rts <- -multiplier_rts
+          }
           #efficiency <- 1 / efficiency
-        }
-        
-        if (rts != "crs") {
-          multiplier_rts <- U * res$solution[1 + ni + no] - L * res$solution[2 + ni + no]
-          multiplier_rts <- orient * multiplier_rts
-          names(multiplier_rts) <- "rts"
         }
         
       } else {
@@ -331,17 +340,32 @@ model_multiplier <-
         multiplier_output <- NA
         multiplier_rts <- NA
       }
-
-      if (compute_lambda) {
-        DMU[[i]] <- list(efficiency = efficiency,
-                         multiplier_input = multiplier_input, multiplier_output = multiplier_output, multiplier_rts = multiplier_rts,
-                         lambda = lambda,
-                         slack_input = slack_input, slack_output = slack_output,
-                         target_input = target_input, target_output = target_output)
+      
+      if (rts == "crs") {
+        if (compute_lambda) {
+          DMU[[i]] <- list(efficiency = efficiency,
+                           multiplier_input = multiplier_input, multiplier_output = multiplier_output,
+                           lambda = lambda,
+                           slack_input = slack_input, slack_output = slack_output,
+                           target_input = target_input, target_output = target_output)
+        } else {
+          DMU[[i]] <- list(efficiency = efficiency,
+                           multiplier_input = multiplier_input, multiplier_output = multiplier_output)
+        }
       } else {
-        DMU[[i]] <- list(efficiency = efficiency,
-                         multiplier_input = multiplier_input, multiplier_output = multiplier_output, multiplier_rts = multiplier_rts)
+        if (compute_lambda) {
+          DMU[[i]] <- list(efficiency = efficiency,
+                           multiplier_input = multiplier_input, multiplier_output = multiplier_output, multiplier_rts = multiplier_rts,
+                           lambda = lambda,
+                           slack_input = slack_input, slack_output = slack_output,
+                           target_input = target_input, target_output = target_output)
+        } else {
+          DMU[[i]] <- list(efficiency = efficiency,
+                           multiplier_input = multiplier_input, multiplier_output = multiplier_output, multiplier_rts = multiplier_rts)
+        }
       }
+
+      
       
     }
     

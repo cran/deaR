@@ -165,8 +165,8 @@ function(datadea,
   names(DMU) <- dmunames[dmu_eval]
   
   if (h[nh] == 1) {
-    datadea_crisp <- structure(list(input = input.m,
-                                    output = output.m,
+    datadea_crisp <- structure(list(input = datadea$input$mL,
+                                    output = datadea$output$mL,
                                     dmunames = dmunames),
                               class = "deadata")
     deasol_crisp <- do.call(model_multiplier, list(datadea = datadea_crisp,
@@ -180,8 +180,8 @@ function(datadea,
                        multiplier_input = deasol_crisp$DMU[[j]]$multiplier_input,
                        multiplier_output = deasol_crisp$DMU[[j]]$multiplier_output)
     }
-    hlevel[[nh]] <- list(input = list(Lower = input.m, Upper = input.m),
-                         output = list(Lower = output.m, Upper = output.m),
+    hlevel[[nh]] <- list(input = list(Lower = datadea$input$mL, Upper = datadea$input$mL),
+                         output = list(Lower = datadea$output$mL, Upper = datadea$output$mL),
                          DMU = DMU)
     nh <- nh - 1
   }

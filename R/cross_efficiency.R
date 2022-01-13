@@ -1,16 +1,18 @@
 #' @title Cross efficiency tables
 #'   
 #' @description Computes arbitrary, benevolent and aggressive formulation of cross-efficiency under constant and variable returns-to-scale. Doyle and Green (1994) present three alternatives ways of formulating the secondary goal (wich will minimize or maximize the other DMUs' cross-efficiencies in some way). Methods II and III are implemented in deaR with constant returns-to-scale. The maverick index is also calculated. 
-#' @note (1) We can obtain negative cross-efficiency in the input-oriented DEA model under variable returns to scale. However, the same does not happen in the case of the output oriented VRS DEA model. For this reason, the proposal of Lim and Zhu (2015) is implemented in deaR to calculate the input-oriented cross-efficiency model under variable returns-to-scale.
+#' @note (1) We can obtain negative cross-efficiency in the input-oriented DEA model under no constant returns-to-scale. However, the same does not happen in the case of the output-oriented VRS DEA model. For this reason, the proposal of Lim and Zhu (2015) is implemented in deaR to calculate the input-oriented cross-efficiency model under no constant returns-to-scale.
 #' 
-#' (2) The multiplier model can have alternate optimal solutions (see note 1 in model_multiplier). So, depending on the optimal weights selected we can obtain different cross-efficinecy scores.
+#' (2) The multiplier model can have alternate optimal solutions (see note 1 in model_multiplier). So, depending on the optimal weights selected we can obtain different cross-efficiency scores.
 #' 
 #' @usage cross_efficiency(datadea,
 #'                  dmu_eval = NULL,
 #'                  dmu_ref = NULL,
 #'                  epsilon = 0, 
 #'                  orientation = c("io", "oo"),
-#'                  rts = c("crs", "vrs"),
+#'                  rts = c("crs", "vrs", "nirs", "ndrs", "grs"),
+#'                  L = 1,
+#'                  U = 1,
 #'                  selfapp = TRUE,
 #'                  correction = FALSE,
 #'                  M2 = TRUE,
@@ -24,8 +26,10 @@
 #'                If \code{NULL} (default), all DMUs are considered.
 #' @param epsilon Numeric, multipliers must be >= \code{epsilon}.
 #' @param orientation A string, equal to "io" (input-oriented) or "oo" (output-oriented).
-#' @param rts A string, determining the type of returns to scale, equal to "crs" (constant) or
-#'            "vrs" (variable).
+#' @param rts A string, determining the type of returns to scale, equal to "crs" (constant),
+#'            "vrs" (variable), "nirs" (non-increasing), "ndrs" (non-decreasing) or "grs" (generalized).
+#' @param L Lower bound for the generalized returns to scale (grs).
+#' @param U Upper bound for the generalized returns to scale (grs).
 #' @param selfapp Logical. If it is \code{TRUE}, self-appraisal is included in the average scores of
 #'                \code{A} and \code{e}.
 #' @param correction Logical. If it is \code{TRUE}, a correction is applied in the "vrs" input-oriented
@@ -128,7 +132,9 @@ cross_efficiency <- function(datadea,
                              dmu_ref = NULL,
                              epsilon = 0,
                              orientation = c("io", "oo"),
-                             rts = c("crs", "vrs"),
+                             rts = c("crs", "vrs", "nirs", "ndrs", "grs"),
+                             L = 1,
+                             U = 1,
                              selfapp = TRUE,
                              correction = FALSE,
                              M2 = TRUE,
@@ -154,11 +160,6 @@ cross_efficiency <- function(datadea,
       stop("More than 2 DMUs are needed in dmu_ref.")
     }
     
-    rts <- deasol$rts
-    if ((rts != "crs") && (rts != "vrs")) {
-      stop("Only constant (crs) or variable (vrs) returns to scale.")
-    }
-    
     epsilon <- deasol$epsilon
     
   } else if (is.deadata(datadea)) {
@@ -168,6 +169,17 @@ cross_efficiency <- function(datadea,
     
     rts <- tolower(rts)
     rts <- match.arg(rts)
+    if (rts != "grs") {
+      L <- 1
+      U <- 1
+    } else {
+      if (L > 1) {
+        stop("L must be <= 1.")
+      }
+      if (U < 1) {
+        stop("U must be >= 1.")
+      }
+    }
     
     dmunames <- datadea$dmunames
     nd <- length(dmunames) # number of dmus
@@ -196,7 +208,7 @@ cross_efficiency <- function(datadea,
     #    || (!is.null(datadea$nd_inputs)) || (!is.null(datadea$nd_outputs))) {
     #  deasol <- model_basic(datadea = datadea, dmu_ref = dmu_ref, orientation = orientation, maxslack = FALSE, compute_multiplier = TRUE)
     #} else {
-    deasol <- model_multiplier(datadea = datadea, dmu_eval = dmu_eval, dmu_ref = dmu_ref, orientation = orientation, rts = rts, epsilon = epsilon, compute_lambda = FALSE)
+    deasol <- model_multiplier(datadea = datadea, dmu_eval = dmu_eval, dmu_ref = dmu_ref, orientation = orientation, rts = rts, L = L, U = U, epsilon = epsilon, compute_lambda = FALSE)
     #}
     
   } else {
@@ -209,7 +221,6 @@ cross_efficiency <- function(datadea,
   eff <- unlist(lapply(deasol$DMU, function(x) x$efficiency))
   mul_input <- do.call(rbind, lapply(deasol$DMU, function(x) x$multiplier_input))
   mul_output <- do.call(rbind, lapply(deasol$DMU, function(x) x$multiplier_output))
-  mul_rts <- unlist(lapply(deasol$DMU, function(x) x$multiplier_rts))
   
   if (nrow(mul_input) < nde) {
     stop("There are unfeasible results.")
@@ -222,13 +233,17 @@ cross_efficiency <- function(datadea,
   
   if (rts == "crs") {
     if (orientation == "io") {
-      cross_eff <- (mul_output %*% output[, dmu_eval] + matrix(mul_rts, nrow = nde, ncol = nde)) /
-        mul_input %*% input[, dmu_eval]
+      cross_eff <- mul_output %*% output[, dmu_eval] / mul_input %*% input[, dmu_eval]
     } else {
-      cross_eff <-  mul_output %*% output[, dmu_eval] /
-        (mul_input %*% input[, dmu_eval] + matrix(mul_rts, nrow = nde, ncol = nde))
+      cross_eff <- mul_input %*% input[, dmu_eval] / mul_output %*% output[, dmu_eval]
     }
   } else {
+    if (rts == "grs") {
+      mul_rts2 <- do.call(rbind, lapply(deasol$DMU, function(x) x$multiplier_rts))
+      mul_rts <- L * mul_rts2[, 1] + U * mul_rts2[, 2]
+    } else {
+      mul_rts <- unlist(lapply(deasol$DMU, function(x) x$multiplier_rts))
+    }
     if (orientation == "io") {
       if (correction) {
         cross_eff <- mul_output %*% output[, dmu_eval] /
@@ -239,9 +254,12 @@ cross_efficiency <- function(datadea,
         mul_input %*% input[, dmu_eval]
       }
     } else {
-      cross_eff <-  mul_output %*% output[, dmu_eval] /
-        (mul_input %*% input[, dmu_eval] + matrix(mul_rts, nrow = nde, ncol = nde))
+      cross_eff <-  (mul_input %*% input[, dmu_eval] + matrix(mul_rts, nrow = nde, ncol = nde)) /
+          mul_output %*% output[, dmu_eval]
     }
+  }
+  if (rts == "grs") {
+    mul_rts <- mul_rts2
   }
   colnames(cross_eff) <- dmunames[dmu_eval]
   rownames(cross_eff) <- dmunames[dmu_eval]
@@ -261,14 +279,18 @@ cross_efficiency <- function(datadea,
   names(A) <- dmunames[dmu_eval]
   names(e) <- dmunames[dmu_eval]
   
-  if (orientation == "io") {
-    maverick <- (eff - e) / pmin(eff, e)
-  } else {
-    maverick <- ((1 / eff) - e) / pmin(1 / eff, e)
-  }
+  maverick <- abs(eff - e) / e
   names(maverick) <- dmunames[dmu_eval]
   
-  if (orientation == "io") {
+  if (rts == "crs") {
+    Arbitrary <- list(multiplier_input = mul_input,
+                      multiplier_output = mul_output,
+                      cross_eff = cross_eff,
+                      efficiency = eff,
+                      e = e,
+                      A = A,
+                      maverick = maverick)
+  } else {
     Arbitrary <- list(multiplier_input = mul_input,
                       multiplier_output = mul_output,
                       multiplier_rts = mul_rts,
@@ -277,19 +299,6 @@ cross_efficiency <- function(datadea,
                       e = e,
                       A = A,
                       maverick = maverick)
-    orient <- 1
-  } else {
-    Arbitrary <- list(multiplier_input = mul_input,
-                      multiplier_output = mul_output,
-                      multiplier_rts = mul_rts,
-                      cross_eff = 1 / cross_eff,
-                      efficiency = eff,
-                      e = 1 / e,
-                      A = 1 / A,
-                      maverick = maverick)
-    input <- -datadea$output
-    output <- -datadea$input
-    orient <- -1
   }
   
   ########## Aggressive/benevolent computations ##########
@@ -299,7 +308,15 @@ cross_efficiency <- function(datadea,
   M3_agg <- NULL
   M3_ben <- NULL
   
-  if (rts == "crs") {
+  if (M2 || M3) {
+    
+    if (orientation == "io") {
+      orient <- 1
+    } else {
+      orient <- -1
+      input <- -datadea$output
+      output <- -datadea$input
+    }
     
     inputnames <- rownames(input)
     outputnames <- rownames(output)
@@ -310,16 +327,42 @@ cross_efficiency <- function(datadea,
     
     mul_input_agg <- matrix(0, nrow = nde, ncol = ni)
     mul_output_agg <- matrix(0, nrow = nde, ncol = no)
+    mul_rts_agg2 <- matrix(0, nrow = nde, ncol = 2)
+    mul_rts_agg <- rep(0, nde)
     rownames(mul_input_agg) <- dmunames[dmu_eval]
     rownames(mul_output_agg) <- dmunames[dmu_eval]
+    rownames(mul_rts_agg2) <- dmunames[dmu_eval]
+    names(mul_rts_agg) <- dmunames[dmu_eval]
     colnames(mul_input_agg) <- inputnames
     colnames(mul_output_agg) <- outputnames
+    colnames(mul_rts_agg2) <- c("rts_L", "rts_U")
     
     mul_input_ben <- mul_input_agg
     mul_output_ben <- mul_output_agg
+    mul_rts_ben2 <- mul_rts_agg2
+    mul_rts_ben <- mul_rts_agg
+    
+    if (rts == "crs") {
+      f.con.rs <- rbind(c(rep(0, ni + no), 1, 0),
+                        c(rep(0, ni + no), 0, 1))
+      f.dir.rs <- c("=", "=")
+      f.rhs.rs <- c(0, 0)
+    } else if (rts == "nirs") {
+      f.con.rs <- c(rep(0, ni + no), 1, 0)
+      f.dir.rs <- "="
+      f.rhs.rs <- 0
+    }else if (rts == "ndrs") {
+      f.con.rs <- c(rep(0, ni + no), 0, 1)
+      f.dir.rs <- "="
+      f.rhs.rs <- 0
+    } else {
+      f.con.rs <- NULL
+      f.dir.rs <- NULL
+      f.rhs.rs <- NULL
+    }
     
     if (epsilon > 0) {
-      f.con.eps <- diag(ni + no)
+      f.con.eps <- cbind(diag(ni + no), matrix(0, nrow = ni + no, ncol = 2))
       f.dir.eps <- rep(">=", ni + no)
       f.rhs.eps <- rep(epsilon, ni + no)
     } else {
@@ -327,9 +370,6 @@ cross_efficiency <- function(datadea,
       f.dir.eps <- NULL
       f.rhs.eps <- NULL
     }
-    #f.con.eps <- rbind(f.con.eps, diag(ni + no + 2))
-    #f.dir.eps <- c(f.dir.eps, rep("<=", ni + no + 2))
-    #f.rhs.eps <- c(f.rhs.eps, rep(1e12, ni + no + 2))
     
     ##### Aggressive/benevolent method II #####
     
@@ -348,39 +388,51 @@ cross_efficiency <- function(datadea,
           outputrefnoi <- outputref
           ndrnoi <- ndr
         }
-        f.dir <- c(rep("<=", ndrnoi), "=", "=", f.dir.eps)
-        f.rhs <- c(rep(0, ndrnoi), orient, orient * eff[i], f.rhs.eps)
-        #f.dir <- c(rep("<=", ndr), "=", "=", f.dir.eps)
-        #f.rhs <- c(rep(0, ndr), orient, orient * eff[i], f.rhs.eps)
+        f.dir.bound <- "<="
+        f.dir <- c(rep("<=", ndr), "=", "=", f.dir.eps, f.dir.rs, f.dir.bound)
+        f.rhs.bound <- 1e10
+        f.rhs <- c(rep(0, ndr), orient, orient * eff[i], f.rhs.eps, f.rhs.rs, f.rhs.bound)
         
-        f.obj <- c(-rowSums(inputrefnoi), rowSums(outputrefnoi))
+        f.obj <- c(-rowSums(inputrefnoi), rowSums(outputrefnoi), ndrnoi * L, -ndrnoi * U)
         
-        f.con.1 <- cbind(-t(inputrefnoi), t(outputrefnoi))
-        #f.con.1 <- cbind(-t(inputref), t(outputref))
-        f.con.2 <- c(input[, ii], rep(0, no))
-        f.con.3 <- c(rep(0, ni), output[, ii])
-        f.con <- rbind(f.con.1, f.con.2, f.con.3, f.con.eps)
+        f.con.1 <- cbind(-t(inputref), t(outputref), matrix(1, nrow = ndr, ncol = 1), matrix(-1, nrow = ndr, ncol = 1))
+        f.con.2 <- c(input[, ii], rep(0, no + 2))
+        f.con.3 <- c(rep(0, ni), output[, ii], L, -U)
+        f.con.bound <- rep(1, ni + no + 2)
+        f.con <- rbind(f.con.1, f.con.2, f.con.3, f.con.eps, f.con.rs, f.con.bound)
         
         res <- lp("min", f.obj, f.con, f.dir, f.rhs)$solution
         
         mul_input_agg[i, ] <- res[1 : ni]
         mul_output_agg[i, ] <- res[(ni + 1) : (ni + no)]
+        mul_rts_agg2[i, ] <- res[(ni + no + 1) : (ni + no + 2)]
+        mul_rts_agg[i] <- L * mul_rts_agg2[i, 1] - U * mul_rts_agg2[i, 2]
         
-        res <- lp("max", f.obj, f.con, f.dir, f.rhs)$solution
+        if (sum(c(mul_input_agg[i, ], mul_output_agg[i, ], mul_rts_agg2[i, ])) > 1e9) {
+          warning("Agressive Method II is unbounded for DMU ", dmunames[dmu_eval[i]], ", bound constraint added.")
+        }
+        
+        res <- lp("max", f.obj, f.con, f.dir, f.rhs)
+        res<-res$solution
         
         mul_input_ben[i, ] <- res[1 : ni]
         mul_output_ben[i, ] <- res[(ni + 1) : (ni + no)]
-        
+        mul_rts_ben2[i, ] <- res[(ni + no + 1) : (ni + no + 2)]
+        mul_rts_ben[i] <- L * mul_rts_ben2[i, 1] - U * mul_rts_ben2[i, 2]
       }
       
       ## Aggressive ##
       
-      if (orientation == "io") {
+      if ((orientation == "io") && correction) {
         cross_eff <- mul_output_agg %*% output[, dmu_eval] /
-          mul_input_agg %*% input[, dmu_eval]
+          (mul_input_agg %*% input[, dmu_eval] - matrix(mul_rts_agg, nrow = nde, ncol = nde))
+        diag(cross_eff) <- eff
       } else {
-        cross_eff <- mul_input_agg %*% input[, dmu_eval] /
-          mul_output_agg %*% output[, dmu_eval]
+        cross_eff <- (mul_output_agg %*% output[, dmu_eval] + matrix(mul_rts_agg, nrow = nde, ncol = nde)) /
+          mul_input_agg %*% input[, dmu_eval]
+      }
+      if (rts == "grs") {
+        mul_rts_agg <- cbind(mul_rts_agg2[, 1], -mul_rts_agg2[, 2])
       }
       
       colnames(cross_eff) <- dmunames[dmu_eval]
@@ -398,16 +450,13 @@ cross_efficiency <- function(datadea,
       names(A) <- dmunames[dmu_eval]
       names(e) <- dmunames[dmu_eval]
       
-      if (orientation == "io") {
-        maverick <- (eff - e) / pmin(eff, e)
-      } else {
-        maverick <- ((1 / eff) - e) / pmin(1 / eff, e)
-      }
+      maverick <- abs(eff - e) / e
       names(maverick) <- dmunames[dmu_eval]
       
       if (orientation == "io") {
         M2_agg <- list(multiplier_input = mul_input_agg,
                        multiplier_output = mul_output_agg,
+                       multiplier_rts = mul_rts_agg,
                        cross_eff = cross_eff,
                        e = e,
                        A = A,
@@ -415,20 +464,25 @@ cross_efficiency <- function(datadea,
       } else {
         M2_agg <- list(multiplier_input = mul_output_agg,
                        multiplier_output = mul_input_agg,
-                       cross_eff = 1 / cross_eff,
-                       e =  1 / e,
-                       A = 1 / A,
+                       multiplier_rts = mul_rts_agg,
+                       cross_eff = cross_eff,
+                       e = e,
+                       A = A,
                        maverick = maverick)
       }
       
       ## Benevolent ##
       
-      if (orientation == "io") {
+      if ((orientation == "io") && correction) {
         cross_eff <- mul_output_ben %*% output[, dmu_eval] /
-          mul_input_ben %*% input[, dmu_eval]
+          (mul_input_ben %*% input[, dmu_eval] - matrix(mul_rts_ben, nrow = nde, ncol = nde))
+        diag(cross_eff) <- eff
       } else {
-        cross_eff <- mul_input_ben %*% input[, dmu_eval] /
-          mul_output_ben %*% output[, dmu_eval]
+        cross_eff <- (mul_output_ben %*% output[, dmu_eval] + matrix(mul_rts_ben, nrow = nde, ncol = nde)) /
+          mul_input_ben %*% input[, dmu_eval]
+      }
+      if (rts == "grs") {
+        mul_rts_ben <- cbind(mul_rts_ben2[, 1], -mul_rts_ben2[, 2])
       }
       colnames(cross_eff) <- dmunames[dmu_eval]
       rownames(cross_eff) <- dmunames[dmu_eval]
@@ -445,16 +499,13 @@ cross_efficiency <- function(datadea,
       names(A) <- dmunames[dmu_eval]
       names(e) <- dmunames[dmu_eval]
       
-      if (orientation == "io") {
-        maverick <- (eff - e) / pmin(eff, e)
-      } else {
-        maverick <- ((1 / eff) - e) / pmin(1 / eff, e)
-      }
+      maverick <- abs(eff - e) / e
       names(maverick) <- dmunames[dmu_eval]
       
       if (orientation == "io") {
         M2_ben <- list(multiplier_input = mul_input_ben,
                        multiplier_output = mul_output_ben,
+                       multiplier_rts = mul_rts_ben,
                        cross_eff = cross_eff,
                        e = e,
                        A = A,
@@ -462,9 +513,10 @@ cross_efficiency <- function(datadea,
       } else {
         M2_ben <- list(multiplier_input = mul_output_ben,
                        multiplier_output = mul_input_ben,
-                       cross_eff = 1 / cross_eff,
-                       e = 1 / e,
-                       A = 1 / A,
+                       multiplier_rts = mul_rts_ben,
+                       cross_eff = cross_eff,
+                       e = e,
+                       A = A,
                        maverick = maverick)
       }
       
@@ -473,6 +525,12 @@ cross_efficiency <- function(datadea,
     ##### Aggressive/benevolent method III #####
     
     if (M3) {
+      
+      if (rts == "grs") {
+        mul_rts_agg <- rep(0, nde)
+        names(mul_rts_agg) <- dmunames[dmu_eval]
+        mul_rts_ben <- mul_rts_agg
+      }
       
       for (i in 1:nde) {
         
@@ -487,36 +545,56 @@ cross_efficiency <- function(datadea,
           outputrefnoi <- outputref
           ndrnoi <- ndr
         }
-        f.dir <- c(rep("<=", ndrnoi), "=", "=", f.dir.eps)
-        f.rhs <- c(rep(0, ndrnoi), orient, 0, f.rhs.eps)
+        f.dir.bound <- "<="
+        f.dir <- c(rep("<=", ndr), "=", "=", f.dir.eps, f.dir.rs, f.dir.bound)
+        f.rhs.bound <- 1e10
+        f.rhs <- c(rep(0, ndr), orient, 0, f.rhs.eps, f.rhs.rs, f.rhs.bound)
         
-        f.obj <- c(rep(0, ni), rowSums(outputrefnoi))
+        if ((orientation == "io") && (correction == TRUE)) {
+          f.obj <- c(rep(0, ni), rowSums(outputrefnoi), 0, 0)
+          f.con.2 <- c(rowSums(inputrefnoi), rep(0, no), -ndrnoi * L, ndrnoi * U)
+        } else {
+          f.obj <- c(rep(0, ni), rowSums(outputrefnoi), ndrnoi * L, -ndrnoi * U)
+          f.con.2 <- c(rowSums(inputrefnoi), rep(0, no + 2))
+        }
         
-        f.con.1 <- cbind(-t(inputrefnoi), t(outputrefnoi))
-        f.con.2 <- c(rowSums(inputrefnoi), rep(0, no))
-        f.con.3 <- c(-eff[i] * input[, ii], output[, ii])
-        f.con <- rbind(f.con.1, f.con.2, f.con.3, f.con.eps)
+        f.con.1 <- cbind(-t(inputref), t(outputref), matrix(1, nrow = ndr, ncol = 1), matrix(-1, nrow = ndr, ncol = 1))
+        f.con.3 <- c(-eff[i] * input[, ii], output[, ii], L, -U)
+        f.con.bound <- rep(1, ni + no + 2)
+        f.con <- rbind(f.con.1, f.con.2, f.con.3, f.con.eps, f.con.rs, f.con.bound)
         
         res <- lp("min", f.obj, f.con, f.dir, f.rhs)$solution
         
         mul_input_agg[i, ] <- res[1 : ni]
         mul_output_agg[i, ] <- res[(ni + 1) : (ni + no)]
+        mul_rts_agg2[i, ] <- res[(ni + no + 1) : (ni + no + 2)]
+        mul_rts_agg[i] <- L * mul_rts_agg2[i, 1] - U * mul_rts_agg2[i, 2]
+        
+        if (sum(c(mul_input_agg[i, ], mul_output_agg[i, ], mul_rts_agg2[i, ])) > 1e9) {
+          warning("Agressive Method III is unbounded for DMU ", dmunames[dmu_eval[i]], ", bound constraint added.")
+        }
         
         res <- lp("max", f.obj, f.con, f.dir, f.rhs)$solution
         
         mul_input_ben[i, ] <- res[1 : ni]
         mul_output_ben[i, ] <- res[(ni + 1) : (ni + no)]
+        mul_rts_ben2[i, ] <- res[(ni + no + 1) : (ni + no + 2)]
+        mul_rts_ben[i] <- L * mul_rts_ben2[i, 1] - U * mul_rts_ben2[i, 2]
         
       }
       
       ## Aggressive ##
       
-      if (orientation == "io") {
+      if ((orientation == "io") && correction) {
         cross_eff <- mul_output_agg %*% output[, dmu_eval] /
-          mul_input_agg %*% input[, dmu_eval]
+          (mul_input_agg %*% input[, dmu_eval] - matrix(mul_rts_agg, nrow = nde, ncol = nde))
+        diag(cross_eff) <- eff
       } else {
-        cross_eff <- mul_input_agg %*% input[, dmu_eval] /
-          mul_output_agg %*% output[, dmu_eval]
+        cross_eff <- (mul_output_agg %*% output[, dmu_eval] + matrix(mul_rts_agg, nrow = nde, ncol = nde)) /
+          mul_input_agg %*% input[, dmu_eval]
+      }
+      if (rts == "grs") {
+        mul_rts_agg <- cbind(mul_rts_agg2[, 1], -mul_rts_agg2[, 2])
       }
       colnames(cross_eff) <- dmunames[dmu_eval]
       rownames(cross_eff) <- dmunames[dmu_eval]
@@ -533,16 +611,13 @@ cross_efficiency <- function(datadea,
       names(A) <- dmunames[dmu_eval]
       names(e) <- dmunames[dmu_eval]
       
-      if (orientation == "io") {
-        maverick <- (eff - e) / pmin(eff, e)
-      } else {
-        maverick <- ((1 / eff) - e) / pmin(1 / eff, e)
-      }
+      maverick <- abs(eff - e) / e
       names(maverick) <- dmunames[dmu_eval]
       
       if (orientation == "io") {
         M3_agg <- list(multiplier_input = mul_input_agg,
                        multiplier_output = mul_output_agg,
+                       multiplier_rts = mul_rts_agg,
                        cross_eff = cross_eff,
                        e = e,
                        A = A,
@@ -550,20 +625,25 @@ cross_efficiency <- function(datadea,
       } else {
         M3_agg <- list(multiplier_input = mul_output_agg,
                        multiplier_output = mul_input_agg,
-                       cross_eff = 1 / cross_eff,
-                       e = 1 / e,
-                       A = 1 / A,
+                       multiplier_rts = mul_rts_agg,
+                       cross_eff = cross_eff,
+                       e = e,
+                       A = A,
                        maverick = maverick)
       }
       
       ## Benevolent ##
       
-      if (orientation == "io") {
+      if ((orientation == "io") && correction) {
         cross_eff <- mul_output_ben %*% output[, dmu_eval] /
-          mul_input_ben %*% input[, dmu_eval]
+          (mul_input_ben %*% input[, dmu_eval] - matrix(mul_rts_ben, nrow = nde, ncol = nde))
+        diag(cross_eff) <- eff
       } else {
-        cross_eff <- mul_input_ben %*% input[, dmu_eval] /
-          mul_output_ben %*% output[, dmu_eval]
+        cross_eff <- (mul_output_ben %*% output[, dmu_eval] + matrix(mul_rts_ben, nrow = nde, ncol = nde)) /
+          mul_input_ben %*% input[, dmu_eval]
+      }
+      if (rts == "grs") {
+        mul_rts_ben <- cbind(mul_rts_ben2[, 1], -mul_rts_ben2[, 2])
       }
       colnames(cross_eff) <- dmunames[dmu_eval]
       rownames(cross_eff) <- dmunames[dmu_eval]
@@ -580,16 +660,13 @@ cross_efficiency <- function(datadea,
       names(A) <- dmunames[dmu_eval]
       names(e) <- dmunames[dmu_eval]
       
-      if (orientation == "io") {
-        maverick <- (eff - e) / pmin(eff, e)
-      } else {
-        maverick <- ((1 / eff) - e) / pmin(1 / eff, e)
-      }
+      maverick <- abs(eff - e) / e
       names(maverick) <- dmunames[dmu_eval]
       
       if (orientation == "io") {
         M3_ben <- list(multiplier_input = mul_input_ben,
                        multiplier_output = mul_output_ben,
+                       multiplier_rts = mul_rts_ben,
                        cross_eff = cross_eff,
                        e = e,
                        A = A,
@@ -597,9 +674,10 @@ cross_efficiency <- function(datadea,
       } else {
         M3_ben <- list(multiplier_input = mul_output_ben,
                        multiplier_output = mul_input_ben,
-                       cross_eff = 1/ cross_eff,
-                       e = 1 / e,
-                       A = 1 / A,
+                       multiplier_rts = mul_rts_ben,
+                       cross_eff = cross_eff,
+                       e = e,
+                       A = A,
                        maverick = maverick)
       }
       
@@ -611,6 +689,8 @@ cross_efficiency <- function(datadea,
   
   deaOutput <- list(orientation = orientation,
               rts = rts,
+              L = L,
+              U = U,
               selfapp = selfapp,
               Arbitrary = Arbitrary,
               M2_agg = M2_agg,
