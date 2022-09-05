@@ -41,7 +41,7 @@ change under vrs.}
 A numeric list with Malmquist index and other parameters.
 }
 \description{
-This function calculates the conventional input/output oriented Malmquist index under variable return-to-scale.
+This function calculates the conventional input/output oriented Malmquist index under constant or variable returns-to-scale.
 }
 \note{
 In the results: EC = Efficiency Change, PTEC = Pure Technical Efficiency Change, SEC = Scale Efficiency Change, TC = Technological Change, MI = Malmquist Index
@@ -118,7 +118,7 @@ Fare, R.; Grosskopf, S.; Roos, P. (1998), Malmquist Productivity Indexes: A Surv
 
 Grifell-Tatje, E.; Lovell, C.A.K. (1999). "A Generalized Malmquist productivity index". Top, 7(1), 81-101.  
 
-Pastor, J.T.; Lovell, C.A.k. (2005). "A global Malquist productiviyt index". Economics Letters, 88, 266-271.  
+Pastor, J.T.; Lovell, C.A.k. (2005). "A global Malmquist productiviyt index". Economics Letters, 88, 266-271.  
 
 Ray, S.C.; Desli, E. (1997). "Productivity Growth, Technical Progress, and Efficiency Change in Industrialized Countries: Comment". The American Economic Review, 87(5), 1033-1039.
 

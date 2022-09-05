@@ -12,7 +12,8 @@
 \item{...}{Other options (for compatibility reasons)}
 }
 \description{
-Extract the efficiencies of the DMUs from a dea solution.
+Extract the scores (optimal objective values) of the evaluated DMUs from a DEA solution.
+Note that these scores may not always be interpreted as efficiencies.
 }
 \examples{
 # Replication results model DEA1 in Tomkins and Green (1988)

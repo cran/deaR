@@ -7,10 +7,11 @@
 efficiencies(x, ...)
 }
 \arguments{
-\item{x}{dea / deafuzzy object}
+\item{x}{DEA / DEA fuzzy object}
 
 \item{...}{ignored}
 }
 \description{
-Extracts efficiencies from  dea/dea_fuzzy objects.
+Extract the scores (optimal objective values) of the evaluated DMUs from a DEA / DEA fuzzy solution.
+Note that these scores may not always be interpreted as efficiencies.
 }

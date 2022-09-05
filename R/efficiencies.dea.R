@@ -1,7 +1,7 @@
 #' @title Efficiencies
 #'   
-#' @description Extract the efficiencies of the DMUs from a dea solution.
-#' 
+#' @description Extract the scores (optimal objective values) of the evaluated DMUs from a DEA solution.
+#' Note that these scores may not always be interpreted as efficiencies.
 #' 
 #' @param x Object of class dea or dea_fuzzy obtained with some of the dea model functions.
 #' @param ... Other options (for compatibility reasons)
@@ -32,7 +32,6 @@
 #' efficiencies(result) # Table 3 (p.156) 
 #'  
 #' @export
-
 
 efficiencies.dea <-
   function(x, ...) {

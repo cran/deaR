@@ -104,11 +104,13 @@ model_rdm <-
     dir_input <- matrix(0, nrow = ni, ncol = nde)
     dir_output <- matrix(0, nrow = no, ncol = nde)
     
-    if ((orientation == "no") || orientation == "io") {
-      dir_input <- input[, dmu_eval] - apply(input[, dmu_ref], MARGIN = 1, FUN = min)
+    if (orientation != "oo") {
+      dir_input <- input[, dmu_eval] - apply(matrix(input[, dmu_ref], nrow = ni), MARGIN = 1, FUN = min)
+      dir_input <- matrix(dir_input, nrow = ni)
     }
-    if ((orientation == "no") || orientation == "oo") {
-      dir_output <- apply(output[, dmu_ref], MARGIN = 1, FUN = max) - output[, dmu_eval]
+    if (orientation != "io") {
+      dir_output <- apply(matrix(output[, dmu_ref], nrow = no), MARGIN = 1, FUN = max) - output[, dmu_eval]
+      dir_output <- matrix(dir_output, nrow = no)
     }
     
     if (irdm) {

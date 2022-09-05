@@ -1,6 +1,6 @@
 #' @title Bootstrapping DEA
 #'   
-#' @description To bootstrap efficiency scores, deaR uses the algorithm proposed by Simar and Wilson (1998). For now, the function bootstrap_basic can only be used with basic DEA models (input- and output-oriented under constant and variable returns-to-scale).
+#' @description To bootstrap efficiency scores, deaR uses the algorithm proposed by Simar and Wilson (1998). For now, the function bootstrap_basic can only be used with basic DEA models.
 #' 
 #' @usage bootstrap_basic(datadea,
 #'                 orientation = c("io", "oo"),
@@ -18,7 +18,7 @@
 #' @param L Lower bound for the generalized returns to scale (grs).
 #' @param U Upper bound for the generalized returns to scale (grs).
 #' @param B Number of bootstrap iterations.
-#' @param h Bandwith or smoothing window. By default h=0.014 (You can set h to any other value). The optimal bandwidth factor can also be calculated following the proposals of Silverman (1986) and Dario y Simar (2007). So, h="h1" is the optimal h referred as "robust normal-reference rule" (Dario and Simar, 2007 p.60), h="h2" is the value of h1 but instead of the factor 1.06 with the factor 0.9, h="h3" is the value of h1 adjusted for scale and sample size (Dario and Simar, 2007 p.61), and h="h4" is the bandwith provided by a Gaussian kernel destiy estimate. 
+#' @param h Bandwidth of smoothing window. By default h=0.014 (You can set h to any other value). The optimal bandwidth factor can also be calculated following the proposals of Silverman (1986) and Daraio y Simar (2007). So, h="h1" is the optimal h referred as "robust normal-reference rule" (Daraio and Simar, 2007 p.60), h="h2" is the value of h1 but instead of the factor 1.06 with the factor 0.9, h="h3" is the value of h1 adjusted for scale and sample size (Daraio and Simar, 2007 p.61), and h="h4" is the bandwidth provided by a Gaussian kernel density estimate. 
 #' @param alpha Between 0 and 1 (for confidence intervals).
 #'   
 #' @author 
@@ -190,7 +190,7 @@ bootstrap_basic <- function(datadea,
           (length(new_set)/nd)^(1/5) * (sd(score_sp)/sd(new_set))
       }
       else {
-        # bandwith provided by a Gaussian kernel density estimate
+        # bandwidth provided by a Gaussian kernel density estimate
         dens <-  density(new_set)
         h <- dens$bw 
       }

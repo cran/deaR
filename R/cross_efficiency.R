@@ -1,6 +1,6 @@
 #' @title Cross efficiency tables
 #'   
-#' @description Computes arbitrary, benevolent and aggressive formulation of cross-efficiency under constant and variable returns-to-scale. Doyle and Green (1994) present three alternatives ways of formulating the secondary goal (wich will minimize or maximize the other DMUs' cross-efficiencies in some way). Methods II and III are implemented in deaR with constant returns-to-scale. The maverick index is also calculated. 
+#' @description Computes arbitrary, benevolent and aggressive formulation of cross-efficiency under any returns-to-scale. Doyle and Green (1994) present three alternatives ways of formulating the secondary goal (wich will minimize or maximize the other DMUs' cross-efficiencies in some way). Methods II and III are implemented in deaR with any returns-to-scale. The maverick index is also calculated. 
 #' @note (1) We can obtain negative cross-efficiency in the input-oriented DEA model under no constant returns-to-scale. However, the same does not happen in the case of the output-oriented VRS DEA model. For this reason, the proposal of Lim and Zhu (2015) is implemented in deaR to calculate the input-oriented cross-efficiency model under no constant returns-to-scale.
 #' 
 #' (2) The multiplier model can have alternate optimal solutions (see note 1 in model_multiplier). So, depending on the optimal weights selected we can obtain different cross-efficiency scores.
@@ -692,6 +692,7 @@ cross_efficiency <- function(datadea,
               L = L,
               U = U,
               selfapp = selfapp,
+              correction = correction,
               Arbitrary = Arbitrary,
               M2_agg = M2_agg,
               M2_ben = M2_ben,

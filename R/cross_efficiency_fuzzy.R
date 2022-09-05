@@ -1,6 +1,6 @@
 #' @title Cross efficiency fuzzy tables
 #'   
-#' @description Computes the cross-efficiency fuzzy table from dea data or a Guo-Tanaka dea model solution.
+#' @description Computes the cross-efficiency fuzzy table from DEA data or a Guo-Tanaka DEA model solution.
 #' The (crisp) relative efficiencies for the case \code{h} = 1 are obtained from the CCR model (\code{model_multiplier}).
 #' 
 #' @usage cross_efficiency_fuzzy(datadea,
@@ -57,7 +57,7 @@ cross_efficiency_fuzzy <- function(datadea,
     
     deasol <- datadea
     if (deasol$modelname != "fuzzy_guotanaka") {
-      stop("Not a modelfuzzy_guotanaka dea solution!")
+      stop("Not a modelfuzzy_guotanaka DEA solution!")
     }
     datadea <- deasol$data
     

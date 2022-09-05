@@ -1,8 +1,13 @@
 #' @title Efficiencies
-#' @description Extracts efficiencies from  dea/dea_fuzzy objects.
-#' @param x dea / deafuzzy object
+#' 
+#' @description Extract the scores (optimal objective values) of the evaluated DMUs from a DEA / DEA fuzzy solution.
+#' Note that these scores may not always be interpreted as efficiencies.
+#' 
+#' @param x DEA / DEA fuzzy object
 #' @param ... ignored
+#' 
 #' @export 
+
 efficiencies <- function(x,...) {
   UseMethod("efficiencies",x)
 }

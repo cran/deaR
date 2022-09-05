@@ -151,7 +151,9 @@ function(datadea,
   no <- length(outputnames) # number of outputs
   
   # Checking h
-  if (any(h > 1) || any(h < 0)){
+  if ((length(h) == 1) && (h > 1)){
+    h <- seq(from = 0, to = 1, length.out = h)
+  } else if (any(h > 1) || any(h < 0)){
     stop("Invalid h vector.")
   }
   h <- sort(unique(h))

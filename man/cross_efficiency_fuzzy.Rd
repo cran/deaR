@@ -21,7 +21,7 @@ been obtained with \code{modelfuzzy_guotanaka}.}
 \code{A} and \code{e}.}
 }
 \description{
-Computes the cross-efficiency fuzzy table from dea data or a Guo-Tanaka dea model solution.
+Computes the cross-efficiency fuzzy table from DEA data or a Guo-Tanaka DEA model solution.
 The (crisp) relative efficiencies for the case \code{h} = 1 are obtained from the CCR model (\code{model_multiplier}).
 }
 \examples{

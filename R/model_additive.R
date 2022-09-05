@@ -92,7 +92,7 @@
 #' range_i <- apply(data_example[["input"]], 1, max) - apply(data_example[["input"]], 1, min)
 #' range_o <- apply(data_example[["output"]], 1, max) - apply(data_example[["output"]], 1, min)
 #' w_range_i <- 1 / (range_i * (dim(data_example[["input"]])[1] + dim(data_example[["output"]])[1]))
-#' w_range_o <- 1 / (range_o * (dim(data_example[["output"]])[1] + dim(data_example[["output"]])[1]))
+#' w_range_o <- 1 / (range_o * (dim(data_example[["input"]])[1] + dim(data_example[["output"]])[1]))
 #' result3 <- model_additive(data_example, rts = "vrs",
 #'                           weight_slack_i = w_range_i,
 #'                           weight_slack_o = w_range_o)

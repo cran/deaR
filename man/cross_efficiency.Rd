@@ -49,7 +49,7 @@ model in order to avoid negative cross-efficiencies, according to Lim & Zhu (201
 \item{M3}{Logical. If it is \code{TRUE}, it computes Method III for aggresive/benevolent estimations.}
 }
 \description{
-Computes arbitrary, benevolent and aggressive formulation of cross-efficiency under constant and variable returns-to-scale. Doyle and Green (1994) present three alternatives ways of formulating the secondary goal (wich will minimize or maximize the other DMUs' cross-efficiencies in some way). Methods II and III are implemented in deaR with constant returns-to-scale. The maverick index is also calculated.
+Computes arbitrary, benevolent and aggressive formulation of cross-efficiency under any returns-to-scale. Doyle and Green (1994) present three alternatives ways of formulating the secondary goal (wich will minimize or maximize the other DMUs' cross-efficiencies in some way). Methods II and III are implemented in deaR with any returns-to-scale. The maverick index is also calculated.
 }
 \note{
 (1) We can obtain negative cross-efficiency in the input-oriented DEA model under no constant returns-to-scale. However, the same does not happen in the case of the output-oriented VRS DEA model. For this reason, the proposal of Lim and Zhu (2015) is implemented in deaR to calculate the input-oriented cross-efficiency model under no constant returns-to-scale.
