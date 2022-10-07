@@ -1,8 +1,6 @@
 #' @title Summary Fuzzy DEA models.
 #'   
-#'   
 #' @description Summary of the results obtained by a fuzzy DEA model.
-#' 
 #' 
 #' @param object An object of class \code{"dea_fuzzy"} obtained with a fuzzy dea 
 #'  model function (\code{modelfuzzy_guotanaka}, \code{modelfuzzy_kaoliu},
@@ -19,12 +17,13 @@
 #' with columns: DMU, alpha cuts and efficiencies.
 #' For the possibilistic model (\code{modelfuzzy_possibilistic}) it returns a data.frame with columns:
 #' DMU, alpha-cuts, efficiencies and the corresponding lambda values
-#' For the Kao and Liu model (\code{modelfuzzy_kaoliu}), the result may depend on the crisp sub-model used. 
+#' For the Kao-Liu model (\code{modelfuzzy_kaoliu}), the result may depend on the crisp sub-model used. 
 #' It will contain a data.frame with the efficiencies (if any), the slacks and superslacks (if any), 
 #' the lambda values and the targets.
 #' 
-#' If \code{exportExcel} is TRUE, then an Excel file will be created containing as many sheets as necessary 
-#' depending on the variables returned.
+#' If \code{exportExcel} is TRUE, then an Excel file will be created containing as many
+#' sheets as necessary  depending on the variables returned.
+#' 
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).
 #' \emph{Quantitative Methods for Measuring Culture (MC2). Applied Economics.}
@@ -36,6 +35,7 @@
 #' \emph{Department of Business Mathematics}
 #'
 #' University of Valencia (Spain)
+#' 
 #' @examples
 #' data("Leon2003")
 #' data_example <- read_data_fuzzy(Leon2003,
@@ -48,12 +48,17 @@
 #'                                    orientation = "io", 
 #'                                    rts = "vrs")
 #' summary(result, exportExcel = FALSE)
-#' @references 
-#' León, T.; Liern, V. Ruiz, J.; Sirvent, I. (2003). "A Possibilistic Programming Approach to the Assessment of Efficiency with DEA Models", Fuzzy Sets and Systems, 139, 407–419. \doi{10.1016/S0165-0114(02)00608-5}
-#' @method summary dea_fuzzy
-#' @import writexl tidyr
-#' @export
 #' 
+#' @references 
+#' Leon, T.; Liern, V. Ruiz, J.; Sirvent, I. (2003). "A Possibilistic Programming
+#' Approach to the Assessment of Efficiency with DEA Models", Fuzzy Sets and Systems,
+#' 139, 407–419. \doi{10.1016/S0165-0114(02)00608-5}
+#' 
+#' @method summary dea_fuzzy
+#' 
+#' @import writexl tidyr
+#' 
+#' @export
 
 summary.dea_fuzzy <- function(object, ..., exportExcel = TRUE, filename = NULL, returnList = FALSE){
   

@@ -13,7 +13,9 @@ Data frame with 35 rows and 4 columns. Definition of inputs (X) and outputs (Y):
 }
 }
 \source{
-Ruggiero J. (2007). Non-Discretionary Inputs. In: Zhu J., Cook W.D. (eds) Modeling Data Irregularities and Structural Complexities in Data Envelopment Analysis. Springer, Boston, MA. \code{doi}: 10.1007/978-0-387-71607-7_5
+Ruggiero J. (2007). Non-Discretionary Inputs. In: Zhu J., Cook W.D.
+(eds) Modeling Data Irregularities and Structural Complexities in Data Envelopment
+Analysis. Springer, Boston, MA. \doi{10.1007/978-0-387-71607-7_5}
 }
 \usage{
 data("Ruggiero2007")
@@ -26,12 +28,12 @@ Simulated data of 35 DMUs with two inputs and one output.
 data("Ruggiero2007")
 # the second input is a non-discretionary input
 datadea <- read_data(Ruggiero2007,
-                     ni=2,
-                     no=1,
-                     nd_inputs=2)
+                     ni = 2,
+                     no = 1,
+                     nd_inputs = 2)
 result <- model_basic(datadea,
-                      orientation="io",
-                      rts="crs")
+                      orientation = "io",
+                      rts = "crs")
 efficiencies(result)
 slacks(result)
 

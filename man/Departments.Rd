@@ -20,7 +20,10 @@ Data frame with 20 rows and 11 columns. Definition of inputs (X) and outputs (Y)
 }
 }
 \source{
-Tomkins, C.; Green, R. (1988). "An Experiment in the Use of Data Envelopment Analysis for Evaluating the Efficiency of UK University Departments of Accounting", Financial Accountability and Management, 4(2), 147-164. \code{doi}: 10.1111/j.1468-0408.1988.tb00296.x
+Tomkins, C.; Green, R. (1988). "An Experiment in the Use of Data Envelopment
+Analysis for Evaluating the Efficiency of UK University Departments of Accounting",
+Financial Accountability and Management, 4(2), 147-164.
+\doi{10.1111/j.1468-0408.1988.tb00296.x}
 }
 \usage{
 data("Departments")
@@ -33,13 +36,13 @@ Data from 20 University accounting departments in the UK.
 # Replication of results DEA1 in Tomkins and Green (1988)
 data("Departments")
 # Calculate Total income
-Departments$Total_income <- Departments[,5]+Departments[,6]+Departments[,7]
+Departments$Total_income <- Departments[, 5] + Departments[, 6] + Departments[, 7]
 data_example <- read_data(Departments,
-                          inputs=9,
-                          outputs=c(2,3,4,12))
+                          inputs = 9,
+                          outputs = c(2, 3, 4, 12))
 result <- model_basic(data_example,
-                      orientation="io",
-                      rts="crs")
+                      orientation = "io",
+                      rts = "crs")
 efficiencies(result) # Table 3 (p.156)
 references(result) # Table 3 (p.157)
 

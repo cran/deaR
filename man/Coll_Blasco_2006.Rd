@@ -14,7 +14,8 @@ Data frame with 6 rows and 5 columns. Definition of inputs (X) and outputs (Y):
 }
 }
 \source{
-Coll-Serrano, V.; Blasco-Blasco, O. (2006). Evaluacion de la Eficiencia mediante el Análisis Envolvente de Datos. Introduccion a los Modelos Básicos.
+Coll-Serrano, V.; Blasco-Blasco, O. (2006). Evaluacion de la Eficiencia
+mediante el Análisis Envolvente de Datos. Introduccion a los Modelos Básicos.
 }
 \usage{
 data("Coll_Blasco_2006")
@@ -26,9 +27,9 @@ Data of six authorized dealers with two inputs and two outputs.
 # Example. How to read data with deaR
 data("Coll_Blasco_2006")
 data_example <- read_data(Coll_Blasco_2006,
-                          dmus=1,
-                          ni=2,
-                          no=2)
+                          dmus = 1,
+                          ni = 2,
+                          no = 2)
 
 }
 \seealso{

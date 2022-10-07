@@ -1,4 +1,4 @@
-#' @title Efficiencies
+#' @title Objective scores
 #'   
 #' @description Extract the scores (optimal objective values) of the evaluated DMUs from a DEA solution.
 #' Note that these scores may not always be interpreted as efficiencies.

@@ -16,29 +16,31 @@ Data frame with 6 rows and 5 columns. Definition of inputs (X) and outputs (Y):
 }
 }
 \source{
-Coelli, T.; Prasada Rao, D.S.; Battese, G.E. An introduction to efficiency and productivity analysis. Boston: Kluwer Academic Publishers.
+Coelli, T.; Prasada Rao, D.S.; Battese, G.E. An introduction to
+efficiency and productivity analysis. Boston: Kluwer Academic Publishers.
 }
 \usage{
 data("Coelli_1998")
 }
 \description{
-Data of five DMUs with two inputs and one output. Prices for inputs are available. Price for output is not from Coelli et al. (1998).
+Data of five DMUs with two inputs and one output. Prices for inputs are available.
+Price for output is not from Coelli et al. (1998).
 }
 \examples{
 # Example. Replication of results in Coelli et al. (1998, p.166).
 # Cost efficiency model.
 data("Coelli_1994")
 # Selection of prices: data_prices is the trasnpose where the prices for inputs are. 
-data_prices <- t(Coelli_1998[,5:6]) 
+data_prices <- t(Coelli_1998[, 5:6]) 
 
 data_example <- read_data(Coelli_1998,
-                          dmus=1,
-                          ni=2,
-                          no=1)
+                          dmus = 1,
+                          ni = 2,
+                          no = 1)
 result <- model_profit(data_example,
-                       price_input=data_prices,
-                       rts="crs", 
-                       restricted_optimal=FALSE) 
+                       price_input = data_prices,
+                       rts = "crs", 
+                       restricted_optimal = FALSE) 
 # notice that the option by default is restricted_optimal=TRUE
 efficiencies(result)
 

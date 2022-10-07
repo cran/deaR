@@ -4,25 +4,23 @@
 \alias{plot.dea}
 \title{Plot for DEA models.}
 \usage{
-\method{plot}{dea}(x, showPlots = TRUE, ...)
+\method{plot}{dea}(x, tol = 1e-04, showPlots = TRUE, ...)
 }
 \arguments{
-\item{x}{An object of class \code{"dea"} obtained by a dea model function.}
+\item{x}{An object of class \code{"dea"} obtained by a DEA model function.}
+
+\item{tol}{Numeric. Absolute tolerance for numeric comparisons. By default, it is 1e-4.}
 
 \item{showPlots}{Logical. When TRUE (default) the plots are shown one by one. When it 
-is FALSE the plots are not shown and are returned by the function (invisiblily) as a 
-list.}
+is FALSE the plots are not shown and are returned by the function (invisibly) as a list.}
 
 \item{...}{Ignored, for compatibility issues.}
 }
 \value{
-Depending on the model it returns a single data.frame containing: efficiencies, 
-slacks, lambdas, targets, references or a list of data.frames with the cross-efficiencies computed 
-with different methods (Arbitrary, Method II or Method III (see CITA)) or, in case the model is a
- malmquist index, a single data.frame with the coefficients for the different periods.
+Depending on the model, it returns some plots.
 }
 \description{
-Plot some attribute of a DEA model (conventional, fuzzy or Malmquist).
+Plot some attribute of a DEA model.
 }
 \examples{
 data_example <- read_data(datadea = Fortune500,
@@ -33,7 +31,9 @@ plot(result)
 
 }
 \references{
-#' Zhu, J. (2014). Quantitative Models for Performance Evaluation and Benchmarking. Data Envelopment Analysis with Spreadsheets. 3rd Edition Springer, New York. DOI: 10.1007/978-3-319-06647-9
+#' Zhu, J. (2014). Quantitative Models for Performance Evaluation and Benchmarking.
+Data Envelopment Analysis with Spreadsheets. 3rd Edition Springer, New York.
+\doi{10.1007/978-3-319-06647-9}
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

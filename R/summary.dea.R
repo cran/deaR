@@ -1,8 +1,6 @@
 #' @title Summary conventional DEA models.
 #'   
-#'   
 #' @description Summary of the results obtained by a conventiona DEA model.
-#' 
 #' 
 #' @param object An object of class \code{"dea"} obtained by a dea model function.
 #' @param exportExcel Logical value. If TRUE (default) the results are also exported to an Excel file
@@ -11,12 +9,12 @@
 #' @param returnList Logical value. If TRUE then the results are given as a list of data frames. 
 #'  If FALSE (default) all the data frames are merged into a single data frame.
 #' @param ... Ignored. Used for compatibility issues.
-#' 
 #'   
 #' @return Depending on the model it returns a single data.frame containing: efficiencies, 
 #' slacks, lambdas, targets, references or a list of data.frames with the cross-efficiencies computed 
 #' with different methods (Arbitrary, Method II or Method III (see CITA)) or, in case the model is a
-#'  malmquist index, a single data.frame with the coefficients for the different periods.       
+#'  malmquist index, a single data.frame with the coefficients for the different periods.
+#'         
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).
 #' \emph{Quantitative Methods for Measuring Culture (MC2). Applied Economics.}
@@ -40,16 +38,19 @@
 #'                         orientation = "io", 
 #'                         rts = "crs")
 #' summary(eval_pft, exportExcel = FALSE)
+#' 
 #' @references 
 #' Charnes, A.; Cooper, W.W.; Rhodes, E. (1981). "Evaluating Program and Managerial 
 #' Efficiency: An Application of Data Envelopment Analysis to Program Follow Through", 
 #' Management Science, 27(6), 668-697. 
 #' \url{https://pubsonline.informs.org/doi/abs/10.1287/mnsc.27.6.668}
+#' 
 #' @method summary dea
+#' 
 #' @import writexl
 #' @importFrom dplyr summarise_at vars funs
-#' @export
 #' 
+#' @export
 
 summary.dea <- function(object, 
                         exportExcel = TRUE,
@@ -83,14 +84,10 @@ summary.dea <- function(object,
   if (!modelname %in% c("malmquist", "cross_efficiency", "bootstrap", "profit")) {
     # All models except malmquist, ce, bootstrap and profit -------
     # Efficiencies
-    # if(!modelname %in% c("addsupereff")){
     eff <- efficiencies(object)
     eff <- data.frame(eff, stringsAsFactors = FALSE)
     eff <-
       data.frame(cbind(data.frame(DMU = rownames(eff)), eff), row.names = NULL)
-    # }else {
-    #   eff <- NULL
-    # }
     
     # slacks
     if (!modelname %in% c("multiplier")) {
@@ -115,7 +112,6 @@ summary.dea <- function(object,
     # Targets
     tar <- targets(object)
     tar <- do.call(cbind, tar)
-    #dimnames(tar)[[2]] <- paste("target",dimnames(tar)[[2]],sep = ".")
     tar <- data.frame(tar, stringsAsFactors = FALSE)
     tar <- data.frame(cbind(data.frame(DMU = rownames(tar)), tar),
                       row.names = NULL,
@@ -124,7 +120,6 @@ summary.dea <- function(object,
     if (modelname == "multiplier") {
       mult <- multipliers(object)[1:2]
       mult <- do.call(cbind, mult)
-      # dimnames(mult)[[2]] <- paste("multiplier",dimnames(mult)[[2]], sep = ".")
       mult <- data.frame(mult, stringsAsFactors = FALSE)
       mult <-
         data.frame(cbind(data.frame(DMU = object$data$dmunames), mult),
@@ -136,14 +131,11 @@ summary.dea <- function(object,
     
     # References
     ref <- references(object)
-    #dmunames <- object$data$dmunames
-    
     
     refnames <- unique(unlist(lapply(ref, function (x)
       names(x))))
     dmunames <- as.character(lamb$DMU)
     urefnames <- names(ref)
-    
     
     RefMat <-
       matrix(
@@ -160,20 +152,10 @@ summary.dea <- function(object,
         }
       }
     }
-    #refmat <- RefMat[urefnames,sort(refnames)]
     
     RefMatdf <-
       data.frame(cbind(data.frame(DMU = dmunames), data.frame(RefMat)),
                  row.names = NULL)
-    
-    #
-    # refmat  <- matrix(0, nrow = length(ref),
-    #                   ncol = length(refnames),
-    #                   dimnames = list(names(ref), refnames))
-    # refmat[names(ref),refnames] <- round(lmbd[names(ref), refnames],4)
-    # refmat <- refmat[,sort(dimnames(refmat)[[2]])]
-    
-    
     
     # Returns
     returns <- rts(object)
@@ -183,9 +165,7 @@ summary.dea <- function(object,
                  row.names = NULL,
                  stringsAsFactors = FALSE)
     
-    
     # Global data.frame
-    
     
     dflist <- list(
       efficiencies = eff,
@@ -207,7 +187,6 @@ summary.dea <- function(object,
       write_xlsx(dflist, path = filename)
     }
     
-    #dflist <- lapply(dflist, function(x) x[-1])
     if (returnList) {
       return(dflist)
     } else {
@@ -218,7 +197,6 @@ summary.dea <- function(object,
   } else if (modelname == "malmquist") {
     # Malmquist model -----
     # Extract information about the data
-    #dmunames <- as.character(object$datadealist[[1]]$dmunames)
     dmunames <- names(object$dmu_eval)
     periods <- names(object$datadealist)
     nper <- length(periods)
@@ -235,15 +213,6 @@ summary.dea <- function(object,
           Period = periods[i + 1],
           DMU = dmunames),
           sapply(reslist, function(x) x[i,]))
-        # data.frame(
-        #   Period = periods[i + 1],
-        #   DMU = dmunames,
-        #   ec = object$ec[i, ],
-        #   tc = object$tc[i, ],
-        #   pech = object$pech[i,] ,
-        #   sech = object$sech[i, ],
-        #   mi = object$mi[i, ]
-        # )
     }
     # collapse the list into a data.frame
     dff <- do.call(rbind, df)
@@ -360,8 +329,6 @@ summary.dea <- function(object,
     dmunames <- as.character(lamb$DMU)
     urefnames <- names(ref)
     
-    
-    
     RefMat <-
       matrix(
         0,
@@ -374,7 +341,6 @@ summary.dea <- function(object,
     RefMatdf <-
       data.frame(cbind(data.frame(DMU = dmunames), data.frame(RefMat)),
                  row.names = NULL)
-    
     
     # Optimal i/o
     switch(
@@ -403,7 +369,6 @@ summary.dea <- function(object,
                  row.names = NULL,
                  stringsAsFactors = FALSE)
     
-    
     dflist <- list(
       efficiencies = eff,
       objval = objval,
@@ -422,8 +387,6 @@ summary.dea <- function(object,
       write_xlsx(dflist, path = filename)
     }
     
-   # dflist <- lapply(dflist, function(x)
-    #  x[-1])
     if (returnList) {
       return(dflist)
     } else {

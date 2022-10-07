@@ -5,14 +5,18 @@
 \alias{Kao_Liu_2003}
 \title{Data: Kao and Liu (2003).}
 \format{
-Data frame with 24 rows and 11 columns. Definition of fuzzy inputs (X) and fuzzy outputs (Y):
+Data frame with 24 rows and 11 columns. Definition of fuzzy inputs (X)
+and fuzzy outputs (Y):
 \describe{
-  \item{x1 = Patronage}{It is a weighted sum of the standardized scores of faculty, graduate students, undergraduate students, and extension students in the range of 0 and 1.}
+  \item{x1 = Patronage}{It is a weighted sum of the standardized scores of faculty,
+  graduate students, undergraduate students, and extension students in the range of 0 and 1.}
   \item{y1 = Collections}{Books, serials, microforms, audiovisual works, and database.}
   \item{y2 = Personnel}{Classified staff, unclassified staff, and student assistants.}
-  \item{y3 = Expenditures }{Capital expenditure, operating expenditure, and special expenditure.}
+  \item{y3 = Expenditures }{Capital expenditure, operating expenditure, and
+  special expenditure.}
   \item{y4 = Buildings}{Area and seats}
-  \item{y5 = Services}{Operating hours, attendance, circulation, communication channels, range of services, amount of services, etc.}
+  \item{y5 = Services}{Operating hours, attendance, circulation, communication
+  channels, range of services, amount of services, etc.}
   \item{beta3_l}{lower spread vector Expenditures}
   \item{beta3_u}{upper spread vector Expenditures}
   \item{beta5_l}{lower spread vector Services}
@@ -20,7 +24,9 @@ Data frame with 24 rows and 11 columns. Definition of fuzzy inputs (X) and fuzzy
 }
 }
 \source{
-Kao, C., Liu, S.T. (2003). “A mathematical programming approach to fuzzy efficiency ranking”, International Journal of Production Economics, 85, \code{doi}: 10.1016/S0925-5273(03)00026-4
+Kao, C., Liu, S.T. (2003). “A mathematical programming approach to
+fuzzy efficiency ranking”, International Journal of Production Economics, 85.
+\doi{10.1016/S0925-5273(03)00026-4}
 }
 \usage{
 data("Kao_Liu_2003")
@@ -29,21 +35,25 @@ data("Kao_Liu_2003")
 Data of 24 university libraries in Taiwan with one input and five outputs.
 }
 \note{
-There are three observations that are missing: expenditures of Library 24 and services of Library 22 and Library 23. Kao and Liu (2000b) represent the expenditures of Library 24 by the triangular fuzzy number Y=(0.11; 0.41; 1.0). The services of Library 22 and Library 23 are expressed by a same triangular fuzzy number Y=(0.41; 0.69; 1.0).
+There are three observations that are missing: expenditures of Library 24
+and services of Library 22 and Library 23. Kao and Liu (2000b) represent the
+expenditures of Library 24 by the triangular fuzzy number Y = (0.11; 0.41; 1.0).
+The services of Library 22 and Library 23 are expressed by a same triangular
+fuzzy number Y = (0.41; 0.69; 1.0).
 }
 \examples{
 # Example. Replication of results in Kao and Liu (2003, p.152)
 data_example <- read_data_fuzzy(Kao_Liu_2003,
-                                dmus=1,
-                                inputs.mL= 2,
-                                outputs.mL= 3:7,
-                                outputs.dL=c(NA,NA,8,NA,10),
-                                outputs.dR=c(NA,NA,9,NA,11))
+                                dmus = 1,
+                                inputs.mL = 2,
+                                outputs.mL = 3:7,
+                                outputs.dL = c(NA, NA, 8, NA, 10),
+                                outputs.dR = c(NA, NA, 9, NA, 11))
 result <- modelfuzzy_kaoliu(data_example,
                             kaoliu_modelname = "basic",
-                            orientation="oo",
-                            rts="vrs",
-                            alpha=0)
+                            orientation = "oo",
+                            rts = "vrs",
+                            alpha = 0)
 eff <- efficiencies(result)
 eff
 

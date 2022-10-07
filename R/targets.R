@@ -4,7 +4,8 @@
 #' 
 #' @usage targets(deasol)
 #' 
-#' @param deasol Object of class \code{dea} or \code{dea_fuzzy} obtained with some of the DEA model functions.
+#' @param deasol Object of class \code{dea} or \code{dea_fuzzy} obtained with some
+#' of the DEA model functions.
 #'   
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).
@@ -19,14 +20,14 @@
 #' University of Valencia (Spain)
 #'
 #' @examples 
-#'  data("Coll_Blasco_2006")
-#'  data_example <- read_data(Coll_Blasco_2006,
-#'                            ni = 2, 
-#'                            no = 2)
-#'  result <- model_multiplier(data_example, 
-#'                             orientation = "io", 
-#'                             rts = "crs")
-#'  targets(result)
+#' data("Coll_Blasco_2006")
+#' data_example <- read_data(Coll_Blasco_2006,
+#'                           ni = 2, 
+#'                           no = 2)
+#' result <- model_multiplier(data_example, 
+#'                            orientation = "io", 
+#'                            rts = "crs")
+#' targets(result)
 #'  
 #' @export
 

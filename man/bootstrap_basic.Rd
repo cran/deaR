@@ -27,12 +27,20 @@ bootstrap_basic(datadea,
 
 \item{B}{Number of bootstrap iterations.}
 
-\item{h}{Bandwidth of smoothing window. By default h=0.014 (You can set h to any other value). The optimal bandwidth factor can also be calculated following the proposals of Silverman (1986) and Daraio y Simar (2007). So, h="h1" is the optimal h referred as "robust normal-reference rule" (Daraio and Simar, 2007 p.60), h="h2" is the value of h1 but instead of the factor 1.06 with the factor 0.9, h="h3" is the value of h1 adjusted for scale and sample size (Daraio and Simar, 2007 p.61), and h="h4" is the bandwidth provided by a Gaussian kernel density estimate.}
+\item{h}{Bandwidth of smoothing window. By default \code{h} = 0.014 (you can set \code{h}
+equal to any other value). The optimal bandwidth factor can also be calculated following
+the proposals of Silverman (1986) and Daraio y Simar (2007). So, \code{h} = "h1" is the
+optimal \code{h} referred as "robust normal-reference rule" (Daraio and Simar, 2007 p.60),
+\code{h} = "h2" is the value of h1 but instead of the factor 1.06 with the factor 0.9,
+\code{h} = "h3" is the value of h1 adjusted for scale and sample size (Daraio and Simar, 2007 p.61),
+and \code{h} = "h4" is the bandwidth provided by a Gaussian kernel density estimate.}
 
 \item{alpha}{Between 0 and 1 (for confidence intervals).}
 }
 \description{
-To bootstrap efficiency scores, deaR uses the algorithm proposed by Simar and Wilson (1998). For now, the function bootstrap_basic can only be used with basic DEA models.
+To bootstrap efficiency scores, deaR uses the algorithm proposed
+by Simar and Wilson (1998). For now, the function bootstrap_basic can only be
+used with basic DEA models.
 }
 \examples{
 # To replicate the results in Simar y Wilson (1998, p. 58) you have to
@@ -54,19 +62,29 @@ Behr, A. (2015). Production and Efficiency Analysis with R. Springer.
 
 Bogetoft, P.; Otto, L. (2010).  Benchmarking with DEA, SFA, and R. Springer.
 
-Daraio, C.; Simar, L. (2007). Advanced Robust and Nonparametric Methods in Efficiency Analysis: Methodology and Applications. New York: Springer.
+Daraio, C.; Simar, L. (2007). Advanced Robust and Nonparametric Methods in
+Efficiency Analysis: Methodology and Applications. New York: Springer.
 
-Färe, R.; Grosskopf, S.; Kokkenlenberg, E. (1989). "Measuring Plant Capacity, Utilization and Technical Change: A Nonparametric Approach". International Economic Review, 30(3), 655-666. 
+Färe, R.; Grosskopf, S.; Kokkenlenberg, E. (1989). "Measuring Plant Capacity,
+Utilization and Technical Change: A Nonparametric Approach". International
+Economic Review, 30(3), 655-666. 
 
-Löthgren, M.; Tambour, M. (1999). "Bootstrapping the Data Envelopment Analysis Malmquist Productivity Index". Applied Economics, 31, 417-425. 
+Löthgren, M.; Tambour, M. (1999). "Bootstrapping the Data Envelopment Analysis
+Malmquist Productivity Index". Applied Economics, 31, 417-425. 
 
-Silverman, B.W. (1986). Density Estimation for Statistics and Data Analysis. London: Chapman and Hall. 
+Silverman, B.W. (1986). Density Estimation for Statistics and Data Analysis.
+London: Chapman and Hall. 
 
-Simar, L.; Wilson, P.W. (1998). "Sensitivity Analysis of Efficiency Scores: How to Bootstrap in Nonparametric Frontier Models". Management Science, 44(1), 49-61. 
+Simar, L.; Wilson, P.W. (1998). "Sensitivity Analysis of Efficiency Scores:
+How to Bootstrap in Nonparametric Frontier Models". Management Science, 44(1), 49-61. 
 
-Simar, L.; Wilson, P.W. (1999). "Estimating and Bootstrapping Malmquist Indices". European Journal of Operational Research, 115, 459-471. 
+Simar, L.; Wilson, P.W. (1999). "Estimating and Bootstrapping Malmquist Indices".
+European Journal of Operational Research, 115, 459-471. 
 
-Simar, L.; Wilson, P.W. (2008). Statistical Inference in Nonparametric Frontier Models: Recent Developments and Perspective. In H.O. Fried; C.A. Knox Lovell and S.S. Schmidt (eds.) The Measurement of Productive Efficiency and Productivity Growth. New York: Oxford University Press. \doi{10.1093/acprof:oso/9780195183528.001.0001}
+Simar, L.; Wilson, P.W. (2008). Statistical Inference in Nonparametric Frontier
+Models: Recent Developments and Perspective. In H.O. Fried; C.A. Knox Lovell and
+S.S. Schmidt (eds.) The Measurement of Productive Efficiency and Productivity Growth.
+New York: Oxford University Press. \doi{10.1093/acprof:oso/9780195183528.001.0001}
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

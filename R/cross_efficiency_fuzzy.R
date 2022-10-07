@@ -1,19 +1,21 @@
-#' @title Cross efficiency fuzzy tables
+#' @title Cross efficiency fuzzy analysis
 #'   
-#' @description Computes the cross-efficiency fuzzy table from DEA data or a Guo-Tanaka DEA model solution.
-#' The (crisp) relative efficiencies for the case \code{h} = 1 are obtained from the CCR model (\code{model_multiplier}).
+#' @description Computes the cross-efficiency fuzzy tables from DEA fuzzy data or a
+#' Guo-Tanaka DEA model solution.
+#' The (crisp) relative efficiencies for the case \code{h} = 1 are obtained from
+#' the CCR model (\code{model_multiplier}).
 #' 
 #' @usage cross_efficiency_fuzzy(datadea,
 #'                        orientation = c("io", "oo"),
 #'                        h = 1,
 #'                        selfapp = TRUE)
 #' 
-#' @param datadea An object of class \code{dea_fuzzy} or \code{deadata_fuzzy}. If it is of class \code{dea_fuzzy} it must have
-#'                been obtained with \code{modelfuzzy_guotanaka}.
+#' @param datadea An object of class \code{dea_fuzzy} or \code{deadata_fuzzy}.
+#' If it is of class \code{dea_fuzzy} it must have been obtained with \code{modelfuzzy_guotanaka}.
 #' @param orientation A string, equal to "io" (input-oriented) or "oo" (output-oriented).
 #' @param h A numeric vector with the h-levels (in [0,1]).
-#' @param selfapp Logical. If it is \code{TRUE}, self-appraisal is included in the average scores of
-#'                \code{A} and \code{e}.
+#' @param selfapp Logical. If it is \code{TRUE}, self-appraisal is included in the
+#' average scores of \code{A} and \code{e}.
 #'   
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).
@@ -28,13 +30,21 @@
 #' University of Valencia (Spain)
 #'
 #' @references
-#' Doyle, J.; Green, R. (1994). “Efficiency and Cross Efficiency in DEA: Derivations, Meanings and the Uses”,  Journal of Operational Research Society, 45(5), 567–578. \doi{10.2307/2584392}
+#' Doyle, J.; Green, R. (1994). “Efficiency and Cross Efficiency in DEA: Derivations,
+#' Meanings and the Uses”,  Journal of Operational Research Society, 45(5), 567–578.
+#' \doi{10.2307/2584392}
 #'  
-#' Guo, P.; Tanaka, H. (2001). "Fuzzy DEA: A Perceptual Evaluation Method", Fuzzy Sets and Systems, 119, 149–160. \doi{10.1016/S0165-0114(99)00106-2}
+#' Guo, P.; Tanaka, H. (2001). "Fuzzy DEA: A Perceptual Evaluation Method", Fuzzy
+#' Sets and Systems, 119, 149–160. \doi{10.1016/S0165-0114(99)00106-2}
 #' 
-#' León, T.; Liern, V.; Ruiz, J.L.; Sirvent, I. (2003). "A Fuzzy Mathematical Programming Approach to the assessment of efficiency with DEA Models", Fuzzy Sets Systems, 139(2), 407–419. \doi{10.1016/S0165-0114(02)00608-5}
+#' León, T.; Liern, V.; Ruiz, J.L.; Sirvent, I. (2003). "A Fuzzy Mathematical
+#' Programming Approach to the assessment of efficiency with DEA Models", Fuzzy
+#' Sets Systems, 139(2), 407–419. \doi{10.1016/S0165-0114(02)00608-5}
 #' 
-#' Sexton, T.R., Silkman, R.H.; Hogan, A.J. (1986). Data envelopment analysis: critique and extensions. In: Silkman RH (ed) Measuring efficiency: an assessment of data envelopment analysis, vol 32. Jossey-Bass, San Francisco, pp 73–104. \doi{10.1002/ev.1441}  
+#' Sexton, T.R., Silkman, R.H.; Hogan, A.J. (1986). Data envelopment analysis:
+#' critique and extensions. In: Silkman RH (ed) Measuring efficiency: an assessment
+#' of data envelopment analysis, vol 32. Jossey-Bass, San Francisco, pp 73–104.
+#' \doi{10.1002/ev.1441}  
 #' 
 #' @examples 
 #'  data("Guo_Tanaka_2001")
@@ -94,16 +104,12 @@ cross_efficiency_fuzzy <- function(datadea,
     objg0 <- "max"
     g0.dir <- c("=", "<=")
     f.dir <- c("=", ">=", g0.dir, rep("<=", nd + nd))
-    #f.dir <- c("=", ">=", g0.dir, rep("<=", nd + nd - 2))
-    #f.dir <- c("=", ">=", g0.dir, rep("<=", nd + nd), rep("=", nd - 1))
   } else {
     input.d <- -datadea$output$dL # spread
     orient <- -1
     objg0 <- "min"
     g0.dir <- c("=", ">=")
     f.dir <- c("=", "<=", g0.dir, rep("<=", nd + nd))
-    #f.dir <- c("=", "<=", g0.dir, rep("<=", nd + nd - 2))
-    #f.dir <- c("=", "<=", g0.dir, rep("<=", nd + nd), rep("=", nd - 1))
   }
   
   for (i in 1:nh) {
@@ -169,34 +175,16 @@ cross_efficiency_fuzzy <- function(datadea,
       }
     }
     
-    #maverick.m <- (eff.m - e.m) / pmin(eff.m, e.m)
-    #maverick.dL <- maverick.m - (eff.m - eff.dL - e.m  - e.dR) / pmin(eff.m + eff.dR, e.m + e.dR)
-    #maverick.dR <- (eff.m + eff.dR - e.m  + e.dL) / pmin(eff.m - eff.dL, e.m - e.dL) - maverick.m
-    #names(maverick.m) <- dmunames
-    #names(maverick.dL) <- dmunames
-    #names(maverick.dR) <- dmunames
-    
     Y2 = e.m + 0.25 * (e.dR - e.dL)
     names(Y2) <- dmunames
     
-    #if (orientation == "io") {
-      Arbitrary <- list(multiplier_input = mul_input,
+    Arbitrary <- list(multiplier_input = mul_input,
                         multiplier_output = mul_output,
                         cross_eff = list(dL = cross_eff.dL, m = cross_eff.m, dR = cross_eff.dR),
                         e = list(dL = e.dL, m = e.m, dR = e.dR),
                         A = list(dL = A.dL, m = A.m, dR = A.dR),
                         #maverick = list(dL = maverick.dL, m = maverick.m, dR = maverick.dR),
                         Y2 = Y2)
-    #} else {
-    #  Arbitrary <- list(multiplier_input = mul_input,
-    #                    multiplier_output = mul_output,
-    #                    cross_eff = list(dL = (1 / cross_eff.m) - (1 / (cross_eff.m + cross_eff.dR)), m = 1 / cross_eff.m, dR =  (1 / (cross_eff.m - cross_eff.dL)) - (1 / cross_eff.m)),
-    #                    e = list(dL = (1 / e.m) - (1 / (e.m + e.dR)), m = 1 / e.m, dR =  (1 / (e.m - e.dL)) - (1 / e.m)),
-    #                    A = list(dL = (1 / A.m) - (1 / (A.m + A.dR)), m = 1 / A.m, dR =  (1 / (A.m - A.dL)) - (1 / A.m)),
-    #                    #maverick = list(dL = maverick.dL, m = maverick.m, dR = maverick.dR),
-    #                    Y2 = Y2)
-      
-    #}
     
     ########## Aggressive/benevolent computations ##########
     
@@ -240,31 +228,19 @@ cross_efficiency_fuzzy <- function(datadea,
       g0.con <- rbind(input.L[, j], input.U[, j])
       g0 <- lp(objg0, g0.obj, g0.con, g0.dir, g0.rhs)$objval
       
-      # Vector de coeficientes de la función objetivo
+      # Objective function coefficients
       f.obj <- c(rowSums(matrix(input.U[, -j], nrow = ni)), -rowSums(matrix(output.L[, -j], nrow = no))) 
-      #f.obj <- c(rep(0, ni + no), rep(1, nd - 1))
       
-      # Matriz técnica
+      # Constraints matrix
       f.con.0 <- c(rep(0, ni), output.L[, j])
       f.con.1 <- c(g0.obj, rep(0, no))
       f.con.2 <- cbind(g0.con, matrix(0, nrow = 2, ncol = no))
       f.con.3 <- cbind(-t(input.L), t(output.L))
       f.con.4 <- cbind(-t(input.U), t(output.U))
-      #f.con.3 <- cbind(-t(input.L[, -j]), t(output.L[, -j]))
-      #f.con.4 <- cbind(-t(input.U[, -j]), t(output.U[, -j]))
       f.con <- rbind(f.con.0, f.con.1, f.con.2, f.con.3, f.con.4)
-      #f.con.0 <- c(rep(0, ni), output.L[, j], rep(0, nd - 1))
-      #f.con.1 <- c(g0.obj, rep(0, no), rep(0, nd - 1))
-      #f.con.2 <- cbind(g0.con, matrix(0, nrow = 2, ncol = no), matrix(0, nrow = 2, ncol = nd - 1))
-      #f.con.3 <- cbind(-t(input.L), t(output.L), matrix(0, nrow = nd, ncol = nd - 1))
-      #f.con.4 <- cbind(-t(input.U), t(output.U), matrix(0, nrow = nd, ncol = nd - 1))
-      #f.con.5 <- cbind(-t(input.U[, -j]), t(output.L[, -j]), orient * diag(nd - 1))
-      #f.con <- rbind(f.con.0, f.con.1, f.con.2, f.con.3, f.con.4, f.con.5)
       
-      # Vector de términos independientes
+      # Right hand side vector
       f.rhs <- c(beta, g0, orient * c(one.L, one.U), rep(0, nd + nd))
-      #f.rhs <- c(beta, g0, orient * c(one.L, one.U), rep(0, nd + nd - 2))
-      #f.rhs <- c(beta, g0, orient * c(one.L, one.U), rep(0, nd + nd + nd - 1))
       
       res <- lp("max", f.obj, f.con, f.dir, f.rhs)$solution
       
@@ -280,15 +256,9 @@ cross_efficiency_fuzzy <- function(datadea,
     
     ## Aggressive ##
     
-    #if (orientation == "io") {
-      cross_eff.m <- (mul_output_agg %*% output.m) / (mul_input_agg %*% input.m)
-      cross_eff.dL <- cross_eff.m - (mul_output_agg %*% output.L) / (mul_input_agg %*% input.U)
-      cross_eff.dR <- (mul_output_agg %*% output.U) / (mul_input_agg %*% input.L) - cross_eff.m
-    #} else {
-    #  cross_eff.m <- (mul_input_agg %*% input.m) / (mul_output_agg %*% output.m)
-    #  cross_eff.dL <- cross_eff.m - (mul_input_agg %*% input.L) / (mul_output_agg %*% output.U)
-    #  cross_eff.dR <- (mul_input_agg %*% input.U) / (mul_output_agg %*% output.L) - cross_eff.m
-    #}
+    cross_eff.m <- (mul_output_agg %*% output.m) / (mul_input_agg %*% input.m)
+    cross_eff.dL <- cross_eff.m - (mul_output_agg %*% output.L) / (mul_input_agg %*% input.U)
+    cross_eff.dR <- (mul_output_agg %*% output.U) / (mul_input_agg %*% input.L) - cross_eff.m
     
     colnames(cross_eff.m) <- dmunames
     rownames(cross_eff.m) <- dmunames
@@ -326,13 +296,6 @@ cross_efficiency_fuzzy <- function(datadea,
         e.dR[j] <- sum(cross_eff.dR[-j, j]) / (nd - 1)
       }
     }
-    
-    #maverick.m <- (eff.m - e.m) / pmin(eff.m, e.m)
-    #maverick.dL <- maverick.m - (eff.m - eff.dL - e.m  - e.dR) / pmin(eff.m + eff.dR, e.m + e.dR)
-    #maverick.dR <- (eff.m + eff.dR - e.m  + e.dL) / pmin(eff.m - eff.dL, e.m - e.dL) - maverick.m
-    #names(maverick.m) <- dmunames
-    #names(maverick.dL) <- dmunames
-    #names(maverick.dR) <- dmunames
     
     Y2 = e.m + 0.25 * (e.dR - e.dL)
     names(Y2) <- dmunames
@@ -343,7 +306,6 @@ cross_efficiency_fuzzy <- function(datadea,
                   cross_eff = list(dL = cross_eff.dL, m = cross_eff.m, dR = cross_eff.dR),
                   e = list(dL = e.dL, m = e.m, dR = e.dR),
                   A = list(dL = A.dL, m = A.m, dR = A.dR),
-                  #maverick = list(dL = maverick.dL, m = maverick.m, dR = maverick.dR),
                   Y2 = Y2)
     } else {
       Agg <- list(multiplier_input = mul_output_agg,
@@ -351,24 +313,14 @@ cross_efficiency_fuzzy <- function(datadea,
                   cross_eff = list(dL = cross_eff.dL, m = cross_eff.m, dR = cross_eff.dR),
                   e = list(dL = e.dL, m = e.m, dR = e.dR),
                   A = list(dL = A.dL, m = A.m, dR = A.dR),
-                  #cross_eff = list(dL = (1 / cross_eff.m) - (1 / (cross_eff.m + cross_eff.dR)), m = 1 / cross_eff.m, dR =  (1 / (cross_eff.m - cross_eff.dL)) - (1 / cross_eff.m)),
-                  #e = list(dL = (1 / e.m) - (1 / (e.m + e.dR)), m = 1 / e.m, dR =  (1 / (e.m - e.dL)) - (1 / e.m)),
-                  #A = list(dL = (1 / A.m) - (1 / (A.m + A.dR)), m = 1 / A.m, dR =  (1 / (A.m - A.dL)) - (1 / A.m)),                  
-                  #maverick = list(dL = maverick.dL, m = maverick.m, dR = maverick.dR),
                   Y2 = Y2)
     }
     
     ## Benevolent ##
     
-    #if (orientation == "io") {
-      cross_eff.m <- (mul_output_ben %*% output.m) / (mul_input_ben %*% input.m)
-      cross_eff.dL <- cross_eff.m - (mul_output_ben %*% output.L) / (mul_input_ben %*% input.U)
-      cross_eff.dR <- (mul_output_ben %*% output.U) / (mul_input_ben %*% input.L) - cross_eff.m
-    #} else {
-    #  cross_eff.m <- (mul_input_ben %*% input.m) / (mul_output_ben %*% output.m)
-    #  cross_eff.dL <- cross_eff.m - (mul_input_ben %*% input.L) / (mul_output_ben %*% output.U)
-    #  cross_eff.dR <- (mul_input_ben %*% input.U) / (mul_output_ben %*% output.L) - cross_eff.m
-    #}
+    cross_eff.m <- (mul_output_ben %*% output.m) / (mul_input_ben %*% input.m)
+    cross_eff.dL <- cross_eff.m - (mul_output_ben %*% output.L) / (mul_input_ben %*% input.U)
+    cross_eff.dR <- (mul_output_ben %*% output.U) / (mul_input_ben %*% input.L) - cross_eff.m
     
     colnames(cross_eff.m) <- dmunames
     rownames(cross_eff.m) <- dmunames
@@ -407,13 +359,6 @@ cross_efficiency_fuzzy <- function(datadea,
       }
     }
     
-    #maverick.m <- (eff.m - e.m) / pmin(eff.m, e.m)
-    #maverick.dL <- maverick.m - (eff.m - eff.dL - e.m  - e.dR) / pmin(eff.m + eff.dR, e.m + e.dR)
-    #maverick.dR <- (eff.m + eff.dR - e.m  + e.dL) / pmin(eff.m - eff.dL, e.m - e.dL) - maverick.m
-    #names(maverick.m) <- dmunames
-    #names(maverick.dL) <- dmunames
-    #names(maverick.dR) <- dmunames
-    
     Y2 = e.m + 0.25 * (e.dR - e.dL)
     names(Y2) <- dmunames
     
@@ -423,7 +368,6 @@ cross_efficiency_fuzzy <- function(datadea,
                   cross_eff = list(dL = cross_eff.dL, m = cross_eff.m, dR = cross_eff.dR),
                   e = list(dL = e.dL, m = e.m, dR = e.dR),
                   A = list(dL = A.dL, m = A.m, dR = A.dR),
-                  #maverick = list(dL = maverick.dL, m = maverick.m, dR = maverick.dR),
                   Y2 = Y2)
     } else {
       Ben <- list(multiplier_input = mul_output_ben,
@@ -431,10 +375,6 @@ cross_efficiency_fuzzy <- function(datadea,
                   cross_eff = list(dL = cross_eff.dL, m = cross_eff.m, dR = cross_eff.dR),
                   e = list(dL = e.dL, m = e.m, dR = e.dR),
                   A = list(dL = A.dL, m = A.m, dR = A.dR),
-                  #cross_eff = list(dL = (1 / cross_eff.m) - (1 / (cross_eff.m + cross_eff.dR)), m = 1 / cross_eff.m, dR =  (1 / (cross_eff.m - cross_eff.dL)) - (1 / cross_eff.m)),
-                  #e = list(dL = (1 / e.m) - (1 / (e.m + e.dR)), m = 1 / e.m, dR =  (1 / (e.m - e.dL)) - (1 / e.m)),
-                  #A = list(dL = (1 / A.m) - (1 / (A.m + A.dR)), m = 1 / A.m, dR =  (1 / (A.m - A.dL)) - (1 / A.m)),                  
-                  #maverick = list(dL = maverick.dL, m = maverick.m, dR = maverick.dR),
                   Y2 = Y2)
     }
     

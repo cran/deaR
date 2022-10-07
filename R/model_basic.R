@@ -1,16 +1,32 @@
-#' @title Basic (radial) DEA model.
+#' @title Basic (radial and directional) DEA model.
 #'   
-#' @description Solve input and output oriented basic DEA  models (envelopment form) under constant (CCR DEA model), variable (BCC DEA model), non-increasing, non-decreasing or generalized returns to scale. By default, models are solved in a two-stage process (DEA slacks are maximized).  
-#'   
-#' The model_basic function allows to treat with non-discretional, uncontrollable and undesirable inputs/outputs. 
-#' 
-#' Finally, you can use the \code{model_basic} function to solve directional DEA models by choosing \code{orientation} = "dir".
+#' @description It solves input and output oriented, along with directional, basic
+#' DEA models (envelopment form) under constant (CCR model), variable (BCC model),
+#' non-increasing, non-decreasing or generalized returns to scale. By default,
+#' models are solved in a two-stage process (slacks are maximized).  
 #'
-#' @note (1) With undesirable inputs/outputs and non-directional orientation, you should select "vrs" returns to scale (BCC model) in order to maintain translation invariance (Seiford and Zhu, 2002). If deaR detects that you are not specifying \code{rts} = "vrs", it makes the change to "vrs" automatically. 
+#' You can use the \code{model_basic} function to solve directional DEA
+#' models by choosing \code{orientation} = "dir".
 #' 
-#' (2) With undesirable inputs and non-directional orientation use input-oriented BCC model, and with undesirable outputs and non-directional orientation use output-oriented BCC model. Alternatively, you can also treat the undesirable outputs as inputs and then apply the input-oriented BCC model (similarly with undesirable inputs).
+#' The model_basic function allows to treat with non-discretional, non-controllable
+#' and undesirable inputs/outputs.
+#'
+#' @note (1) Model proposed by Seiford and Zhu (2002) is applied for undesirable
+#' inputs/outputs and non-directional orientation (i.e., input or output oriented).
+#' You should select "vrs" returns to scale (BCC model) in order to maintain translation
+#' invariance. If deaR detects that you are not specifying \code{rts} = "vrs", it
+#' makes the change to "vrs" automatically. 
 #' 
-#' (3) With \code{orientation} = "dir" (directional distance function model), efficient DMUs are those for which \code{beta} = 0.
+#' (2) With undesirable inputs and non-directional orientation use input-oriented
+#' BCC model, and with undesirable outputs and non-directional orientation use output-oriented
+#' BCC model. Alternatively, you can also treat the undesirable outputs as inputs
+#' and then apply the input-oriented BCC model (similarly with undesirable inputs).
+#' 
+#' (3) Model proposed by Fare and Grosskopf (2004) is applied for undesirable inputs/outputs
+#' and directional orientation.
+#' 
+#' (4) With \code{orientation} = "dir" (directional distance function model), efficient
+#' DMUs are those for which \code{beta} = 0.
 #' 
 #' @usage model_basic(datadea,
 #'             dmu_eval = NULL,
@@ -31,36 +47,50 @@
 #'             returnlp = FALSE,
 #'             ...)
 #' 
-#' @param datadea The data, including \code{n} DMUs, \code{m} inputs and \code{s} outputs.
+#' @param datadea The data, including \code{n} DMUs, \code{m} inputs and \code{s}
+#' outputs.
 #' @param dmu_eval A numeric vector containing which DMUs have to be evaluated.
 #' If \code{NULL} (default), all DMUs are considered.
-#' @param dmu_ref A numeric vector containing which DMUs are the evaluation reference set.
+#' @param dmu_ref A numeric vector containing which DMUs are the evaluation
+#' reference set.
 #' If \code{NULL} (default), all DMUs are considered.
-#' @param orientation A string, equal to "io" (input oriented), "oo" (output oriented), or "dir" (directional).
-#' @param dir_input A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the length of \code{dmu_eval}) with the input directions.
-#'                  If \code{dir_input} == input matrix (of DMUS in \code{dmu_eval}) and \code{dir_output} == 0, it is equivalent to input oriented (\code{beta} = 1 - \code{efficiency}).
-#'                  If \code{dir_input} is omitted, input matrix (of DMUS in \code{dmu_eval}) is assigned.
-#' @param dir_output A value, vector of length \code{s}, or matrix \code{s} x \code{ne} (where \code{ne} is the length of \code{dmu_eval}) with the output directions.
-#'                   If \code{dir_input} == 0 and \code{dir_output} == output matrix (of DMUS in \code{dmu_eval}), it is equivalent to output oriented (\code{beta} = \code{efficiency} - 1).
-#'                   If \code{dir_output} is omitted, output matrix (of DMUS in \code{dmu_eval}) is assigned.
+#' @param orientation A string, equal to "io" (input oriented), "oo" (output
+#' oriented), or "dir" (directional).
+#' @param dir_input A value, vector of length \code{m}, or matrix \code{m} x \code{ne}
+#' (where \code{ne} is the length of \code{dmu_eval}) with the input directions.
+#' If \code{dir_input} == input matrix (of DMUS in \code{dmu_eval}) and
+#' \code{dir_output} == 0, it is equivalent to input oriented (\code{beta} = 1 -
+#' \code{efficiency}). If \code{dir_input} is omitted, input matrix (of DMUS in
+#' \code{dmu_eval}) is assigned.
+#' @param dir_output A value, vector of length \code{s}, or matrix \code{s} x \code{ne}
+#' (where \code{ne} is the length of \code{dmu_eval}) with the output directions.
+#' If \code{dir_input} == 0 and \code{dir_output} == output matrix (of DMUS in
+#' \code{dmu_eval}), it is equivalent to output oriented (\code{beta} = \code{efficiency} - 1).
+#' If \code{dir_output} is omitted, output matrix (of DMUS in \code{dmu_eval}) is assigned.
 #' @param rts A string, determining the type of returns to scale, equal to "crs" (constant),
-#'            "vrs" (variable), "nirs" (non-increasing), "ndrs" (non-decreasing) or "grs" (generalized).
+#' "vrs" (variable), "nirs" (non-increasing), "ndrs" (non-decreasing) or "grs" (generalized).
 #' @param L Lower bound for the generalized returns to scale (grs).
 #' @param U Upper bound for the generalized returns to scale (grs).
 #' @param maxslack Logical. If it is \code{TRUE}, it computes the max slack solution.
-#' @param weight_slack_i A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the length of \code{dmu_eval})
-#'                       with the weights of the input slacks for the max slack solution.
-#' @param weight_slack_o A value, vector of length \code{s}, or matrix \code{s} x \code{ne} (where \code{ne} is the length of \code{dmu_eval})
-#'                       with the weights of the output slacks for the max slack solution.
-#' @param vtrans_i Numeric vector of translation for undesirable inputs with non-directional orientation. If \code{vtrans_i[i]} is
-#'  \code{NA}, then it applies the "max + 1" translation to the i-th undesirable input. If \code{vtrans_i} is
-#'  a constant, then it applies the same translation to all undesirable inputs. If \code{vtrans_i} is \code{NULL},
-#'  then it applies the "max + 1" translation to all undesirable inputs.
-#' @param vtrans_o Numeric vector of translation for undesirable outputs with non-directional orientation, analogous to
-#'  \code{vtrans_i}, but applied to outputs.
-#' @param compute_target Logical. If it is \code{TRUE}, it computes targets of the max slack solution. 
-#' @param compute_multiplier Logical. If it is \code{TRUE}, it computes multipliers (dual solution) when \code{orientation} is "io" or "oo".
-#' @param returnlp Logical. If it is \code{TRUE}, it returns the linear problems (objective function and constraints) of stage 1.
+#' @param weight_slack_i A value, vector of length \code{m}, or matrix \code{m} x \code{ne}
+#' (where \code{ne} is the length of \code{dmu_eval}) with the weights of the input slacks
+#' for the max slack solution.
+#' @param weight_slack_o A value, vector of length \code{s}, or matrix \code{s} x \code{ne}
+#' (where \code{ne} is the length of \code{dmu_eval}) with the weights of the output
+#' slacks for the max slack solution.
+#' @param vtrans_i Numeric vector of translation for undesirable inputs with non-directional
+#' orientation. If \code{vtrans_i[i]} is \code{NA}, then it applies the "max + 1" translation
+#' to the i-th undesirable input. If \code{vtrans_i} is a constant, then it applies
+#' the same translation to all undesirable inputs. If \code{vtrans_i} is \code{NULL},
+#' then it applies the "max + 1" translation to all undesirable inputs.
+#' @param vtrans_o Numeric vector of translation for undesirable outputs with
+#' non-directional orientation, analogous to \code{vtrans_i}, but applied to outputs.
+#' @param compute_target Logical. If it is \code{TRUE}, it computes targets of the
+#' max slack solution. 
+#' @param compute_multiplier Logical. If it is \code{TRUE}, it computes multipliers
+#' (dual solution) when \code{orientation} is "io" or "oo".
+#' @param returnlp Logical. If it is \code{TRUE}, it returns the linear problems
+#' (objective function and constraints) of stage 1.
 #' @param ... Ignored, for compatibility issues.
 #'   
 #' @author 
@@ -76,35 +106,51 @@
 #' University of Valencia (Spain)
 #'  
 #' @references 
-#' Charnes, A.; Cooper, W.W.; Rhodes, E. (1978). “Measuring the efficiency of decision making units”, European Journal of Operational Research 2, 429–444.
+#' Charnes, A.; Cooper, W.W.; Rhodes, E. (1978). “Measuring the efficiency of decision
+#' making units”, European Journal of Operational Research 2, 429–444.
 #' 
-#' Charnes, A.; Cooper, W.W.; Rhodes, E. (1979). “Short communication: Measuring the efficiency of decision making units”, European Journal of Operational Research 3, 339. 
+#' Charnes, A.; Cooper, W.W.; Rhodes, E. (1979). “Short communication: Measuring the
+#' efficiency of decision making units”, European Journal of Operational Research 3, 339. 
 #' 
-#' Charnes, A.; Cooper, W.W.; Rhodes, E. (1981). "Evaluating Program and Managerial Efficiency: An Application of Data Envelopment Analysis to Program Follow Through", Management Science, 27(6), 668-697. 
+#' Charnes, A.; Cooper, W.W.; Rhodes, E. (1981). "Evaluating Program and Managerial
+#' Efficiency: An Application of Data Envelopment Analysis to Program Follow Through",
+#' Management Science, 27(6), 668-697. 
 #' 
-#' Banker, R.; Charnes, A.; Cooper, W.W. (1984). “Some Models for Estimating Technical and Scale Inefficiencies in Data Envelopment Analysis”, Management Science; 30; 1078-1092. 
+#' Banker, R.; Charnes, A.; Cooper, W.W. (1984). “Some Models for Estimating Technical
+#' and Scale Inefficiencies in Data Envelopment Analysis”, Management Science; 30; 1078-1092. 
 #'
 #' Undesirable inputs/outputs: 
 #' 
-#' Pastor, J.T. (1996). "Translation Invariance in Data Envelopment Analysis: a Generalization", Annals of Operations Research, 66(2), 91-102. 
+#' Pastor, J.T. (1996). "Translation Invariance in Data Envelopment Analysis: a
+#' Generalization", Annals of Operations Research, 66(2), 91-102. 
 #'
-#' Seiford, L.M.; Zhu, J. (2002). “Modeling undesirable factors in efficiency evaluation”, European Journal of Operational Research 142, 16-20.
+#' Seiford, L.M.; Zhu, J. (2002). “Modeling undesirable factors in efficiency evaluation”,
+#' European Journal of Operational Research 142, 16-20.
 #' 
-#' Färe, R. ; Grosskopf, S. (2004). “Modeling undesirable factors in efficiency evaluation: Comment”, European Journal of Operational Research 157, 242-245.
+#' Färe, R. ; Grosskopf, S. (2004). “Modeling undesirable factors in efficiency
+#' evaluation: Comment”, European Journal of Operational Research 157, 242-245.
 #' 
-#' Hua Z.; Bian Y. (2007). DEA with Undesirable Factors. In: Zhu J., Cook W.D. (eds) Modeling Data Irregularities and Structural Complexities in Data Envelopment Analysis. Springer, Boston, MA. 
+#' Hua Z.; Bian Y. (2007). DEA with Undesirable Factors. In: Zhu J., Cook W.D. (eds)
+#' Modeling Data Irregularities and Structural Complexities in Data Envelopment Analysis.
+#' Springer, Boston, MA. 
 #' 
 #' Non-discretionary/Non-controllable inputs/outputs:  
 #'   
-#' Banker, R.; Morey, R. (1986). “Efficiency Analysis for Exogenously Fixed Inputs and Outputs”, Operations Research; 34; 513-521. 
+#' Banker, R.; Morey, R. (1986). “Efficiency Analysis for Exogenously Fixed Inputs
+#' and Outputs”, Operations Research; 34; 513-521. 
 #' 
-#' Ruggiero J. (2007). Non-Discretionary Inputs. In: Zhu J., Cook W.D. (eds) Modeling Data Irregularities and Structural Complexities in Data Envelopment Analysis. Springer, Boston, MA.
+#' Ruggiero J. (2007). Non-Discretionary Inputs. In: Zhu J., Cook W.D. (eds) Modeling
+#' Data Irregularities and Structural Complexities in Data Envelopment Analysis.
+#' Springer, Boston, MA.
 #'
 #' Directional DEA model:  
 #' 
-#' Chambers, R.G.; Chung, Y.; Färe, R. (1996). "Benefit and Distance Functions", Journal of Economic Theory, 70(2), 407-419. 
+#' Chambers, R.G.; Chung, Y.; Färe, R. (1996). "Benefit and Distance Functions",
+#' Journal of Economic Theory, 70(2), 407-419. 
 #' 
-#' Chambers, R.G.; Chung, Y.; Färe, R. (1998). "Profit Directional Distance Functions and Nerlovian Efficiency", Journal of Optimization Theory and Applications, 95, 351-354.
+#' Chambers, R.G.; Chung, Y.; Färe, R. (1998). "Profit Directional Distance
+#' Functions and Nerlovian Efficiency", Journal of Optimization Theory and
+#' Applications, 95, 351-354.
 #' 
 #' @examples 
 #' # Example 1. Basic DEA model with desirable inputs/outputs.
@@ -195,12 +241,10 @@ model_basic <-
   
   # Checking undesirable io and rts
   if (!is.null(datadea$ud_inputs) || !is.null(datadea$ud_outputs)) {
-    if (orientation == "dir") {
-      warning("Model proposed by Fare and Grosskopf (2004) is applied for undesirable inputs/outputs.")
-    } else {
-      warning("Model proposed by Seiford and Zhu (2002) is applied for undesirable inputs/outputs.")
+    if (orientation != "dir") {
       datadea_old <- datadea
-      res_und <- undesirable_basic(datadea = datadea, vtrans_i = vtrans_i, vtrans_o = vtrans_o)
+      res_und <- undesirable_basic(datadea = datadea, vtrans_i = vtrans_i,
+                                   vtrans_o = vtrans_o)
       datadea <- res_und$u_datadea
       if (orientation == "oo") {
         vtrans_i <- res_und$vtrans_o
@@ -216,8 +260,9 @@ model_basic <-
         warning("Undesirable (bad) outputs with no output-oriented model.")
       }
       if (rts != "vrs") {
-        rts <- "vrs"
-        warning("Returns to scale changed to variable (vrs) because there are data with undesirable inputs/outputs.")
+        #rts <- "vrs"
+        warning("Returns to scale may be changed to variable (vrs) because there
+                are data with undesirable inputs/outputs.")
       }
     }
   }
@@ -345,7 +390,7 @@ model_basic <-
   
   ###########################
   
-  # Vector de coeficientes de la función objetivo stage 1
+  # Objective function coefficients stage 1
   f.obj <- c(1, rep(0, ndr))
   
   if (rts == "crs") {
@@ -371,7 +416,7 @@ model_basic <-
     }
   }
   
-  # Vector de dirección de restricciones stage 1
+  # Directions vector stage 1
   f.dir <- c(rep("<=", ni), rep(">=", no), f.dir.rs)
   f.dir[c(nc_inputs, ni + nc_outputs)] <- "="
   
@@ -407,7 +452,7 @@ model_basic <-
     nnci <- length(nc_inputs) # number of non-controllable inputs
     nnco <- length(nc_outputs) # number of non-controllable outputs
     
-    # Matriz técnica stage 2
+    # Constraints matrix stage 2
     f.con2.1 <- cbind(inputref, diag(ni), matrix(0, nrow = ni, ncol = no))
     f.con2.1[nc_inputs, (ndr + 1) : (ndr + ni)] <- 0
     
@@ -419,7 +464,7 @@ model_basic <-
     
     f.con2 <- rbind(f.con2.1, f.con2.2, f.con2.nc, f.con2.rs)
     
-    # Vector de dirección de restricciones stage 2
+    # Directions vector stage 2
     f.dir2 <- c(rep("=", ni + no + nnci + nnco), f.dir.rs)
     
     ### If orientation == "dir", slacks for undesirable i/o are 0 ###
@@ -440,19 +485,19 @@ model_basic <-
   
   if (orientation != "dir") { ############## orientation != "dir" ##############
     
-    # Matriz técnica del 2º bloque de restricciones stage 1
+    # Constraints matrix of 2nd bloc of constraints stage 1
     f.con.2 <- cbind(matrix(0, nrow = no, ncol = 1), outputref)
     
     for (i in 1:nde) {
       
       ii <- dmu_eval[i]
       
-      # Matriz técnica stage 1
+      # Constraints matrix stage 1
       f.con.1 <- cbind(-input[, ii], inputref)
       f.con.1[ncd_inputs, 1] <- 0
       f.con <- rbind(f.con.1, f.con.2, f.con.rs)
       
-      # Vector de términos independientes stage 1
+      # Right hand side vector stage 1
       f.rhs <- c(rep(0, ni), output[, ii], f.rhs.rs)
       f.rhs[ncd_inputs] <- input[ncd_inputs, ii]
       
@@ -461,8 +506,8 @@ model_basic <-
         lambda <- rep(0, ndr)
         names(lambda) <- dmunames[dmu_ref]
         var <- list(efficiency = 0, lambda = lambda)
-        DMU[[i]] <- list(direction = obj, objective.in = f.obj, const.mat = f.con, const.dir = f.dir, const.rhs = f.rhs,
-                         var = var)
+        DMU[[i]] <- list(direction = obj, objective.in = f.obj, const.mat = f.con,
+                         const.dir = f.dir, const.rhs = f.rhs, var = var)
         
       } else {
         
@@ -500,10 +545,10 @@ model_basic <-
           
           if (maxslack) {
             
-            # Vector de coeficientes de la función objetivo stage 2
+            # Objective function coefficients stage 2
             f.obj2 <- c(rep(0, ndr), weight_slack_i[, i], weight_slack_o[, i])
             
-            # Vector de términos independientes stage 2
+            # Right hand side vector stage 2
             f.rhs2 <- c(efficiency * input[, ii], output[, ii], rep(0, nnci + nnco), f.rhs.rs)
             f.rhs2[ncd_inputs] <- input[ncd_inputs, ii]
             
@@ -520,9 +565,9 @@ model_basic <-
             if (compute_target) {
               target_input <- orient * as.vector(inputref %*% lambda)
               target_output <- orient * as.vector(outputref %*% lambda)
-              #target_input <- orient * (efficiency * input[, ii] - slack_input)
+              #target_input <- orient * (efficiency * input[, ii] - slack_input) # Alternative
               names(target_input) <- inputnames
-              #target_output <- orient * (output[, ii] + slack_output)
+              #target_output <- orient * (output[, ii] + slack_output) # Alternative
               names(target_output) <- outputnames
               target_input[ud_inputs] <- vtrans_i - target_input[ud_inputs]
               target_output[ud_outputs] <- vtrans_o - target_output[ud_outputs]
@@ -574,24 +619,26 @@ model_basic <-
                              lambda = lambda,
                              slack_input = slack_input, slack_output = slack_output,
                              target_input = target_input, target_output = target_output,
-                             multiplier_input = multiplier_input, multiplier_output = multiplier_output, multiplier_rts = multiplier_rts)
+                             multiplier_input = multiplier_input, multiplier_output = multiplier_output,
+                             multiplier_rts = multiplier_rts)
           }
         } else {
           aux <- weight_slack_i
           weight_slack_i <- weight_slack_o
           weight_slack_o <- aux
           if (rts == "crs") {
-            DMU[[i]] <- list(efficiency = efficiency, # 1/ efficiency
+            DMU[[i]] <- list(efficiency = efficiency, # 1/ efficiency alternative
                              lambda = lambda,
                              slack_input = slack_output, slack_output = slack_input,
                              target_input = target_output, target_output = target_input,
                              multiplier_input = multiplier_output, multiplier_output = multiplier_input)
           } else {
-            DMU[[i]] <- list(efficiency = efficiency, # 1/ efficiency
+            DMU[[i]] <- list(efficiency = efficiency, # 1/ efficiency alternative
                              lambda = lambda,
                              slack_input = slack_output, slack_output = slack_input,
                              target_input = target_output, target_output = target_input,
-                             multiplier_input = multiplier_output, multiplier_output = multiplier_input, multiplier_rts = multiplier_rts)
+                             multiplier_input = multiplier_output, multiplier_output = multiplier_input,
+                             multiplier_rts = multiplier_rts)
           }
         }
         
@@ -607,7 +654,7 @@ model_basic <-
       
       ii <- dmu_eval[i]
       
-      # Matriz técnica stage 1
+      # Constraints matrix stage 1
       f.con.1 <- cbind(dir_input[, i], inputref)
       f.con.1[ud_inputs, 1] <- -dir_input[ud_inputs, i]
       f.con.1[ncd_inputs, 1] <- 0
@@ -616,10 +663,10 @@ model_basic <-
       f.con.2[ncd_outputs, 1] <- 0
       f.con <- rbind(f.con.1, f.con.2, f.con.rs)
       
-      # Vector de dirección de restricciones
+      # Directions vector
       f.dir[c(ud_inputs, ni + ud_outputs)] <- "="
       
-      # Vector de términos independientes stage 1
+      # Right hand side vector stage 1
       f.rhs <- c(input[, ii], output[, ii], f.rhs.rs)
       
       if (returnlp) {
@@ -627,29 +674,12 @@ model_basic <-
         lambda <- rep(0, ndr)
         names(lambda) <- dmunames[dmu_ref]
         var <- list(efficiency = 0, lambda = lambda)
-        DMU[[i]] <- list(direction = obj, objective.in = f.obj, const.mat = f.con, const.dir = f.dir, const.rhs = f.rhs,
-                         var = var)
+        DMU[[i]] <- list(direction = obj, objective.in = f.obj, const.mat = f.con,
+                         const.dir = f.dir, const.rhs = f.rhs, var = var)
         
       } else {
         
-        #if (compute_multiplier) {
-          
-        #  res <- lp(obj, f.obj, f.con, f.dir, f.rhs, compute.sens = TRUE)
-          
-        #  if (res$status == 0) {
-        #    multiplier_input <- res$duals[1 : ni]
-        #    names(multiplier_input) <- inputnames
-        #    multiplier_output <- -res$duals[(ni + 1) : (ni + no)]
-        #    names(multiplier_output) <- outputnames
-        #  } else {
-        #    multiplier_input <- NULL
-        #    multiplier_output <- NULL
-        #  }
-          
-          
-        #} else {
-          res <- lp(obj, f.obj, f.con, f.dir, f.rhs)
-        #}
+        res <- lp(obj, f.obj, f.con, f.dir, f.rhs)
         
         if (res$status == 0) {
           
@@ -659,10 +689,10 @@ model_basic <-
           
           if (maxslack) {
             
-            # Vector de coeficientes de la función objetivo stage 2
+            # Objective function coefficients stage 2
             f.obj2 <- c(rep(0, ndr), weight_slack_i[, i], weight_slack_o[, i])
             
-            # Vector de términos independientes stage 2
+            # Right hand side vector stage 2
             f.rhs2 <- c(input[, ii] - beta * dir_input[, i], output[, ii] + beta * dir_output[, i],
                         rep(0, nnci + nnco), f.rhs.rs, rep(0, nudi + nudo))
             f.rhs2[ud_inputs] <- input[ud_inputs, ii] + beta * dir_input[ud_inputs, i]
@@ -698,11 +728,13 @@ model_basic <-
             names(target_output) <- outputnames
             
             slack_input <- input[, ii] - beta * dir_input[, i] - target_input
-            slack_input[ud_inputs] <- input[ud_inputs, ii] + beta * dir_input[ud_inputs, i] - target_input[ud_inputs]
+            slack_input[ud_inputs] <- input[ud_inputs, ii] + beta * dir_input[ud_inputs, i] -
+              target_input[ud_inputs]
             slack_input[ncd_inputs] <- input[ncd_inputs, ii] - target_input[ncd_inputs]
             names(slack_input) <- inputnames
             slack_output <- target_output - output[, ii] - beta * dir_output[, i]
-            slack_output[ud_outputs] <- target_output[ud_outputs] - output[ud_outputs, ii] + beta * dir_output[ud_outputs, i]
+            slack_output[ud_outputs] <- target_output[ud_outputs] - output[ud_outputs, ii] +
+              beta * dir_output[ud_outputs, i]
             slack_output[ncd_outputs] <- target_output[ncd_outputs] - output[ncd_outputs, ii]
             names(slack_output) <- outputnames
             
@@ -724,8 +756,7 @@ model_basic <-
         DMU[[i]] <- list(beta = beta,
                          lambda = lambda,
                          slack_input = slack_input, slack_output = slack_output,
-                         target_input = target_input, target_output = target_output#,
-                         #multiplier_input = multiplier_input, multiplier_output = multiplier_output
+                         target_input = target_input, target_output = target_output
                          )
         
       }
@@ -753,7 +784,8 @@ model_basic <-
         kk <- DMU[[i]]$lambda[j]
         kk2 <- sum(DMU[[i]]$lambda[-j])
         if ((kk > eps) && (kk2 > eps)) {
-          warning(paste("Under generalized returns to scale,", dmunames[dmu_eval[i]], "appears in its own reference set."))
+          warning(paste("Under generalized returns to scale,", dmunames[dmu_eval[i]],
+                        "appears in its own reference set."))
         }
       }
     }

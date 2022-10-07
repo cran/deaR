@@ -14,7 +14,9 @@ Data frame with 5 rows and 5 columns. Definition of inputs (X) and outputs (Y):
 }
 }
 \source{
-Tone, K. (2001). "A Slacks-Based Measure of Efficiency in Data Envelopment Analysis", European Journal of Operational Research, 130, 498-509. \code{doi}: 10.1016/S0377-2217(99)00407-5
+Tone, K. (2001). "A Slacks-Based Measure of Efficiency in Data Envelopment
+Analysis", European Journal of Operational Research, 130, 498-509.
+\doi{10.1016/S0377-2217(99)00407-5}
 }
 \usage{
 data("Tone2001")
@@ -29,7 +31,7 @@ data_example <- read_data(Tone2001,
                           ni = 2,
                           no = 2)
 result <- model_sbmeff(data_example,
-                       orientation ="no",
+                       orientation = "no",
                        rts = "crs")
 efficiencies(result)
 slacks(result)

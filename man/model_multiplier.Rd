@@ -36,22 +36,31 @@ If \code{NULL} (default), all DMUs are considered.}
 
 \item{U}{Upper bound for the generalized returns to scale (grs).}
 
-\item{returnlp}{Logical. If it is \code{TRUE}, it returns the linear problems (objective function and constraints).}
+\item{returnlp}{Logical. If it is \code{TRUE}, it returns the linear problems (objective
+function and constraints).}
 
 \item{compute_lambda}{Logical. If it is \code{TRUE}, it computes the dual problem and lambdas.}
 
 \item{...}{Ignored, for compatibility issues.}
 }
 \description{
-Solve input-oriented and output-oriented basic DEA  models (multiplicative form) under constant (CCR DEA model), variable (BCC DEA model), non-increasing, non-decreasing or generalized returns to scale.
-             It does not take into account uncontrollable, non-discretional or undesirable inputs/outputs.
+Solve input-oriented and output-oriented basic DEA  models
+(multiplicative form) under constant (CCR DEA model), variable (BCC DEA model),
+non-increasing, non-decreasing or generalized returns to scale. It does not
+take into account non-controllable, non-discretionary or undesirable inputs/outputs.
 }
 \note{
-(1) Very important with the multiplier model: "The optimal weights for an efficient DMU need not be unique" (Cooper, Seiford and Tone, 2007:31). "Usually, the optimal weights for inefficient DMUs are unique, the exception being when the line of the DMU is parallel to one of the boundaries of the feasible region" (Cooper, Seiford and Tone, 2007:32).
+(1) Very important with the multiplier model: "The optimal weights for
+an efficient DMU need not be unique" (Cooper, Seiford and Tone, 2007:31).
+"Usually, the optimal weights for inefficient DMUs are unique, the exception
+being when the line of the DMU is parallel to one of the boundaries of the
+feasible region" (Cooper, Seiford and Tone, 2007:32).
 
-(2) The measure of technical input (or output) efficiency obtained by using multiplier DEA models is better the smaller the value of epsilon.
+(2) The measure of technical input (or output) efficiency obtained by using
+multiplier DEA models is better the smaller the value of epsilon.
 
-(3) Epsilon is usually set equal to \10^-6. However, if epsilon is not set correctly, the multiplier model can be infeasible (Zhu,2014:49).
+(3) Epsilon is usually set equal to 10^-6. However, if epsilon is not set
+correctly, the multiplier model can be infeasible (Zhu,2014:49).
 }
 \examples{
 # Example 1.
@@ -84,17 +93,27 @@ multipliers(result2)
 
 }
 \references{
-Charnes, A.; Cooper, W.W. (1962). “Programming with Linear Fractional Functionals”, Naval Research Logistics Quarterly 9, 181-185. \doi{10.1002/nav.3800090303}  
+Charnes, A.; Cooper, W.W. (1962). “Programming with Linear Fractional Functionals”,
+Naval Research Logistics Quarterly 9, 181-185. \doi{10.1002/nav.3800090303}  
 
-Charnes, A.; Cooper, W.W.; Rhodes, E. (1978). “Measuring the Efficiency of Decision Making Units”, European Journal of Operational Research 2, 429–444. \doi{10.1016/0377-2217(78)90138-8}  
+Charnes, A.; Cooper, W.W.; Rhodes, E. (1978). “Measuring the Efficiency of Decision
+Making Units”, European Journal of Operational Research 2, 429–444.
+\doi{10.1016/0377-2217(78)90138-8}  
 
-Charnes, A.; Cooper, W.W.; Rhodes, E. (1979). “Short Communication: Measuring the Efficiency of Decision Making Units”, European Journal of Operational Research 3, 339. \doi{10.1016/0377-2217(79)90229-7}  
+Charnes, A.; Cooper, W.W.; Rhodes, E. (1979). “Short Communication: Measuring the
+Efficiency of Decision Making Units”, European Journal of Operational Research 3, 339.
+\doi{10.1016/0377-2217(79)90229-7}  
 
-Golany, B.; Roll, Y. (1989). "An Application Procedure for DEA", OMEGA International Journal of Management Science, 17(3), 237-250. \doi{10.1016/0305-0483(89)90029-7}
+Golany, B.; Roll, Y. (1989). "An Application Procedure for DEA", OMEGA International
+Journal of Management Science, 17(3), 237-250. \doi{10.1016/0305-0483(89)90029-7}
 
-Seiford, L.M.; Thrall, R.M. (1990). “Recent Developments in DEA. The Mathematical Programming Approach to Frontier Analysis”, Journal of Econometrics 46, 7-38. \doi{10.1016/0304-4076(90)90045-U}
+Seiford, L.M.; Thrall, R.M. (1990). “Recent Developments in DEA. The Mathematical
+Programming Approach to Frontier Analysis”, Journal of Econometrics 46, 7-38.
+\doi{10.1016/0304-4076(90)90045-U}
 
-Zhu, J. (2014). Quantitative Models for Performance Evaluation and Benchmarking. Data Envelopment Analysis with Spreadsheets. 3rd Edition Springer, New York. DOI: 10.1007/978-3-319-06647-9
+Zhu, J. (2014). Quantitative Models for Performance Evaluation and Benchmarking.
+Data Envelopment Analysis with Spreadsheets. 3rd Edition Springer, New York.
+\doi{10.1007/978-3-319-06647-9}
 }
 \seealso{
 \code{\link{model_basic}}, \code{\link{cross_efficiency}}

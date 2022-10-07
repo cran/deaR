@@ -16,22 +16,25 @@ Data frame with 37 rows and 7 columns. Definition of inputs (X) and outputs (Y):
 }
 }
 \source{
-Lim, S.; Zhu, J. (2015). "DEA Cross-Efficiency Under Variable Returns to Scale". Journal of Operational Research Society, 66(3), p. 476-487. \code{doi}: 10.1057/jors.2014.13
+Lim, S.; Zhu, J. (2015). "DEA Cross-Efficiency Under Variable Returns
+to Scale". Journal of Operational Research Society, 66(3), p. 476-487.
+\doi{10.1057/jors.2014.13}
 }
 \usage{
 data("Lim_Zhu_2015")
 }
 \description{
-Data of 37 R&D project proposal relating to the Turkish iron and steel industry. Authors consider one input and five outputs.
+Data of 37 R&D project proposal relating to the Turkish iron and steel industry.
+Authors consider one input and five outputs.
 }
 \examples{
 # Example. Arbitrary formulation.
 # Input-oriented model under variable returns-to-scale.
 data("Lim_Zhu_2015")
 data_example <- read_data(Lim_Zhu_2015,
-                          dmus=1,
-                          ni=1,
-                          no=5)
+                          dmus = 1,
+                          ni = 1,
+                          no = 5)
 cross <- cross_efficiency(data_example,
                           epsilon = 0,
                           orientation = "io",
@@ -43,7 +46,8 @@ cross$Arbitrary$e
 
 }
 \seealso{
-\code{\link{read_data}}, \code{\link{model_multiplier}}, \code{\link{cross_efficiency}}
+\code{\link{read_data}}, \code{\link{model_multiplier}},
+\code{\link{cross_efficiency}}
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

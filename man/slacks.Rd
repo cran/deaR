@@ -7,20 +7,21 @@
 slacks(deasol)
 }
 \arguments{
-\item{deasol}{Object of class \code{dea} or \code{dea_fuzzy} obtained with some of the DEA model functions.}
+\item{deasol}{Object of class \code{dea} or \code{dea_fuzzy} obtained with some
+of the DEA model functions.}
 }
 \description{
 Extract the slacks of the DMUs from a \code{dea} or \code{dea_fuzzy} solution.
 }
 \examples{
- data("Coll_Blasco_2006")
- data_example <- read_data(Coll_Blasco_2006,
-                           ni = 2, 
-                           no = 2)
- result <- model_multiplier(data_example,
-                            orientation = "io", 
-                            rts = "crs")
- slacks(result)
+data("Coll_Blasco_2006")
+data_example <- read_data(Coll_Blasco_2006,
+                          ni = 2, 
+                          no = 2)
+result <- model_multiplier(data_example,
+                           orientation = "io", 
+                           rts = "crs")
+slacks(result)
  
 }
 \author{

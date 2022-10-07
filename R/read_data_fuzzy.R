@@ -1,10 +1,12 @@
 #' @title read_data_fuzzy
 #'  
-#' @description This function creates, from a data frame, a \code{deadata_fuzzy} structure, which is as list with fields
-#'   \code{input}, \code{output} and \code{dmunames}. At the same time, \code{input} and \code{output} are lists with fields
-#'   \code{mL}, \code{mR}, \code{dL} and \code{dR}.
-#'   \figure{fuzzynumbers.jpg}{options: width="100\%" alt="Figure: fuzzynumbers.jpg"}
-
+#' @description This function creates, from a data frame, a \code{deadata_fuzzy}
+#' structure, which is as list with fields \code{input}, \code{output} and
+#' \code{dmunames}. At the same time, \code{input} and \code{output} are lists with fields
+#' \code{mL}, \code{mR}, \code{dL} and \code{dR}.
+#' 
+#' \figure{fuzzynumbers.jpg}{options: width="100\%" alt="Figure: fuzzynumbers.jpg"}
+#'
 #' @usage read_data_fuzzy(datadea,
 #'                 dmus = 1,
 #'                 inputs.mL = NULL,
@@ -71,7 +73,6 @@
 #' @return An object of class \code{deadata_fuzzy}.
 #'  
 #' @examples
-#' 
 #' # Example 1. If inputs and/or outputs are symmetric triangular fuzzy numbers
 #' data("Leon2003")
 #' data_example <- read_data_fuzzy(datadea = Leon2003, 

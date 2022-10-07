@@ -11,12 +11,16 @@ model_fdh(datadea,
 \arguments{
 \item{datadea}{The data, including DMUs, inputs and outputs.}
 
-\item{fdh_modelname}{A string containing the name of the model to apply FDH.}
+\item{fdh_modelname}{A string containing the name of the model to apply FDH.
+For now, only "basic" is available.}
 
-\item{...}{\code{dmu_eval}, \code{dmu_ref}, \code{orientation} and other model parameters.}
+\item{...}{\code{dmu_eval}, \code{dmu_ref}, \code{orientation} and other model parameters.
+Parameters like \code{rts}, \code{max_slack} and \code{returnlp} are ignored.}
 }
 \description{
-FDH model allows the free disposability to construct the production possiblity set. The central feature of the FDH model is the lack of convexity for its production possibility set (Thrall, 1999).
+FDH model allows the free disposability to construct the production
+possibility set. The central feature of the FDH model is the lack of convexity
+for its production possibility set (Thrall, 1999).
 }
 \examples{
 # Example 1. FDH input-oriented.
@@ -40,13 +44,19 @@ efficiencies(result2)
  
 }
 \references{
-Cherchye, L.; Kuosmanen, T.; Post, T. (2000). "What Is the Economic Meaning of FDH? A Reply to Thrall". Journal of Productivity Analysis, 13(3), 263–267. 
+Cherchye, L.; Kuosmanen, T.; Post, T. (2000). "What Is the Economic Meaning of
+FDH? A Reply to Thrall". Journal of Productivity Analysis, 13(3), 263–267. 
 
-Deprins, D.; Simar, L. and Tulkens, H. (1984). Measuring Labor-Efficiency in Post Offices. In M. Marchand, P. Pestieau and H. Tulkens (eds.), The Performance of Public Entreprises: Concepts and Measurement. Amsterdam: North-Holland.
+Deprins, D.; Simar, L. and Tulkens, H. (1984). Measuring Labor-Efficiency in
+Post Offices. In M. Marchand, P. Pestieau and H. Tulkens (eds.), The Performance
+of Public Entreprises: Concepts and Measurement. Amsterdam: North-Holland.
 
-Sanei, M.; Mamizadeh Chatghayeb, S. (2013). “Free Disposal Hull Models in Supply Chain Management”, International Journal of Mathematical Modelling and Computations, 3(3), 125-129.
+Sanei, M.; Mamizadeh Chatghayeb, S. (2013). “Free Disposal Hull Models in
+Supply Chain Management”, International Journal of Mathematical Modelling and
+Computations, 3(3), 125-129.
 
-Thrall, R. M. (1999).  "What Is the Economic Meaning of FDH?", Journal of Productivity Analysis, 11(3), 243–50.
+Thrall, R. M. (1999).  "What Is the Economic Meaning of FDH?", Journal of
+Productivity Analysis, 11(3), 243–50.
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

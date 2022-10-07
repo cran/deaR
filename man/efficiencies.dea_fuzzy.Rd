@@ -12,8 +12,9 @@
 \item{...}{Other options (for compatibiliy)}
 }
 \description{
-Extract the scores (optimal objective values) of the evaluated DMUs from a DEA fuzzy solution.
-Note that these scores may not always be interpreted as efficiencies.
+Extract the scores (optimal objective values) of the evaluated DMUs
+from a DEA fuzzy solution. Note that these scores may not always be interpreted
+as efficiencies.
 }
 \examples{
 # Replication results model DEA1 in Tomkins and Green (1988)

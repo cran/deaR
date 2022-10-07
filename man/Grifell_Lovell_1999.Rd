@@ -12,7 +12,8 @@ Data frame with 16 rows and 4 columns. Definition of inputs (X) and outputs (Y):
 }
 }
 \source{
-Grifell-Tatjé, E.; Lovel, C.A.K. (1999). "A Generalized Malmquist productivity index". Top, 7(1), 81-101.
+Grifell-Tatjé, E.; Lovel, C.A.K. (1999). "A Generalized Malmquist
+productivity index". Top, 7(1), 81-101.
 }
 \usage{
 data("Grifell_Lovell_1999")
@@ -25,15 +26,15 @@ Data of 8 DMUs producing 1 output (Y) by using 1 input (X) for two periods of ti
 # Example. Replication of results in Grifell-Tatjé and Lovell (1999, p. 100).
 data("Grifell_Lovell_1999")
 data_example <- read_malmquist(Grifell_Lovell_1999,
-                               percol=1,
+                               percol = 1,
                                dmus = 2,
                                inputs = 3,
                                outputs = 4,
-                               arrangement="vertical")
+                               arrangement = "vertical")
 
 result_fgnz <- malmquist_index(data_example,
-                               orientation= "oo",
-                               rts="vrs",
+                               orientation = "oo",
+                               rts = "vrs",
                                type1 = "cont",
                                type2 = "fgnz")
 

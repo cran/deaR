@@ -27,10 +27,12 @@ If \code{NULL} (default), all DMUs are considered.}
 An object of class \code{deadata_fuzzy}.
 }
 \description{
-Solve the Fuzzy input-oriented and output-oriented DEA model proposed by Guo and Tanaka (2001) under constant returns-to-scale.
-In deaR is implemented the LP poblem given by the model (16) in Guo and Tanaka (2001, p.155).
-The fuzzy efficiencies are calculated according to equations in (17) (Guo and Tanaka, 2001, p.155).
-The (crisp) relative efficiencies and multipliers for the case \code{h} = 1 are obtained from the CCR model (\code{model_multiplier}).
+Solve the Fuzzy input-oriented and output-oriented DEA model proposed
+by Guo and Tanaka (2001) under constant returns-to-scale. In deaR is implemented
+the LP poblem given by the model (16) in Guo and Tanaka (2001, p.155). The fuzzy
+efficiencies are calculated according to equations in (17) (Guo and Tanaka, 2001, p.155).
+The (crisp) relative efficiencies and multipliers for the case \code{h} = 1 are
+obtained from the CCR model (\code{model_multiplier}).
 }
 \note{
 The optimal solution of model (16) is not unique.
@@ -65,14 +67,22 @@ efficiencies(result2)
 
 }
 \references{
-Emrouznejad, A.; Tavana, M.; Hatami-Marbini, A. (2014). “The State of the Art in Fuzzy Data Envelopment Analysis”, in A. Emrouznejad and M. Tavana (eds.), Performance Measurement with Fuzzy Data Envelopment Analysis. Studies in Fuzziness and Soft Computing 309. Springer, Berlin. \doi{10.1007/978-3-642-41372-8_1}
+Emrouznejad, A.; Tavana, M.; Hatami-Marbini, A. (2014). “The State of the Art
+in Fuzzy Data Envelopment Analysis”, in A. Emrouznejad and M. Tavana (eds.),
+Performance Measurement with Fuzzy Data Envelopment Analysis. Studies in Fuzziness
+and Soft Computing 309. Springer, Berlin. \doi{10.1007/978-3-642-41372-8_1}
 
-Guo, P.; Tanaka, H. (2001). "Fuzzy DEA: A Perceptual Evaluation Method", Fuzzy Sets and Systems, 119, 149–160. \doi{10.1016/S0165-0114(99)00106-2}
+Guo, P.; Tanaka, H. (2001). "Fuzzy DEA: A Perceptual Evaluation Method", Fuzzy
+Sets and Systems, 119, 149–160. \doi{10.1016/S0165-0114(99)00106-2}
 
-Hatami-Marbini, A.; Emrouznejad, A.; Tavana, M. (2011). "A Taxonomy and Review of the Fuzzy Data Envelopment Analysis Literature: Two Decades in the Making", European Journal of Operational Research, 214, 457–472. \doi{10.1016/j.ejor.2011.02.001}
+Hatami-Marbini, A.; Emrouznejad, A.; Tavana, M. (2011). "A Taxonomy and Review
+of the Fuzzy Data Envelopment Analysis Literature: Two Decades in the Making",
+European Journal of Operational Research, 214, 457–472. \doi{10.1016/j.ejor.2011.02.001}
 }
 \seealso{
-\code{\link{model_basic}}, \code{\link{model_multiplier}}, \code{\link{modelfuzzy_kaoliu}}, \code{\link{modelfuzzy_possibilistic}}, \code{\link{cross_efficiency_fuzzy}}
+\code{\link{model_basic}}, \code{\link{model_multiplier}},
+\code{\link{modelfuzzy_kaoliu}}, \code{\link{modelfuzzy_possibilistic}},
+\code{\link{cross_efficiency_fuzzy}}
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

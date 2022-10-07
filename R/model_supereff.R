@@ -13,7 +13,8 @@
 #' If \code{NULL} (default), all DMUs are considered.
 #' @param dmu_ref A numeric vector containing which DMUs are the evaluation reference set.
 #' If \code{NULL} (default), all DMUs are considered.
-#' @param supereff_modelname A string containing the name of the radial model to apply super-efficiency.
+#' @param supereff_modelname A string containing the name of the radial model to
+#' apply super-efficiency.
 #' @param ... \code{orientation}, \code{rts} and other model parameters.
 #' 
 #' @author 
@@ -29,9 +30,11 @@
 #' University of Valencia (Spain)
 #'  
 #' @references 
-#' Andersen, P.; Petersen, N.C. (1993). "A procedure for ranking efficient units in data envelopment analysis", Management Science, 39, 1261-1264. 
+#' Andersen, P.; Petersen, N.C. (1993). "A procedure for ranking efficient units in
+#' data envelopment analysis", Management Science, 39, 1261-1264. 
 #' 
-#' Tone, K. (2002). "A slacks-based measure of super-efficiency in data envelopment analysis", European Journal of Operational Research, 143, 32-41.
+#' Tone, K. (2002). "A slacks-based measure of super-efficiency in data envelopment
+#' analysis", European Journal of Operational Research, 143, 32-41.
 #' 
 #' @examples
 #' # Example 1.
@@ -57,11 +60,13 @@
 #'                           rts = "vrs") 
 #' eff2 <- efficiencies(result2)
 #'
-#' @note (1) Radial super-efficiency model under variable (vrs, nirs, ndrs, grs) returns to scale can be infeasible for certain DMUs. See example 2.
+#' @note (1) Radial super-efficiency model under variable (vrs, nirs, ndrs, grs)
+#' returns to scale can be infeasible for certain DMUs. See example 2.
 #' 
 #' (2) DMUs with infeasible solution are not shown in the results.
 #' 
-#' @seealso \code{\link{model_basic}}, \code{\link{model_sbmsupereff}}, \code{\link{model_addsupereff}}
+#' @seealso \code{\link{model_basic}}, \code{\link{model_sbmsupereff}},
+#' \code{\link{model_addsupereff}}
 #' 
 #' @import lpSolve
 #' 
@@ -77,6 +82,13 @@ model_supereff <-
   # Cheking whether datadea is of class "deadata" or not...  
   if (!is.deadata(datadea)) {
     stop("Data should be of class deadata. Run read_data function first!")
+  }
+    
+  optlist <- list(...)
+  if ("orientation" %in% names(optlist)) {
+    if (optlist$orientation == "dir") {
+      stop("Directional models not supported.")
+    }
   }
   
   dmunames <- datadea$dmunames

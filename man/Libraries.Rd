@@ -16,7 +16,9 @@ Data frame with 23 rows and 7 columns. Definition of inputs (X) and outputs (Y):
 }
 }
 \source{
-Cooper, W.W.; Seiford, L.M. and Tone, K. (2007). Data Envelopment Analysis. A Comprehensive Text with Models, Applications, References and DEA-Solver Software. Springer
+Cooper, W.W.; Seiford, L.M. and Tone, K. (2007). Data Envelopment Analysis.
+A Comprehensive Text with Models, Applications, References and DEA-Solver Software.
+Springer.
 }
 \usage{
 data("Libraries")
@@ -28,21 +30,21 @@ Data for 23 public libraries of the Tokyo Metropolitan Area in 1986.
 # Example 1. Non-controllable input (POPULATION).
 # Replication of results in Cooper, Seiford and Tone (2007, p.221)
 data(Libraries)
-# POPULATION (non-controllable input) is the forth input.
+# POPULATION (non-controllable input) is the 4th input.
 data_example <- read_data(Libraries,
-                          dmus=1,
-                          inputs=2:5,
-                          nc_inputs=4,
-                          outputs=6:7)
+                          dmus = 1,
+                          inputs = 2:5,
+                          nc_inputs = 4,
+                          outputs = 6:7)
 result <- model_basic(data_example,
-                      orientation="io",
-                      rts="crs")
+                      orientation = "io",
+                      rts = "crs")
 efficiencies(result)
 targets(result)
 
 # Example 2. Non-discretionary input (POPULATION).
 data(Libraries)
-# POPULATION (non-controllable input) is the forth input.
+# POPULATION (non-controllable input) is the 4th input.
 data_example2 <- read_data(Libraries,
                            dmus=1,
                            inputs=2:5,

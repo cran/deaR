@@ -5,7 +5,8 @@
 \alias{Leon2003}
 \title{Data: Leon, Liern, Ruiz and Sirvent (2003).}
 \format{
-Data frame with 8 rows and 5 columns. Definition of fuzzy inputs (X) and fuzzy outputs (Y):
+Data frame with 8 rows and 5 columns. Definition of fuzzy inputs (X)
+and fuzzy outputs (Y):
 \describe{
   \item{x1}{Input 1}
   \item{alpha1}{spread vector Input 1}
@@ -14,13 +15,16 @@ Data frame with 8 rows and 5 columns. Definition of fuzzy inputs (X) and fuzzy o
 }
 }
 \source{
-Leon, T.; Liern, V. Ruiz, J.; Sirvent, I. (2003). "A Possibilistic Programming Approach to the Assessment of Efficiency with DEA Models", Fuzzy Sets and Systems, 139, 407–419. \code{doi}: 10.1016/S0165-0114(02)00608-5
+Leon, T.; Liern, V. Ruiz, J.; Sirvent, I. (2003). "A Possibilistic
+Programming Approach to the Assessment of Efficiency with DEA Models", Fuzzy
+Sets and Systems, 139, 407–419. \doi{10.1016/S0165-0114(02)00608-5}
 }
 \usage{
 data("Leon2003")
 }
 \description{
-Data of 8 DMUs with one symmetric triangular fuzzy inputs: Xj=(xj,alphaj), and one symmetric triangular fuzzy outputs: Yj=(yj,betaj).
+Data of 8 DMUs with one symmetric triangular fuzzy inputs: Xj = (xj, alphaj), and
+one symmetric triangular fuzzy outputs: Yj = (yj, betaj).
 }
 \examples{
 # Example. Replication of results in Leon et. al (2003, p. 416)
@@ -28,13 +32,13 @@ data("Leon2003")
 data_example <- read_data_fuzzy(Leon2003,
                                 dmus = 1,
                                 inputs.mL = 2,
-                                inputs.dL=3,
+                                inputs.dL = 3,
                                 outputs.mL = 4,
-                                outputs.dL=5)
+                                outputs.dL = 5)
 result <- modelfuzzy_possibilistic(data_example,
-                                   h = seq(0,1,by=0.1),
-                                   orientation="io",
-                                   rts="vrs")
+                                   h = seq(0, 1, by = 0.1),
+                                   orientation = "io",
+                                   rts = "vrs")
 efficiencies(result)
 
 }

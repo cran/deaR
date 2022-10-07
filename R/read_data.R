@@ -1,7 +1,8 @@
 #' @title read_data
 #'  
-#' @description This function creates, from a data frame, a \code{deadata} structure, which is as list with fields
-#' \code{input}, \code{output}, \code{dmunames}, \code{nc_inputs}, \code{nc_outputs}, \code{nd_inputs}, \code{nd_outputs}.
+#' @description This function creates, from a data frame, a \code{deadata} structure,
+#' which is as list with fields \code{input}, \code{output}, \code{dmunames},
+#' \code{nc_inputs}, \code{nc_outputs}, \code{nd_inputs}, \code{nd_outputs}.
 #'
 #' @usage read_data(datadea = NULL,
 #'           ni = NULL,
@@ -17,14 +18,16 @@
 #'           ud_outputs = NULL)
 #'              
 #' @param datadea Data frame with DEA data.
-#' @param dmus Column (number or name) of DMUs (optional). By default, it is the first column.
-#' If there is not any DMU column, then it must be \code{NULL}.
-#' @param ni Number of inputs, if inputs are in columns 2:(\code{ni} + 1) (if DMUs are in the first column) or 1:\code{ni} (no DMUs column).
-#' @param no Number of outputs, if outputs are in columns (\code{ni} + 2):(\code{ni} + \code{no} + 1) (if DMUs are in the first column) or (\code{ni} + 1):(\code{ni} + \code{no}) (no DMUs column).
-#' If not specified, DMUs are in the first column.
+#' @param dmus Column (number or name) of DMUs (optional). By default, it is the
+#' first column. If there is not any DMU column, then it must be \code{NULL}.
+#' @param ni Number of inputs, if inputs are in columns 2:(\code{ni} + 1) (if DMUs
+#' are in the first column) or 1:\code{ni} (no DMUs column).
+#' @param no Number of outputs, if outputs are in columns (\code{ni} + 2):(\code{ni} +
+#' \code{no} + 1) (if DMUs are in the first column) or (\code{ni} + 1):(\code{ni} +
+#' \code{no}) (no DMUs column). If not specified, DMUs are in the first column.
 #' @param inputs Columns (numbers or names) of inputs (optional). It prevails over \code{ni}.
-#' Alternatively to \code{datadea}, it can be a matrix with the inputs (DMUs in columns). In this case, DMUs names
-#' are taken from the columns names.
+#' Alternatively to \code{datadea}, it can be a matrix with the inputs (DMUs in columns).
+#' In this case, DMUs names are taken from the columns names.
 #' @param outputs Columns (numbers or names) of outputs (optional). It prevails over \code{no}.
 #' Alternatively to \code{datadea}, it can be a matrix with the outputs (DMUs in columns).
 #' @param nc_inputs A numeric vector containing the indices of non-controllable inputs.
@@ -261,10 +264,12 @@ read_data <- function(datadea = NULL,
   minio <- min(min(input), min(output), na.rm = TRUE)
   if (minio > 0) {
     if (maxio / minio > 1e6) {
-      warning("There are data with very different orders of magnitude. Try to re-define the units of measure or some linear problems may be ill-posed.")
+      warning("There are data with very different orders of magnitude. Try to redefine
+              the units of measure or some linear problems may be ill-posed.")
     }
   } else {
-    warning("There are negative or zero data. Try to translate the base point of the inputs/outputs with negative data in order to get only positive values.")
+    warning("There are negative or zero data. Try to translate the base point of the
+            inputs/outputs with negative data in order to get only positive values.")
   }
 
   res <- list(

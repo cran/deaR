@@ -13,7 +13,9 @@ Data frame with 31 rows and 16 columns. Definition of inputs (X) and outputs (Y)
 }
 }
 \source{
-Wang, Y.; Lan, Y. (2011). "Measuring Malmquist Productiviy Index: A New Approach Based on Double Frontiers Data Envelopment Analysis". Mathematical and Computer Modelling, 54, 2760-2771. \code{doi}: 10.1016/j.mcm.2011.06.064
+Wang, Y.; Lan, Y. (2011). "Measuring Malmquist Productiviy Index: A New
+Approach Based on Double Frontiers Data Envelopment Analysis". Mathematical and
+Computer Modelling, 54, 2760-2771. \doi{10.1016/j.mcm.2011.06.064}
 }
 \usage{
 data("Economy")
@@ -26,8 +28,8 @@ Data of the industrial economy of China in 2005-2009 (data in wide format).
 # Replication of results in Wang and Lan (2011, p. 2768)
 data("Economy")
 data_example <- read_malmquist(Economy,
-                               nper=5,
-                               arrangement="horizontal",
+                               nper = 5,
+                               arrangement = "horizontal",
                                ni = 2,
                                no = 1)
 result <- malmquist_index(data_example)

@@ -2,6 +2,8 @@
 #' 
 #' @description Range directional model from Portela et al. (2004).
 #' 
+#' @note Undesirable inputs/outputs are treated as negative inputs/outputs in this model.
+#' 
 #' @usage model_rdm(datadea,
 #'             dmu_eval = NULL,
 #'             dmu_ref = NULL,
@@ -19,15 +21,21 @@
 #' If \code{NULL} (default), all DMUs are considered.
 #' @param dmu_ref A numeric vector containing which DMUs are the evaluation reference set.
 #' If \code{NULL} (default), all DMUs are considered.
-#' @param orientation A string, equal to "no" (non-oriented), "io" (input oriented), or "oo" (output oriented).
-#' @param irdm Logical. If it is \code{TRUE}, it applies the IRDM (inverse range directional model).
+#' @param orientation A string, equal to "no" (non-oriented), "io" (input oriented),
+#' or "oo" (output oriented).
+#' @param irdm Logical. If it is \code{TRUE}, it applies the IRDM (inverse range
+#' directional model).
 #' @param maxslack Logical. If it is \code{TRUE}, it computes the max slack solution.
-#' @param weight_slack_i A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the length of \code{dmu_eval})
-#'                       with the weights of the input slacks for the max slack solution.
-#' @param weight_slack_o A value, vector of length \code{s}, or matrix \code{s} x \code{ne} (where \code{ne} is the length of \code{dmu_eval})
-#'                       with the weights of the output slacks for the max slack solution.
-#' @param compute_target Logical. If it is \code{TRUE}, it computes targets of the max slack solution. 
-#' @param returnlp Logical. If it is \code{TRUE}, it returns the linear problems (objective function and constraints) of stage 1.
+#' @param weight_slack_i A value, vector of length \code{m}, or matrix \code{m} x
+#' \code{ne} (where \code{ne} is the length of \code{dmu_eval}) with the weights
+#' of the input slacks for the max slack solution.
+#' @param weight_slack_o A value, vector of length \code{s}, or matrix \code{s} x
+#' \code{ne} (where \code{ne} is the length of \code{dmu_eval}) with the weights
+#' of the output slacks for the max slack solution.
+#' @param compute_target Logical. If it is \code{TRUE}, it computes targets of the
+#' max slack solution. 
+#' @param returnlp Logical. If it is \code{TRUE}, it returns the linear problems
+#' (objective function and constraints) of stage 1.
 #' @param ... Ignored, for compatibility issues.
 #'   
 #' @author 
@@ -43,8 +51,9 @@
 #' University of Valencia (Spain)
 #'  
 #' @references 
-#' Portela, M.; Thanassoulis, E.; Simpson, G. (2004). "Negative data in DEA: a directional distance approach applied to bank branches", Journal of the Operational Research Society, 55 1111-1121.  
-#' 
+#' Portela, M.; Thanassoulis, E.; Simpson, G. (2004). "Negative data in DEA: a
+#' directional distance approach applied to bank branches", Journal of the Operational
+#' Research Society, 55 1111-1121.  
 #' 
 #' @export
 
@@ -95,7 +104,6 @@ model_rdm <-
     ud_inputs <- datadea$ud_inputs
     ud_outputs <- datadea$ud_outputs
     if (!is.null(ud_inputs) || !is.null(ud_outputs)) {
-      warning("Undesirable inputs/outputs are treated as negative inputs/outputs in this model.")
       input[ud_inputs, ] <- -abs(input[ud_inputs, ])
       output[ud_outputs, ] <- -abs(output[ud_outputs, ])
     }

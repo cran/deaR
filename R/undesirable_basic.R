@@ -1,8 +1,9 @@
 #' @title Undesirable inputs and outputs for basic DEA model.
 #'  
-#' @description This function transforms a deadata or deadata_fuzzy class with inputs and outputs into a
-#' deadata or deadata_fuzzy class with good inputs and/or outputs, and bad (undesirable) inputs and/or outputs.
-#' Onwards, it is recommended to use a dea model with variable returns to scale (vrs).
+#' @description This function transforms, according to Seiford and Zhu (2002),
+#' a deadata or deadata_fuzzy class with undesirable inputs/outputs into a
+#' deadata or deadata_fuzzy class with no undesirable inputs/outputs.
+#' Onwards, it is recommended to use a DEA model with variable returns to scale (vrs).
 #'
 #' @usage undesirable_basic(datadea,
 #'                   vtrans_i = NULL,
@@ -10,9 +11,10 @@
 #' 
 #' @param datadea The data, including DMUs, inputs and outputs.
 #' @param vtrans_i Numeric vector of translation for undesirable inputs. If \code{vtrans_i[i]} is
-#'  \code{NA}, then it applies the "max + 1" translation to the i-th undesirable input. If \code{vtrans_i} is
-#'  a constant, then it applies the same translation to all undesirable inputs. If \code{vtrans_i} is \code{NULL},
-#'  then it applies the "max + 1" translation to all undesirable inputs.
+#' \code{NA}, then it applies the "max + 1" translation to the i-th undesirable input.
+#' If \code{vtrans_i} is a constant, then it applies the same translation to all
+#' undesirable inputs. If \code{vtrans_i} is \code{NULL}, then it applies the
+#' "max + 1" translation to all undesirable inputs.
 #' @param vtrans_o Numeric vector of translation for undesirable outputs, analogous to
 #'  \code{vtrans_i}, but applied to outputs.
 #'
@@ -30,6 +32,14 @@
 #'
 #' University of Valencia (Spain)
 #' 
+#' @references 
+#' Seiford, L.M.; Zhu, J. (2002). “Modeling undesirable factors in efficiency evaluation”,
+#' European Journal of Operational Research 142, 16-20.
+#' 
+#' Hua Z.; Bian Y. (2007). DEA with Undesirable Factors. In: Zhu J., Cook W.D. (eds)
+#' Modeling Data Irregularities and Structural Complexities in Data Envelopment Analysis.
+#' Springer, Boston, MA. 
+#' 
 #' @examples
 #' data("Hua_Bian_2007")
 #' # The third output is an undesirable output.
@@ -37,7 +47,6 @@
 #'                           ni = 2, 
 #'                           no = 3, 
 #'                           ud_outputs = 3) 
-
 #' # rts must be "vrs" for undesirable inputs/outputs:
 #' # Translation parameter is set to (max + 1)
 #' result <- model_basic(data_example,
@@ -69,7 +78,8 @@ undesirable_basic <- function(datadea,
     } else if ((length(vtrans_i) == 1) && (nui > 1)) {
       vtrans_i <- rep(vtrans_i, nui)
     } else if (length(vtrans_i) != nui) {
-      stop("Translation vector vtrans_i must be NULL, a constant or a vector of the same length as ud_inputs.")
+      stop("Translation vector vtrans_i must be NULL, a constant or a vector of the
+           same length as ud_inputs.")
     }
   
     if (nui > 0) {
@@ -106,7 +116,8 @@ undesirable_basic <- function(datadea,
     } else if ((length(vtrans_o) == 1) && (nuo > 1)) {
       vtrans_o <- rep(vtrans_o, nuo)
     } else if (length(vtrans_o) != nuo) {
-      stop("Translation vector vtrans_o must be NULL, a constant or a vector of the same length as ud_outputs.")
+      stop("Translation vector vtrans_o must be NULL, a constant or a vector of the
+           same length as ud_outputs.")
     }
   
     if (nuo > 0) {
@@ -154,7 +165,8 @@ undesirable_basic <- function(datadea,
     } else if ((length(vtrans_i) == 1) && (nui > 1)) {
       vtrans_i <- rep(vtrans_i, nui)
     } else if (length(vtrans_i) != nui) {
-      stop("Translation vector vtrans_i must be NULL, a constant or a vector of the same length as ud_inputs.")
+      stop("Translation vector vtrans_i must be NULL, a constant or a vector of the
+           same length as ud_inputs.")
     }
     
     if (nui > 0) {
@@ -201,7 +213,8 @@ undesirable_basic <- function(datadea,
     } else if ((length(vtrans_o) == 1) && (nuo > 1)) {
       vtrans_o <- rep(vtrans_o, nuo)
     } else if (length(vtrans_o) != nuo) {
-      stop("Translation vector vtrans_o must be NULL, a constant or a vector of the same length as ud_outputs.")
+      stop("Translation vector vtrans_o must be NULL, a constant or a vector of the
+           same length as ud_outputs.")
     }
     
     if (nuo > 0) {

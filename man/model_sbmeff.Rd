@@ -30,13 +30,16 @@ If \code{NULL} (default), all DMUs are considered.}
 \item{dmu_ref}{A numeric vector containing which DMUs are the evaluation reference set.
 If \code{NULL} (default), all DMUs are considered.}
 
-\item{weight_input}{A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the length of \code{dmu_eval})
-with weights to inputs corresponding to the relative importance of items.}
+\item{weight_input}{A value, vector of length \code{m}, or matrix \code{m} x
+\code{ne} (where \code{ne} is the length of \code{dmu_eval}) with weights to
+inputs corresponding to the relative importance of items.}
 
-\item{weight_output}{A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the length of \code{dmu_eval})
-with weights to outputs corresponding to the relative importance of items.}
+\item{weight_output}{A value, vector of length \code{m}, or matrix \code{m} x
+\code{ne} (where \code{ne} is the length of \code{dmu_eval}) with weights to
+outputs corresponding to the relative importance of items.}
 
-\item{orientation}{A string, equal to "no" (non-oriented), "io" (input-oriented) or "oo" (output-oriented).}
+\item{orientation}{A string, equal to "no" (non-oriented), "io" (input-oriented)
+or "oo" (output-oriented).}
 
 \item{rts}{A string, determining the type of returns to scale, equal to "crs" (constant),
 "vrs" (variable), "nirs" (non-increasing), "ndrs" (non-decreasing) or "grs" (generalized).}
@@ -45,19 +48,21 @@ with weights to outputs corresponding to the relative importance of items.}
 
 \item{U}{Upper bound for the generalized returns to scale (grs).}
 
-\item{kaizen}{Logical. If \code{TRUE}, the kaizen version of SBM (Tone 2010), also known as SBM-Max, is computed.}
+\item{kaizen}{Logical. If \code{TRUE}, the kaizen version of SBM (Tone 2010),
+also known as SBM-Max, is computed.}
 
-\item{maxfr}{A list with the maximal friends sets, as it is returned by function \code{maximal_friends}. If \code{NULL} (default)
-this list is computed internally.}
+\item{maxfr}{A list with the maximal friends sets, as it is returned by function
+\code{maximal_friends}. If \code{NULL} (default) this list is computed internally.}
 
 \item{tol}{Numeric, a tolerance margin for checking efficiency (only for the kaizen version).}
 
-\item{silent}{Logical. If \code{FALSE} (default) it prints all the messages from function \code{maximal_friends}.}
+\item{silent}{Logical. If \code{FALSE} (default) it prints all the messages from
+function \code{maximal_friends}.}
 
 \item{compute_target}{Logical. If it is \code{TRUE}, it computes targets.}
 
-\item{returnlp}{Logical. If it is \code{TRUE}, it returns the linear problems (objective function and constraints).
-If \code{kaizen} is \code{TRUE} it is ignored.}
+\item{returnlp}{Logical. If it is \code{TRUE}, it returns the linear problems
+(objective function and constraints). If \code{kaizen} is \code{TRUE} it is ignored.}
 
 \item{...}{Other options (currently not implemented)}
 }
@@ -95,14 +100,19 @@ targets(result)
  
 }
 \references{
-Tone, K. (2001). "A Slacks-Based Measure of Efficiency in Data Envelopment Analysis", European Journal of Operational Research, 130, 498-509. \doi{10.1016/S0377-2217(99)00407-5}
+Tone, K. (2001). "A Slacks-Based Measure of Efficiency in Data Envelopment Analysis",
+European Journal of Operational Research, 130, 498-509. \doi{10.1016/S0377-2217(99)00407-5}
 
-Tone, K. (2010). "Variations on the theme of slacks-based measure of efficiency in DEA", European Journal of Operational Research, 200, 901-907. \doi{10.1016/j.ejor.2009.01.027}
+Tone, K. (2010). "Variations on the theme of slacks-based measure of efficiency in DEA",
+European Journal of Operational Research, 200, 901-907. \doi{10.1016/j.ejor.2009.01.027}
 
-Cooper, W.W.; Seiford, L.M.; Tone, K. (2007). Data Envelopment Analysis. A Comprehensive Text with Models, Applications, References and DEA-Solver Software. 2nd Edition. Springer, New York. \doi{10.1007/978-0-387-45283-8}
+Cooper, W.W.; Seiford, L.M.; Tone, K. (2007). Data Envelopment Analysis. A Comprehensive
+Text with Models, Applications, References and DEA-Solver Software. 2nd Edition. Springer,
+New York. \doi{10.1007/978-0-387-45283-8}
 }
 \seealso{
-\code{\link{model_nonradial}}, \code{\link{model_deaps}}, \code{\link{model_profit}}, \code{\link{model_sbmsupereff}}
+\code{\link{model_nonradial}}, \code{\link{model_deaps}},
+\code{\link{model_profit}}, \code{\link{model_sbmsupereff}}
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

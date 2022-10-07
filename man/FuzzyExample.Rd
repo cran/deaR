@@ -28,7 +28,8 @@ Data frame with 5 rows and 15 columns.
 data("FuzzyExample")
 }
 \description{
-Synthetic dataset of 5 DMUs with 3 inputs and 3 outputs containing fuzzy and crisp data.
+Synthetic dataset of 5 DMUs with 3 inputs and 3 outputs containing fuzzy and
+crisp data.
 }
 \examples{
 

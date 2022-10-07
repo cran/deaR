@@ -17,13 +17,16 @@ Data frame with 23 rows and 8 columns. Definition of inputs (X) and outputs (Y):
 }
 }
 \source{
-Wu, J.; Tsai, H. and Zhou, Z. (2011). "Improving efficiency in International tourist hotels in Taipei using a non-radial DEA mode", Internationl Journal of Contemporary Hospitality Management, 23(1), 66-83. \code{doi}: 10.1108/09596111111101670
+Wu, J.; Tsai, H. and Zhou, Z. (2011). "Improving efficiency in International
+tourist hotels in Taipei using a non-radial DEA mode", Internationl Journal of
+Contemporary Hospitality Management, 23(1), 66-83. \doi{10.1108/09596111111101670}
 }
 \usage{
 data("Hotels")
 }
 \description{
-This dataset consists of 23 four- and five-plum ITHs in Taipei in 2006. Authors consider 4 inputs and 3 outputs.
+This dataset consists of 23 four- and five-plum ITHs in Taipei in 2006. Authors
+consider 4 inputs and 3 outputs.
 }
 \examples{
 # Example. Replication of results in Wu,Tsai and Zhou (2011)
@@ -33,8 +36,8 @@ data_hotels <- read_data(Hotels,
                          inputs = 2:5,
                          outputs = 6:8)
 result <- model_nonradial(data_hotels,
-                          orientation="oo",
-                          rts="vrs")
+                          orientation = "oo",
+                          rts = "vrs")
 efficiencies(result)
 
 }

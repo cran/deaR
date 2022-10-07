@@ -15,7 +15,10 @@ Data frame with 30 rows and 6 columns. Definition of inputs (X) and outputs (Y):
 }
 }
 \source{
-Hua Z.; Bian Y. (2007). DEA with Undesirable Factors. In: Zhu J., Cook W.D. (eds) Modeling Data Irregularities and Structural Complexities in Data Envelopment Analysis. Springer, Boston, MA. \code{doi}: 10.1007/978-0-387-71607-7_6
+Hua Z.; Bian Y. (2007). DEA with Undesirable Factors. In: Zhu J.,
+Cook W.D. (eds) Modeling Data Irregularities and Structural Complexities
+in Data Envelopment Analysis. Springer, Boston, MA.
+\doi{10.1007/978-0-387-71607-7_6}
 }
 \usage{
 data("Hua_Bian_2007")
@@ -28,17 +31,17 @@ Data of 30 DMUs with two desirable inputs, two desirable outputs and one udesira
 data("Hua_Bian_2007")
 # The third output is an undesirable output
 data_example <- read_data(Hua_Bian_2007,
-                          ni=2,
-                          no=3,
-                          ud_outputs=3)
+                          ni = 2,
+                          no = 3,
+                          ud_outputs = 3)
 
 # Translation parameter (vtrans_o) is set to 1500
 result <- model_basic(data_example,
-                      orientation="oo",
-                      rts="vrs",
-                      vtrans_o=1500)
+                      orientation = "oo",
+                      rts = "vrs",
+                      vtrans_o = 1500)
 eff <- efficiencies(result)
-1/eff # results M5 in Table 6-5 (p.119)
+1 / eff # results M5 in Table 6-5 (p.119)
 
 }
 \seealso{

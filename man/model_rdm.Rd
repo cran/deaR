@@ -25,29 +25,40 @@ If \code{NULL} (default), all DMUs are considered.}
 \item{dmu_ref}{A numeric vector containing which DMUs are the evaluation reference set.
 If \code{NULL} (default), all DMUs are considered.}
 
-\item{orientation}{A string, equal to "no" (non-oriented), "io" (input oriented), or "oo" (output oriented).}
+\item{orientation}{A string, equal to "no" (non-oriented), "io" (input oriented),
+or "oo" (output oriented).}
 
-\item{irdm}{Logical. If it is \code{TRUE}, it applies the IRDM (inverse range directional model).}
+\item{irdm}{Logical. If it is \code{TRUE}, it applies the IRDM (inverse range
+directional model).}
 
 \item{maxslack}{Logical. If it is \code{TRUE}, it computes the max slack solution.}
 
-\item{weight_slack_i}{A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the length of \code{dmu_eval})
-with the weights of the input slacks for the max slack solution.}
+\item{weight_slack_i}{A value, vector of length \code{m}, or matrix \code{m} x
+\code{ne} (where \code{ne} is the length of \code{dmu_eval}) with the weights
+of the input slacks for the max slack solution.}
 
-\item{weight_slack_o}{A value, vector of length \code{s}, or matrix \code{s} x \code{ne} (where \code{ne} is the length of \code{dmu_eval})
-with the weights of the output slacks for the max slack solution.}
+\item{weight_slack_o}{A value, vector of length \code{s}, or matrix \code{s} x
+\code{ne} (where \code{ne} is the length of \code{dmu_eval}) with the weights
+of the output slacks for the max slack solution.}
 
-\item{compute_target}{Logical. If it is \code{TRUE}, it computes targets of the max slack solution.}
+\item{compute_target}{Logical. If it is \code{TRUE}, it computes targets of the
+max slack solution.}
 
-\item{returnlp}{Logical. If it is \code{TRUE}, it returns the linear problems (objective function and constraints) of stage 1.}
+\item{returnlp}{Logical. If it is \code{TRUE}, it returns the linear problems
+(objective function and constraints) of stage 1.}
 
 \item{...}{Ignored, for compatibility issues.}
 }
 \description{
 Range directional model from Portela et al. (2004).
 }
+\note{
+Undesirable inputs/outputs are treated as negative inputs/outputs in this model.
+}
 \references{
-Portela, M.; Thanassoulis, E.; Simpson, G. (2004). "Negative data in DEA: a directional distance approach applied to bank branches", Journal of the Operational Research Society, 55 1111-1121.
+Portela, M.; Thanassoulis, E.; Simpson, G. (2004). "Negative data in DEA: a
+directional distance approach applied to bank branches", Journal of the Operational
+Research Society, 55 1111-1121.
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

@@ -20,17 +20,19 @@ read_data(datadea = NULL,
 \arguments{
 \item{datadea}{Data frame with DEA data.}
 
-\item{ni}{Number of inputs, if inputs are in columns 2:(\code{ni} + 1) (if DMUs are in the first column) or 1:\code{ni} (no DMUs column).}
+\item{ni}{Number of inputs, if inputs are in columns 2:(\code{ni} + 1) (if DMUs
+are in the first column) or 1:\code{ni} (no DMUs column).}
 
-\item{no}{Number of outputs, if outputs are in columns (\code{ni} + 2):(\code{ni} + \code{no} + 1) (if DMUs are in the first column) or (\code{ni} + 1):(\code{ni} + \code{no}) (no DMUs column).
-If not specified, DMUs are in the first column.}
+\item{no}{Number of outputs, if outputs are in columns (\code{ni} + 2):(\code{ni} +
+\code{no} + 1) (if DMUs are in the first column) or (\code{ni} + 1):(\code{ni} +
+\code{no}) (no DMUs column). If not specified, DMUs are in the first column.}
 
-\item{dmus}{Column (number or name) of DMUs (optional). By default, it is the first column.
-If there is not any DMU column, then it must be \code{NULL}.}
+\item{dmus}{Column (number or name) of DMUs (optional). By default, it is the
+first column. If there is not any DMU column, then it must be \code{NULL}.}
 
 \item{inputs}{Columns (numbers or names) of inputs (optional). It prevails over \code{ni}.
-Alternatively to \code{datadea}, it can be a matrix with the inputs (DMUs in columns). In this case, DMUs names
-are taken from the columns names.}
+Alternatively to \code{datadea}, it can be a matrix with the inputs (DMUs in columns).
+In this case, DMUs names are taken from the columns names.}
 
 \item{outputs}{Columns (numbers or names) of outputs (optional). It prevails over \code{no}.
 Alternatively to \code{datadea}, it can be a matrix with the outputs (DMUs in columns).}
@@ -51,8 +53,9 @@ Alternatively to \code{datadea}, it can be a matrix with the outputs (DMUs in co
 An object of class \code{deadata}
 }
 \description{
-This function creates, from a data frame, a \code{deadata} structure, which is as list with fields
-\code{input}, \code{output}, \code{dmunames}, \code{nc_inputs}, \code{nc_outputs}, \code{nd_inputs}, \code{nd_outputs}.
+This function creates, from a data frame, a \code{deadata} structure,
+which is as list with fields \code{input}, \code{output}, \code{dmunames},
+\code{nc_inputs}, \code{nc_outputs}, \code{nd_inputs}, \code{nd_outputs}.
 }
 \examples{
 data("Coll_Blasco_2006")

@@ -2,12 +2,12 @@
 % Please edit documentation in R/plot.dea_fuzzy.R
 \name{plot.dea_fuzzy}
 \alias{plot.dea_fuzzy}
-\title{Plot for Fuzzy DEA models.}
+\title{Plot for fuzzy DEA models.}
 \usage{
 \method{plot}{dea_fuzzy}(x, showPlots = TRUE, ...)
 }
 \arguments{
-\item{x}{An object of class \code{"dea_fuzzy"} obtained by a fuzzy dea model function.}
+\item{x}{An object of class \code{"dea_fuzzy"} obtained by a fuzzy DEA model function.}
 
 \item{showPlots}{Logical. When TRUE (default) the plots are shown one by one. When it 
 is FALSE the plots are not shown and are returned by the function (invisiblily) as a 
@@ -16,13 +16,16 @@ list.}
 \item{...}{Ignored, for compatibility issues.}
 }
 \value{
-Depending on the model it returns ...
+Depending on the model, it returns some plots.
 }
 \description{
-Plot some attribute of a Fuzzy DEA model (Guo-Tanaka and Kao-Liu models).
+Plot some attribute of a fuzzy DEA model (Guo-Tanaka, Kao-Liu  and
+possibilistic models).
 }
 \references{
-#' Zhu, J. (2014). Quantitative Models for Performance Evaluation and Benchmarking. Data Envelopment Analysis with Spreadsheets. 3rd Edition Springer, New York. DOI: 10.1007/978-3-319-06647-9
+Zhu, J. (2014). Quantitative Models for Performance Evaluation and Benchmarking.
+Data Envelopment Analysis with Spreadsheets. 3rd Edition Springer, New York.
+\doi{10.1007/978-3-319-06647-9}
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

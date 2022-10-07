@@ -28,10 +28,11 @@ If \code{NULL} (default), all DMUs are considered.}
 \item{dmu_ref}{A numeric vector containing which DMUs are the evaluation reference set.
 If \code{NULL} (default), all DMUs are considered.}
 
-\item{weight_eff}{Preference weights. If input-oriented, it is a value, vector of length \code{
-m}, or matrix \code{m} x \code{ne} (where \code{ne} is the lenght of \code{dmu_eval})
-                  with the weights applied to the input efficiencies.
-                  If output-oriented, it is a value, vector of length \code{s}, or matrix \code{s} x \code{ne} with the weights applied to the output efficiencies.}
+\item{weight_eff}{Preference weights. If input-oriented, it is a value, vector of length
+\code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the lenght of \code{dmu_eval})
+with the weights applied to the input efficiencies. If output-oriented, it is a
+value, vector of length \code{s}, or matrix \code{s} x \code{ne} with the weights
+applied to the output efficiencies.}
 
 \item{orientation}{A string, equal to "io" (input-oriented) or "oo" (output-oriented).}
 
@@ -42,21 +43,29 @@ m}, or matrix \code{m} x \code{ne} (where \code{ne} is the lenght of \code{dmu_e
 
 \item{U}{Upper bound for the generalized returns to scale (grs).}
 
-\item{restricted_eff}{Logical. If it is \code{TRUE}, the efficiencies are restricted to be <=1 (input-oriented) or >=1 (output-oriented).}
+\item{restricted_eff}{Logical. If it is \code{TRUE}, the efficiencies are
+restricted to be <=1 (input-oriented) or >=1 (output-oriented).}
 
 \item{maxslack}{Logical. If it is \code{TRUE}, it computes the max slack solution.}
 
-\item{weight_slack}{If input-oriented, it is a value, vector of length \code{s}, or matrix \code{s} x \code{ne} with the weights of the output slacks for the max slack solution.
-If output-oriented, it is a value, vector of length \code{m}, or matrix \code{m} x \code{ne} with the weights of the input slacks for the max slack solution.}
+\item{weight_slack}{If input-oriented, it is a value, vector of length \code{s},
+or matrix \code{s} x \code{ne} with the weights of the output slacks for the max
+slack solution.
+If output-oriented, it is a value, vector of length \code{m}, or matrix \code{m} x
+\code{ne} with the weights of the input slacks for the max slack solution.}
 
-\item{compute_target}{Logical. If it is \code{TRUE}, it computes targets of the max slack solution.}
+\item{compute_target}{Logical. If it is \code{TRUE}, it computes targets of the
+max slack solution.}
 
-\item{returnlp}{Logical. If it is \code{TRUE}, it returns the linear problems (objective function and constraints) of stage 1.}
+\item{returnlp}{Logical. If it is \code{TRUE}, it returns the linear problems
+(objective function and constraints) of stage 1.}
 
 \item{...}{Ignored, for compatibility issues.}
 }
 \description{
-With this non-radial DEA model (Zhu, 1996), the user can specify the preference input (or output) weigths that reflect the relative degree of desirability of the adjustments of the current input (or output) levels.
+With this non-radial DEA model (Zhu, 1996), the user can specify
+the preference input (or output) weigths that reflect the relative degree of
+desirability of the adjustments of the current input (or output) levels.
 }
 \examples{
  data("Fortune500")
@@ -71,12 +80,16 @@ With this non-radial DEA model (Zhu, 1996), the user can specify the preference 
  
 }
 \references{
-Zhu, J. (1996). “Data Envelopment Analysis with Preference Structure”, The Journal of the Operational Research Society, 47(1), 136. DOI: 10.2307/2584258  
+Zhu, J. (1996). “Data Envelopment Analysis with Preference Structure”, The
+Journal of the Operational Research Society, 47(1), 136. \doi{10.2307/2584258}  
 
-Zhu, J. (2014). Quantitative Models for Performance Evaluation and Benchmarking. Data Envelopment Analysis with Spreadsheets. 3rd Edition Springer, New York. DOI: 10.1007/978-3-319-06647-9
+Zhu, J. (2014). Quantitative Models for Performance Evaluation and Benchmarking.
+Data Envelopment Analysis with Spreadsheets. 3rd Edition Springer, New York.
+\doi{10.1007/978-3-319-06647-9}
 }
 \seealso{
-\code{\link{model_nonradial}}, \code{\link{model_profit}}, \code{\link{model_sbmeff}}
+\code{\link{model_nonradial}}, \code{\link{model_profit}},
+\code{\link{model_sbmeff}}
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

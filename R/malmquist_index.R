@@ -1,8 +1,11 @@
 #' @title Malmquist index
 #'   
-#' @description This function calculates the conventional input/output oriented Malmquist index under constant or variable returns-to-scale.
+#' @description This function calculates the conventional input/output oriented
+#' Malmquist index under constant or variable returns-to-scale.
 #' 
-#' @note In the results: EC = Efficiency Change, PTEC = Pure Technical Efficiency Change, SEC = Scale Efficiency Change, TC = Technological Change, MI = Malmquist Index 
+#' @note In the results: EC = Efficiency Change, PTEC = Pure Technical Efficiency Change,
+#' SEC = Scale Efficiency Change, TC = Technological Change, MI = Malmquist Index 
+#' 
 #' @usage malmquist_index(datadealist,
 #'                 dmu_eval = NULL,
 #'                 dmu_ref = NULL,
@@ -43,25 +46,43 @@
 #' University of Valencia (Spain)
 #'  
 #' @references 
-#' Caves, D.W.; Christensen, L. R.; Diewert, W.E. (1982). “The Economic Theory of Index Numbers and the Measurement of Input, Output, and Productivity”. Econometrica, 50(6), 1393-1414. 
+#' Caves, D.W.; Christensen, L. R.; Diewert, W.E. (1982). “The Economic Theory of
+#' Index Numbers and the Measurement of Input, Output, and Productivity”. Econometrica,
+#' 50(6), 1393-1414. 
 #'  
-#' Fare, R.; Grifell-Tatje, E.; Grosskopf, S.; Lovell, C.A.K. (1997). "Biased Technical Change and the Malmquist Productivity Index". Scandinavian Journal of Economics, 99(1), 119-127.
+#' Fare, R.; Grifell-Tatje, E.; Grosskopf, S.; Lovell, C.A.K. (1997). "Biased Technical
+#' Change and the Malmquist Productivity Index". Scandinavian Journal of Economics,
+#' 99(1), 119-127.
 #' 
-#' Fare, R.; Grosskopf, S.; Lindgren, B.; Roos, P. (1989). “Productivity Developments in Swedish Hospitals: A Malmquist Output Index Approach”. Discussion paper n. 89-3. Southern Illinois University. Illinois.
+#' Fare, R.; Grosskopf, S.; Lindgren, B.; Roos, P. (1989). “Productivity Developments
+#' in Swedish Hospitals: A Malmquist Output Index Approach”. Discussion paper n. 89-3.
+#' Southern Illinois University. Illinois.
 #' 
-#' Fare, R.; Grosskopf, S.; Lindgren, B.; Roos, P. (1992). “Productivity changes in Swedish Pharmacies 1980-89: A nonparametric Malmquist Approach”. Journal of productivity Analysis, 3(3), 85-101. 
+#' Fare, R.; Grosskopf, S.; Lindgren, B.; Roos, P. (1992). “Productivity changes
+#' in Swedish Pharmacies 1980-89: A nonparametric Malmquist Approach”. Journal of
+#' productivity Analysis, 3(3), 85-101. 
 #' 
-#' Fare, R.; Grosskopf, S.; Norris, M.; Zhang, Z. (1994). “Productivity Growth, Technical Progress, and Efficiency Change in Industrialized Countries”. American Economic Review, 84(1), 66-83. 
+#' Fare, R.; Grosskopf, S.; Norris, M.; Zhang, Z. (1994). “Productivity Growth,
+#' Technical Progress, and Efficiency Change in Industrialized Countries”.
+#' American Economic Review, 84(1), 66-83. 
 #'
-#' Fare, R.; Grosskopf, S.; Roos, P. (1998), Malmquist Productivity Indexes: A Survey of Theory and Practice. In: Fare R., Grosskopf S., Russell R.R. (eds) Index Numbers: Essays in Honour of Sten Malmquist. Springer.
+#' Fare, R.; Grosskopf, S.; Roos, P. (1998), Malmquist Productivity Indexes: A Survey
+#' of Theory and Practice. In: Fare R., Grosskopf S., Russell R.R. (eds)
+#' Index Numbers: Essays in Honour of Sten Malmquist. Springer.
 #' 
-#' Grifell-Tatje, E.; Lovell, C.A.K. (1999). "A Generalized Malmquist productivity index". Top, 7(1), 81-101.  
+#' Grifell-Tatje, E.; Lovell, C.A.K. (1999). "A Generalized Malmquist productivity index".
+#' Top, 7(1), 81-101.  
 #'
-#' Pastor, J.T.; Lovell, C.A.k. (2005). "A global Malmquist productiviyt index". Economics Letters, 88, 266-271.  
+#' Pastor, J.T.; Lovell, C.A.k. (2005). "A global Malmquist productiviyt index".
+#' Economics Letters, 88, 266-271.  
 #' 
-#' Ray, S.C.; Desli, E. (1997). "Productivity Growth, Technical Progress, and Efficiency Change in Industrialized Countries: Comment". The American Economic Review, 87(5), 1033-1039.
+#' Ray, S.C.; Desli, E. (1997). "Productivity Growth, Technical Progress, and
+#' Efficiency Change in Industrialized Countries: Comment". The American Economic Review,
+#' 87(5), 1033-1039.
 #'
-#' Shestalova, V. (2003). "Sequential Malmquist Indices of Productivity Growth: An Application to OECD Industrial Activities". Journal of Productivity Analysis, 19, 211-226.
+#' Shestalova, V. (2003). "Sequential Malmquist Indices of Productivity Growth:
+#' An Application to OECD Industrial Activities". Journal of Productivity Analysis,
+#' 19, 211-226.
 #'
 #'
 #' @examples 
@@ -147,7 +168,6 @@ malmquist_index <- function(datadealist,
   }
   
   pernames <- names(datadealist)
-  #minames <- paste(pernames[-nt], pernames[-1], sep = "-")
   minames <- pernames[-1]
   
   dmunames <- datadealist[[1]]$dmunames
@@ -221,40 +241,40 @@ malmquist_index <- function(datadealist,
   mi <- matrix(0, nrow = nt - 1, ncol = nde)
   colnames(mi) <- dmunames[dmu_eval]
   rownames(mi) <- minames
-  eff <- matrix(0, nrow = nt, ncol = nde) # eficiencias crs
+  eff <- matrix(0, nrow = nt, ncol = nde) # efficiencies crs
   colnames(eff) <- dmunames[dmu_eval]
   rownames(eff) <- pernames
-  effv <- eff # eficiencias vrs
+  effv <- eff # efficiencies vrs
   
   if (type1 == "glob") {
     type2 <- NULL
-    effg <- eff # eficiencias con frontera global crs 
-    effgv <- eff # eficiencias con frontera global vrs 
+    effg <- eff # efficiencies with global frontier crs 
+    effgv <- eff # efficiencies with global frontier vrs 
     if (rts == "vrs") {
-      eff12 <- mi # DMU adelantada
-      effv12 <- mi # DMU adelantada vrs
+      eff12 <- mi # DMU forward
+      effv12 <- mi # DMU forward vrs
     }
   } else {
     if (type2 == "fgnz") {
-      eff12 <- mi # DMU adelantada
-      eff21 <- mi # Frontera adelantada
+      eff12 <- mi # DMU forward
+      eff21 <- mi # Frontier forward
     } else if (type2 == "rd") {
-      eff12 <- mi # DMU adelantada
-      effv12 <- mi # DMU adelantada vrs
-      effv21 <- mi # Frontera adelantada vrs
+      eff12 <- mi # DMU forward
+      effv12 <- mi # DMU forward vrs
+      effv21 <- mi # Frontier forward vrs
     } else if (type2 == "gl") {
-      eff12y <- mi # DMU input adelantado
-      effv12 <- mi # DMU adelantada vrs
-      effv12y <- mi # DMU input adelantado vrs
+      eff12y <- mi # DMU input forward
+      effv12 <- mi # DMU forward vrs
+      effv12y <- mi # DMU input forward vrs
     } else if (type2 == "bias") {
-      eff12 <- mi # DMU adelantada
-      eff21 <- mi # Frontera adelantada
-      eff12y <- mi # DMU input adelantado
-      eff22y <- mi # Frontera y DMU input adelantado
-      effv12 <- mi # DMU adelantada
-      effv21 <- mi # Frontera adelantada
-      effv12y <- mi # DMU input adelantado
-      effv22y <- mi # Frontera y DMU input adelantado
+      eff12 <- mi # DMU forward
+      eff21 <- mi # Frontier forward
+      eff12y <- mi # DMU input forward
+      eff22y <- mi # Frontier and DMU input forward
+      effv12 <- mi # DMU forward
+      effv21 <- mi # Frontier forward
+      effv12y <- mi # DMU input forward
+      effv22y <- mi # Frontier and DMU input forward
     }
   }
   
@@ -478,7 +498,7 @@ malmquist_index <- function(datadealist,
     
   } else if (type1 == "glob") {
     
-    # Frontera usual
+    # Frontier usual
     
     f.obj <- c(1, rep(0, ndr))
     f.dir <- c(rep("<=", ni), rep(">=", no))
@@ -531,7 +551,7 @@ malmquist_index <- function(datadealist,
       
     }
     
-    # Frontera global
+    # Frontier global
 
     f.obj <- c(1, rep(0, nt * ndr))
     f.con.vrs <- cbind(0, matrix(1, nrow = 1, ncol = nt * ndr))
@@ -714,7 +734,6 @@ malmquist_index <- function(datadealist,
     
   }
   
-  #minames <- paste(pernames[-nt], pernames[-1], sep = "-")
   minames <- pernames[-1]
   rownames(mi) <- minames
   rownames(tc) <- minames

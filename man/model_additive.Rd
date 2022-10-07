@@ -31,10 +31,12 @@ If \code{NULL} (default), all DMUs are considered.}
 If input-oriented, \code{weight_slack_o} are taken 0.
 If output-oriented, \code{weight_slack_i} are taken 0.}
 
-\item{weight_slack_i}{A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the length of \code{dmu_eval})
+\item{weight_slack_i}{A value, vector of length \code{m}, or matrix \code{m} x
+\code{ne} (where \code{ne} is the length of \code{dmu_eval})
 with the weights of the input slacks. If 0, output-oriented.}
 
-\item{weight_slack_o}{A value, vector of length \code{s}, or matrix \code{s} x \code{ne} (where \code{ne} is the length of \code{dmu_eval})
+\item{weight_slack_o}{A value, vector of length \code{s}, or matrix \code{s} x
+\code{ne} (where \code{ne} is the length of \code{dmu_eval})
 with the weights of the output slacks. If 0, input-oriented.}
 
 \item{rts}{A string, determining the type of returns to scale, equal to "crs" (constant),
@@ -46,17 +48,23 @@ with the weights of the output slacks. If 0, input-oriented.}
 
 \item{compute_target}{Logical. If it is \code{TRUE}, it computes targets.}
 
-\item{returnlp}{Logical. If it is \code{TRUE}, it returns the linear problems (objective function and constraints).}
+\item{returnlp}{Logical. If it is \code{TRUE}, it returns the linear problems
+(objective function and constraints).}
 
 \item{...}{Ignored, for compatibility issues.}
 }
 \description{
-Solve the additive model of Charnes et. al (1985). With the current version of deaR, it is possible to solve input-oriented, output-oriented, and non-oriented additive dea model under constant and non-constant returns-to-scale.
+Solve the additive model of Charnes et. al (1985). With the current
+version of deaR, it is possible to solve input-oriented, output-oriented,
+and non-oriented additive dea model under constant and non-constant returns-to-scale.
 
-Besides, the user can set weights for the input slacks and/or output slacks. So, it is also possible to solve weighted additive models. For example: Measure of Inefficiency Proportions (MIP), Range Adjusted Measure (RAM), etc.
+Besides, the user can set weights for the input slacks and/or output slacks. So,
+it is also possible to solve weighted additive models. For example: Measure of
+Inefficiency Proportions (MIP), Range Adjusted Measure (RAM), etc.
 }
 \note{
-In this model, the efficiency score is the sum of the slacks. Therefore, a DMU is efficient when the objective value (\code{objval}) is zero.
+In this model, the efficiency score is the sum of the slacks. Therefore,
+a DMU is efficient when the objective value (\code{objval}) is zero.
 }
 \examples{
 # Example 1. 
@@ -88,24 +96,37 @@ slacks(result2)
 # Range Adjusted Measure of Inefficiencies (RAM).
 x <- c(2, 3, 6, 9, 5, 4, 10) 
 y <- c(2, 5, 7, 8, 3, 1, 7)
-data_example <- data.frame(dmus=letters[1:7], x, y)
+data_example <- data.frame(dmus = letters[1:7], x, y)
 data_example <- read_data(data_example, ni = 1, no = 1)
-range_i <- apply(data_example[["input"]], 1, max) - apply(data_example[["input"]], 1, min)
-range_o <- apply(data_example[["output"]], 1, max) - apply(data_example[["output"]], 1, min)
-w_range_i <- 1 / (range_i * (dim(data_example[["input"]])[1] + dim(data_example[["output"]])[1]))
-w_range_o <- 1 / (range_o * (dim(data_example[["input"]])[1] + dim(data_example[["output"]])[1]))
-result3 <- model_additive(data_example, rts = "vrs",
+range_i <- apply(data_example[["input"]], 1, max) -
+           apply(data_example[["input"]], 1, min)
+range_o <- apply(data_example[["output"]], 1, max) -
+           apply(data_example[["output"]], 1, min)
+w_range_i <- 1 / (range_i * (dim(data_example[["input"]])[1] +
+                             dim(data_example[["output"]])[1]))
+w_range_o <- 1 / (range_o * (dim(data_example[["input"]])[1] +
+                             dim(data_example[["output"]])[1]))
+result3 <- model_additive(data_example,
+                          rts = "vrs",
                           weight_slack_i = w_range_i,
                           weight_slack_o = w_range_o)
 slacks(result3)
 
 }
 \references{
-Charnes, A.; Cooper, W.W.; Golany, B.; Seiford, L.; Stuz, J. (1985) "Foundations of Data Envelopment Analysis for Pareto-Koopmans Efficient Empirical Production Functions", Journal of Econometrics, 30(1-2), 91-107. \doi{10.1016/0304-4076(85)90133-2}
+Charnes, A.; Cooper, W.W.; Golany, B.; Seiford, L.; Stuz, J. (1985) "Foundations
+of Data Envelopment Analysis for Pareto-Koopmans Efficient Empirical Production
+Functions", Journal of Econometrics, 30(1-2), 91-107.
+\doi{10.1016/0304-4076(85)90133-2}
   
-Charnes, A.; Cooper, W.W.; Lewin, A.Y.; Seiford, L.M. (1994). Data Envelopment Analysis: Theory, Methology, and Application. Boston: Kluwer Academic Publishers. \doi{10.1007/978-94-011-0637-5}
+Charnes, A.; Cooper, W.W.; Lewin, A.Y.; Seiford, L.M. (1994). Data Envelopment
+Analysis: Theory, Methology, and Application. Boston: Kluwer Academic Publishers.
+\doi{10.1007/978-94-011-0637-5}
 
-Cooper, W.W.; Park, K.S.; Pastor, J.T. (1999). "RAM: A Range Adjusted Measure of Inefficiencies for Use with Additive Models, and Relations to Other Models and Measures in DEA". Journal of Productivity Analysis, 11, p. 5-42. \doi{10.1023/A:1007701304281}
+Cooper, W.W.; Park, K.S.; Pastor, J.T. (1999). "RAM: A Range Adjusted Measure
+of Inefficiencies for Use with Additive Models, and Relations to Other Models
+and Measures in DEA". Journal of Productivity Analysis, 11, p. 5-42.
+\doi{10.1023/A:1007701304281}
 }
 \seealso{
 \code{\link{model_addsupereff}}

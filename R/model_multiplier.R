@@ -1,12 +1,21 @@
 #' @title Multiplier DEA model
 #'   
-#' @description Solve input-oriented and output-oriented basic DEA  models (multiplicative form) under constant (CCR DEA model), variable (BCC DEA model), non-increasing, non-decreasing or generalized returns to scale.
-#'              It does not take into account uncontrollable, non-discretional or undesirable inputs/outputs.
-#' @note (1) Very important with the multiplier model: "The optimal weights for an efficient DMU need not be unique" (Cooper, Seiford and Tone, 2007:31). "Usually, the optimal weights for inefficient DMUs are unique, the exception being when the line of the DMU is parallel to one of the boundaries of the feasible region" (Cooper, Seiford and Tone, 2007:32).
+#' @description Solve input-oriented and output-oriented basic DEA  models
+#' (multiplicative form) under constant (CCR DEA model), variable (BCC DEA model),
+#' non-increasing, non-decreasing or generalized returns to scale. It does not
+#' take into account non-controllable, non-discretionary or undesirable inputs/outputs.
 #' 
-#' (2) The measure of technical input (or output) efficiency obtained by using multiplier DEA models is better the smaller the value of epsilon.
+#' @note (1) Very important with the multiplier model: "The optimal weights for
+#' an efficient DMU need not be unique" (Cooper, Seiford and Tone, 2007:31).
+#' "Usually, the optimal weights for inefficient DMUs are unique, the exception
+#' being when the line of the DMU is parallel to one of the boundaries of the
+#' feasible region" (Cooper, Seiford and Tone, 2007:32).
 #' 
-#' (3) Epsilon is usually set equal to \10^-6. However, if epsilon is not set correctly, the multiplier model can be infeasible (Zhu,2014:49).        
+#' (2) The measure of technical input (or output) efficiency obtained by using
+#' multiplier DEA models is better the smaller the value of epsilon.
+#' 
+#' (3) Epsilon is usually set equal to 10^-6. However, if epsilon is not set
+#' correctly, the multiplier model can be infeasible (Zhu,2014:49).        
 #' 
 #' @usage model_multiplier(datadea,
 #'                  dmu_eval = NULL,
@@ -28,10 +37,11 @@
 #' @param epsilon Numeric, multipliers must be >= \code{epsilon}.
 #' @param orientation A string, equal to "io" (input-oriented) or "oo" (output-oriented).
 #' @param rts A string, determining the type of returns to scale, equal to "crs" (constant),
-#'            "vrs" (variable), "nirs" (non-increasing), "ndrs" (non-decreasing) or "grs" (generalized).
+#' "vrs" (variable), "nirs" (non-increasing), "ndrs" (non-decreasing) or "grs" (generalized).
 #' @param L Lower bound for the generalized returns to scale (grs).
 #' @param U Upper bound for the generalized returns to scale (grs).
-#' @param returnlp Logical. If it is \code{TRUE}, it returns the linear problems (objective function and constraints).
+#' @param returnlp Logical. If it is \code{TRUE}, it returns the linear problems (objective
+#' function and constraints).
 #' @param compute_lambda Logical. If it is \code{TRUE}, it computes the dual problem and lambdas.
 #' @param ... Ignored, for compatibility issues.
 #'      
@@ -48,17 +58,27 @@
 #' University of Valencia (Spain)
 #'  
 #' @references 
-#' Charnes, A.; Cooper, W.W. (1962). “Programming with Linear Fractional Functionals”, Naval Research Logistics Quarterly 9, 181-185. \doi{10.1002/nav.3800090303}  
+#' Charnes, A.; Cooper, W.W. (1962). “Programming with Linear Fractional Functionals”,
+#' Naval Research Logistics Quarterly 9, 181-185. \doi{10.1002/nav.3800090303}  
 #' 
-#' Charnes, A.; Cooper, W.W.; Rhodes, E. (1978). “Measuring the Efficiency of Decision Making Units”, European Journal of Operational Research 2, 429–444. \doi{10.1016/0377-2217(78)90138-8}  
+#' Charnes, A.; Cooper, W.W.; Rhodes, E. (1978). “Measuring the Efficiency of Decision
+#' Making Units”, European Journal of Operational Research 2, 429–444.
+#' \doi{10.1016/0377-2217(78)90138-8}  
 #' 
-#' Charnes, A.; Cooper, W.W.; Rhodes, E. (1979). “Short Communication: Measuring the Efficiency of Decision Making Units”, European Journal of Operational Research 3, 339. \doi{10.1016/0377-2217(79)90229-7}  
+#' Charnes, A.; Cooper, W.W.; Rhodes, E. (1979). “Short Communication: Measuring the
+#' Efficiency of Decision Making Units”, European Journal of Operational Research 3, 339.
+#' \doi{10.1016/0377-2217(79)90229-7}  
 #' 
-#' Golany, B.; Roll, Y. (1989). "An Application Procedure for DEA", OMEGA International Journal of Management Science, 17(3), 237-250. \doi{10.1016/0305-0483(89)90029-7}
+#' Golany, B.; Roll, Y. (1989). "An Application Procedure for DEA", OMEGA International
+#' Journal of Management Science, 17(3), 237-250. \doi{10.1016/0305-0483(89)90029-7}
 #' 
-#' Seiford, L.M.; Thrall, R.M. (1990). “Recent Developments in DEA. The Mathematical Programming Approach to Frontier Analysis”, Journal of Econometrics 46, 7-38. \doi{10.1016/0304-4076(90)90045-U}
+#' Seiford, L.M.; Thrall, R.M. (1990). “Recent Developments in DEA. The Mathematical
+#' Programming Approach to Frontier Analysis”, Journal of Econometrics 46, 7-38.
+#' \doi{10.1016/0304-4076(90)90045-U}
 #' 
-#' Zhu, J. (2014). Quantitative Models for Performance Evaluation and Benchmarking. Data Envelopment Analysis with Spreadsheets. 3rd Edition Springer, New York. DOI: 10.1007/978-3-319-06647-9
+#' Zhu, J. (2014). Quantitative Models for Performance Evaluation and Benchmarking.
+#' Data Envelopment Analysis with Spreadsheets. 3rd Edition Springer, New York.
+#' \doi{10.1007/978-3-319-06647-9}
 #' 
 #' @examples 
 #' # Example 1.
@@ -116,8 +136,8 @@ model_multiplier <-
   # Checking non-controllable or non-discretionary inputs/outputs
   if ((!is.null(datadea$nc_inputs)) || (!is.null(datadea$nc_outputs))
       || (!is.null(datadea$nd_inputs)) || (!is.null(datadea$nd_outputs))) {
-    warning("This model does not take into account non-controllable or non-discretionary feature for inputs/outputs.
-            Instead, you can run model_basic with compute_multipliers = TRUE.")
+    warning("This model does not take into account non-controllable or non-discretionary
+    feature for inputs/outputs. Instead, you can run model_basic with compute_multipliers = TRUE.")
   }
   
   # Checking orientation
@@ -128,11 +148,6 @@ model_multiplier <-
   rts <- tolower(rts)
   rts <- match.arg(rts)
   
-  # Checking undesirable io and rts
-  #if (((!is.null(datadea$ud_inputs)) || (!is.null(datadea$ud_outputs))) && (rts != "vrs")) {
-  #  rts <- "vrs"
-  #  warning("Returns to scale changed to variable (vrs) because there is data with undesirable inputs/outputs.")
-  #}
   if (!is.null(datadea$ud_inputs) || !is.null(datadea$ud_outputs)) {
     warning("This model does not take into account the undesirable feature for inputs/outputs.")
   }
@@ -220,24 +235,25 @@ model_multiplier <-
     f.rhs.eps <- NULL
   }
     
-  # Matriz técnica del 2º bloque de restricciones
-  f.con.2 <- cbind(-t(inputref), t(outputref), matrix(1, nrow = ndr, ncol = 1), matrix(-1, nrow = ndr, ncol = 1))
+  # Constraints matrix of 2nd bloc of constraints
+  f.con.2 <- cbind(-t(inputref), t(outputref), matrix(1, nrow = ndr, ncol = 1),
+                   matrix(-1, nrow = ndr, ncol = 1))
   
-  # Vector de dirección de restricciones
+  # Directions vector
   f.dir <- c("=", rep("<=", ndr), f.dir.eps, f.dir.rs) # Efficiency is considered free
   #f.dir <- c("<=", rep("<=", ndr), f.dir.eps, f.dir.rs) # Efficiency is considered non-negative
   
-  # Vector de términos independientes
+  # Right hand side vector
   f.rhs <- c(orient, rep(0, ndr), f.rhs.eps, f.rhs.rs)
   
   for (i in 1:nde) {
     
     ii <- dmu_eval[i]
     
-    # Vector de coeficientes de la función objetivo
+    # Objective function coefficients
     f.obj <- c(rep(0, ni), output[, ii], L, -U)
       
-    # Matriz técnica
+    # Constraints matrix
     f.con.1 <- c(input[, ii], rep(0, no), 0, 0)
     f.con <- rbind(f.con.1, f.con.2, f.con.eps, f.con.rs)
        
@@ -332,7 +348,7 @@ model_multiplier <-
           if (rts != "crs") {
             multiplier_rts <- -multiplier_rts
           }
-          #efficiency <- 1 / efficiency
+          # efficiency <- 1 / efficiency # Alternative
         }
         
       } else {
@@ -355,13 +371,15 @@ model_multiplier <-
       } else {
         if (compute_lambda) {
           DMU[[i]] <- list(efficiency = efficiency,
-                           multiplier_input = multiplier_input, multiplier_output = multiplier_output, multiplier_rts = multiplier_rts,
+                           multiplier_input = multiplier_input, multiplier_output = multiplier_output,
+                           multiplier_rts = multiplier_rts,
                            lambda = lambda,
                            slack_input = slack_input, slack_output = slack_output,
                            target_input = target_input, target_output = target_output)
         } else {
           DMU[[i]] <- list(efficiency = efficiency,
-                           multiplier_input = multiplier_input, multiplier_output = multiplier_output, multiplier_rts = multiplier_rts)
+                           multiplier_input = multiplier_input, multiplier_output = multiplier_output,
+                           multiplier_rts = multiplier_rts)
         }
       }
 
@@ -380,7 +398,8 @@ model_multiplier <-
         kk <- DMU[[i]]$lambda[j]
         kk2 <- sum(DMU[[i]]$lambda[-j])
         if ((kk > eps) && (kk2 > eps)) {
-          warning(paste("Under generalized returns to scale,", dmunames[dmu_eval[i]], "appears in its own reference set."))
+          warning(paste("Under generalized returns to scale,", dmunames[dmu_eval[i]],
+                        "appears in its own reference set."))
         }
       }
     }

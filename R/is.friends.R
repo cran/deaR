@@ -33,7 +33,9 @@
 #' University of Valencia (Spain) 
 #' 
 #' @references 
-#' Tone, K. (2010). "Variations on the theme of slacks-based measure of efficiency in DEA", European Journal of Operational Research, 200, 901-907. \doi{10.1016/j.ejor.2009.01.027}
+#' Tone, K. (2010). "Variations on the theme of slacks-based measure of efficiency
+#' in DEA", European Journal of Operational Research, 200, 901-907.
+#' \doi{10.1016/j.ejor.2009.01.027}
 #' 
 #' @examples 
 #' data("PFT1981")
@@ -59,7 +61,7 @@ is.friends <- function(datadea,
                        rts = c("crs", "vrs", "nirs", "ndrs"),
                        tol = 1e-6) {
   
-    # Cheking whether datadea is of class "deadata" or not...  
+  # Cheking whether datadea is of class "deadata" or not...  
   if (!is.deadata(datadea)) {
     stop("Data should be of class deadata. Run read_data function first!")
   }
@@ -96,8 +98,6 @@ is.friends <- function(datadea,
   outputeval <- matrix(output[, dmu_eval], nrow = no)
   inputtest = apply(inputeval, MARGIN = 1, FUN = sum) / nde
   outputtest = apply(outputeval, MARGIN = 1, FUN = sum) / nde
-  #inputtest = apply(inputeval, MARGIN = 1, FUN = sum)
-  #outputtest = apply(outputeval, MARGIN = 1, FUN = sum)
   
   datadeatest <- structure(list(
     input = cbind(input, matrix(inputtest, nrow = ni)),
@@ -116,7 +116,6 @@ is.friends <- function(datadea,
                              dmu_eval = nd + 1,
                              rts = rts)
   eff <- result_sbm$DMU[[1]]$efficiency
-  #lambself <- result_sbm$DMU[[1]]$lambda[ndr + 1] # For rts = "grs", efficiency is not reliable
   
   if (!is.numeric(eff)) {
     result_radial <- model_basic(datadea = datadeatest,
@@ -128,30 +127,12 @@ is.friends <- function(datadea,
     slacks_output <- result_radial$DMU[[1]]$slacks_output
     if ((is.numeric(eff)) && (eff >= 1 - tol) && sum(c(slacks_input, slacks_output)) >= tol) eff <- 0
   }
-
-  #return((eff >= 1 - tol) || (lambself >= tol))
-  #res <- FALSE
-  #if (is.numeric(eff)) {
-  #  if (eff >= (1 - tol)) {
-  #    res <- TRUE
-  #  }
-  #} else {
-  #  res <- 2
-  #  warning("An error has occured in the computation of an efficiency inside is.friends.")
-  #}
   
   if (!is.numeric(eff)) {
     eff <- 1
-    #res <- model_sbmeff(datadea = datadeatest,
-    #                    dmu_ref = c(dmu_ref, nd + 1),
-    #                    dmu_eval = nd + 1,
-    #                    rts = rts, returnlp = TRUE)
-    #print(datadeatest$input[, nd+1])
-    #print(datadeatest$output[, nd+1])
     warning("Error in the computation of SBM efficiency inside is.friends with DMUs ", toString(dmu_eval))
   }
   
-  #return(res)
   return(eff >= (1 - tol))
   
 }

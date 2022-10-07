@@ -5,7 +5,7 @@
 \alias{Fortune500}
 \title{Data: Zhu (2014).}
 \format{
-Data frame with 15 rows and 6 columns. Definition of inputs X) and outputs (Y):
+Data frame with 15 rows and 6 columns. Definition of inputs (X) and outputs (Y):
 \describe{
   \item{x1 = Assets}{Assets (millions of dollars)}
   \item{x2 = Equity}{Equity (millions of dollars)}
@@ -15,13 +15,16 @@ Data frame with 15 rows and 6 columns. Definition of inputs X) and outputs (Y):
 }
 }
 \source{
-Zhu, J. (2014). Quantitative Models for Performance Evaluation and Benchmarking. Data Envelopment Analysis with Spreadsheets. 3rd Edition Springer, New York. \code{doi}: 10.1007/978-3-319-06647-9
+Zhu, J. (2014). Quantitative Models for Performance Evaluation and
+Benchmarking. Data Envelopment Analysis with Spreadsheets. 3rd Edition Springer,
+New York. \doi{10.1007/978-3-319-06647-9}
 }
 \usage{
 data("Fortune500")
 }
 \description{
-This dataset consists of 15 firms from the Fortune 500 list 1995 (\url{https://fortune.com/fortune500/}) with 3 inputs and 2 outputs.
+This dataset consists of 15 firms from the Fortune 500 list 1995
+(\url{https://fortune.com/fortune500/}) with 3 inputs and 2 outputs.
 }
 \examples{
 data("Fortune500")
@@ -30,9 +33,9 @@ data_Fortune <- read_data(datadea = Fortune500,
                           inputs = 2:4,
                           outputs = 5:6)
 result <- model_multiplier(data_Fortune,
-                           epsilon=0.000001,
-                           orientation="io",
-                           rts="crs")
+                           epsilon = 1e-6,
+                           orientation = "io",
+                           rts = "crs")
 # results for General Motors and Ford Motor are not shown
 # by deaR because the solution is infeasible
 efficiencies(result)

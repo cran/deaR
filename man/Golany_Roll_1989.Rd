@@ -15,7 +15,9 @@ Data frame with 13 rows and 6 columns. Definition of inputs (X) and outputs (Y):
 }
 }
 \source{
-Golany, B.; Roll, Y. (1989). "An Application Procedure for DEA". OMEGA, International Journal of Management Science, 17(3), 237-250. \code{doi}: 10.1016/0305-0483(89)90029-7
+Golany, B.; Roll, Y. (1989). "An Application Procedure for DEA". Omega,
+International Journal of Management Science, 17(3), 237-250.
+\doi{10.1016/0305-0483(89)90029-7}
 }
 \usage{
 data("Golany_Roll_1989")

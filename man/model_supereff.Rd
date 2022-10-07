@@ -19,7 +19,8 @@ If \code{NULL} (default), all DMUs are considered.}
 \item{dmu_ref}{A numeric vector containing which DMUs are the evaluation reference set.
 If \code{NULL} (default), all DMUs are considered.}
 
-\item{supereff_modelname}{A string containing the name of the radial model to apply super-efficiency.}
+\item{supereff_modelname}{A string containing the name of the radial model to
+apply super-efficiency.}
 
 \item{...}{\code{orientation}, \code{rts} and other model parameters.}
 }
@@ -27,7 +28,8 @@ If \code{NULL} (default), all DMUs are considered.}
 Solve Andersen and Petersen radial Super-efficiency DEA model.
 }
 \note{
-(1) Radial super-efficiency model under variable (vrs, nirs, ndrs, grs) returns to scale can be infeasible for certain DMUs. See example 2.
+(1) Radial super-efficiency model under variable (vrs, nirs, ndrs, grs)
+returns to scale can be infeasible for certain DMUs. See example 2.
 
 (2) DMUs with infeasible solution are not shown in the results.
 }
@@ -57,12 +59,15 @@ eff2 <- efficiencies(result2)
 
 }
 \references{
-Andersen, P.; Petersen, N.C. (1993). "A procedure for ranking efficient units in data envelopment analysis", Management Science, 39, 1261-1264. 
+Andersen, P.; Petersen, N.C. (1993). "A procedure for ranking efficient units in
+data envelopment analysis", Management Science, 39, 1261-1264. 
 
-Tone, K. (2002). "A slacks-based measure of super-efficiency in data envelopment analysis", European Journal of Operational Research, 143, 32-41.
+Tone, K. (2002). "A slacks-based measure of super-efficiency in data envelopment
+analysis", European Journal of Operational Research, 143, 32-41.
 }
 \seealso{
-\code{\link{model_basic}}, \code{\link{model_sbmsupereff}}, \code{\link{model_addsupereff}}
+\code{\link{model_basic}}, \code{\link{model_sbmsupereff}},
+\code{\link{model_addsupereff}}
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

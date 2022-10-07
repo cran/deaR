@@ -1,9 +1,21 @@
-#' @title Cross efficiency tables
+#' @title Cross efficiency analysis
 #'   
-#' @description Computes arbitrary, benevolent and aggressive formulation of cross-efficiency under any returns-to-scale. Doyle and Green (1994) present three alternatives ways of formulating the secondary goal (wich will minimize or maximize the other DMUs' cross-efficiencies in some way). Methods II and III are implemented in deaR with any returns-to-scale. The maverick index is also calculated. 
-#' @note (1) We can obtain negative cross-efficiency in the input-oriented DEA model under no constant returns-to-scale. However, the same does not happen in the case of the output-oriented VRS DEA model. For this reason, the proposal of Lim and Zhu (2015) is implemented in deaR to calculate the input-oriented cross-efficiency model under no constant returns-to-scale.
+#' @description Computes arbitrary, benevolent and aggressive formulations of
+#' cross-efficiency under any returns-to-scale. Doyle and Green (1994) present
+#' three alternatives ways of formulating the secondary goal (wich will minimize
+#' or maximize the other DMUs' cross-efficiencies in some way). Methods II and III
+#' are implemented in deaR with any returns-to-scale. The maverick index is also
+#' calculated. 
 #' 
-#' (2) The multiplier model can have alternate optimal solutions (see note 1 in model_multiplier). So, depending on the optimal weights selected we can obtain different cross-efficiency scores.
+#' @note (1) We can obtain negative cross-efficiency in the input-oriented DEA model
+#' under no constant returns-to-scale. However, the same does not happen in the case
+#' of the output-oriented VRS DEA model. For this reason, the proposal of
+#' Lim and Zhu (2015) is implemented in deaR to calculate the input-oriented
+#' cross-efficiency model under no constant returns-to-scale.
+#' 
+#' (2) The multiplier model can have alternate optimal solutions (see note 1 in
+#' model_multiplier). So, depending on the optimal weights selected we can obtain
+#' different cross-efficiency scores.
 #' 
 #' @usage cross_efficiency(datadea,
 #'                  dmu_eval = NULL,
@@ -18,34 +30,45 @@
 #'                  M2 = TRUE,
 #'                  M3 = TRUE)
 #' 
-#' @param datadea An object of class \code{dea} or \code{deadata}. If it is of class \code{dea} it must have
-#'                been obtained with some of the multiplier DEA models.
-#' @param dmu_eval A numeric vector. Only the multipliers of DMUs in \code{dmu_eval} are computed.
-#'                 If \code{NULL} (default), all DMUs are considered.
-#' @param dmu_ref A numeric vector containing which DMUs are the evaluation reference set.
-#'                If \code{NULL} (default), all DMUs are considered.
+#' @param datadea An object of class \code{dea} or \code{deadata}. If it is of
+#' class \code{dea} it must have been obtained with some of the multiplier DEA models.
+#' @param dmu_eval A numeric vector. Only the multipliers of DMUs in \code{dmu_eval}
+#' are computed. If \code{NULL} (default), all DMUs are considered.
+#' @param dmu_ref A numeric vector containing which DMUs are the evaluation reference
+#' set. If \code{NULL} (default), all DMUs are considered.
 #' @param epsilon Numeric, multipliers must be >= \code{epsilon}.
 #' @param orientation A string, equal to "io" (input-oriented) or "oo" (output-oriented).
 #' @param rts A string, determining the type of returns to scale, equal to "crs" (constant),
-#'            "vrs" (variable), "nirs" (non-increasing), "ndrs" (non-decreasing) or "grs" (generalized).
+#' "vrs" (variable), "nirs" (non-increasing), "ndrs" (non-decreasing) or "grs" (generalized).
 #' @param L Lower bound for the generalized returns to scale (grs).
 #' @param U Upper bound for the generalized returns to scale (grs).
-#' @param selfapp Logical. If it is \code{TRUE}, self-appraisal is included in the average scores of
-#'                \code{A} and \code{e}.
-#' @param correction Logical. If it is \code{TRUE}, a correction is applied in the "vrs" input-oriented
-#' model in order to avoid negative cross-efficiencies, according to Lim & Zhu (2015).
-#' @param M2 Logical. If it is \code{TRUE}, it computes Method II for aggresive/benevolent estimations.
-#' @param M3 Logical. If it is \code{TRUE}, it computes Method III for aggresive/benevolent estimations.
-#'   
+#' @param selfapp Logical. If it is \code{TRUE}, self-appraisal is included in the
+#' average scores of \code{A} and \code{e}.
+#' @param correction Logical. If it is \code{TRUE}, a correction is applied in the
+#' "vrs" input-oriented model in order to avoid negative cross-efficiencies,
+#' according to Lim & Zhu (2015).
+#' @param M2 Logical. If it is \code{TRUE}, it computes Method II for aggresive/benevolent
+#' estimations.
+#' @param M3 Logical. If it is \code{TRUE}, it computes Method III for aggresive/benevolent
+#' estimations.
 #'
 #' @references
-#' Sexton, T.R., Silkman, R.H.; Hogan, A.J. (1986). Data envelopment analysis: critique and extensions. In: Silkman RH (ed) Measuring efficiency: an assessment of data envelopment analysis, vol 32. Jossey-Bass, San Francisco, pp 73–104. \doi{10.1002/ev.1441}  
+#' Sexton, T.R., Silkman, R.H.; Hogan, A.J. (1986). Data envelopment analysis: critique
+#' and extensions. In: Silkman RH (ed) Measuring efficiency: an assessment of data
+#' envelopment analysis, vol 32. Jossey-Bass, San Francisco, pp 73–104. \doi{10.1002/ev.1441}  
 #' 
-#' Doyle, J.; Green, R. (1994). “Efficiency and cross efficiency in DEA: derivations, meanings and the uses”,  Journal of Operational Research Society, 45(5), 567–578. DOI: 10.2307/2584392 
+#' Doyle, J.; Green, R. (1994). “Efficiency and cross efficiency in DEA: derivations,
+#' meanings and the uses”,  Journal of Operational Research Society, 45(5), 567–578.
+#' \doi{10.2307/2584392} 
 #'  
-#' Cook, W.D.; Zhu, J. (2015). DEA Cross Efficiency. In: Zhu, J. (ed) Data Envelopment Analysis. A Handbook of Models and Methods. International Series in Operations Research & Management Science, vol 221. Springer, Boston, MA, 23-43 \doi{10.1007/978-1-4899-7553-9_2} 
+#' Cook, W.D.; Zhu, J. (2015). DEA Cross Efficiency. In: Zhu, J. (ed) Data Envelopment
+#' Analysis. A Handbook of Models and Methods. International Series in Operations
+#' Research & Management Science, vol 221. Springer, Boston, MA, 23-43.
+#' \doi{10.1007/978-1-4899-7553-9_2} 
 #'  
-#' Lim, S.; Zhu, J. (2015). "DEA Cross-Efficiency Under Variable Returns to Scale". Journal of Operational Research Society, 66(3), p. 476-487. \doi{10.1057/jors.2014.13}
+#' Lim, S.; Zhu, J. (2015). "DEA Cross-Efficiency Under Variable Returns to Scale".
+#' Journal of Operational Research Society, 66(3), p. 476-487.
+#' \doi{10.1057/jors.2014.13}
 #' 
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).
@@ -125,6 +148,7 @@
 #' cross$Arbitrary$e
 #' 
 #' @seealso \code{\link{model_multiplier}}, \code{\link{cross_efficiency_fuzzy}}
+#' 
 #' @export
 
 cross_efficiency <- function(datadea,
@@ -203,13 +227,9 @@ cross_efficiency <- function(datadea,
       stop("More than 2 DMUs are needed in dmu_ref.")
     }
     
-    # Checking non-controllable or non-discretionary inputs/outputs
-    #if ((!is.null(datadea$nc_inputs)) || (!is.null(datadea$nc_outputs))
-    #    || (!is.null(datadea$nd_inputs)) || (!is.null(datadea$nd_outputs))) {
-    #  deasol <- model_basic(datadea = datadea, dmu_ref = dmu_ref, orientation = orientation, maxslack = FALSE, compute_multiplier = TRUE)
-    #} else {
-    deasol <- model_multiplier(datadea = datadea, dmu_eval = dmu_eval, dmu_ref = dmu_ref, orientation = orientation, rts = rts, L = L, U = U, epsilon = epsilon, compute_lambda = FALSE)
-    #}
+    deasol <- model_multiplier(datadea = datadea, dmu_eval = dmu_eval, dmu_ref = dmu_ref,
+                               orientation = orientation, rts = rts, L = L, U = U,
+                               epsilon = epsilon, compute_lambda = FALSE)
     
   } else {
     stop("Input should be a dea or deadata class object!")

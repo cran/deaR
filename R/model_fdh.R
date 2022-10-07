@@ -1,6 +1,8 @@
 #' @title Free disposal hull (FDH) model.
 #'   
-#' @description  FDH model allows the free disposability to construct the production possiblity set. The central feature of the FDH model is the lack of convexity for its production possibility set (Thrall, 1999).
+#' @description  FDH model allows the free disposability to construct the production
+#' possibility set. The central feature of the FDH model is the lack of convexity
+#' for its production possibility set (Thrall, 1999).
 #' 
 #' @usage model_fdh(datadea,
 #'           fdh_modelname = c("basic"),
@@ -8,7 +10,9 @@
 #' 
 #' @param datadea The data, including DMUs, inputs and outputs.
 #' @param fdh_modelname A string containing the name of the model to apply FDH.
+#' For now, only "basic" is available.
 #' @param ... \code{dmu_eval}, \code{dmu_ref}, \code{orientation} and other model parameters.
+#' Parameters like \code{rts}, \code{max_slack} and \code{returnlp} are ignored.
 #'     
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).
@@ -23,13 +27,19 @@
 #' University of Valencia (Spain)
 #'  
 #' @references
-#' Cherchye, L.; Kuosmanen, T.; Post, T. (2000). "What Is the Economic Meaning of FDH? A Reply to Thrall". Journal of Productivity Analysis, 13(3), 263–267. 
+#' Cherchye, L.; Kuosmanen, T.; Post, T. (2000). "What Is the Economic Meaning of
+#' FDH? A Reply to Thrall". Journal of Productivity Analysis, 13(3), 263–267. 
 #' 
-#' Deprins, D.; Simar, L. and Tulkens, H. (1984). Measuring Labor-Efficiency in Post Offices. In M. Marchand, P. Pestieau and H. Tulkens (eds.), The Performance of Public Entreprises: Concepts and Measurement. Amsterdam: North-Holland.
+#' Deprins, D.; Simar, L. and Tulkens, H. (1984). Measuring Labor-Efficiency in
+#' Post Offices. In M. Marchand, P. Pestieau and H. Tulkens (eds.), The Performance
+#' of Public Entreprises: Concepts and Measurement. Amsterdam: North-Holland.
 #' 
-#' Sanei, M.; Mamizadeh Chatghayeb, S. (2013). “Free Disposal Hull Models in Supply Chain Management”, International Journal of Mathematical Modelling and Computations, 3(3), 125-129.
+#' Sanei, M.; Mamizadeh Chatghayeb, S. (2013). “Free Disposal Hull Models in
+#' Supply Chain Management”, International Journal of Mathematical Modelling and
+#' Computations, 3(3), 125-129.
 #' 
-#' Thrall, R. M. (1999).  "What Is the Economic Meaning of FDH?", Journal of Productivity Analysis, 11(3), 243–50. 
+#' Thrall, R. M. (1999).  "What Is the Economic Meaning of FDH?", Journal of
+#' Productivity Analysis, 11(3), 243–50. 
 #' 
 #' @examples 
 #' # Example 1. FDH input-oriented.
@@ -57,7 +67,7 @@
   
 model_fdh <-
   function(datadea,
-           fdh_modelname = c("basic"),
+           fdh_modelname = c("basic"), # It can be generalized to other models in the future
            ...) {
     
   # Cheking whether datadea is of class "deadata" or not...  
@@ -71,21 +81,18 @@ model_fdh <-
   model_modelname <- paste("model", fdh_modelname, sep = "_")
   optlist <- list(...)
   if ("rts" %in% names(optlist)) {
-    optlist$rts <- "vrs"
+    #optlist$rts <- "vrs" # lpSolve and Rglpk do not work properly with binary variables
+    optlist$rts <- "crs"
   }
   optlist$returnlp <- TRUE
   optlist$datadea <- datadea
   deasol <- do.call(model_modelname,
                     optlist)
-  # deasol <- do.call(model_modelname,
-  #                   list(datadea = datadea,
-  #                        rts = "vrs",
-  #                        returnlp = TRUE,
-  #                        ...))
   
   if (!is.null(datadea$ud_inputs) || !is.null(datadea$ud_outputs)) {
     if (fdh_modelname == "basic") {
-      res_und <- undesirable_basic(datadea = datadea, vtrans_i = deasol$vtrans_i, vtrans_o = deasol$vtrans_o)
+      res_und <- undesirable_basic(datadea = datadea, vtrans_i = deasol$vtrans_i,
+                                   vtrans_o = deasol$vtrans_o)
       datadea <- res_und$u_datadea
     }
   }
@@ -106,13 +113,13 @@ model_fdh <-
   ncd_inputs <- c(datadea$nc_inputs, datadea$nd_inputs)
   ncd_outputs <- c(datadea$nc_outputs, datadea$nd_outputs)
   
-  binary.vec = (2 : (ndr + 1))
-  
   dmu_eval <- deasol$dmu_eval
   nde <- length(dmu_eval)
   
   DMU <- vector(mode = "list", length = nde)
   names(DMU) <- dmunames[dmu_eval]
+  
+  binary.vec = (2 : (ndr + 1)) # lambdas. This is valid for model_basic
   
   for (i in 1:nde) {
     
@@ -124,9 +131,37 @@ model_fdh <-
     f.dir <- deasol$DMU[[i]]$const.dir
     f.rhs <- deasol$DMU[[i]]$const.rhs
     
-    res <- lp(obj, f.obj, f.con, f.dir, f.rhs, binary.vec = binary.vec)$solution
+    # lpSolve and Rglpk do not work properly with binary variables
+    # res <- lp(obj, f.obj, f.con, f.dir, f.rhs, binary.vec = binary.vec)$solution
+    # kkmax <- (obj == "max")
+    # res <- Rglpk_solve_LP(obj = f.obj, mat = f.con, dir = f.dir, rhs = f.rhs,
+    #                       types = c("C", rep("B", ndr)), max = kkmax)$solution
     
-    if (fdh_modelname == "basic") {
+    ### Alternative ###
+    
+    scoreskk <- rep(NA, ndr)
+    f.objkk <- f.obj[1]
+    f.conkk <- matrix(f.con[, 1], ncol = 1)
+    
+    for (j in 1:ndr) {
+      f.rhskk <- f.rhs - f.con[, j + 1]
+      reskk <- lp(obj, f.objkk, f.conkk, f.dir, f.rhskk)
+      if (reskk$status == 0) {
+        scoreskk[j] <- reskk$solution[1]
+      }
+    }
+    res <- rep(0, ndr + 1)
+    if (obj == "min") {
+      res[1] <- min(scoreskk, na.rm = TRUE)
+    } else {
+      res[1] <- max(scoreskk, na.rm = TRUE)
+    }
+    jkk <- which(scoreskk == res[1])[1]
+    res[jkk + 1] <- 1
+    
+    ### End Alternative ###
+    
+    if (fdh_modelname == "basic") { # Prepared for generalization to other models
       
       lambda <- res[binary.vec]
       names(lambda) <- dmunames[dmu_ref]
@@ -177,10 +212,10 @@ model_fdh <-
         
         beta <- res[1]
         
-        slack_input <- input[, ii] - beta * deasol$orientation$dir_input[, ii] - target_input
+        slack_input <- input[, ii] - beta * deasol$orientation_param$dir_input[, ii] - target_input
         slack_input[ncd_inputs] <- input[, ii] - target_input
         names(slack_input) <- inputnames
-        slack_output <- target_output - output[, ii] - beta * deasol$orientation$dir_output[, ii]
+        slack_output <- target_output - output[, ii] - beta * deasol$orientation_param$dir_output[, ii]
         slack_output[ncd_outputs] <- target_output - output[, ii]
         names(slack_output) <- outputnames
         

@@ -13,7 +13,8 @@ Data frame with 9 rows and 4 columns. Definition of inputs (X) and outputs (Y):
 }
 }
 \source{
-Tone, K. (2003). "Dealing with undesirable outputs in DEA: A Slacks-Based Measure (SBM) approach", GRIPS Research Report Series I-2003-0005.
+Tone, K. (2003). "Dealing with undesirable outputs in DEA: A Slacks-Based
+Measure (SBM) approach", GRIPS Research Report Series I-2003-0005.
 }
 \usage{
 data("Tone2003")

@@ -33,7 +33,8 @@
 #' University of Valencia (Spain) 
 #' 
 #' @references 
-#' Tone, K. (2010). "Variations on the theme of slacks-based measure of efficiency in DEA", European Journal of Operational Research, 200, 901-907. \doi{10.1016/j.ejor.2009.01.027}
+#' Tone, K. (2010). "Variations on the theme of slacks-based measure of efficiency in DEA",
+#' European Journal of Operational Research, 200, 901-907. \doi{10.1016/j.ejor.2009.01.027}
 #' 
 #' @examples
 #' \dontrun{
@@ -80,7 +81,6 @@ maximal_friends <- function(datadea,
   }
   names(dmu_ref) <- dmunames[dmu_ref]
   
-  # tol <- 1e-6
   
   # Find efficient DMUs in dmu_ref
   result_sbm <- model_sbmeff(datadea = datadea,
@@ -109,10 +109,10 @@ maximal_friends <- function(datadea,
   
   maxfr <- list()
   nomaxfr <- list()
-  cand <- list() # candidatos
+  cand <- list() # candidates
   
   cand <- append(cand, 1:ne) 
-  #cand <- lapply(1:ne, FUN = function(x){x}) # Esto es equivalente
+  #cand <- lapply(1:ne, FUN = function(x){x}) # This is equivalent
   
   for (k in seq_len(ne - 1)) {
     
@@ -128,9 +128,6 @@ maximal_friends <- function(datadea,
       if (jk < ne) {
         for (j in seq(from = jk + 1, to = ne)) {
           dmu_eval <- c(cand[[kk]], j)
-          #kkprueba <- is.friends(datadea = datadeaeff, dmu_eval = dmu_eval, rts = rts)
-          #if (kkprueba == 2) {print(effDMUs[dmu_eval])}
-          #if (is.friends(datadea = datadeaeff, dmu_eval = dmu_eval, rts = rts)) {
           if (is.friends(datadea = datadea, dmu_eval = effDMUs[dmu_eval], dmu_ref = effDMUs, rts = rts)) {
             nomaxfr <- c(nomaxfr, list(dmu_eval))
             aux <- FALSE
@@ -187,7 +184,8 @@ maximal_friends <- function(datadea,
 #  
 #  for (k in seq_len(ne - 2)) {
 #    if (!silent) {
-#      print(paste("Step", toString(k), "of", toString(ne - 2), "(computing", toString((ne - k + 1) * (length(nomaxfr))), "subsets)"))
+#      print(paste("Step", toString(k), "of", toString(ne - 2),
+#                  "(computing", toString((ne - k + 1) * (length(nomaxfr))), "subsets)"))
 #    }
 #    cand <- nomaxfr
 #    nomaxfr <- list()

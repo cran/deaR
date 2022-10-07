@@ -4,7 +4,8 @@
 #' 
 #' @usage slacks(deasol)
 #' 
-#' @param deasol Object of class \code{dea} or \code{dea_fuzzy} obtained with some of the DEA model functions.
+#' @param deasol Object of class \code{dea} or \code{dea_fuzzy} obtained with some
+#' of the DEA model functions.
 #'   
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).
@@ -19,14 +20,14 @@
 #' University of Valencia (Spain)
 #' 
 #' @examples 
-#'  data("Coll_Blasco_2006")
-#'  data_example <- read_data(Coll_Blasco_2006,
-#'                            ni = 2, 
-#'                            no = 2)
-#'  result <- model_multiplier(data_example,
-#'                             orientation = "io", 
-#'                             rts = "crs")
-#'  slacks(result)
+#' data("Coll_Blasco_2006")
+#' data_example <- read_data(Coll_Blasco_2006,
+#'                           ni = 2, 
+#'                           no = 2)
+#' result <- model_multiplier(data_example,
+#'                            orientation = "io", 
+#'                            rts = "crs")
+#' slacks(result)
 #'  
 #' @export
 
@@ -36,26 +37,17 @@ slacks <- function(deasol) {
   
   if (is.dea(deasol)) {
       
-      #dmunames_eval <- deasol$data$dmunames[deasol$dmu_eval]
-      #inputnames <- rownames(deasol$data$input)
-      #outputnames <- rownames(deasol$data$output)
-      
       slack_input <- NULL
       if ("slack_input" %in% names(deasol$DMU[[1]])) {
         slack_input <- do.call(rbind, lapply(deasol$DMU, function(x)
           x$slack_input))
       }
-      #rownames(slack_input) <- dmunames_eval
-      #colnames(slack_input) <- inputnames
       
       slack_output <- NULL
       if ("slack_output" %in% names(deasol$DMU[[1]])) {
         slack_output <- do.call(rbind, lapply(deasol$DMU, function(x)
           x$slack_output))
       }
-      #rownames(slack_output) <- dmunames_eval
-      #colnames(slack_output) <- outputnames
-      
       
       t_input <- NULL
       t_output <- NULL
@@ -87,7 +79,6 @@ slacks <- function(deasol) {
     inputnames <- rownames(deasol$data$input$mL)
     outputnames <- rownames(deasol$data$output$mL)
     nde <- length(deasol$dmu_eval)
-    #ndr <- length(deasol$dmu_ref)
     ni <- length(deasol$data$input$mL[, 1])
     no <- length(deasol$data$output$mL[, 1])
     

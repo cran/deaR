@@ -44,14 +44,23 @@ efficiencies(result)
  
 }
 \references{
-Emrouznejad, A.; Tavana, M.; Hatami-Marbini, A. (2014). “The State of the Art in Fuzzy Data Envelopment Analysis”, in A. Emrouznejad and M. Tavana (eds.), Performance Measurement with Fuzzy Data Envelopment Analysis. Studies in Fuzziness and Soft Computing 309. Springer, Berlin. \doi{10.1007/978-3-642-41372-8_1}
+Emrouznejad, A.; Tavana, M.; Hatami-Marbini, A. (2014). “The State of the Art
+in Fuzzy Data Envelopment Analysis”, in A. Emrouznejad and M. Tavana (eds.),
+Performance Measurement with Fuzzy Data Envelopment Analysis. Studies in Fuzziness
+and Soft Computing 309. Springer, Berlin. \doi{10.1007/978-3-642-41372-8_1}
 
-Hatami-Marbini, A.; Emrouznejad, A.; Tavana, M. (2011). "A Taxonomy and Review of the Fuzzy Data Envelopment Analysis Literature: Two Decades in the Making", European Journal of Operational Research, 214, 457–472. \doi{10.1016/j.ejor.2011.02.001}
+Hatami-Marbini, A.; Emrouznejad, A.; Tavana, M. (2011). "A Taxonomy and Review
+of the Fuzzy Data Envelopment Analysis Literature: Two Decades in the Making",
+European Journal of Operational Research, 214, 457–472.
+\doi{10.1016/j.ejor.2011.02.001}
 
-Léon, T.; Liern, V. Ruiz, J.; Sirvent, I. (2003). "A Possibilistic Programming Approach to the Assessment of Efficiency with DEA Models", Fuzzy Sets and Systems, 139, 407–419. \doi{10.1016/S0165-0114(02)00608-5}
+Leon, T.; Liern, V. Ruiz, J.; Sirvent, I. (2003). "A Possibilistic Programming
+Approach to the Assessment of Efficiency with DEA Models", Fuzzy Sets and Systems,
+139, 407–419. \doi{10.1016/S0165-0114(02)00608-5}
 }
 \seealso{
-\code{\link{model_basic}}, \code{\link{modelfuzzy_kaoliu}}, \code{\link{modelfuzzy_guotanaka}}
+\code{\link{model_basic}}, \code{\link{modelfuzzy_kaoliu}},
+\code{\link{modelfuzzy_guotanaka}}
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

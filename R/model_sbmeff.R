@@ -21,26 +21,31 @@
 #' 
 #' @param datadea The data, including \code{n} DMUs, \code{m} inputs and \code{s} outputs.
 #' @param dmu_eval A numeric vector containing which DMUs have to be evaluated.
-#'                 If \code{NULL} (default), all DMUs are considered.
+#' If \code{NULL} (default), all DMUs are considered.
 #' @param dmu_ref A numeric vector containing which DMUs are the evaluation reference set.
-#'                If \code{NULL} (default), all DMUs are considered.
-#' @param weight_input A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the length of \code{dmu_eval})
-#'                     with weights to inputs corresponding to the relative importance of items.
-#' @param weight_output A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the length of \code{dmu_eval})
-#'                      with weights to outputs corresponding to the relative importance of items.
-#' @param orientation A string, equal to "no" (non-oriented), "io" (input-oriented) or "oo" (output-oriented).
+#' If \code{NULL} (default), all DMUs are considered.
+#' @param weight_input A value, vector of length \code{m}, or matrix \code{m} x
+#' \code{ne} (where \code{ne} is the length of \code{dmu_eval}) with weights to
+#' inputs corresponding to the relative importance of items.
+#' @param weight_output A value, vector of length \code{m}, or matrix \code{m} x
+#' \code{ne} (where \code{ne} is the length of \code{dmu_eval}) with weights to
+#' outputs corresponding to the relative importance of items.
+#' @param orientation A string, equal to "no" (non-oriented), "io" (input-oriented)
+#' or "oo" (output-oriented).
 #' @param rts A string, determining the type of returns to scale, equal to "crs" (constant),
-#'            "vrs" (variable), "nirs" (non-increasing), "ndrs" (non-decreasing) or "grs" (generalized).
+#' "vrs" (variable), "nirs" (non-increasing), "ndrs" (non-decreasing) or "grs" (generalized).
 #' @param L Lower bound for the generalized returns to scale (grs).
 #' @param U Upper bound for the generalized returns to scale (grs).
-#' @param kaizen Logical. If \code{TRUE}, the kaizen version of SBM (Tone 2010), also known as SBM-Max, is computed.
-#' @param maxfr A list with the maximal friends sets, as it is returned by function \code{maximal_friends}. If \code{NULL} (default)
-#'              this list is computed internally.
+#' @param kaizen Logical. If \code{TRUE}, the kaizen version of SBM (Tone 2010),
+#' also known as SBM-Max, is computed.
+#' @param maxfr A list with the maximal friends sets, as it is returned by function
+#' \code{maximal_friends}. If \code{NULL} (default) this list is computed internally.
 #' @param tol Numeric, a tolerance margin for checking efficiency (only for the kaizen version).
-#' @param silent Logical. If \code{FALSE} (default) it prints all the messages from function \code{maximal_friends}.
+#' @param silent Logical. If \code{FALSE} (default) it prints all the messages from
+#' function \code{maximal_friends}.
 #' @param compute_target Logical. If it is \code{TRUE}, it computes targets. 
-#' @param returnlp Logical. If it is \code{TRUE}, it returns the linear problems (objective function and constraints).
-#'                 If \code{kaizen} is \code{TRUE} it is ignored.
+#' @param returnlp Logical. If it is \code{TRUE}, it returns the linear problems
+#' (objective function and constraints). If \code{kaizen} is \code{TRUE} it is ignored.
 #' @param ... Other options (currently not implemented)
 #' 
 #' @author 
@@ -56,11 +61,15 @@
 #' University of Valencia (Spain) 
 #' 
 #' @references 
-#' Tone, K. (2001). "A Slacks-Based Measure of Efficiency in Data Envelopment Analysis", European Journal of Operational Research, 130, 498-509. \doi{10.1016/S0377-2217(99)00407-5}
+#' Tone, K. (2001). "A Slacks-Based Measure of Efficiency in Data Envelopment Analysis",
+#' European Journal of Operational Research, 130, 498-509. \doi{10.1016/S0377-2217(99)00407-5}
 #'
-#' Tone, K. (2010). "Variations on the theme of slacks-based measure of efficiency in DEA", European Journal of Operational Research, 200, 901-907. \doi{10.1016/j.ejor.2009.01.027}
+#' Tone, K. (2010). "Variations on the theme of slacks-based measure of efficiency in DEA",
+#' European Journal of Operational Research, 200, 901-907. \doi{10.1016/j.ejor.2009.01.027}
 #'
-#' Cooper, W.W.; Seiford, L.M.; Tone, K. (2007). Data Envelopment Analysis. A Comprehensive Text with Models, Applications, References and DEA-Solver Software. 2nd Edition. Springer, New York. \doi{10.1007/978-0-387-45283-8}
+#' Cooper, W.W.; Seiford, L.M.; Tone, K. (2007). Data Envelopment Analysis. A Comprehensive
+#' Text with Models, Applications, References and DEA-Solver Software. 2nd Edition. Springer,
+#' New York. \doi{10.1007/978-0-387-45283-8}
 #' 
 #' @examples 
 #' # Replication of results in Tone (2001, p.505)
@@ -91,7 +100,8 @@
 #' targets(result)
 #'  
 #'  
-#' @seealso \code{\link{model_nonradial}}, \code{\link{model_deaps}}, \code{\link{model_profit}}, \code{\link{model_sbmsupereff}}
+#' @seealso \code{\link{model_nonradial}}, \code{\link{model_deaps}},
+#' \code{\link{model_profit}}, \code{\link{model_sbmsupereff}}
 #' 
 #' @import lpSolve
 #' 
@@ -118,21 +128,6 @@ model_sbmeff <-
   if (!is.deadata(datadea)) {
     stop("Data should be of class deadata. Run read_data function first!")
   }
-    
-  # Checking non-controllable or non-discretionary inputs/outputs
-  #if ((!is.null(datadea$nc_inputs)) || (!is.null(datadea$nc_outputs))
-  #    || (!is.null(datadea$nd_inputs)) || (!is.null(datadea$nd_outputs))) {
-  #  warning("This model does not take into account non-controllable or non-discretionary feature for inputs/outputs.")
-  #  datadea$nc_inputs <- NULL
-  #  datadea$nc_outputs <- NULL
-  #  datadea$nd_inputs <- NULL
-  #  datadea$nd_outputs <- NULL
-  #}
-    
-  # Checking undesirable io and rts
-  #if (!is.null(datadea$ud_inputs) || !is.null(datadea$ud_outputs)) {
-  #  warning("This model does not take into account the undesirable feature for inputs/outputs.")
-  #}
     
   # Checking orientation
   orientation <- tolower(orientation)
@@ -188,7 +183,8 @@ model_sbmeff <-
   nnco <- length(nc_outputs)
   ud_inputs <- datadea$ud_inputs
   if ((is.null(ud_inputs) == FALSE) && orientation != "oo"){
-    warning("Undesirable inputs with not output-oriented model could generate negative efficiencies. The lower the efficiency, the more inefficient the DMU.")
+    warning("Undesirable inputs with not output-oriented model could generate
+            negative efficiencies. The lower the efficiency, the more inefficient the DMU.")
   }
   ud_outputs <- datadea$ud_outputs
   aux_udi <- rep(1, ni)
@@ -273,14 +269,14 @@ model_sbmeff <-
       }
     }
     
-    # Matriz técnica
+    # Constraints matrix
     f.con.nc <- matrix(0, nrow = (nnci + nnco), ncol = (1 + ndr + ni + no))
     f.con.nc[, 1 + ndr + c(nc_inputs, ni + nc_outputs)] <- diag(nnci + nnco)
     
-    # Vector de dirección de restricciones
+    # Directions vector
     f.dir <- c(rep("=", 1 + ni + no + nnci + nnco), f.dir.rs)
     
-    # Vector de términos independientes
+    # Right hand side vector
     f.rhs <- c(1, rep(0, ni + no + nnci + nnco), f.rhs.rs)
     
     for (i in 1:nde) {
@@ -300,10 +296,10 @@ model_sbmeff <-
           stop("A sum of nonzero-input weights is 0.")
       }
       
-      # Vector de coeficientes de la función objetivo
+      # Objective function coefficients
       f.obj <- c(1, rep(0, ndr), -aux_i * weight_input[, i] / (nzi_sumwi * nzinput), rep(0, no))
       
-      # Matriz técnica
+      # Constraints matrix
       f.con.0 <- c(1, rep(0, ndr + ni), aux_o * weight_output[, i] / (sumwo[i] * output[, ii]))
       f.con.1 <- cbind(-input[, ii], inputref, diag(aux_udi), matrix(0, nrow = ni, ncol = no))
       f.con.2 <- cbind(-output[, ii], outputref, matrix(0, nrow = no, ncol = ni), -diag(aux_udo))
@@ -319,9 +315,10 @@ model_sbmeff <-
         names(tslack_input) <- inputnames
         tslack_output <- rep(0, no)
         names(tslack_output) <- outputnames
-        var <- list(t = t, tlambda = tlambda, tslack_input = tslack_input, tslack_output = tslack_output)
-        DMU[[i]] <- list(direction = "min", objective.in = f.obj, const.mat = f.con, const.dir = f.dir, const.rhs = f.rhs,
-                         var = var)
+        var <- list(t = t, tlambda = tlambda, tslack_input = tslack_input,
+                    tslack_output = tslack_output)
+        DMU[[i]] <- list(direction = "min", objective.in = f.obj, const.mat = f.con,
+                         const.dir = f.dir, const.rhs = f.rhs, var = var)
         
       } else {
         
@@ -463,20 +460,20 @@ model_sbmeff <-
             }
           }
           
-          # Matriz técnica
+          # Constraints matrix
           f.con.nc <- matrix(0, nrow = (nnci + nnco), ncol = (1 + ndr + ni + no))
           f.con.nc[, 1 + ndr + c(nc_inputs, ni + nc_outputs)] <- diag(nnci + nnco)
           
-          # Vector de dirección de restricciones
+          # Directions vector
           f.dir <- c(rep("=", 1 + ni + no + nnci + nnco), f.dir.rs)
           
-          # Vector de términos independientes
+          # Right hand side vector
           f.rhs <- c(1, rep(0, ni + no + nnci + nnco), f.rhs.rs)
           
-          # Vector de coeficientes de la función objetivo
+          # Objective function coefficients
           f.obj <- c(1, rep(0, ndr), -aux_i * weight_input[, i] / (nzi_sumwi * nzinput), rep(0, no))
           
-          # Matriz técnica
+          # Constraints matrix
           f.con.0 <- c(1, rep(0, ndr + ni), aux_o * weight_output[, i] / (sumwo[i] * output[, ii]))
           f.con.1 <- cbind(-input[, ii], inputref, diag(aux_udi), matrix(0, nrow = ni, ncol = no))
           f.con.2 <- cbind(-output[, ii], outputref, matrix(0, nrow = no, ncol = ni), -diag(aux_udo))
@@ -551,7 +548,8 @@ model_sbmeff <-
         kk <- DMU[[i]]$lambda[j]
         kk2 <- sum(DMU[[i]]$lambda[-j])
         if ((kk > eps) && (kk2 > eps)) {
-          warning(paste("Under generalized returns to scale,", dmunames[dmu_eval[i]], "appears in its own reference set."))
+          warning(paste("Under generalized returns to scale,", dmunames[dmu_eval[i]],
+                        "appears in its own reference set."))
         }
       }
     }

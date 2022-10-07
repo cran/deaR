@@ -2,7 +2,7 @@
 % Please edit documentation in R/efficiencies.R
 \name{efficiencies}
 \alias{efficiencies}
-\title{Efficiencies}
+\title{Objective scores}
 \usage{
 efficiencies(x, ...)
 }
@@ -12,6 +12,7 @@ efficiencies(x, ...)
 \item{...}{ignored}
 }
 \description{
-Extract the scores (optimal objective values) of the evaluated DMUs from a DEA / DEA fuzzy solution.
-Note that these scores may not always be interpreted as efficiencies.
+Extract the scores (optimal objective values) of the evaluated
+DMUs from a DEA / DEA fuzzy solution. Note that these scores may not always
+be interpreted as efficiencies.
 }

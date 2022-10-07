@@ -2,7 +2,7 @@
 % Please edit documentation in R/efficiencies.dea.R
 \name{efficiencies.dea}
 \alias{efficiencies.dea}
-\title{Efficiencies}
+\title{Objective scores}
 \usage{
 \method{efficiencies}{dea}(x, ...)
 }

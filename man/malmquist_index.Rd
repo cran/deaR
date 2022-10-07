@@ -41,10 +41,12 @@ change under vrs.}
 A numeric list with Malmquist index and other parameters.
 }
 \description{
-This function calculates the conventional input/output oriented Malmquist index under constant or variable returns-to-scale.
+This function calculates the conventional input/output oriented
+Malmquist index under constant or variable returns-to-scale.
 }
 \note{
-In the results: EC = Efficiency Change, PTEC = Pure Technical Efficiency Change, SEC = Scale Efficiency Change, TC = Technological Change, MI = Malmquist Index
+In the results: EC = Efficiency Change, PTEC = Pure Technical Efficiency Change,
+SEC = Scale Efficiency Change, TC = Technological Change, MI = Malmquist Index
 }
 \examples{
 # Example 1. With dataset in wide format.
@@ -104,25 +106,43 @@ mi_gl <- result_gl$mi
                               
 }
 \references{
-Caves, D.W.; Christensen, L. R.; Diewert, W.E. (1982). “The Economic Theory of Index Numbers and the Measurement of Input, Output, and Productivity”. Econometrica, 50(6), 1393-1414. 
+Caves, D.W.; Christensen, L. R.; Diewert, W.E. (1982). “The Economic Theory of
+Index Numbers and the Measurement of Input, Output, and Productivity”. Econometrica,
+50(6), 1393-1414. 
  
-Fare, R.; Grifell-Tatje, E.; Grosskopf, S.; Lovell, C.A.K. (1997). "Biased Technical Change and the Malmquist Productivity Index". Scandinavian Journal of Economics, 99(1), 119-127.
+Fare, R.; Grifell-Tatje, E.; Grosskopf, S.; Lovell, C.A.K. (1997). "Biased Technical
+Change and the Malmquist Productivity Index". Scandinavian Journal of Economics,
+99(1), 119-127.
 
-Fare, R.; Grosskopf, S.; Lindgren, B.; Roos, P. (1989). “Productivity Developments in Swedish Hospitals: A Malmquist Output Index Approach”. Discussion paper n. 89-3. Southern Illinois University. Illinois.
+Fare, R.; Grosskopf, S.; Lindgren, B.; Roos, P. (1989). “Productivity Developments
+in Swedish Hospitals: A Malmquist Output Index Approach”. Discussion paper n. 89-3.
+Southern Illinois University. Illinois.
 
-Fare, R.; Grosskopf, S.; Lindgren, B.; Roos, P. (1992). “Productivity changes in Swedish Pharmacies 1980-89: A nonparametric Malmquist Approach”. Journal of productivity Analysis, 3(3), 85-101. 
+Fare, R.; Grosskopf, S.; Lindgren, B.; Roos, P. (1992). “Productivity changes
+in Swedish Pharmacies 1980-89: A nonparametric Malmquist Approach”. Journal of
+productivity Analysis, 3(3), 85-101. 
 
-Fare, R.; Grosskopf, S.; Norris, M.; Zhang, Z. (1994). “Productivity Growth, Technical Progress, and Efficiency Change in Industrialized Countries”. American Economic Review, 84(1), 66-83. 
+Fare, R.; Grosskopf, S.; Norris, M.; Zhang, Z. (1994). “Productivity Growth,
+Technical Progress, and Efficiency Change in Industrialized Countries”.
+American Economic Review, 84(1), 66-83. 
 
-Fare, R.; Grosskopf, S.; Roos, P. (1998), Malmquist Productivity Indexes: A Survey of Theory and Practice. In: Fare R., Grosskopf S., Russell R.R. (eds) Index Numbers: Essays in Honour of Sten Malmquist. Springer.
+Fare, R.; Grosskopf, S.; Roos, P. (1998), Malmquist Productivity Indexes: A Survey
+of Theory and Practice. In: Fare R., Grosskopf S., Russell R.R. (eds)
+Index Numbers: Essays in Honour of Sten Malmquist. Springer.
 
-Grifell-Tatje, E.; Lovell, C.A.K. (1999). "A Generalized Malmquist productivity index". Top, 7(1), 81-101.  
+Grifell-Tatje, E.; Lovell, C.A.K. (1999). "A Generalized Malmquist productivity index".
+Top, 7(1), 81-101.  
 
-Pastor, J.T.; Lovell, C.A.k. (2005). "A global Malmquist productiviyt index". Economics Letters, 88, 266-271.  
+Pastor, J.T.; Lovell, C.A.k. (2005). "A global Malmquist productiviyt index".
+Economics Letters, 88, 266-271.  
 
-Ray, S.C.; Desli, E. (1997). "Productivity Growth, Technical Progress, and Efficiency Change in Industrialized Countries: Comment". The American Economic Review, 87(5), 1033-1039.
+Ray, S.C.; Desli, E. (1997). "Productivity Growth, Technical Progress, and
+Efficiency Change in Industrialized Countries: Comment". The American Economic Review,
+87(5), 1033-1039.
 
-Shestalova, V. (2003). "Sequential Malmquist Indices of Productivity Growth: An Application to OECD Industrial Activities". Journal of Productivity Analysis, 19, 211-226.
+Shestalova, V. (2003). "Sequential Malmquist Indices of Productivity Growth:
+An Application to OECD Industrial Activities". Journal of Productivity Analysis,
+19, 211-226.
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

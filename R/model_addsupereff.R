@@ -1,6 +1,8 @@
 #' @title Additive super-efficiency DEA model.
 #'   
-#' @description Solve the additive super-efficiency model proposed by Du, Liang and Zhu (2010). It is an extension of the SBM super-efficiency to the additive DEA model.
+#' @description Solve the additive super-efficiency model proposed by Du, Liang
+#' and Zhu (2010). It is an extension of the SBM super-efficiency to the additive
+#' DEA model.
 #' 
 #' @usage model_addsupereff(datadea,
 #'                   dmu_eval = NULL,
@@ -21,23 +23,30 @@
 #' @param dmu_ref A numeric vector containing which DMUs are the evaluation reference set.
 #' If \code{NULL} (default), all DMUs are considered.
 #' @param orientation This parameter is either \code{NULL} (default) or a string, equal to
-#'                    "io" (input-oriented) or "oo" (output-oriented). It is used to modify the weight slacks. 
-#'                    If input-oriented, \code{weight_slack_o} are taken 0.
-#'                    If output-oriented, \code{weight_slack_i} are taken 0.
-#' @param weight_slack_i A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the length of \code{dmu_eval})
-#'                   with the weights of the input superslacks (\code{t_input}).
-#'                   If 0, output-oriented.
-#'                   If \code{weight_slack_i} is the matrix of the inverses of inputs (of DMUS in \code{dmu_eval}), the model is unit invariant.
-#' @param weight_slack_o A value, vector of length \code{s}, or matrix \code{s} x \code{ne} (where \code{ne} is the length of \code{dmu_eval})
-#'                   with the weights of the output superslacks (\code{t_output}).
-#'                   If 0, input-oriented.
-#'                   If \code{weight_slack_o} is the matrix of the inverses of outputs (of DMUS in \code{dmu_eval}), the model is unit invariant.
-#' @param rts A string, determining the type of returns to scale, equal to "crs" (constant),
-#'            "vrs" (variable), "nirs" (non-increasing), "ndrs" (non-decreasing) or "grs" (generalized).
+#' "io" (input-oriented) or "oo" (output-oriented). It is used to modify the weight slacks. 
+#' If input-oriented, \code{weight_slack_o} are taken 0.
+#' If output-oriented, \code{weight_slack_i} are taken 0.
+#' @param weight_slack_i A value, vector of length \code{m}, or matrix \code{m} x
+#' \code{ne} (where \code{ne} is the length of \code{dmu_eval})
+#' with the weights of the input super-slacks (\code{t_input}).
+#' If 0, output-oriented.
+#' If \code{weight_slack_i} is the matrix of the inverses of inputs of DMUS in
+#' \code{dmu_eval} (default), the model is unit invariant.
+#' @param weight_slack_o A value, vector of length \code{s}, or matrix \code{s} x
+#' \code{ne} (where \code{ne} is the length of \code{dmu_eval})
+#' with the weights of the output super-slacks (\code{t_output}).
+#' If 0, input-oriented.
+#' If \code{weight_slack_o} is the matrix of the inverses of outputs of DMUS in
+#' \code{dmu_eval} (default), the model is unit invariant.
+#' @param rts A string, determining the type of returns to scale, equal to "crs"
+#' (constant), "vrs" (variable), "nirs" (non-increasing), "ndrs" (non-decreasing)
+#' or "grs" (generalized).
 #' @param L Lower bound for the generalized returns to scale (grs).
 #' @param U Upper bound for the generalized returns to scale (grs).
-#' @param compute_target Logical. If it is \code{TRUE}, it computes targets, projections and slacks. 
-#' @param returnlp Logical. If it is \code{TRUE}, it returns the linear problems (objective function and constraints).
+#' @param compute_target Logical. If it is \code{TRUE}, it computes targets,
+#' projections and slacks. 
+#' @param returnlp Logical. If it is \code{TRUE}, it returns the linear problems
+#' (objective function and constraints).
 #' @param ... Ignored, for compatibility issues.
 #'   
 #' @author 
@@ -53,9 +62,13 @@
 #' University of Valencia (Spain)
 #'  
 #' @references 
-#' Du, J.; Liang, L.; Zhu, J. (2010). "A Slacks-based Measure of Super-efficiency in Data Envelopment Analysis. A Comment", European Journal of Operational Research, 204, 694-697. \doi{10.1016/j.ejor.2009.12.007}
+#' Du, J.; Liang, L.; Zhu, J. (2010). "A Slacks-based Measure of Super-efficiency
+#' in Data Envelopment Analysis. A Comment", European Journal of Operational Research,
+#' 204, 694-697. \doi{10.1016/j.ejor.2009.12.007}
 #' 
-#' Zhu, J. (2014). Quantitative Models for Performance Evaluation and Benchmarking. Data Envelopment Analysis with Spreadsheets. 3rd Edition Springer, New York. Doi: 10.1007/978-3-319-06647-9.
+#' Zhu, J. (2014). Quantitative Models for Performance Evaluation and Benchmarking.
+#' Data Envelopment Analysis with Spreadsheets. 3rd Edition Springer, New York.
+#' \doi{10.1007/978-3-319-06647-9}
 #' 
 #' @examples 
 #' # Replication of results in Du, Liang and Zhu (2010, Table 6, p.696)
@@ -67,7 +80,8 @@
 #'                             rts = "crs")  
 #' efficiencies(result)
 #' 
-#' @seealso \code{\link{model_additive}}, \code{\link{model_supereff}},  \code{\link{model_sbmsupereff}}
+#' @seealso \code{\link{model_additive}}, \code{\link{model_supereff}}, 
+#' \code{\link{model_sbmsupereff}}
 #' 
 #' @import lpSolve
 #' 
@@ -91,26 +105,11 @@ model_addsupereff <-
   if (!is.deadata(datadea)) {
     stop("Data should be of class deadata. Run read_data function first!")
   }
-    
-  #Checking non-controllable or non-discretionary inputs/outputs
-  #if ((!is.null(datadea$nc_inputs)) || (!is.null(datadea$nc_outputs))
-  #    || (!is.null(datadea$nd_inputs)) || (!is.null(datadea$nd_outputs))) {
-  #  warning("This model does not take into account non-controllable or non-discretionary feature for inputs/outputs.")
-  #  datadea$nc_inputs <- NULL
-  #  datadea$nc_outputs <- NULL
-  #  datadea$nd_inputs <- NULL
-  #  datadea$nd_outputs <- NULL
-  #}
       
   # Checking rts
   rts <- tolower(rts)
   rts <- match.arg(rts)
   
-  # Checking undesirable io and rts
-  #if (((!is.null(datadea$ud_inputs)) || (!is.null(datadea$ud_outputs))) && (rts != "vrs")) {
-  #  rts <- "vrs"
-  #  warning("Returns to scale changed to variable (vrs) because there is data with undesirable inputs/outputs.")
-  #}
   if (!is.null(datadea$ud_inputs) || !is.null(datadea$ud_outputs)) {
     warning("This model does not take into account the undesirable feature for inputs/outputs.")
   }
@@ -241,7 +240,7 @@ model_addsupereff <-
     }
   }
   
-  # Matriz técnica
+  # Constraints matrix
   f.con.1 <- cbind(inputref, -diag(ni), matrix(0, nrow = ni, ncol = no))
   f.con.2 <- cbind(outputref, matrix(0, nrow = no, ncol = ni), diag(no))
   
@@ -254,10 +253,10 @@ model_addsupereff <-
     w0o <- which(weight_slack_o[, i] == 0)
     nw0o <- length(w0o)
     
-    # Vector de coeficientes de la función objetivo
+    # Objective function coefficients
     f.obj <- c(rep(0, ndr), weight_slack_i[, i], weight_slack_o[, i])
     
-    # Matriz técnica
+    # Constraints matrix
     f.con.se <- rep(0, ndr)
     f.con.se[dmu_ref == ii] <- 1
     f.con.se <- c(f.con.se, rep(0, ni + no))
@@ -265,12 +264,12 @@ model_addsupereff <-
     f.con.w0[, ndr + c(w0i, ni + w0o)] <- diag(nw0i + nw0o)
     f.con <- rbind(f.con.1, f.con.2, f.con.se, f.con.w0, f.con.rs)
     
-    # Vector de dirección de restricciones
+    # Directions vector
     f.dir <- c(rep("<=", ni), rep(">=", no), rep("=", 1 + nw0i + nw0o), f.dir.rs)
     f.dir[nc_inputs] <- "="
     f.dir[ni + nc_outputs] <- "="
     
-    # Vector de términos independientes
+    # Right hand side vector
     f.rhs <- c(input[, ii], output[, ii], rep(0, 1 + nw0i + nw0o), f.rhs.rs)
     
     if (returnlp) {
@@ -282,8 +281,8 @@ model_addsupereff <-
       t_output <- rep(0, no)
       names(t_output) <- outputnames
       var <- list(lambda = lambda, t_input = t_input, t_output = t_output)
-      DMU[[i]] <- list(direction = "min", objective.in = f.obj, const.mat = f.con, const.dir = f.dir, const.rhs = f.rhs,
-                       var = var)
+      DMU[[i]] <- list(direction = "min", objective.in = f.obj, const.mat = f.con,
+                       const.dir = f.dir, const.rhs = f.rhs, var = var)
       
     } else {
     

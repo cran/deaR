@@ -16,11 +16,15 @@ Data frame with 15 rows and 7 columns. Definition of inputs (X) and outputs (Y):
 }
 }
 \source{
-Andersen, P.; Petersen, N.C. (1993). "A procedure for ranking efficient units in data envelopment analysis", Management Science, 39, 1261-1264.
+Andersen, P.; Petersen, N.C. (1993). "A procedure for ranking efficient
+units in data envelopment analysis", Management Science, 39, 1261-1264.
 
-Doyle, J. and Green R. (1993). "Data envelopment analysis and multiple criteria decision making", Omega, 21 (6), 713-715.  \code{doi}: 10.1016/0305-0483(93)90013-B
+Doyle, J. and Green R. (1993). "Data envelopment analysis and multiple criteria
+decision making", Omega, 21 (6), 713-715.  \doi{10.1016/0305-0483(93)90013-B}
 
-Tone, K. (2002). "A slacks-based measure of super-efficiency in data envelopment analysis", European Journal of Operational Research, 143, 32-41. \code{doi}: 10.1016/S0377-2217(01)00324-1
+Tone, K. (2002). "A slacks-based measure of super-efficiency in data envelopment
+analysis", European Journal of Operational Research, 143, 32-41.
+\doi{10.1016/S0377-2217(01)00324-1}
 }
 \usage{
 data("Power_plants")
@@ -36,8 +40,8 @@ data_example <- read_data(Power_plants,
                           ni = 4,
                           no = 2)
 result <- model_supereff(data_example,
-                         orientation="io",
-                         rts="crs")
+                         orientation = "io",
+                         rts = "crs")
 eff <- efficiencies(result)
 eff
 
@@ -47,15 +51,16 @@ data_example <- read_data(Power_plants,
                           ni = 4,
                           no = 2)
 result2 <- model_sbmsupereff(data_example,
-                             orientation="io",
-                             rts="crs")
+                             orientation = "io",
+                             rts = "crs")
 efficiencies(result2)
 slacks(result2)$input
 references(result2)
 
 }
 \seealso{
-\code{\link{read_data}}, \code{\link{model_supereff}}, \code{\link{model_sbmsupereff}}
+\code{\link{read_data}}, \code{\link{model_supereff}},
+\code{\link{model_sbmsupereff}}
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

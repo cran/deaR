@@ -1,7 +1,8 @@
-#' @title Efficiencies
+#' @title Objective scores
 #' 
-#' @description Extract the scores (optimal objective values) of the evaluated DMUs from a DEA / DEA fuzzy solution.
-#' Note that these scores may not always be interpreted as efficiencies.
+#' @description Extract the scores (optimal objective values) of the evaluated
+#' DMUs from a DEA / DEA fuzzy solution. Note that these scores may not always
+#' be interpreted as efficiencies.
 #' 
 #' @param x DEA / DEA fuzzy object
 #' @param ... ignored

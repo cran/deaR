@@ -1,6 +1,7 @@
 #' @title References
 #'   
-#' @description Extract the reference set for each DMU (inefficient DMUs and efficicent DMUs that are combination of other efficient DMUs) from a DEA model solution.
+#' @description Extract the reference set for each DMU (inefficient DMUs and
+#' efficicent DMUs that are combination of other efficient DMUs) from a DEA model solution.
 #' 
 #' @usage references(deasol,
 #'            thr = 1e-4)
@@ -25,7 +26,7 @@
 #' # Replication results model DEA1 in Tomkins and Green (1988).
 #' data("Departments")
 #' # Calculate Total income
-#' Departments$Total_income <- Departments[, 5] + Departments[, 6]+Departments[, 7] 
+#' Departments$Total_income <- Departments[, 5] + Departments[, 6] + Departments[, 7] 
 #' data_DEA1 <- read_data(Departments,
 #'                        inputs = 9,
 #'                        outputs = c(2, 3, 4, 12))
@@ -57,8 +58,10 @@ references <- function(deasol,
       nde <- length(dmu_eval)
     }
     
+    # Alternatives in comment
+    
     if (nde > 0) {
-
+      
       #inputref <- matrix(deasol$data$input[, dmu_ref], nrow = ni) 
       #outputref <- matrix(deasol$data$output[, dmu_ref], nrow = no)
       #target_input <- t(inputref %*% t(lamb))

@@ -16,7 +16,9 @@ Data frame with 13 rows and 6 columns. Definition of inputs (X) and outputs (Y):
 }
 }
 \source{
-Doyle, J.; Green, R. (1994). “Efficiency and cross efficiency in DEA: derivations, meanings and the uses”,  Journal of Operational Research Society, 45(5), 567–578. \code{doi}: 10.2307/2584392
+Doyle, J.; Green, R. (1994). “Efficiency and cross efficiency in DEA:
+derivations, meanings and the uses”,  Journal of Operational Research Society,
+45(5), 567–578. \doi{10.2307/2584392}
 }
 \usage{
 data("Doyle_Green_1994")
@@ -43,7 +45,8 @@ result$M3_agg$cross_eff
 
 }
 \seealso{
-\code{\link{read_data}}, \code{\link{model_multiplier}}, \code{\link{cross_efficiency}}
+\code{\link{read_data}}, \code{\link{model_multiplier}},
+\code{\link{cross_efficiency}}
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

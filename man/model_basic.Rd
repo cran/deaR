@@ -2,7 +2,7 @@
 % Please edit documentation in R/model_basic.R
 \name{model_basic}
 \alias{model_basic}
-\title{Basic (radial) DEA model.}
+\title{Basic (radial and directional) DEA model.}
 \usage{
 model_basic(datadea,
             dmu_eval = NULL,
@@ -24,22 +24,30 @@ model_basic(datadea,
             ...)
 }
 \arguments{
-\item{datadea}{The data, including \code{n} DMUs, \code{m} inputs and \code{s} outputs.}
+\item{datadea}{The data, including \code{n} DMUs, \code{m} inputs and \code{s}
+outputs.}
 
 \item{dmu_eval}{A numeric vector containing which DMUs have to be evaluated.
 If \code{NULL} (default), all DMUs are considered.}
 
-\item{dmu_ref}{A numeric vector containing which DMUs are the evaluation reference set.
+\item{dmu_ref}{A numeric vector containing which DMUs are the evaluation
+reference set.
 If \code{NULL} (default), all DMUs are considered.}
 
-\item{orientation}{A string, equal to "io" (input oriented), "oo" (output oriented), or "dir" (directional).}
+\item{orientation}{A string, equal to "io" (input oriented), "oo" (output
+oriented), or "dir" (directional).}
 
-\item{dir_input}{A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the length of \code{dmu_eval}) with the input directions.
-If \code{dir_input} == input matrix (of DMUS in \code{dmu_eval}) and \code{dir_output} == 0, it is equivalent to input oriented (\code{beta} = 1 - \code{efficiency}).
-If \code{dir_input} is omitted, input matrix (of DMUS in \code{dmu_eval}) is assigned.}
+\item{dir_input}{A value, vector of length \code{m}, or matrix \code{m} x \code{ne}
+(where \code{ne} is the length of \code{dmu_eval}) with the input directions.
+If \code{dir_input} == input matrix (of DMUS in \code{dmu_eval}) and
+\code{dir_output} == 0, it is equivalent to input oriented (\code{beta} = 1 -
+\code{efficiency}). If \code{dir_input} is omitted, input matrix (of DMUS in
+\code{dmu_eval}) is assigned.}
 
-\item{dir_output}{A value, vector of length \code{s}, or matrix \code{s} x \code{ne} (where \code{ne} is the length of \code{dmu_eval}) with the output directions.
-If \code{dir_input} == 0 and \code{dir_output} == output matrix (of DMUS in \code{dmu_eval}), it is equivalent to output oriented (\code{beta} = \code{efficiency} - 1).
+\item{dir_output}{A value, vector of length \code{s}, or matrix \code{s} x \code{ne}
+(where \code{ne} is the length of \code{dmu_eval}) with the output directions.
+If \code{dir_input} == 0 and \code{dir_output} == output matrix (of DMUS in
+\code{dmu_eval}), it is equivalent to output oriented (\code{beta} = \code{efficiency} - 1).
 If \code{dir_output} is omitted, output matrix (of DMUS in \code{dmu_eval}) is assigned.}
 
 \item{rts}{A string, determining the type of returns to scale, equal to "crs" (constant),
@@ -51,41 +59,63 @@ If \code{dir_output} is omitted, output matrix (of DMUS in \code{dmu_eval}) is a
 
 \item{maxslack}{Logical. If it is \code{TRUE}, it computes the max slack solution.}
 
-\item{weight_slack_i}{A value, vector of length \code{m}, or matrix \code{m} x \code{ne} (where \code{ne} is the length of \code{dmu_eval})
-with the weights of the input slacks for the max slack solution.}
+\item{weight_slack_i}{A value, vector of length \code{m}, or matrix \code{m} x \code{ne}
+(where \code{ne} is the length of \code{dmu_eval}) with the weights of the input slacks
+for the max slack solution.}
 
-\item{weight_slack_o}{A value, vector of length \code{s}, or matrix \code{s} x \code{ne} (where \code{ne} is the length of \code{dmu_eval})
-with the weights of the output slacks for the max slack solution.}
+\item{weight_slack_o}{A value, vector of length \code{s}, or matrix \code{s} x \code{ne}
+(where \code{ne} is the length of \code{dmu_eval}) with the weights of the output
+slacks for the max slack solution.}
 
-\item{vtrans_i}{Numeric vector of translation for undesirable inputs with non-directional orientation. If \code{vtrans_i[i]} is
-\code{NA}, then it applies the "max + 1" translation to the i-th undesirable input. If \code{vtrans_i} is
-a constant, then it applies the same translation to all undesirable inputs. If \code{vtrans_i} is \code{NULL},
+\item{vtrans_i}{Numeric vector of translation for undesirable inputs with non-directional
+orientation. If \code{vtrans_i[i]} is \code{NA}, then it applies the "max + 1" translation
+to the i-th undesirable input. If \code{vtrans_i} is a constant, then it applies
+the same translation to all undesirable inputs. If \code{vtrans_i} is \code{NULL},
 then it applies the "max + 1" translation to all undesirable inputs.}
 
-\item{vtrans_o}{Numeric vector of translation for undesirable outputs with non-directional orientation, analogous to
-\code{vtrans_i}, but applied to outputs.}
+\item{vtrans_o}{Numeric vector of translation for undesirable outputs with
+non-directional orientation, analogous to \code{vtrans_i}, but applied to outputs.}
 
-\item{compute_target}{Logical. If it is \code{TRUE}, it computes targets of the max slack solution.}
+\item{compute_target}{Logical. If it is \code{TRUE}, it computes targets of the
+max slack solution.}
 
-\item{compute_multiplier}{Logical. If it is \code{TRUE}, it computes multipliers (dual solution) when \code{orientation} is "io" or "oo".}
+\item{compute_multiplier}{Logical. If it is \code{TRUE}, it computes multipliers
+(dual solution) when \code{orientation} is "io" or "oo".}
 
-\item{returnlp}{Logical. If it is \code{TRUE}, it returns the linear problems (objective function and constraints) of stage 1.}
+\item{returnlp}{Logical. If it is \code{TRUE}, it returns the linear problems
+(objective function and constraints) of stage 1.}
 
 \item{...}{Ignored, for compatibility issues.}
 }
 \description{
-Solve input and output oriented basic DEA  models (envelopment form) under constant (CCR DEA model), variable (BCC DEA model), non-increasing, non-decreasing or generalized returns to scale. By default, models are solved in a two-stage process (DEA slacks are maximized).  
-  
-The model_basic function allows to treat with non-discretional, uncontrollable and undesirable inputs/outputs. 
+It solves input and output oriented, along with directional, basic
+DEA models (envelopment form) under constant (CCR model), variable (BCC model),
+non-increasing, non-decreasing or generalized returns to scale. By default,
+models are solved in a two-stage process (slacks are maximized).  
 
-Finally, you can use the \code{model_basic} function to solve directional DEA models by choosing \code{orientation} = "dir".
+You can use the \code{model_basic} function to solve directional DEA
+models by choosing \code{orientation} = "dir".
+
+The model_basic function allows to treat with non-discretional, non-controllable
+and undesirable inputs/outputs.
 }
 \note{
-(1) With undesirable inputs/outputs and non-directional orientation, you should select "vrs" returns to scale (BCC model) in order to maintain translation invariance (Seiford and Zhu, 2002). If deaR detects that you are not specifying \code{rts} = "vrs", it makes the change to "vrs" automatically. 
+(1) Model proposed by Seiford and Zhu (2002) is applied for undesirable
+inputs/outputs and non-directional orientation (i.e., input or output oriented).
+You should select "vrs" returns to scale (BCC model) in order to maintain translation
+invariance. If deaR detects that you are not specifying \code{rts} = "vrs", it
+makes the change to "vrs" automatically. 
 
-(2) With undesirable inputs and non-directional orientation use input-oriented BCC model, and with undesirable outputs and non-directional orientation use output-oriented BCC model. Alternatively, you can also treat the undesirable outputs as inputs and then apply the input-oriented BCC model (similarly with undesirable inputs).
+(2) With undesirable inputs and non-directional orientation use input-oriented
+BCC model, and with undesirable outputs and non-directional orientation use output-oriented
+BCC model. Alternatively, you can also treat the undesirable outputs as inputs
+and then apply the input-oriented BCC model (similarly with undesirable inputs).
 
-(3) With \code{orientation} = "dir" (directional distance function model), efficient DMUs are those for which \code{beta} = 0.
+(3) Model proposed by Fare and Grosskopf (2004) is applied for undesirable inputs/outputs
+and directional orientation.
+
+(4) With \code{orientation} = "dir" (directional distance function model), efficient
+DMUs are those for which \code{beta} = 0.
 }
 \examples{
 # Example 1. Basic DEA model with desirable inputs/outputs.
@@ -137,35 +167,51 @@ efficiencies(result)
  
 }
 \references{
-Charnes, A.; Cooper, W.W.; Rhodes, E. (1978). “Measuring the efficiency of decision making units”, European Journal of Operational Research 2, 429–444.
+Charnes, A.; Cooper, W.W.; Rhodes, E. (1978). “Measuring the efficiency of decision
+making units”, European Journal of Operational Research 2, 429–444.
 
-Charnes, A.; Cooper, W.W.; Rhodes, E. (1979). “Short communication: Measuring the efficiency of decision making units”, European Journal of Operational Research 3, 339. 
+Charnes, A.; Cooper, W.W.; Rhodes, E. (1979). “Short communication: Measuring the
+efficiency of decision making units”, European Journal of Operational Research 3, 339. 
 
-Charnes, A.; Cooper, W.W.; Rhodes, E. (1981). "Evaluating Program and Managerial Efficiency: An Application of Data Envelopment Analysis to Program Follow Through", Management Science, 27(6), 668-697. 
+Charnes, A.; Cooper, W.W.; Rhodes, E. (1981). "Evaluating Program and Managerial
+Efficiency: An Application of Data Envelopment Analysis to Program Follow Through",
+Management Science, 27(6), 668-697. 
 
-Banker, R.; Charnes, A.; Cooper, W.W. (1984). “Some Models for Estimating Technical and Scale Inefficiencies in Data Envelopment Analysis”, Management Science; 30; 1078-1092. 
+Banker, R.; Charnes, A.; Cooper, W.W. (1984). “Some Models for Estimating Technical
+and Scale Inefficiencies in Data Envelopment Analysis”, Management Science; 30; 1078-1092. 
 
 Undesirable inputs/outputs: 
 
-Pastor, J.T. (1996). "Translation Invariance in Data Envelopment Analysis: a Generalization", Annals of Operations Research, 66(2), 91-102. 
+Pastor, J.T. (1996). "Translation Invariance in Data Envelopment Analysis: a
+Generalization", Annals of Operations Research, 66(2), 91-102. 
 
-Seiford, L.M.; Zhu, J. (2002). “Modeling undesirable factors in efficiency evaluation”, European Journal of Operational Research 142, 16-20.
+Seiford, L.M.; Zhu, J. (2002). “Modeling undesirable factors in efficiency evaluation”,
+European Journal of Operational Research 142, 16-20.
 
-Färe, R. ; Grosskopf, S. (2004). “Modeling undesirable factors in efficiency evaluation: Comment”, European Journal of Operational Research 157, 242-245.
+Färe, R. ; Grosskopf, S. (2004). “Modeling undesirable factors in efficiency
+evaluation: Comment”, European Journal of Operational Research 157, 242-245.
 
-Hua Z.; Bian Y. (2007). DEA with Undesirable Factors. In: Zhu J., Cook W.D. (eds) Modeling Data Irregularities and Structural Complexities in Data Envelopment Analysis. Springer, Boston, MA. 
+Hua Z.; Bian Y. (2007). DEA with Undesirable Factors. In: Zhu J., Cook W.D. (eds)
+Modeling Data Irregularities and Structural Complexities in Data Envelopment Analysis.
+Springer, Boston, MA. 
 
 Non-discretionary/Non-controllable inputs/outputs:  
   
-Banker, R.; Morey, R. (1986). “Efficiency Analysis for Exogenously Fixed Inputs and Outputs”, Operations Research; 34; 513-521. 
+Banker, R.; Morey, R. (1986). “Efficiency Analysis for Exogenously Fixed Inputs
+and Outputs”, Operations Research; 34; 513-521. 
 
-Ruggiero J. (2007). Non-Discretionary Inputs. In: Zhu J., Cook W.D. (eds) Modeling Data Irregularities and Structural Complexities in Data Envelopment Analysis. Springer, Boston, MA.
+Ruggiero J. (2007). Non-Discretionary Inputs. In: Zhu J., Cook W.D. (eds) Modeling
+Data Irregularities and Structural Complexities in Data Envelopment Analysis.
+Springer, Boston, MA.
 
 Directional DEA model:  
 
-Chambers, R.G.; Chung, Y.; Färe, R. (1996). "Benefit and Distance Functions", Journal of Economic Theory, 70(2), 407-419. 
+Chambers, R.G.; Chung, Y.; Färe, R. (1996). "Benefit and Distance Functions",
+Journal of Economic Theory, 70(2), 407-419. 
 
-Chambers, R.G.; Chung, Y.; Färe, R. (1998). "Profit Directional Distance Functions and Nerlovian Efficiency", Journal of Optimization Theory and Applications, 95, 351-354.
+Chambers, R.G.; Chung, Y.; Färe, R. (1998). "Profit Directional Distance
+Functions and Nerlovian Efficiency", Journal of Optimization Theory and
+Applications, 95, 351-354.
 }
 \seealso{
 \code{\link{model_multiplier}}, \code{\link{model_supereff}}
