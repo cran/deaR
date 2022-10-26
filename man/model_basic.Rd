@@ -21,6 +21,7 @@ model_basic(datadea,
             compute_target = TRUE,
             compute_multiplier = FALSE,
             returnlp = FALSE,
+            silent_ud = FALSE,
             ...)
 }
 \arguments{
@@ -84,6 +85,9 @@ max slack solution.}
 
 \item{returnlp}{Logical. If it is \code{TRUE}, it returns the linear problems
 (objective function and constraints) of stage 1.}
+
+\item{silent_ud}{Logical. For internal use, to avoid multiple warnings in the execution
+of \code{malmquist_index} function with undesirable variables.}
 
 \item{...}{Ignored, for compatibility issues.}
 }

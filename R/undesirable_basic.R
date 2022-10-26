@@ -94,7 +94,7 @@ undesirable_basic <- function(datadea,
     for (j in ud_inputs) {
       input[j, ] <- vtrans_i[i] - input[j, ]
       if (length(input[j, input[j, ] < 0] > 0)) {
-        stop("There is at least one negative bad input. Change translation vector vtrans_i.")
+        stop("There is at least one negative good input. Change translation vector vtrans_i.")
       }
       i <- i + 1
     }
@@ -189,7 +189,7 @@ undesirable_basic <- function(datadea,
       input$mL[j, ] <- vtrans_i[i] - aux
       
       if (length(input$mL[j, (input$mL[j, ] - input$dL[j, ]) < 0] > 0)) {
-        stop("There is at least one negative bad input. Change translation vector vtrans_i.")
+        stop("There is at least one negative good input. Change translation vector vtrans_i.")
         print(j)
       }
       
@@ -252,8 +252,6 @@ undesirable_basic <- function(datadea,
       u_datadea = structure(u_datadea, class = "deadata_fuzzy"),
       vtrans_i = vtrans_i,
       vtrans_o = vtrans_o))
-    
-    return(structure(u_datadea, class = "deadata_fuzzy"))
     
   } else {
     stop("Data should be of class deadata or deadata_fuzzy.

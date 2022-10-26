@@ -11,7 +11,9 @@ malmquist_index(datadealist,
                 rts = c("crs", "vrs"),
                 type1 = c("cont", "seq", "glob"),
                 type2 = c("fgnz", "rd", "gl", "bias"),
-                tc_vrs = FALSE)
+                tc_vrs = FALSE,
+                vtrans_i = NULL,
+                vtrans_o = NULL)
 }
 \arguments{
 \item{datadealist}{A list with the data at different times, including DMUs, inputs and outputs.}
@@ -36,13 +38,22 @@ If \code{NULL} (default), all DMUs are considered.}
 \item{tc_vrs}{Logical. If it is \code{FALSE}, it computes the vrs bias malmquist index by using
 the technical change under crs (Fare and Grosskopf 1996). Otherwise, it uses the technical
 change under vrs.}
+
+\item{vtrans_i}{Numeric vector of translation for undesirable inputs in non-directional
+basic models. If \code{vtrans_i[i]} is \code{NA}, then it applies the "max + 1" translation
+to the i-th undesirable input. If \code{vtrans_i} is a constant, then it applies
+the same translation to all undesirable inputs. If \code{vtrans_i} is \code{NULL},
+then it applies the "max + 1" translation to all undesirable inputs.}
+
+\item{vtrans_o}{Numeric vector of translation for undesirable outputs in
+non-directional basic models, analogous to \code{vtrans_i}, but applied to outputs.}
 }
 \value{
 A numeric list with Malmquist index and other parameters.
 }
 \description{
-This function calculates the conventional input/output oriented
-Malmquist index under constant or variable returns-to-scale.
+This function calculates the input/output oriented
+Malmquist productivity index under constant or variable returns-to-scale.
 }
 \note{
 In the results: EC = Efficiency Change, PTEC = Pure Technical Efficiency Change,

@@ -45,6 +45,7 @@
 #'             compute_target = TRUE,
 #'             compute_multiplier = FALSE,
 #'             returnlp = FALSE,
+#'             silent_ud = FALSE,
 #'             ...)
 #' 
 #' @param datadea The data, including \code{n} DMUs, \code{m} inputs and \code{s}
@@ -91,6 +92,8 @@
 #' (dual solution) when \code{orientation} is "io" or "oo".
 #' @param returnlp Logical. If it is \code{TRUE}, it returns the linear problems
 #' (objective function and constraints) of stage 1.
+#' @param silent_ud Logical. For internal use, to avoid multiple warnings in the execution
+#' of \code{malmquist_index} function with undesirable variables.
 #' @param ... Ignored, for compatibility issues.
 #'   
 #' @author 
@@ -224,6 +227,7 @@ model_basic <-
            compute_target = TRUE,
            compute_multiplier = FALSE,
            returnlp = FALSE,
+           silent_ud = FALSE,
            ...) {
  
   # Cheking whether datadea is of class "deadata" or not...  
@@ -253,16 +257,17 @@ model_basic <-
         vtrans_i <- res_und$vtrans_i
         vtrans_o <- res_und$vtrans_o
       }
-      if (!is.null(datadea$ud_inputs) && (orientation != "io")) {
-        warning("Undesirable (good) inputs with no input-oriented model.")
-      }
-      if (!is.null(datadea$ud_outputs) && (orientation != "oo")) {
-        warning("Undesirable (bad) outputs with no output-oriented model.")
-      }
-      if (rts != "vrs") {
-        #rts <- "vrs"
-        warning("Returns to scale may be changed to variable (vrs) because there
+      if (!silent_ud) {
+        if (!is.null(datadea$ud_inputs) && (orientation != "io")) {
+          warning("Undesirable (good) inputs with no input-oriented model.")
+        }
+        if (!is.null(datadea$ud_outputs) && (orientation != "oo")) {
+          warning("Undesirable (bad) outputs with no output-oriented model.")
+        }
+        if (rts != "vrs") {
+          warning("Returns to scale may be changed to variable (vrs) because there
                 are data with undesirable inputs/outputs.")
+        }
       }
     }
   }

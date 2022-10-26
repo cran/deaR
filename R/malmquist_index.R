@@ -1,7 +1,7 @@
 #' @title Malmquist index
 #'   
-#' @description This function calculates the conventional input/output oriented
-#' Malmquist index under constant or variable returns-to-scale.
+#' @description This function calculates the input/output oriented
+#' Malmquist productivity index under constant or variable returns-to-scale.
 #' 
 #' @note In the results: EC = Efficiency Change, PTEC = Pure Technical Efficiency Change,
 #' SEC = Scale Efficiency Change, TC = Technological Change, MI = Malmquist Index 
@@ -13,7 +13,9 @@
 #'                 rts = c("crs", "vrs"),
 #'                 type1 = c("cont", "seq", "glob"),
 #'                 type2 = c("fgnz", "rd", "gl", "bias"),
-#'                 tc_vrs = FALSE)
+#'                 tc_vrs = FALSE,
+#'                 vtrans_i = NULL,
+#'                 vtrans_o = NULL)
 #' 
 #' @param datadealist A list with the data at different times, including DMUs, inputs and outputs.
 #' @param dmu_eval A numeric vector containing which DMUs have to be evaluated.
@@ -30,6 +32,13 @@
 #' @param tc_vrs Logical. If it is \code{FALSE}, it computes the vrs bias malmquist index by using
 #' the technical change under crs (Fare and Grosskopf 1996). Otherwise, it uses the technical
 #' change under vrs.
+#' @param vtrans_i Numeric vector of translation for undesirable inputs in non-directional
+#' basic models. If \code{vtrans_i[i]} is \code{NA}, then it applies the "max + 1" translation
+#' to the i-th undesirable input. If \code{vtrans_i} is a constant, then it applies
+#' the same translation to all undesirable inputs. If \code{vtrans_i} is \code{NULL},
+#' then it applies the "max + 1" translation to all undesirable inputs.
+#' @param vtrans_o Numeric vector of translation for undesirable outputs in
+#' non-directional basic models, analogous to \code{vtrans_i}, but applied to outputs.
 #'   
 #' @return A numeric list with Malmquist index and other parameters.
 #' 
@@ -152,7 +161,9 @@ malmquist_index <- function(datadealist,
                             rts = c("crs", "vrs"),
                             type1 = c("cont", "seq", "glob"),
                             type2 = c("fgnz", "rd", "gl", "bias"),
-                            tc_vrs = FALSE) {
+                            tc_vrs = FALSE,
+                            vtrans_i = NULL,
+                            vtrans_o = NULL) {
   
   nt <- length(datadealist)
   
@@ -218,24 +229,18 @@ malmquist_index <- function(datadealist,
   # Checking orientation
   orientation <- tolower(orientation)
   orientation <- match.arg(orientation)
-  if (orientation == "io") {
-    input <- array(0, dim = c(ni, nd, nt))
-    output <- array(0, dim = c(no, nd, nt))
-    for (t in 1:nt) {
-      input[, , t] <- datadealist[[t]]$input
-      output[, , t] <- datadealist[[t]]$output
-    }
-    obj <- "min"
-  } else {
-    ni <- nrow(datadealist[[1]]$output)
-    no <- nrow(datadealist[[1]]$input)
-    input <- array(0, dim = c(ni, nd, nt))
-    output <- array(0, dim = c(no, nd, nt))
-    for (t in 1:nt) {
-      input[, , t] <- -datadealist[[t]]$output
-      output[, , t] <- -datadealist[[t]]$input
-    }
-    obj <- "max"
+  
+  # Checking undesirable variables
+  if (!is.null(datadealist[[1]]$ud_inputs) || !is.null(datadealist[[1]]$ud_outputs)) {
+    warning("There are undesirable variables and some efficiencies are computed under constant
+            returns to scale.")
+  }
+
+  input <- array(0, dim = c(ni, nd, nt))
+  output <- array(0, dim = c(no, nd, nt))
+  for (t in 1:nt) {
+    input[, , t] <- datadealist[[t]]$input
+    output[, , t] <- datadealist[[t]]$output
   }
   
   mi <- matrix(0, nrow = nt - 1, ncol = nde)
@@ -280,271 +285,448 @@ malmquist_index <- function(datadealist,
   
   if (type1 == "cont") {
     
-    f.obj <- c(1, rep(0, ndr))
-    f.dir <- c(rep("<=", ni), rep(">=", no))
-    f.dirv <- c(f.dir, "=")
-    f.con.vrs <- cbind(0, matrix(1, nrow = 1, ncol = ndr))
+    datadea <- datadealist[[1]]
+    eff[1, ] <- efficiencies(
+      model_basic(datadea, dmu_eval = dmu_eval, dmu_ref = dmu_ref,
+                  orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                  vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)
+    )
+    effv[1, ] <- efficiencies(
+      model_basic(datadea, dmu_eval = dmu_eval, dmu_ref = dmu_ref, rts = "vrs",
+                  orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                  vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)
+    )
     
-    for (i in 1:nde) {
+    dmu_ref_cont <- dmu_ref + 1
+    
+    for (t in 2:nt) {
       
-      ii <- dmu_eval[i]
+      datadea <- datadealist[[t]]
+      eff[t, ] <- efficiencies(
+        model_basic(datadea, dmu_eval = dmu_eval, dmu_ref = dmu_ref,
+                    orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                    vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)
+      )
+      effv[t, ] <- efficiencies(
+        model_basic(datadea, dmu_eval = dmu_eval, dmu_ref = dmu_ref, rts = "vrs",
+                    orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                    vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)
+      )
       
-      f.con.1 <- cbind(-input[, ii, 1], matrix(input[, dmu_ref, 1], nrow = ni))
-      f.con.2 <- cbind(matrix(0, nrow = no, ncol = 1),
-                       matrix(output[, dmu_ref, 1], nrow = no))
-      f.con1 <- rbind(f.con.1, f.con.2)
+      # Intertemporal scores 
       
-      f.rhs1 <- c(rep(0, ni), output[, ii, 1])
-      
-      f.con1v <- rbind(f.con1, f.con.vrs)
-      f.rhs1v <- c(f.rhs1, 1)
-      
-      eff[1, i] <- lp(obj, f.obj, f.con1, f.dir, f.rhs1)$objval
-      effv[1, i] <- lp(obj, f.obj, f.con1v, f.dirv, f.rhs1v)$objval
-      
-      for (t in 2:nt) {
+      for (i in 1:nde) {
         
-        f.con.1 <- cbind(-input[, ii, t], matrix(input[, dmu_ref, t], nrow = ni))
-        f.con.2 <- cbind(matrix(0, nrow = no, ncol = 1),
-                         matrix(output[, dmu_ref, t], nrow = no))
-        f.con2 <- rbind(f.con.1, f.con.2)
+        ii <- dmu_eval[i]
+        datadea$dmunames <- c(dmunames[ii], dmunames)
         
-        f.rhs2 <- c(rep(0, ni), output[, ii, t])
-        
-        f.con2v <- rbind(f.con2, f.con.vrs)
-        f.rhs2v <- c(f.rhs2, 1)
-        
-        eff[t, i] <- lp(obj, f.obj, f.con2, f.dir, f.rhs2)$objval
-        effv[t, i] <- lp(obj, f.obj, f.con2v, f.dirv, f.rhs2v)$objval
-        
-        # Intertemporal scores
-        
-        f.con12 <- cbind(f.con2[, 1], f.con1[, -1])
         if (type2 == "fgnz") {
-          f.con21 <- cbind(f.con1[, 1], f.con2[, -1])
-          eff12[t - 1, i] <- lp(obj, f.obj, f.con12, f.dir, f.rhs2)$objval
-          eff21[t - 1, i] <- lp(obj, f.obj, f.con21, f.dir, f.rhs1)$objval
-          f.rhs1 <- f.rhs2
+          
+          datadea$input <- matrix(cbind(matrix(input[, ii, t], nrow = ni, ncol = 1),
+                                        matrix(input[, , t - 1], nrow = ni, ncol = nd)),
+                                  nrow = ni, ncol = nd + 1)
+          datadea$output <- matrix(cbind(matrix(output[, ii, t], nrow = no, ncol = 1),
+                                         matrix(output[, , t - 1], nrow = no, ncol = nd)),
+                                   nrow = no, ncol = nd + 1)
+          eff12[t - 1, i] <-
+            model_basic(datadea, dmu_eval = 1, dmu_ref = dmu_ref_cont,
+                        orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                        vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)$DMU[[1]]$efficiency
+          
+          datadea$input <- matrix(cbind(matrix(input[, ii, t - 1], nrow = ni, ncol = 1),
+                                        matrix(input[, , t], nrow = ni, ncol = nd)),
+                                  nrow = ni, ncol = nd + 1)
+          datadea$output <- matrix(cbind(matrix(output[, ii, t - 1], nrow = no, ncol = 1),
+                                         matrix(output[, , t], nrow = no, ncol = nd)),
+                                   nrow = no, ncol = nd + 1)
+          eff21[t - 1, i] <- 
+            model_basic(datadea, dmu_eval = 1, dmu_ref = dmu_ref_cont,
+                        orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                        vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)$DMU[[1]]$efficiency
+          
         } else if (type2 == "rd") {
-          f.con12v <- rbind(f.con12, f.con.vrs)
-          eff12[t - 1, i] <- lp(obj, f.obj, f.con12, f.dir, f.rhs2)$objval
-          effv12[t - 1, i] <- lp(obj, f.obj, f.con12v, f.dirv, f.rhs2v)$objval
-          f.con21 <- cbind(f.con1[, 1], f.con2[, -1])
-          f.con21v <- rbind(f.con21, f.con.vrs)
-          effv21[t - 1, i] <- lp(obj, f.obj, f.con21v, f.dirv, f.rhs1v)$objval
-          f.rhs1v <- f.rhs2v
+          
+          datadea$input <- matrix(cbind(matrix(input[, ii, t], nrow = ni, ncol = 1),
+                                        matrix(input[, , t - 1], nrow = ni, ncol = nd)),
+                                  nrow = ni, ncol = nd + 1)
+          datadea$output <- matrix(cbind(matrix(output[, ii, t], nrow = no, ncol = 1),
+                                         matrix(output[, , t - 1], nrow = no, ncol = nd)),
+                                   nrow = no, ncol = nd + 1)
+          eff12[t - 1, i] <-
+            model_basic(datadea, dmu_eval = 1, dmu_ref = dmu_ref_cont,
+                        orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                        vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)$DMU[[1]]$efficiency
+          
+          effv12[t - 1, i] <-
+            model_basic(datadea, dmu_eval = 1, dmu_ref = dmu_ref_cont, rts = "vrs",
+                        orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                        vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)$DMU[[1]]$efficiency
+          
+          datadea$input <- matrix(cbind(matrix(input[, ii, t - 1], nrow = ni, ncol = 1),
+                                        matrix(input[, , t], nrow = ni, ncol = nd)),
+                                  nrow = ni, ncol = nd + 1)
+          datadea$output <- matrix(cbind(matrix(output[, ii, t - 1], nrow = no, ncol = 1),
+                                         matrix(output[, , t], nrow = no, ncol = nd)),
+                                   nrow = no, ncol = nd + 1)
+          effv21[t - 1, i] <- 
+            model_basic(datadea, dmu_eval = 1, dmu_ref = dmu_ref_cont, rts = "vrs",
+                        orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                        vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)$DMU[[1]]$efficiency
+          
         } else if (type2 == "gl") {
-          f.con12v <- rbind(f.con12, f.con.vrs)
-          effv12[t - 1, i] <- lp(obj, f.obj, f.con12v, f.dirv, f.rhs2v)$objval
-          if (orientation == "io") {
-            f.con12y.1 <- cbind(-input[, ii, t], matrix(input[, dmu_ref, t - 1], nrow = ni))
-            f.con12y.2 <- cbind(matrix(0, nrow = no, ncol = 1),
-                                matrix(output[, dmu_ref, t - 1], nrow = no))
-            f.con12y <- rbind(f.con12y.1, f.con12y.2)
-            eff12y[t - 1, i] <- lp(obj, f.obj, f.con12y, f.dir, f.rhs1)$objval
-            f.con12yv <- rbind(f.con12y, f.con.vrs)
-            effv12y[t - 1, i] <- lp(obj, f.obj, f.con12yv, f.dirv, f.rhs1v)$objval
-            f.rhs1 <- f.rhs2
-            f.rhs1v <- f.rhs2v
-          } else {
-            eff12y[t - 1, i] <- lp(obj, f.obj, f.con1, f.dir, f.rhs2)$objval
-            effv12y[t - 1, i] <- lp(obj, f.obj, f.con1v, f.dirv, f.rhs2v)$objval
-            f.con1v <- f.con2v
-          }
+          
+          datadea$input <- matrix(cbind(matrix(input[, ii, t], nrow = ni, ncol = 1),
+                                        matrix(input[, , t - 1], nrow = ni, ncol = nd)),
+                                  nrow = ni, ncol = nd + 1)
+          datadea$output <- matrix(cbind(matrix(output[, ii, t], nrow = no, ncol = 1),
+                                         matrix(output[, , t - 1], nrow = no, ncol = nd)),
+                                   nrow = no, ncol = nd + 1)
+          effv12[t - 1, i] <-
+            model_basic(datadea, dmu_eval = 1, dmu_ref = dmu_ref_cont, rts = "vrs",
+                        orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                        vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)$DMU[[1]]$efficiency
+          
+          datadea$output <- matrix(cbind(matrix(output[, ii, t - 1], nrow = no, ncol = 1),
+                                         matrix(output[, , t - 1], nrow = no, ncol = nd)),
+                                   nrow = no, ncol = nd + 1)
+          eff12y[t - 1, i] <-
+            model_basic(datadea, dmu_eval = 1, dmu_ref = dmu_ref_cont,
+                        orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                        vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)$DMU[[1]]$efficiency
+          
+          effv12y[t - 1, i] <-
+            model_basic(datadea, dmu_eval = 1, dmu_ref = dmu_ref_cont, rts = "vrs",
+                        orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                        vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)$DMU[[1]]$efficiency
+          
         } else if (type2 == "bias") {
-          f.con21 <- cbind(f.con1[, 1], f.con2[, -1])
-          eff12[t - 1, i] <- lp(obj, f.obj, f.con12, f.dir, f.rhs2)$objval
-          eff21[t - 1, i] <- lp(obj, f.obj, f.con21, f.dir, f.rhs1)$objval
-          f.con12v <- rbind(f.con12, f.con.vrs)
-          effv12[t - 1, i] <- lp(obj, f.obj, f.con12v, f.dirv, f.rhs2v)$objval 
-          f.con21v <- rbind(f.con21, f.con.vrs)
-          effv21[t - 1, i] <- lp(obj, f.obj, f.con21v, f.dirv, f.rhs1v)$objval
-          if (orientation == "io") {
-            f.con12y.1 <- cbind(-input[, ii, t], matrix(input[, dmu_ref, t - 1], nrow = ni))
-            f.con12y.2 <- cbind(matrix(0, nrow = no, ncol = 1),
-                                matrix(output[, dmu_ref, t - 1], nrow = no))
-            f.con12y <- rbind(f.con12y.1, f.con12y.2)
-            eff12y[t - 1, i] <- lp(obj, f.obj, f.con12y, f.dir, f.rhs1)$objval
-            eff22y[t - 1, i] <- lp(obj, f.obj, f.con2, f.dir, f.rhs1)$objval
-            f.con12yv <- rbind(f.con12y, f.con.vrs)
-            effv12y[t - 1, i] <- lp(obj, f.obj, f.con12yv, f.dirv, f.rhs1v)$objval
-            effv22y[t - 1, i] <- lp(obj, f.obj, f.con2v, f.dirv, f.rhs1v)$objval
-          } else {
-            eff12y[t - 1, i] <- lp(obj, f.obj, f.con1, f.dir, f.rhs2)$objval
-            eff22y[t - 1, i] <- lp(obj, f.obj, f.con21, f.dir, f.rhs2)$objval
-            effv12y[t - 1, i] <- lp(obj, f.obj, f.con1v, f.dirv, f.rhs2v)$objval
-            effv22y[t - 1, i] <- lp(obj, f.obj, f.con21v, f.dirv, f.rhs2v)$objval
-            f.con1v <- f.con2v
-          }
-          f.rhs1 <- f.rhs2
-          f.rhs1v <- f.rhs2v
+          
+          datadea$input <- matrix(cbind(matrix(input[, ii, t], nrow = ni, ncol = 1),
+                                        matrix(input[, , t - 1], nrow = ni, ncol = nd)),
+                                  nrow = ni, ncol = nd + 1)
+          datadea$output <- matrix(cbind(matrix(output[, ii, t], nrow = no, ncol = 1),
+                                         matrix(output[, , t - 1], nrow = no, ncol = nd)),
+                                   nrow = no, ncol = nd + 1)
+          eff12[t - 1, i] <-
+            model_basic(datadea, dmu_eval = 1, dmu_ref = dmu_ref_cont,
+                        orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                        vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)$DMU[[1]]$efficiency
+          
+          effv12[t - 1, i] <-
+            model_basic(datadea, dmu_eval = 1, dmu_ref = dmu_ref_cont, rts = "vrs",
+                        orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                        vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)$DMU[[1]]$efficiency
+          
+          datadea$output <- matrix(cbind(matrix(output[, ii, t - 1], nrow = no, ncol = 1),
+                                         matrix(output[, , t - 1], nrow = no, ncol = nd)),
+                                   nrow = no, ncol = nd + 1)
+          eff12y[t - 1, i] <-
+            model_basic(datadea, dmu_eval = 1, dmu_ref = dmu_ref_cont,
+                        orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                        vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)$DMU[[1]]$efficiency
+          
+          effv12y[t - 1, i] <-
+            model_basic(datadea, dmu_eval = 1, dmu_ref = dmu_ref_cont, rts = "vrs",
+                        orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                        vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)$DMU[[1]]$efficiency
+          
+          datadea$input <- matrix(cbind(matrix(input[, ii, t - 1], nrow = ni, ncol = 1),
+                                        matrix(input[, , t], nrow = ni, ncol = nd)),
+                                  nrow = ni, ncol = nd + 1)
+          datadea$output <- matrix(cbind(matrix(output[, ii, t - 1], nrow = no, ncol = 1),
+                                         matrix(output[, , t], nrow = no, ncol = nd)),
+                                   nrow = no, ncol = nd + 1)
+          eff21[t - 1, i] <-
+            model_basic(datadea, dmu_eval = 1, dmu_ref = dmu_ref_cont,
+                        orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                        vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)$DMU[[1]]$efficiency
+          
+          effv21[t - 1, i] <-
+            model_basic(datadea, dmu_eval = 1, dmu_ref = dmu_ref_cont, rts = "vrs",
+                        orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                        vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)$DMU[[1]]$efficiency
+          
+          datadea$input <- matrix(cbind(matrix(input[, ii, t], nrow = ni, ncol = 1),
+                                        matrix(input[, , t], nrow = ni, ncol = nd)),
+                                  nrow = ni, ncol = nd + 1)
+          eff22y[t - 1, i] <-
+            model_basic(datadea, dmu_eval = 1, dmu_ref = dmu_ref_cont,
+                        orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                        vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)$DMU[[1]]$efficiency
+          
+          effv22y[t - 1, i] <-
+            model_basic(datadea, dmu_eval = 1, dmu_ref = dmu_ref_cont, rts = "vrs",
+                        orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                        vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)$DMU[[1]]$efficiency
+          
         }
-        f.con1 <- f.con2
         
       }
-      
     }
-    
+
   } else if (type1 == "seq") {
     
-    f.dir <- c(rep("<=", ni), rep(">=", no))
-    f.dirv <- c(f.dir, "=")
+    datadea <- datadealist[[1]]
+    eff[1, ] <- efficiencies(
+      model_basic(datadea, dmu_eval = dmu_eval, dmu_ref = dmu_ref,
+                  orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                  vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)
+    )
+    effv[1, ] <- efficiencies(
+      model_basic(datadea, dmu_eval = dmu_eval, dmu_ref = dmu_ref, rts = "vrs",
+                  orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                  vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)
+    )
     
-    for (i in 1:nde) {
+    inputfront1 <- matrix(input[, , 1], nrow = ni, ncol = nd)
+    outputfront1 <- matrix(output[, , 1], nrow = no, ncol = nd)
+    dmu_ref_seq1 <- dmu_ref + 1
+    
+    for (t in 2:nt) {
       
-      ii <- dmu_eval[i]
-      f.obj1 <- c(1, rep(0, ndr))
-      inputfront1 <- matrix(input[, dmu_ref, 1], nrow = ni)
-      outputfront1 <- matrix(output[, dmu_ref, 1], nrow = no)
+      inputfront2 <- cbind(inputfront1, matrix(input[, , t], nrow = ni, ncol = nd))
+      outputfront2 <- cbind(outputfront1, matrix(output[, , t], nrow = no, ncol = nd))
+      dmu_ref_seq2 <- c(dmu_ref_seq1, dmu_ref + (t - 1) * nd + 1)
+      dmu_eval_seq <- dmu_eval + (t - 1) * nd
+      ncol1 <- (t - 1) * nd + 1
+      ncol2 <- t * nd + 1
       
-      f.con.1 <- cbind(-input[, ii, 1], inputfront1)
-      f.con.2 <- cbind(matrix(0, nrow = no, ncol = 1), outputfront1)
-      f.con1 <- rbind(f.con.1, f.con.2)
+      datadea <- datadealist[[t]]
       
-      f.rhs1 <- c(rep(0, ni), output[, ii, 1])
+      datadea$dmunames <- rep(dmunames, t)
+      datadea$input <- inputfront2
+      datadea$output <- outputfront2
+      eff[t, ] <- efficiencies(
+        model_basic(datadea, dmu_eval = dmu_eval_seq, dmu_ref = dmu_ref_seq2 - 1,
+                    orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                    vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)
+      )
+      effv[t, ] <- efficiencies(
+        model_basic(datadea, dmu_eval = dmu_eval_seq, dmu_ref = dmu_ref_seq2 - 1, rts = "vrs",
+                    orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                    vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)
+      )
       
-      f.con1v <- rbind(f.con1, cbind(0, matrix(1, nrow = 1, ncol = ndr)))
-      f.rhs1v <- c(f.rhs1, 1)
+      # Intertemporal scores 
       
-      eff[1, i] <- lp(obj, f.obj1, f.con1, f.dir, f.rhs1)$objval
-      effv[1, i] <- lp(obj, f.obj1, f.con1v, f.dirv, f.rhs1v)$objval
-      
-      for (t in 2:nt) {
+      for (i in 1:nde) {
         
-        f.obj2 <- c(f.obj1, rep(0, ndr))
-        inputfront2 <- cbind(inputfront1, matrix(input[, dmu_ref, t], nrow = ni))
-        outputfront2 <- cbind(outputfront1, matrix(output[, dmu_ref, t], nrow = no))
+        ii <- dmu_eval[i]
+        dmunames_seq1 <- c(dmunames[ii], rep(dmunames, t - 1))
+        dmunames_seq2 <- c(dmunames_seq1, dmunames)
         
-        f.con.1 <- cbind(-input[, ii, t], inputfront2)
-        f.con.2 <- cbind(matrix(0, nrow = no, ncol = 1), outputfront2)
-        f.con2 <- rbind(f.con.1, f.con.2)
-        
-        f.rhs2 <- c(rep(0, ni), output[, ii, t])
-        
-        f.con2v <- rbind(f.con2, cbind(0, matrix(1, nrow = 1, ncol = t * ndr)))
-        f.rhs2v <- c(f.rhs2, 1)
-        
-        eff[t, i] <- lp(obj, f.obj2, f.con2, f.dir, f.rhs2)$objval
-        effv[t, i] <- lp(obj, f.obj2, f.con2v, f.dirv, f.rhs2v)$objval
-        
-        # Intertemporal scores
-        
-        f.con12 <- cbind(f.con2[, 1], f.con1[, -1])
         if (type2 == "fgnz") {
-          f.con21 <- cbind(f.con1[, 1], f.con2[, -1])
-          eff12[t - 1, i] <- lp(obj, f.obj1, f.con12, f.dir, f.rhs2)$objval
-          eff21[t - 1, i] <- lp(obj, f.obj2, f.con21, f.dir, f.rhs1)$objval
-          f.rhs1 <- f.rhs2
+          
+          datadea$input <- matrix(cbind(matrix(input[, ii, t], nrow = ni, ncol = 1),
+                                        inputfront1),
+                                  nrow = ni, ncol = ncol1)
+          datadea$output <- matrix(cbind(matrix(output[, ii, t], nrow = no, ncol = 1),
+                                         outputfront1),
+                                   nrow = no, ncol = ncol1)
+          datadea$dmunames <- dmunames_seq1
+          eff12[t - 1, i] <-
+            model_basic(datadea, dmu_eval = 1, dmu_ref = dmu_ref_seq1,
+                        orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                        vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)$DMU[[1]]$efficiency
+          
+          datadea$input <- matrix(cbind(matrix(input[, ii, t - 1], nrow = ni, ncol = 1),
+                                        inputfront2),
+                                  nrow = ni, ncol = ncol2)
+          datadea$output <- matrix(cbind(matrix(output[, ii, t - 1], nrow = no, ncol = 1),
+                                         outputfront2),
+                                   nrow = no, ncol = ncol2)
+          datadea$dmunames <- dmunames_seq2
+          eff21[t - 1, i] <-
+            model_basic(datadea, dmu_eval = 1, dmu_ref = dmu_ref_seq2,
+                        orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                        vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)$DMU[[1]]$efficiency
+          
         } else if (type2 == "rd") {
-          f.con12v <- rbind(f.con12, cbind(0, matrix(1, nrow = 1, ncol = (t - 1) * ndr)))
-          eff12[t - 1, i] <- lp(obj, f.obj1, f.con12, f.dir, f.rhs2)$objval
-          effv12[t - 1, i] <- lp(obj, f.obj1, f.con12v, f.dirv, f.rhs2v)$objval
-          f.con21 <- cbind(f.con1[, 1], f.con2[, -1])
-          f.con21v <- rbind(f.con21, cbind(0, matrix(1, nrow = 1, ncol = t * ndr)))
-          effv21[t - 1, i] <- lp(obj, f.obj2, f.con21v, f.dirv, f.rhs1v)$objval
-          f.rhs1v <- f.rhs2v
+          
+          datadea$input <- matrix(cbind(matrix(input[, ii, t], nrow = ni, ncol = 1),
+                                        inputfront1),
+                                  nrow = ni, ncol = ncol1)
+          datadea$output <- matrix(cbind(matrix(output[, ii, t], nrow = no, ncol = 1),
+                                         outputfront1),
+                                   nrow = no, ncol = ncol1)
+          datadea$dmunames <- dmunames_seq1
+          eff12[t - 1, i] <-
+            model_basic(datadea, dmu_eval = 1, dmu_ref = dmu_ref_seq1,
+                        orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                        vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)$DMU[[1]]$efficiency
+          
+          effv12[t - 1, i] <-
+            model_basic(datadea, dmu_eval = 1, dmu_ref = dmu_ref_seq1, rts = "vrs",
+                        orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                        vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)$DMU[[1]]$efficiency
+          
+          datadea$input <- matrix(cbind(matrix(input[, ii, t - 1], nrow = ni, ncol = 1),
+                                        inputfront2),
+                                  nrow = ni, ncol = ncol2)
+          datadea$output <- matrix(cbind(matrix(output[, ii, t - 1], nrow = no, ncol = 1),
+                                         outputfront2),
+                                   nrow = no, ncol = ncol2)
+          datadea$dmunames <- dmunames_seq2
+          effv21[t - 1, i] <-
+            model_basic(datadea, dmu_eval = 1, dmu_ref = dmu_ref_seq2, rts = "vrs",
+                        orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                        vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)$DMU[[1]]$efficiency
+          
         } else if (type2 == "gl") {
-          f.con12v <- rbind(f.con12, cbind(0, matrix(1, nrow = 1, ncol = (t - 1) * ndr)))
-          effv12[t - 1, i] <- lp(obj, f.obj1, f.con12v, f.dirv, f.rhs2v)$objval
-          if (orientation == "io") {
-            f.con12y.1 <- cbind(-input[, ii, t], inputfront1)
-            f.con12y.2 <- cbind(matrix(0, nrow = no, ncol = 1), outputfront1)
-            f.con12y <- rbind(f.con12y.1, f.con12y.2)
-            eff12y[t - 1, i] <- lp(obj, f.obj1, f.con12y, f.dir, f.rhs1)$objval
-            f.con12yv <- rbind(f.con12y, cbind(0, matrix(1, nrow = 1, ncol = (t - 1) * ndr)))
-            effv12y[t - 1, i] <- lp(obj, f.obj1, f.con12yv, f.dirv, f.rhs1v)$objval
-            f.rhs1 <- f.rhs2
-            f.rhs1v <- f.rhs2v
-          } else {
-            eff12y[t - 1, i] <- lp(obj, f.obj1, f.con1, f.dir, f.rhs2)$objval
-            effv12y[t - 1, i] <- lp(obj, f.obj1, f.con1v, f.dirv, f.rhs2v)$objval
-            f.con1v <- f.con2v
-          }
+          
+          datadea$input <- matrix(cbind(matrix(input[, ii, t], nrow = ni, ncol = 1),
+                                        inputfront1),
+                                  nrow = ni, ncol = ncol1)
+          datadea$output <- matrix(cbind(matrix(output[, ii, t], nrow = no, ncol = 1),
+                                         outputfront1),
+                                   nrow = no, ncol = ncol1)
+          datadea$dmunames <- dmunames_seq1
+          effv12[t - 1, i] <-
+            model_basic(datadea, dmu_eval = 1, dmu_ref = dmu_ref_seq1, rts = "vrs",
+                        orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                        vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)$DMU[[1]]$efficiency
+          
+          datadea$output <- matrix(cbind(matrix(output[, ii, t - 1], nrow = no, ncol = 1),
+                                         outputfront1),
+                                   nrow = no, ncol = ncol1)
+          eff12y[t - 1, i] <-
+            model_basic(datadea, dmu_eval = 1, dmu_ref = dmu_ref_seq1,
+                        orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                        vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)$DMU[[1]]$efficiency
+          
+          effv12y[t - 1, i] <-
+            model_basic(datadea, dmu_eval = 1, dmu_ref = dmu_ref_seq1, rts = "vrs",
+                        orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                        vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)$DMU[[1]]$efficiency
+          
         } else if (type2 == "bias") {
-          f.con21 <- cbind(f.con1[, 1], f.con2[, -1])
-          eff12[t - 1, i] <- lp(obj, f.obj1, f.con12, f.dir, f.rhs2)$objval
-          eff21[t - 1, i] <- lp(obj, f.obj2, f.con21, f.dir, f.rhs1)$objval
-          f.con12v <- rbind(f.con12, cbind(0, matrix(1, nrow = 1, ncol = (t - 1) * ndr)))
-          effv12[t - 1, i] <- lp(obj, f.obj1, f.con12v, f.dirv, f.rhs2v)$objval
-          f.con21v <- rbind(f.con21, cbind(0, matrix(1, nrow = 1, ncol = t * ndr)))
-          effv21[t - 1, i] <- lp(obj, f.obj2, f.con21v, f.dirv, f.rhs1v)$objval
-          if (orientation == "io") {
-            f.con12y.1 <- cbind(-input[, ii, t], inputfront1)
-            f.con12y.2 <- cbind(matrix(0, nrow = no, ncol = 1), outputfront1)
-            f.con12y <- rbind(f.con12y.1, f.con12y.2)
-            eff12y[t - 1, i] <- lp(obj, f.obj1, f.con12y, f.dir, f.rhs1)$objval
-            eff22y[t - 1, i] <- lp(obj, f.obj2, f.con2, f.dir, f.rhs1)$objval
-            f.con12yv <- rbind(f.con12y, cbind(0, matrix(1, nrow = 1, ncol = (t - 1) * ndr)))
-            effv12y[t - 1, i] <- lp(obj, f.obj1, f.con12yv, f.dirv, f.rhs1v)$objval
-            effv22y[t - 1, i] <- lp(obj, f.obj2, f.con2v, f.dirv, f.rhs1v)$objval
-          } else {
-            eff12y[t - 1, i] <- lp(obj, f.obj1, f.con1, f.dir, f.rhs2)$objval
-            eff22y[t - 1, i] <- lp(obj, f.obj2, f.con21, f.dir, f.rhs2)$objval
-            effv12y[t - 1, i] <- lp(obj, f.obj1, f.con1v, f.dirv, f.rhs2v)$objval
-            effv22y[t - 1, i] <- lp(obj, f.obj2, f.con21v, f.dirv, f.rhs2v)$objval
-            f.con1v <- f.con2v
-          }
-          f.rhs1 <- f.rhs2
-          f.rhs1v <- f.rhs2v
+          
+          datadea$input <- matrix(cbind(matrix(input[, ii, t], nrow = ni, ncol = 1),
+                                        inputfront1),
+                                  nrow = ni, ncol = ncol1)
+          datadea$output <- matrix(cbind(matrix(output[, ii, t], nrow = no, ncol = 1),
+                                         outputfront1),
+                                   nrow = no, ncol = ncol1)
+          datadea$dmunames <- dmunames_seq1
+          eff12[t - 1, i] <-
+            model_basic(datadea, dmu_eval = 1, dmu_ref = dmu_ref_seq1,
+                        orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                        vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)$DMU[[1]]$efficiency
+          
+          effv12[t - 1, i] <-
+            model_basic(datadea, dmu_eval = 1, dmu_ref = dmu_ref_seq1, rts = "vrs",
+                        orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                        vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)$DMU[[1]]$efficiency
+          
+          datadea$output <- matrix(cbind(matrix(output[, ii, t - 1], nrow = no, ncol = 1),
+                                         outputfront1),
+                                   nrow = no, ncol = ncol1)
+          eff12y[t - 1, i] <-
+            model_basic(datadea, dmu_eval = 1, dmu_ref = dmu_ref_seq1,
+                        orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                        vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)$DMU[[1]]$efficiency
+          
+          effv12y[t - 1, i] <-
+            model_basic(datadea, dmu_eval = 1, dmu_ref = dmu_ref_seq1, rts = "vrs",
+                        orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                        vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)$DMU[[1]]$efficiency
+          
+          datadea$input <- matrix(cbind(matrix(input[, ii, t - 1], nrow = ni, ncol = 1),
+                                        inputfront2),
+                                  nrow = ni, ncol = ncol2)
+          datadea$output <- matrix(cbind(matrix(output[, ii, t - 1], nrow = no, ncol = 1),
+                                         outputfront2),
+                                   nrow = no, ncol = ncol2)
+          datadea$dmunames <- dmunames_seq2
+          eff21[t - 1, i] <-
+            model_basic(datadea, dmu_eval = 1, dmu_ref = dmu_ref_seq2,
+                        orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                        vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)$DMU[[1]]$efficiency
+          
+          effv21[t - 1, i] <-
+            model_basic(datadea, dmu_eval = 1, dmu_ref = dmu_ref_seq2, rts = "vrs",
+                        orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                        vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)$DMU[[1]]$efficiency
+          
+          datadea$input <- matrix(cbind(matrix(input[, ii, t], nrow = ni, ncol = 1),
+                                        inputfront2),
+                                  nrow = ni, ncol = ncol2)
+          eff22y[t - 1, i] <-
+            model_basic(datadea, dmu_eval = 1, dmu_ref = dmu_ref_seq2,
+                        orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                        vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)$DMU[[1]]$efficiency
+          
+          effv22y[t - 1, i] <-
+            model_basic(datadea, dmu_eval = 1, dmu_ref = dmu_ref_seq2, rts = "vrs",
+                        orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                        vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)$DMU[[1]]$efficiency
+          
         }
-        f.con1 <- f.con2
-        f.obj1 <- f.obj2
-        inputfront1 <- inputfront2
-        outputfront1 <- outputfront2
         
       }
       
+      inputfront1 <- inputfront2
+      outputfront1 <- outputfront2
+      dmu_ref_seq1 <- dmu_ref_seq2
     }
     
   } else if (type1 == "glob") {
     
     # Frontier usual
     
-    f.obj <- c(1, rep(0, ndr))
-    f.dir <- c(rep("<=", ni), rep(">=", no))
-    f.dirv <- c(f.dir, "=")
-    f.con.vrs <- cbind(0, matrix(1, nrow = 1, ncol = ndr))
+    datadea <- datadealist[[1]]
+    eff[1, ] <- efficiencies(
+      model_basic(datadea, dmu_eval = dmu_eval, dmu_ref = dmu_ref,
+                  orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                  vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)
+    )
+    effv[1, ] <- efficiencies(
+      model_basic(datadea, dmu_eval = dmu_eval, dmu_ref = dmu_ref, rts = "vrs",
+                  orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                  vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)
+    )
     
-    for (i in 1:nde) {
+    dmu_ref_cont <- dmu_ref + 1
+    
+    for (t in 2:nt) {
       
-      ii <- dmu_eval[i]
+      datadea <- datadealist[[t]]
+      eff[t, ] <- efficiencies(
+        model_basic(datadea, dmu_eval = dmu_eval, dmu_ref = dmu_ref,
+                    orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                    vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)
+      )
+      effv[t, ] <- efficiencies(
+        model_basic(datadea, dmu_eval = dmu_eval, dmu_ref = dmu_ref, rts = "vrs",
+                    orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                    vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)
+      )
       
-      f.con.1 <- cbind(-input[, ii, 1], matrix(input[, dmu_ref, 1], nrow = ni))
-      f.con.2 <- cbind(matrix(0, nrow = no, ncol = 1),
-                       matrix(output[, dmu_ref, 1], nrow = no))
-      f.con1 <- rbind(f.con.1, f.con.2)
+      # Intertemporal scores 
       
-      f.rhs1 <- c(rep(0, ni), output[, ii, 1])
-      
-      f.con1v <- rbind(f.con1, f.con.vrs)
-      f.rhs1v <- c(f.rhs1, 1)
-      
-      eff[1, i] <- lp(obj, f.obj, f.con1, f.dir, f.rhs1)$objval
-      effv[1, i] <- lp(obj, f.obj, f.con1v, f.dirv, f.rhs1v)$objval
-      
-      for (t in 2:nt) {
+      if (rts == "vrs") {
         
-        f.con.1 <- cbind(-input[, ii, t], matrix(input[, dmu_ref, t], nrow = ni))
-        f.con.2 <- cbind(matrix(0, nrow = no, ncol = 1),
-                         matrix(output[, dmu_ref, t], nrow = no))
-        f.con2 <- rbind(f.con.1, f.con.2)
-        
-        f.rhs2 <- c(rep(0, ni), output[, ii, t])
-        
-        f.con2v <- rbind(f.con2, f.con.vrs)
-        f.rhs2v <- c(f.rhs2, 1)
-        
-        eff[t, i] <- lp(obj, f.obj, f.con2, f.dir, f.rhs2)$objval
-        effv[t, i] <- lp(obj, f.obj, f.con2v, f.dirv, f.rhs2v)$objval
-        
-        # Intertemporal scores
-        
-        if (rts == "vrs") {
-          f.con12 <- cbind(f.con2[, 1], f.con1[, -1])
-          f.con12v <- rbind(f.con12, f.con.vrs)
-          eff12[t - 1, i] <- lp(obj, f.obj, f.con12, f.dir, f.rhs2)$objval
-          effv12[t - 1, i] <- lp(obj, f.obj, f.con12v, f.dirv, f.rhs2v)$objval
-          f.con1 <- f.con2
+        for (i in 1:nde) {
+          
+          ii <- dmu_eval[i]
+          datadea$dmunames <- c(dmunames[ii], dmunames)
+          
+          datadea$input <- matrix(cbind(matrix(input[, ii, t], nrow = ni, ncol = 1),
+                                        matrix(input[, , t - 1], nrow = ni, ncol = nd)),
+                                  nrow = ni, ncol = nd + 1)
+          datadea$output <- matrix(cbind(matrix(output[, ii, t], nrow = no, ncol = 1),
+                                         matrix(output[, , t - 1], nrow = no, ncol = nd)),
+                                   nrow = no, ncol = nd + 1)
+          eff12[t - 1, i] <-
+            model_basic(datadea, dmu_eval = 1, dmu_ref = dmu_ref_cont,
+                        orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                        vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)$DMU[[1]]$efficiency
+          
+          effv12[t - 1, i] <-
+            model_basic(datadea, dmu_eval = 1, dmu_ref = dmu_ref_cont, rts = "vrs",
+                        orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                        vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)$DMU[[1]]$efficiency
+          
         }
         
       }
@@ -552,46 +734,33 @@ malmquist_index <- function(datadealist,
     }
     
     # Frontier global
-
-    f.obj <- c(1, rep(0, nt * ndr))
-    f.con.vrs <- cbind(0, matrix(1, nrow = 1, ncol = nt * ndr))
-    inputfront <- matrix(0, nrow = ni, ncol = nt * ndr)
-    outputfront <- matrix(0, nrow = no, ncol = nt * ndr)
-    for (t in 1:nt) {
-      inputfront[,((t - 1) * ndr + 1):(t * ndr)] <- matrix(input[, dmu_ref, t], nrow = ni)
-      outputfront[,((t - 1) * ndr + 1):(t * ndr)] <- matrix(output[, dmu_ref, t], nrow = no)
-    }
-    f.con.2 <- cbind(matrix(0, nrow = no, ncol = 1), outputfront)
     
-    for (i in 1:nde) {
+    datadea <- datadealist[[1]]
+    inputfront <- matrix(0, nrow = ni, ncol = nt * nd)
+    outputfront <- matrix(0, nrow = no, ncol = nt * nd)
+    dmu_ref_glob <- rep(0, nt * ndr)
+    for (t in 1:nt) {
+      inputfront[, ((t - 1) * nd + 1):(t * nd)] <- matrix(input[, , t], nrow = ni)
+      outputfront[, ((t - 1) * nd + 1):(t * nd)] <- matrix(output[, , t], nrow = no)
+      dmu_ref_glob[((t - 1) * ndr + 1):(t * ndr)] <- dmu_ref + (t - 1) * nd
+    }
+    datadea$input <- inputfront
+    datadea$output <- outputfront
+    datadea$dmunames <- rep(dmunames, nt)
+    
+    for (t in 1:nt) {
       
-      ii <- dmu_eval[i]
-      
-      f.con.1 <- cbind(-input[, ii, 1], inputfront)
-      f.con1 <- rbind(f.con.1, f.con.2)
-      
-      f.rhs1 <- c(rep(0, ni), output[, ii, 1])
-      
-      f.con1v <- rbind(f.con1, f.con.vrs)
-      f.rhs1v <- c(f.rhs1, 1)
-      
-      effg[1, i] <- lp(obj, f.obj, f.con1, f.dir, f.rhs1)$objval
-      effgv[1, i] <- lp(obj, f.obj, f.con1v, f.dirv, f.rhs1v)$objval
-      
-      for (t in 2:nt) {
-        
-        f.con.1 <- cbind(-input[, ii, t], inputfront)
-        f.con2 <- rbind(f.con.1, f.con.2)
-        
-        f.rhs2 <- c(rep(0, ni), output[, ii, t])
-        
-        f.con2v <- rbind(f.con2, f.con.vrs)
-        f.rhs2v <- c(f.rhs2, 1)
-        
-        effg[t, i] <- lp(obj, f.obj, f.con2, f.dir, f.rhs2)$objval
-        effgv[t, i] <- lp(obj, f.obj, f.con2v, f.dirv, f.rhs2v)$objval
-        
-      }
+      dmu_eval_glob <- dmu_eval + (t - 1) * nd
+      effg[t, ] <- efficiencies(
+        model_basic(datadea, dmu_eval = dmu_eval_glob, dmu_ref = dmu_ref_glob,
+                    orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                    vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)
+      )
+      effgv[t, ] <- efficiencies(
+        model_basic(datadea, dmu_eval = dmu_eval_glob, dmu_ref = dmu_ref_glob, rts = "vrs",
+                    orientation = orientation, maxslack = FALSE, compute_target = FALSE,
+                    vtrans_i = vtrans_i, vtrans_o = vtrans_o, silent_ud = TRUE)
+      )
       
     }
     
@@ -740,42 +909,42 @@ malmquist_index <- function(datadealist,
 
   if (!is.null(ec)) {
     if (!is.matrix(ec)) {
-      ec <- matrix(ec, nrow = 1, dimnames = list(minames, names(ec)))
+      ec <- matrix(ec, nrow = nt - 1, ncol = nde, dimnames = list(minames, names(dmu_eval)))
     } else {
       rownames(ec) <- minames
     }
   }
   if (!is.null(pech)) {
     if (!is.matrix(pech)) {
-      pech <- matrix(pech, nrow = 1, dimnames = list(minames, names(pech)))
+      pech <- matrix(pech, nrow = nt - 1, ncol = nde, dimnames = list(minames, names(dmu_eval)))
     } else {
       rownames(pech) <- minames
     }
   }
   if (!is.null(sech)) {
     if (!is.matrix(sech)) {
-      sech <- matrix(sech, nrow = 1, dimnames = list(minames, names(sech)))
+      sech <- matrix(sech, nrow = nt - 1, ncol = nde, dimnames = list(minames, names(dmu_eval)))
     } else {
       rownames(sech) <- minames
     }
   }
   if (!is.null(obtech)) {
     if (!is.matrix(obtech)) {
-      obtech <- matrix(obtech, nrow = 1, dimnames = list(minames, names(obtech)))
+      obtech <- matrix(obtech, nrow = nt - 1, ncol = nde, dimnames = list(minames, names(dmu_eval)))
     } else {
       rownames(obtech) <- minames
     }
   }
   if (!is.null(ibtech)) {
     if (!is.matrix(ibtech)) {
-      ibtech <- matrix(ibtech, nrow = 1, dimnames = list(minames, names(ibtech)))
+      ibtech <- matrix(ibtech, nrow = nt - 1, ncol = nde, dimnames = list(minames, names(dmu_eval)))
     } else {
       rownames(ibtech) <- minames
     }
   }
   if (!is.null(matech)) {
     if (!is.matrix(matech)) {
-      matech <- matrix(matech, nrow = 1, dimnames = list(minames, names(matech)))
+      matech <- matrix(matech, nrow = nt - 1, ncol = nde, dimnames = list(minames, names(dmu_eval)))
     } else {
       rownames(matech) <- minames
     }
@@ -798,6 +967,8 @@ malmquist_index <- function(datadealist,
                     type1 = type1,
                     type2 = type2,
                     tc_vrs = tc_vrs,
+                    vtrans_i = vtrans_i,
+                    vtrans_o = vtrans_o, silent_ud = TRUE,
                     modelname = "malmquist")
   return(structure(deaOutput, class = "dea"))
   

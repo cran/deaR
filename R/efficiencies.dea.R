@@ -62,6 +62,6 @@ efficiencies.dea <-
       stop("No efficiency/beta/delta/objval parameters in this solution!")
     }
     
-    return(round(eff, 5))
+    return(round(eff, 6))
     
 }
