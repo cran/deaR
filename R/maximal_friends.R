@@ -39,7 +39,9 @@
 #' @examples
 #' \dontrun{
 #' data("PFT1981")
-#' datadea <- read_data(PFT1981, ni = 5, no = 3)
+#' datadea <- make_deadata(PFT1981,
+#'                         ni = 5,
+#'                         no = 3)
 #' # We find maximal friends of a cluster formed by the first 20 DMUs
 #' result <- maximal_friends(datadea = datadea,
 #'                           dmu_ref = 1:20)
@@ -59,7 +61,7 @@ maximal_friends <- function(datadea,
   
   # Cheking whether datadea is of class "deadata" or not...  
   if (!is.deadata(datadea)) {
-    stop("Data should be of class deadata. Run read_data function first!")
+    stop("Data should be of class deadata. Run make_deadata function first!")
   }
   
   # Checking rts

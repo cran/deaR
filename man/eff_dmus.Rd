@@ -24,9 +24,9 @@ If \code{maxslack} is \code{FALSE}, the slacks computed in the first stage
 are supposed to be the max slacks.
 }
 \examples{
-dataFortune <- read_data(Fortune500,
-                         ni = 3,
-                         no = 2)
+dataFortune <- make_deadata(Fortune500,
+                            ni = 3,
+                            no = 2)
 ccrFortune <- model_basic(dataFortune)
 eff_dmus(ccrFortune)
 

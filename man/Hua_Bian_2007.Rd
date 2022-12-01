@@ -30,10 +30,10 @@ Data of 30 DMUs with two desirable inputs, two desirable outputs and one udesira
 # Example. Replication of results in Hua and Bian (2007).
 data("Hua_Bian_2007")
 # The third output is an undesirable output
-data_example <- read_data(Hua_Bian_2007,
-                          ni = 2,
-                          no = 3,
-                          ud_outputs = 3)
+data_example <- make_deadata(Hua_Bian_2007,
+                             ni = 2,
+                             no = 3,
+                             ud_outputs = 3)
 
 # Translation parameter (vtrans_o) is set to 1500
 result <- model_basic(data_example,
@@ -45,7 +45,7 @@ eff <- efficiencies(result)
 
 }
 \seealso{
-\code{\link{read_data}}, \code{\link{model_basic}}
+\code{\link{make_deadata}}, \code{\link{model_basic}}
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

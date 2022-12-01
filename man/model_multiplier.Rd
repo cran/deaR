@@ -66,9 +66,9 @@ correctly, the multiplier model can be infeasible (Zhu,2014:49).
 # Example 1.
 # Replication of results in Golany and Roll (1989).
 data("Golany_Roll_1989")
-data_example <- read_data(datadea = Golany_Roll_1989[1:10, ],
-                          inputs = 2:4, 
-                          outputs = 5:6) 
+data_example <- make_deadata(datadea = Golany_Roll_1989[1:10, ],
+                             inputs = 2:4, 
+                             outputs = 5:6) 
 result <- model_multiplier(data_example, 
                            epsilon = 0, 
                            orientation = "io", 
@@ -79,9 +79,9 @@ multipliers(result)
 # Example 2.
 # Multiplier model with infeasible solutions (See note).
 data("Fortune500")
-data_Fortune <- read_data(datadea = Fortune500, 
-                          inputs = 2:4, 
-                          outputs = 5:6) 
+data_Fortune <- make_deadata(datadea = Fortune500, 
+                             inputs = 2:4, 
+                             outputs = 5:6) 
 result2 <- model_multiplier(data_Fortune, 
                            epsilon = 1e-6, 
                            orientation = "io", 

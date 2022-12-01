@@ -31,11 +31,11 @@ Data for 23 public libraries of the Tokyo Metropolitan Area in 1986.
 # Replication of results in Cooper, Seiford and Tone (2007, p.221)
 data(Libraries)
 # POPULATION (non-controllable input) is the 4th input.
-data_example <- read_data(Libraries,
-                          dmus = 1,
-                          inputs = 2:5,
-                          nc_inputs = 4,
-                          outputs = 6:7)
+data_example <- make_deadata(Libraries,
+                             dmus = 1,
+                             inputs = 2:5,
+                             nc_inputs = 4,
+                             outputs = 6:7)
 result <- model_basic(data_example,
                       orientation = "io",
                       rts = "crs")
@@ -45,11 +45,11 @@ targets(result)
 # Example 2. Non-discretionary input (POPULATION).
 data(Libraries)
 # POPULATION (non-controllable input) is the 4th input.
-data_example2 <- read_data(Libraries,
-                           dmus=1,
-                           inputs=2:5,
-                           nd_inputs=4,
-                           outputs=6:7)
+data_example2 <- make_deadata(Libraries,
+                              dmus=1,
+                              inputs=2:5,
+                              nd_inputs=4,
+                              outputs=6:7)
 result2 <- model_basic(data_example2,
                        orientation="io",
                        rts="crs")
@@ -58,7 +58,7 @@ targets(result2)
 
 }
 \seealso{
-\code{\link{read_data}}, \code{\link{model_basic}}
+\code{\link{make_deadata}}, \code{\link{model_basic}}
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

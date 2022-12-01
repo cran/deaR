@@ -58,9 +58,9 @@ each input or augmentations in each output.
 \examples{
 # Replication of results in Wu, Tsai and Zhou (2011)
 data("Hotels")
-data_hotels <- read_data(Hotels, 
-                         inputs = 2:5, 
-                         outputs = 6:8)
+data_hotels <- make_deadata(Hotels, 
+                            inputs = 2:5, 
+                            outputs = 6:8)
 result <- model_nonradial(data_hotels, 
                           orientation = "oo", 
                           rts = "vrs")

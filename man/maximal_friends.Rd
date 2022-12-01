@@ -34,7 +34,9 @@ Finds the maximal friends subsets of a given set of DMUs, according to Tone (201
 \examples{
 \dontrun{
 data("PFT1981")
-datadea <- read_data(PFT1981, ni = 5, no = 3)
+datadea <- make_deadata(PFT1981,
+                        ni = 5,
+                        no = 3)
 # We find maximal friends of a cluster formed by the first 20 DMUs
 result <- maximal_friends(datadea = datadea,
                           dmu_ref = 1:20)

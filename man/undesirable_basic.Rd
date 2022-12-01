@@ -21,21 +21,21 @@ undesirable inputs. If \code{vtrans_i} is \code{NULL}, then it applies the
 \code{vtrans_i}, but applied to outputs.}
 }
 \value{
-An object of class \code{deadata} or \code{deadata_fuzzy}.
+An list with the transformed object of class \code{deadata} or \code{deadata_fuzzy}
+and the corresponding translation vectors \code{vtrans_i} and \code{vtrans_o}.
 }
 \description{
-This function transforms, according to Seiford and Zhu (2002),
-a deadata or deadata_fuzzy class with undesirable inputs/outputs into a
-deadata or deadata_fuzzy class with no undesirable inputs/outputs.
+This function transforms a deadata or deadata_fuzzy class with
+undesirable inputs/outputs according to Seiford and Zhu (2002).
 Onwards, it is recommended to use a DEA model with variable returns to scale (vrs).
 }
 \examples{
 data("Hua_Bian_2007")
 # The third output is an undesirable output.
-data_example <- read_data(Hua_Bian_2007,
-                          ni = 2, 
-                          no = 3, 
-                          ud_outputs = 3) 
+data_example <- make_deadata(Hua_Bian_2007,
+                             ni = 2, 
+                             no = 3, 
+                             ud_outputs = 3) 
 # rts must be "vrs" for undesirable inputs/outputs:
 # Translation parameter is set to (max + 1)
 result <- model_basic(data_example,

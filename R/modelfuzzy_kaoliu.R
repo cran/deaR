@@ -60,11 +60,11 @@
 #' # Example 1. 
 #' # Replication of results in Boscá, Liern, Sala and Martínez (2011, p.125)
 #' data("Leon2003")
-#' data_example <- read_data_fuzzy(datadea = Leon2003,
-#'                                 inputs.mL = 2, 
-#'                                 inputs.dL = 3, 
-#'                                 outputs.mL = 4, 
-#'                                 outputs.dL = 5)
+#' data_example <- make_deadata_fuzzy(datadea = Leon2003,
+#'                                    inputs.mL = 2, 
+#'                                    inputs.dL = 3, 
+#'                                    outputs.mL = 4, 
+#'                                    outputs.dL = 5)
 #' result <- modelfuzzy_kaoliu(data_example,
 #'                             kaoliu_modelname = "basic", 
 #'                             alpha = seq(0, 1, by = 0.1), 
@@ -75,11 +75,11 @@
 #' # Example 2.
 #' # Replication of results in Kao and Liu (2003, p.152)
 #' data("Kao_Liu_2003")
-#' data_example <- read_data_fuzzy(Kao_Liu_2003, 
-#'                                 inputs.mL = 2, 
-#'                                 outputs.mL = 3:7, 
-#'                                 outputs.dL = c(NA, NA, 8, NA, 10),
-#'                                 outputs.dR = c(NA, NA, 9, NA, 11))
+#' data_example <- make_deadata_fuzzy(Kao_Liu_2003, 
+#'                                    inputs.mL = 2, 
+#'                                    outputs.mL = 3:7, 
+#'                                    outputs.dL = c(NA, NA, 8, NA, 10),
+#'                                    outputs.dR = c(NA, NA, 9, NA, 11))
 #' result <- modelfuzzy_kaoliu(data_example, 
 #'                             kaoliu_modelname = "basic", 
 #'                             orientation = "oo", 
@@ -108,7 +108,7 @@ modelfuzzy_kaoliu <-
  
   # Cheking whether datadea is of class "deadata_fuzzy" or not...  
   if (!is.deadata_fuzzy(datadea)) {
-    stop("Data should be of class deadata_fuzzy. Run read_data_fuzzy function first!")
+    stop("Data should be of class deadata_fuzzy. Run make_deadata_fuzzy function first!")
   }
     
   # Checking modelname

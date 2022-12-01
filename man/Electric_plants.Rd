@@ -31,10 +31,10 @@ in 1978. Each plant uses 3 inputs to produce 1 output.
 \examples{
 # Example. Replication of results in Simar and Wilson (1998, p.59)
 data("Electric_plants")
-data_example <- read_data(Electric_plants,
-                          dmus = 1,
-                          ni = 3,
-                          no = 1)
+data_example <- make_deadata(Electric_plants,
+                             dmus = 1,
+                             ni = 3,
+                             no = 1)
 result <- model_basic(data_example,
                       orientation = "io",
                       rts = "vrs")
@@ -42,7 +42,7 @@ efficiencies(result)
 
 }
 \seealso{
-\code{\link{read_data}}, \code{\link{model_basic}}
+\code{\link{make_deadata}}, \code{\link{model_basic}}
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

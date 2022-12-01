@@ -127,9 +127,9 @@ DMUs are those for which \code{beta} = 0.
 data("PFT1981") 
 # Selecting DMUs in Program Follow Through (PFT)
 PFT <- PFT1981[1:49, ] 
-PFT <- read_data(PFT, 
-                 inputs = 2:6, 
-                 outputs = 7:9 )
+PFT <- make_deadata(PFT, 
+                    inputs = 2:6, 
+                    outputs = 7:9 )
 eval_pft <- model_basic(PFT, 
                         orientation = "io", 
                         rts = "crs")
@@ -144,10 +144,10 @@ returns <- rts(eval_pft)
 # Replication of results in Hua and Bian (2007).
 data("Hua_Bian_2007")
 # The third output is an undesirable output.
-data_example <- read_data(Hua_Bian_2007, 
-                          ni = 2,
-                          no = 3, 
-                          ud_outputs = 3) 
+data_example <- make_deadata(Hua_Bian_2007, 
+                             ni = 2,
+                             no = 3, 
+                             ud_outputs = 3) 
 # Translation parameter (vtrans_o) is set to 1500                          
 result <- model_basic(data_example, 
                       orientation = "oo", 
@@ -160,10 +160,10 @@ eff <- efficiencies(result)
 # Replication of results in Ruggiero (2007).
 data("Ruggiero2007") 
 # The second input is a non-discretionary input.
-datadea <- read_data(Ruggiero2007, 
-                     ni = 2,
-                     no = 1, 
-                     nd_inputs = 2) 
+datadea <- make_deadata(Ruggiero2007, 
+                        ni = 2,
+                        no = 1, 
+                        nd_inputs = 2) 
 result <- model_basic(datadea,
                       orientation = "io", 
                       rts = "crs")

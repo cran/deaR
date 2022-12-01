@@ -50,10 +50,10 @@
 #' data("PFT1981")
 #' # selecting DMUs in Project Follow Through (PFT)
 #' PFT <- PFT1981[1:49, ]
-#' PFT <- read_data(PFT,
-#'                  dmus = 1,
-#'                  inputs = 2:6,
-#'                  outputs = 7:9 )
+#' PFT <- make_deadata(PFT,
+#'                     dmus = 1,
+#'                     inputs = 2:6,
+#'                     outputs = 7:9 )
 #' eval_pft <- model_basic(PFT,
 #'                         orientation = "io",
 #'                         rts = "crs")
@@ -63,16 +63,16 @@
 #' data("PFT1981")
 #' # selecting DMUs in Non-Follow Through (NFT)
 #' NFT <- PFT1981[50:70,]
-#' NFT <- read_data(NFT,
-#'                  dmus = 1,
-#'                  inputs = 2:6,
-#'                  outputs = 7:9 )
+#' NFT <- make_deadata(NFT,
+#'                     dmus = 1,
+#'                     inputs = 2:6,
+#'                     outputs = 7:9 )
 #' eval_nft <- model_basic(NFT,
 #'                         orientation = "io",
 #'                         rts = "crs")
 #' eff_nft <- efficiencies(eval_nft)
 #'
-#' @seealso \code{\link{read_data}}, \code{\link{model_basic}}
+#' @seealso \code{\link{make_deadata}}, \code{\link{model_basic}}
 
 "PFT1981"
 
@@ -119,9 +119,9 @@
 #' # Example 1. Radial super-efficiency model.
 #' # Replication of results in Tone (2002)
 #' data("Power_plants")
-#' data_example <- read_data(Power_plants,
-#'                           ni = 4,
-#'                           no = 2)
+#' data_example <- make_deadata(Power_plants,
+#'                              ni = 4,
+#'                              no = 2)
 #' result <- model_supereff(data_example,
 #'                          orientation = "io",
 #'                          rts = "crs")
@@ -130,9 +130,9 @@
 #'
 #' # Example 2. SBM super-efficiency model.
 #' data("Power_plants")
-#' data_example <- read_data(Power_plants,
-#'                           ni = 4,
-#'                           no = 2)
+#' data_example <- make_deadata(Power_plants,
+#'                              ni = 4,
+#'                              no = 2)
 #' result2 <- model_sbmsupereff(data_example,
 #'                              orientation = "io",
 #'                              rts = "crs")
@@ -140,7 +140,7 @@
 #' slacks(result2)$input
 #' references(result2)
 #'
-#' @seealso \code{\link{read_data}}, \code{\link{model_supereff}},
+#' @seealso \code{\link{make_deadata}}, \code{\link{model_supereff}},
 #' \code{\link{model_sbmsupereff}}
 
 "Power_plants"
@@ -180,10 +180,10 @@
 #'
 #' @examples
 #' data("Fortune500")
-#' data_Fortune <- read_data(datadea = Fortune500,
-#'                           dmus = 1,
-#'                           inputs = 2:4,
-#'                           outputs = 5:6)
+#' data_Fortune <- make_deadata(datadea = Fortune500,
+#'                              dmus = 1,
+#'                              inputs = 2:4,
+#'                              outputs = 5:6)
 #' result <- model_multiplier(data_Fortune,
 #'                            epsilon = 1e-6,
 #'                            orientation = "io",
@@ -193,7 +193,7 @@
 #' efficiencies(result)
 #' multipliers(result)
 #'
-#' @seealso \code{\link{read_data}}, \code{\link{model_multiplier}}
+#' @seealso \code{\link{make_deadata}}, \code{\link{model_multiplier}}
 
 "Fortune500"
 
@@ -235,16 +235,16 @@
 #' @examples
 #' # Example. Replication of results in Wu,Tsai and Zhou (2011)
 #' data("Hotels")
-#' data_hotels <- read_data(Hotels,
-#'                          dmus = 1,
-#'                          inputs = 2:5,
-#'                          outputs = 6:8)
+#' data_hotels <- make_deadata(Hotels,
+#'                             dmus = 1,
+#'                             inputs = 2:5,
+#'                             outputs = 6:8)
 #' result <- model_nonradial(data_hotels,
 #'                           orientation = "oo",
 #'                           rts = "vrs")
 #' efficiencies(result)
 #'
-#' @seealso \code{\link{read_data}}, \code{\link{model_nonradial}}
+#' @seealso \code{\link{make_deadata}}, \code{\link{model_nonradial}}
 
 "Hotels"
 
@@ -292,16 +292,16 @@
 #' data("Departments")
 #' # Calculate Total income
 #' Departments$Total_income <- Departments[, 5] + Departments[, 6] + Departments[, 7]
-#' data_example <- read_data(Departments,
-#'                           inputs = 9,
-#'                           outputs = c(2, 3, 4, 12))
+#' data_example <- make_deadata(Departments,
+#'                              inputs = 9,
+#'                              outputs = c(2, 3, 4, 12))
 #' result <- model_basic(data_example,
 #'                       orientation = "io",
 #'                       rts = "crs")
 #' efficiencies(result) # Table 3 (p.156)
 #' references(result) # Table 3 (p.157)
 #'
-#' @seealso \code{\link{read_data}}, \code{\link{model_basic}}
+#' @seealso \code{\link{make_deadata}}, \code{\link{model_basic}}
 
 "Departments"
 
@@ -339,15 +339,15 @@
 #' # Example. FDH input-oriented.
 #' # Replication of results in Sanei and Mamizadeh Chatghayeb (2013)
 #' data("Supply_Chain")
-#' data_fdh1 <- read_data(Supply_Chain,
-#'                        dmus = 1,
-#'                        inputs = 2:4,
-#'                        outputs = 5:6)
+#' data_fdh1 <- make_deadata(Supply_Chain,
+#'                           dmus = 1,
+#'                           inputs = 2:4,
+#'                           outputs = 5:6)
 #' # by default orientation = "io"
 #' result <- model_fdh(data_fdh1)
 #' efficiencies(result)
 #'
-#' @seealso \code{\link{read_data}}, \code{\link{model_fdh}}
+#' @seealso \code{\link{make_deadata}}, \code{\link{model_fdh}}
 
 "Supply_Chain"
 
@@ -385,16 +385,16 @@
 #' @examples
 #' # Example. Replication of results in Tone (2001, p. 505)
 #' data("Tone2001")
-#' data_example <- read_data(Tone2001,
-#'                           ni = 2,
-#'                           no = 2)
+#' data_example <- make_deadata(Tone2001,
+#'                              ni = 2,
+#'                              no = 2)
 #' result <- model_sbmeff(data_example,
 #'                        orientation = "no",
 #'                        rts = "crs")
 #' efficiencies(result)
 #' slacks(result)
 #'
-#' @seealso \code{\link{read_data}}, \code{\link{model_sbmeff}}
+#' @seealso \code{\link{make_deadata}}, \code{\link{model_sbmeff}}
 
 "Tone2001"
 
@@ -432,14 +432,14 @@
 #' # Example . Data in wide format.
 #' # Replication of results in Wang and Lan (2011, p. 2768)
 #' data("Economy")
-#' data_example <- read_malmquist(Economy,
+#' data_example <- make_malmquist(Economy,
 #'                                nper = 5,
 #'                                arrangement = "horizontal",
 #'                                ni = 2,
 #'                                no = 1)
 #' result <- malmquist_index(data_example)
 #'
-#' @seealso \code{\link{read_malmquist}}, \code{\link{malmquist_index}}
+#' @seealso \code{\link{make_malmquist}}, \code{\link{malmquist_index}}
 
 "Economy"
 
@@ -477,14 +477,14 @@
 #' # Example. Data in long format.
 #' # Replication of results in Wang and Lan (2011, p. 2768)
 #' data("EconomyLong")
-#' data_example <- read_malmquist(EconomyLong,
+#' data_example <- make_malmquist(EconomyLong,
 #'                                percol = 2,
 #'                                arrangement = "vertical",
 #'                                ni = 2,
 #'                                no = 1)
 #' result <- malmquist_index(data_example)
 #'
-#' @seealso \code{\link{read_malmquist}}, \code{\link{malmquist_index}}
+#' @seealso \code{\link{make_malmquist}}, \code{\link{malmquist_index}}
 
 "EconomyLong"
 
@@ -523,17 +523,17 @@
 #' @examples
 #' # Example.
 #' data("Golany_Roll_1989")
-#' data_example <- read_data(datadea = Golany_Roll_1989,
-#'                           dmus = 1,
-#'                           inputs = 2:4,
-#'                           outputs = 5:6)
+#' data_example <- make_deadata(datadea = Golany_Roll_1989,
+#'                              dmus = 1,
+#'                              inputs = 2:4,
+#'                              outputs = 5:6)
 #' result <- cross_efficiency(data_example,
 #'                            orientation = "io",
 #'                            selfapp = TRUE)
 #' result$Arbitrary$cross_eff
 #' result$Arbitrary$e
 #'
-#' @seealso \code{\link{read_data}}, \code{\link{model_multiplier}}, \code{\link{cross_efficiency}}
+#' @seealso \code{\link{make_deadata}}, \code{\link{model_multiplier}}, \code{\link{cross_efficiency}}
 
 "Golany_Roll_1989"
 
@@ -573,10 +573,10 @@
 #' @examples
 #' # Example.
 #' data("Doyle_Green_1994")
-#' data_example <- read_data(datadea = Doyle_Green_1994,
-#'                          dmus = 1,
-#'                          inputs = 6:7,
-#'                          outputs = 2:5)
+#' data_example <- make_deadata(datadea = Doyle_Green_1994,
+#'                             dmus = 1,
+#'                             inputs = 6:7,
+#'                             outputs = 2:5)
 #' result <- cross_efficiency(data_example,
 #'                            orientation = "io",
 #'                            selfapp = TRUE)
@@ -587,7 +587,7 @@
 #' # Aggressive using method III
 #' result$M3_agg$cross_eff
 #'
-#' @seealso \code{\link{read_data}}, \code{\link{model_multiplier}},
+#' @seealso \code{\link{make_deadata}}, \code{\link{model_multiplier}},
 #' \code{\link{cross_efficiency}}
 
 "Doyle_Green_1994"
@@ -630,11 +630,11 @@
 #' # Replication of results in Cooper, Seiford and Tone (2007, p.221)
 #' data(Libraries)
 #' # POPULATION (non-controllable input) is the 4th input.
-#' data_example <- read_data(Libraries,
-#'                           dmus = 1,
-#'                           inputs = 2:5,
-#'                           nc_inputs = 4,
-#'                           outputs = 6:7)
+#' data_example <- make_deadata(Libraries,
+#'                              dmus = 1,
+#'                              inputs = 2:5,
+#'                              nc_inputs = 4,
+#'                              outputs = 6:7)
 #' result <- model_basic(data_example,
 #'                       orientation = "io",
 #'                       rts = "crs")
@@ -644,18 +644,18 @@
 #' # Example 2. Non-discretionary input (POPULATION).
 #' data(Libraries)
 #' # POPULATION (non-controllable input) is the 4th input.
-#' data_example2 <- read_data(Libraries,
-#'                            dmus=1,
-#'                            inputs=2:5,
-#'                            nd_inputs=4,
-#'                            outputs=6:7)
+#' data_example2 <- make_deadata(Libraries,
+#'                               dmus=1,
+#'                               inputs=2:5,
+#'                               nd_inputs=4,
+#'                               outputs=6:7)
 #' result2 <- model_basic(data_example2,
 #'                        orientation="io",
 #'                        rts="crs")
 #' efficiencies(result2)
 #' targets(result2)
 #'
-#' @seealso \code{\link{read_data}}, \code{\link{model_basic}}
+#' @seealso \code{\link{make_deadata}}, \code{\link{model_basic}}
 
 "Libraries"
 
@@ -697,18 +697,18 @@
 #'
 #' @examples
 #' data("Guo_Tanaka_2001")
-#' data_example <- read_data_fuzzy(Guo_Tanaka_2001,
-#'                                 dmus = 1,
-#'                                 inputs.mL = 2:3,
-#'                                 inputs.dL = 4:5,
-#'                                 outputs.mL = 6:7,
-#'                                 outputs.dL = 8:9)
+#' data_example <- make_deadata_fuzzy(Guo_Tanaka_2001,
+#'                                    dmus = 1,
+#'                                    inputs.mL = 2:3,
+#'                                    inputs.dL = 4:5,
+#'                                    outputs.mL = 6:7,
+#'                                    outputs.dL = 8:9)
 #' result <- modelfuzzy_guotanaka(data_example,
 #'                                h = seq(0, 1, by = 0.1),
 #'                                orientation = "io")
 #' efficiencies(result)
 #'
-#' @seealso \code{\link{read_data_fuzzy}}, \code{\link{modelfuzzy_guotanaka}},
+#' @seealso \code{\link{make_deadata_fuzzy}}, \code{\link{modelfuzzy_guotanaka}},
 #' \code{\link{cross_efficiency_fuzzy}}
 
 "Guo_Tanaka_2001"
@@ -749,19 +749,19 @@
 #' @examples
 #' # Example. Replication of results in Leon et. al (2003, p. 416)
 #' data("Leon2003")
-#' data_example <- read_data_fuzzy(Leon2003,
-#'                                 dmus = 1,
-#'                                 inputs.mL = 2,
-#'                                 inputs.dL = 3,
-#'                                 outputs.mL = 4,
-#'                                 outputs.dL = 5)
+#' data_example <- make_deadata_fuzzy(Leon2003,
+#'                                    dmus = 1,
+#'                                    inputs.mL = 2,
+#'                                    inputs.dL = 3,
+#'                                    outputs.mL = 4,
+#'                                    outputs.dL = 5)
 #' result <- modelfuzzy_possibilistic(data_example,
 #'                                    h = seq(0, 1, by = 0.1),
 #'                                    orientation = "io",
 #'                                    rts = "vrs")
 #' efficiencies(result)
 #'
-#' @seealso \code{\link{read_data_fuzzy}}, \code{\link{modelfuzzy_possibilistic}},
+#' @seealso \code{\link{make_deadata_fuzzy}}, \code{\link{modelfuzzy_possibilistic}},
 #' \code{\link{cross_efficiency_fuzzy}}, \code{\link{modelfuzzy_guotanaka}}
 
 "Leon2003"
@@ -815,12 +815,12 @@
 #'
 #' @examples
 #' # Example. Replication of results in Kao and Liu (2003, p.152)
-#' data_example <- read_data_fuzzy(Kao_Liu_2003,
-#'                                 dmus = 1,
-#'                                 inputs.mL = 2,
-#'                                 outputs.mL = 3:7,
-#'                                 outputs.dL = c(NA, NA, 8, NA, 10),
-#'                                 outputs.dR = c(NA, NA, 9, NA, 11))
+#' data_example <- make_deadata_fuzzy(Kao_Liu_2003,
+#'                                    dmus = 1,
+#'                                    inputs.mL = 2,
+#'                                    outputs.mL = 3:7,
+#'                                    outputs.dL = c(NA, NA, 8, NA, 10),
+#'                                    outputs.dR = c(NA, NA, 9, NA, 11))
 #' result <- modelfuzzy_kaoliu(data_example,
 #'                             kaoliu_modelname = "basic",
 #'                             orientation = "oo",
@@ -829,7 +829,7 @@
 #' eff <- efficiencies(result)
 #' eff
 #'
-#' @seealso \code{\link{read_data_fuzzy}}, \code{\link{model_basic}}
+#' @seealso \code{\link{make_deadata_fuzzy}}, \code{\link{model_basic}}
 
 "Kao_Liu_2003"
 
@@ -871,10 +871,10 @@
 #' # Example. Arbitrary formulation.
 #' # Input-oriented model under variable returns-to-scale.
 #' data("Lim_Zhu_2015")
-#' data_example <- read_data(Lim_Zhu_2015,
-#'                           dmus = 1,
-#'                           ni = 1,
-#'                           no = 5)
+#' data_example <- make_deadata(Lim_Zhu_2015,
+#'                              dmus = 1,
+#'                              ni = 1,
+#'                              no = 5)
 #' cross <- cross_efficiency(data_example,
 #'                           epsilon = 0,
 #'                           orientation = "io",
@@ -884,7 +884,7 @@
 #'                           M3 = FALSE)
 #' cross$Arbitrary$e
 #'
-#' @seealso \code{\link{read_data}}, \code{\link{model_multiplier}},
+#' @seealso \code{\link{make_deadata}}, \code{\link{model_multiplier}},
 #' \code{\link{cross_efficiency}}
 
 "Lim_Zhu_2015"
@@ -926,16 +926,16 @@
 #' @examples
 #' # Example. Replication of results in Simar and Wilson (1998, p.59)
 #' data("Electric_plants")
-#' data_example <- read_data(Electric_plants,
-#'                           dmus = 1,
-#'                           ni = 3,
-#'                           no = 1)
+#' data_example <- make_deadata(Electric_plants,
+#'                              dmus = 1,
+#'                              ni = 3,
+#'                              no = 1)
 #' result <- model_basic(data_example,
 #'                       orientation = "io",
 #'                       rts = "vrs")
 #' efficiencies(result)
 #'
-#' @seealso \code{\link{read_data}}, \code{\link{model_basic}}
+#' @seealso \code{\link{make_deadata}}, \code{\link{model_basic}}
 
 "Electric_plants"
 
@@ -977,10 +977,10 @@
 #' # Example. Replication of results in Hua and Bian (2007).
 #' data("Hua_Bian_2007")
 #' # The third output is an undesirable output
-#' data_example <- read_data(Hua_Bian_2007,
-#'                           ni = 2,
-#'                           no = 3,
-#'                           ud_outputs = 3)
+#' data_example <- make_deadata(Hua_Bian_2007,
+#'                              ni = 2,
+#'                              no = 3,
+#'                              ud_outputs = 3)
 #'
 #' # Translation parameter (vtrans_o) is set to 1500
 #' result <- model_basic(data_example,
@@ -990,7 +990,7 @@
 #' eff <- efficiencies(result)
 #' 1 / eff # results M5 in Table 6-5 (p.119)
 #'
-#' @seealso \code{\link{read_data}}, \code{\link{model_basic}}
+#' @seealso \code{\link{make_deadata}}, \code{\link{model_basic}}
 
 "Hua_Bian_2007"
 
@@ -1028,17 +1028,17 @@
 #' # Example. Replication of results in Ruggiero (2007).
 #' data("Ruggiero2007")
 #' # the second input is a non-discretionary input
-#' datadea <- read_data(Ruggiero2007,
-#'                      ni = 2,
-#'                      no = 1,
-#'                      nd_inputs = 2)
+#' datadea <- make_deadata(Ruggiero2007,
+#'                         ni = 2,
+#'                         no = 1,
+#'                         nd_inputs = 2)
 #' result <- model_basic(datadea,
 #'                       orientation = "io",
 #'                       rts = "crs")
 #' efficiencies(result)
 #' slacks(result)
 #'
-#' @seealso \code{\link{read_data}}, \code{\link{model_basic}}
+#' @seealso \code{\link{make_deadata}}, \code{\link{model_basic}}
 
 "Ruggiero2007"
 
@@ -1076,16 +1076,16 @@
 #' @examples
 #' # Example. Replication of results in Ali and (1993, p.143).
 #' data("Fried1993")
-#' data_example <- read_data(Fried1993,
-#'                           ni = 2,
-#'                           no = 1)
+#' data_example <- make_deadata(Fried1993,
+#'                              ni = 2,
+#'                              no = 1)
 #' result <- model_basic(data_example,
 #'                       orientation = "oo",
 #'                       rts = "vrs")
 #' efficiencies(result)
 #' targets(result)
 #'
-#' @seealso \code{\link{read_data}}, \code{\link{model_basic}}
+#' @seealso \code{\link{make_deadata}}, \code{\link{model_basic}}
 
 "Fried1993"
 
@@ -1122,12 +1122,12 @@
 #' @examples
 #' # Example. How to read data with deaR
 #' data("Coll_Blasco_2006")
-#' data_example <- read_data(Coll_Blasco_2006,
-#'                           dmus = 1,
-#'                           ni = 2,
-#'                           no = 2)
+#' data_example <- make_deadata(Coll_Blasco_2006,
+#'                              dmus = 1,
+#'                              ni = 2,
+#'                              no = 2)
 #'
-#' @seealso \code{\link{read_data}}
+#' @seealso \code{\link{make_deadata}}
 
 "Coll_Blasco_2006"
 
@@ -1171,10 +1171,10 @@
 #' # Selection of prices: data_prices is the trasnpose where the prices for inputs are. 
 #' data_prices <- t(Coelli_1998[, 5:6]) 
 #' 
-#' data_example <- read_data(Coelli_1998,
-#'                           dmus = 1,
-#'                           ni = 2,
-#'                           no = 1)
+#' data_example <- make_deadata(Coelli_1998,
+#'                              dmus = 1,
+#'                              ni = 2,
+#'                              no = 1)
 #' result <- model_profit(data_example,
 #'                        price_input = data_prices,
 #'                        rts = "crs", 
@@ -1182,7 +1182,7 @@
 #' # notice that the option by default is restricted_optimal=TRUE
 #' efficiencies(result)
 #'
-#' @seealso \code{\link{read_data}}
+#' @seealso \code{\link{make_deadata}}
 
 "Coelli_1998"
 
@@ -1218,16 +1218,16 @@
 #' @examples
 #' # Example. Replication of results in Tone (2003), pp 10-11.
 #' data("Tone2003")
-#' data_example <- read_data(Tone2003,
-#'                           ni = 1,
-#'                           no = 2,
-#'                           ud_outputs = 2)
+#' data_example <- make_deadata(Tone2003,
+#'                              ni = 1,
+#'                              no = 2,
+#'                              ud_outputs = 2)
 #' result <- model_sbmeff(data_example,
 #'                        rts = "vrs")
 #' efficiencies(result)
 #' targets(result)
 #'
-#' @seealso \code{\link{read_data}}, \code{\link{model_sbmeff}}
+#' @seealso \code{\link{make_deadata}}, \code{\link{model_sbmeff}}
 
 "Tone2003"
 
@@ -1263,7 +1263,7 @@
 #' 
 #' # Example. Replication of results in Grifell-Tatjé and Lovell (1999, p. 100).
 #' data("Grifell_Lovell_1999")
-#' data_example <- read_malmquist(Grifell_Lovell_1999,
+#' data_example <- make_malmquist(Grifell_Lovell_1999,
 #'                                percol = 1,
 #'                                dmus = 2,
 #'                                inputs = 3,
@@ -1279,7 +1279,7 @@
 #' result_fgnz$mi
 #'                                                              
 #'
-#' @seealso \code{\link{read_malmquist}}, \code{\link{malmquist_index}}
+#' @seealso \code{\link{make_malmquist}}, \code{\link{malmquist_index}}
 
 "Grifell_Lovell_1999"
 
@@ -1325,17 +1325,17 @@
 #' 
 #' # Example. Reading the data.
 #' data("FuzzyExample")
-#' datafuzzy <- read_data_fuzzy(FuzzyExample, 
-#'                              inputs.mL = c(2, 3, 7),
-#'                              inputs.mR = c(NA, 4, NA),
-#'                              inputs.dL = c(NA, 5, 8),
-#'                              inputs.dR = c(NA, 6, NA),
-#'                              outputs.mL = c(9, 10 , 13),
-#'                              outputs.mR = c(NA, 11, NA),
-#'                              outputs.dL = c(NA, 12, 14),
-#'                              outputs.dR = c(NA, NA, 15))
+#' datafuzzy <- make_deadata_fuzzy(FuzzyExample, 
+#'                                 inputs.mL = c(2, 3, 7),
+#'                                 inputs.mR = c(NA, 4, NA),
+#'                                 inputs.dL = c(NA, 5, 8),
+#'                                 inputs.dR = c(NA, 6, NA),
+#'                                 outputs.mL = c(9, 10 , 13),
+#'                                 outputs.mR = c(NA, 11, NA),
+#'                                 outputs.dL = c(NA, 12, 14),
+#'                                 outputs.dR = c(NA, NA, 15))
 #'                                                              
 #'
-#' @seealso \code{\link{read_data_fuzzy}}
+#' @seealso \code{\link{make_deadata_fuzzy}}
 
 "FuzzyExample"

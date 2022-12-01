@@ -36,9 +36,9 @@ This dataset consists of six power plants with 4 inputs (X) and 2 outputs (Y).
 # Example 1. Radial super-efficiency model.
 # Replication of results in Tone (2002)
 data("Power_plants")
-data_example <- read_data(Power_plants,
-                          ni = 4,
-                          no = 2)
+data_example <- make_deadata(Power_plants,
+                             ni = 4,
+                             no = 2)
 result <- model_supereff(data_example,
                          orientation = "io",
                          rts = "crs")
@@ -47,9 +47,9 @@ eff
 
 # Example 2. SBM super-efficiency model.
 data("Power_plants")
-data_example <- read_data(Power_plants,
-                          ni = 4,
-                          no = 2)
+data_example <- make_deadata(Power_plants,
+                             ni = 4,
+                             no = 2)
 result2 <- model_sbmsupereff(data_example,
                              orientation = "io",
                              rts = "crs")
@@ -59,7 +59,7 @@ references(result2)
 
 }
 \seealso{
-\code{\link{read_data}}, \code{\link{model_supereff}},
+\code{\link{make_deadata}}, \code{\link{model_supereff}},
 \code{\link{model_sbmsupereff}}
 }
 \author{

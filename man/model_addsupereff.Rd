@@ -69,9 +69,9 @@ DEA model.
 \examples{
 # Replication of results in Du, Liang and Zhu (2010, Table 6, p.696)
 data("Power_plants")
-Power_plants <- read_data(Power_plants, 
-                          ni = 4, 
-                          no = 2)
+Power_plants <- make_deadata(Power_plants, 
+                             ni = 4, 
+                             no = 2)
 result <- model_addsupereff(Power_plants, 
                             rts = "crs")  
 efficiencies(result)

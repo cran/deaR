@@ -37,9 +37,9 @@ Data from 20 University accounting departments in the UK.
 data("Departments")
 # Calculate Total income
 Departments$Total_income <- Departments[, 5] + Departments[, 6] + Departments[, 7]
-data_example <- read_data(Departments,
-                          inputs = 9,
-                          outputs = c(2, 3, 4, 12))
+data_example <- make_deadata(Departments,
+                             inputs = 9,
+                             outputs = c(2, 3, 4, 12))
 result <- model_basic(data_example,
                       orientation = "io",
                       rts = "crs")
@@ -48,7 +48,7 @@ references(result) # Table 3 (p.157)
 
 }
 \seealso{
-\code{\link{read_data}}, \code{\link{model_basic}}
+\code{\link{make_deadata}}, \code{\link{model_basic}}
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

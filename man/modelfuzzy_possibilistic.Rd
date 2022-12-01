@@ -31,11 +31,11 @@ Solve the possibilistic fuzzy DEA model proposed by León et. al (2003).
 \examples{
 # Replication of results in Leon et. al (2003, p. 416)
 data("Leon2003")
-data_example <- read_data_fuzzy(Leon2003,
-                                inputs.mL = 2, 
-                                inputs.dL = 3, 
-                                outputs.mL = 4, 
-                                outputs.dL = 5)
+data_example <- make_deadata_fuzzy(Leon2003,
+                                   inputs.mL = 2, 
+                                   inputs.dL = 3, 
+                                   outputs.mL = 4, 
+                                   outputs.dL = 5)
 result <- modelfuzzy_possibilistic(data_example, 
                                    h = seq(0, 1, by = 0.1), 
                                    orientation = "io", 

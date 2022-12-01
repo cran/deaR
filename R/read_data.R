@@ -105,6 +105,8 @@ read_data <- function(datadea = NULL,
                       ud_inputs = NULL,
                       ud_outputs = NULL) {
   
+  #.Deprecated("make_deadata")
+  
   if (is.matrix(inputs) && is.matrix(outputs)) {
     nd <- ncol(inputs)
     if (ncol(outputs) != nd) {

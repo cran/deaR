@@ -29,12 +29,12 @@ one symmetric triangular fuzzy outputs: Yj = (yj, betaj).
 \examples{
 # Example. Replication of results in Leon et. al (2003, p. 416)
 data("Leon2003")
-data_example <- read_data_fuzzy(Leon2003,
-                                dmus = 1,
-                                inputs.mL = 2,
-                                inputs.dL = 3,
-                                outputs.mL = 4,
-                                outputs.dL = 5)
+data_example <- make_deadata_fuzzy(Leon2003,
+                                   dmus = 1,
+                                   inputs.mL = 2,
+                                   inputs.dL = 3,
+                                   outputs.mL = 4,
+                                   outputs.dL = 5)
 result <- modelfuzzy_possibilistic(data_example,
                                    h = seq(0, 1, by = 0.1),
                                    orientation = "io",
@@ -43,7 +43,7 @@ efficiencies(result)
 
 }
 \seealso{
-\code{\link{read_data_fuzzy}}, \code{\link{modelfuzzy_possibilistic}},
+\code{\link{make_deadata_fuzzy}}, \code{\link{modelfuzzy_possibilistic}},
 \code{\link{cross_efficiency_fuzzy}}, \code{\link{modelfuzzy_guotanaka}}
 }
 \author{

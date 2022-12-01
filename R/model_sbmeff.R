@@ -74,9 +74,9 @@
 #' @examples 
 #' # Replication of results in Tone (2001, p.505)
 #' data("Tone2001")
-#' data_example <- read_data(Tone2001, 
-#'                           ni = 2, 
-#'                           no = 2)
+#' data_example <- make_deadata(Tone2001, 
+#'                              ni = 2, 
+#'                              no = 2)
 #' result_SBM <- model_sbmeff(data_example, 
 #'                            orientation = "no", 
 #'                            rts = "crs")
@@ -90,10 +90,10 @@
 #'  
 #' # Example. Replication of results in Tone (2003), pp 10-11 case 1:1.
 #' data("Tone2003")
-#' data_example <- read_data(Tone2003,
-#'                           ni = 1,
-#'                           no = 2,
-#'                           ud_outputs = 2)
+#' data_example <- make_deadata(Tone2003,
+#'                              ni = 1,
+#'                              no = 2,
+#'                              ud_outputs = 2)
 #' result <- model_sbmeff(data_example,
 #'                        rts = "vrs")
 #' efficiencies(result)
@@ -126,7 +126,7 @@ model_sbmeff <-
     
   # Cheking whether datadea is of class "deadata" or not...  
   if (!is.deadata(datadea)) {
-    stop("Data should be of class deadata. Run read_data function first!")
+    stop("Data should be of class deadata. Run make_deadata function first!")
   }
     
   # Checking orientation

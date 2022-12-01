@@ -24,9 +24,9 @@
 #' data("Departments")
 #' # Calculate Total income
 #' Departments$Total_income <- Departments[, 5] + Departments[, 6] + Departments[, 7] 
-#' data_DEA1 <- read_data(Departments,
-#'                        inputs = 9,
-#'                        outputs = c(2, 3, 4, 12))
+#' data_DEA1 <- make_deadata(Departments,
+#'                           inputs = 9,
+#'                           outputs = c(2, 3, 4, 12))
 #' result <- model_basic(data_DEA1, 
 #'                       orientation = "io",
 #'                       rts = "crs")

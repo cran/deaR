@@ -84,9 +84,9 @@
 #' # Example 1.
 #' # Replication of results in Golany and Roll (1989).
 #' data("Golany_Roll_1989")
-#' data_example <- read_data(datadea = Golany_Roll_1989[1:10, ],
-#'                           inputs = 2:4, 
-#'                           outputs = 5:6) 
+#' data_example <- make_deadata(datadea = Golany_Roll_1989[1:10, ],
+#'                              inputs = 2:4, 
+#'                              outputs = 5:6) 
 #' result <- model_multiplier(data_example, 
 #'                            epsilon = 0, 
 #'                            orientation = "io", 
@@ -97,9 +97,9 @@
 #' # Example 2.
 #' # Multiplier model with infeasible solutions (See note).
 #' data("Fortune500")
-#' data_Fortune <- read_data(datadea = Fortune500, 
-#'                           inputs = 2:4, 
-#'                           outputs = 5:6) 
+#' data_Fortune <- make_deadata(datadea = Fortune500, 
+#'                              inputs = 2:4, 
+#'                              outputs = 5:6) 
 #' result2 <- model_multiplier(data_Fortune, 
 #'                            epsilon = 1e-6, 
 #'                            orientation = "io", 
@@ -130,7 +130,7 @@ model_multiplier <-
  
   # Cheking whether datadea is of class "deadata" or not...  
   if (!is.deadata(datadea)) {
-    stop("Data should be of class deadata. Run read_data function first!")
+    stop("Data should be of class deadata. Run make_deadata function first!")
   }
     
   # Checking non-controllable or non-discretionary inputs/outputs

@@ -56,11 +56,11 @@
 #' # In deaR is implemented the LP poblem given by the model 16 in Guo and Tanaka (2001, p. 155).
 #' # The fuzzy efficiencies are calculated according to equations in (17) (Guo and Tanaka, 2001,p.155).
 #' data("Guo_Tanaka_2001")
-#' data_example <- read_data_fuzzy(Guo_Tanaka_2001, 
-#'                                 inputs.mL = 2:3, 
-#'                                 inputs.dL = 4:5, 
-#'                                 outputs.mL = 6:7,
-#'                                 outputs.dL = 8:9)
+#' data_example <- make_deadata_fuzzy(Guo_Tanaka_2001, 
+#'                                    inputs.mL = 2:3, 
+#'                                    inputs.dL = 4:5, 
+#'                                    outputs.mL = 6:7,
+#'                                    outputs.dL = 8:9)
 #' result <- modelfuzzy_guotanaka(data_example, 
 #'                                h = c(0, 0.5, 0.75, 1), 
 #'                                orientation = "io")
@@ -68,11 +68,11 @@
 #'  
 #' # Example 2. 
 #' data("Guo_Tanaka_2001")
-#' data_example <- read_data_fuzzy(Guo_Tanaka_2001, 
-#'                                 inputs.mL = 2:3, 
-#'                                 inputs.dL = 4:5, 
-#'                                 outputs.mL = 6:7, 
-#'                                 outputs.dL = 8:9)
+#' data_example <- make_deadata_fuzzy(Guo_Tanaka_2001, 
+#'                                    inputs.mL = 2:3, 
+#'                                    inputs.dL = 4:5, 
+#'                                    outputs.mL = 6:7, 
+#'                                    outputs.dL = 8:9)
 #' result2 <- modelfuzzy_guotanaka(data_example, 
 #'                                 h = seq(0, 1, by = 0.1), 
 #'                                 orientation = "io")
@@ -95,7 +95,7 @@ function(datadea,
  
   # Cheking whether datadea is of class "deadata_fuzzy" or not...  
   if (!is.deadata_fuzzy(datadea)) {
-    stop("Data should be of class deadata_fuzzy. Run read_data_fuzzy function first!")
+    stop("Data should be of class deadata_fuzzy. Run make_deadata_fuzzy function first!")
   }
   
   if (!is.null(datadea$ud_inputs) || !is.null(datadea$ud_outputs)) {

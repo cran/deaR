@@ -107,6 +107,8 @@ read_data_fuzzy <- function(datadea,
                             ud_inputs = NULL,
                             ud_outputs = NULL) {
   
+  #.Deprecated("make_deadata_fuzzy")
+  
   if (is.matrix(inputs.mL) && is.matrix(outputs.mL)) {
     
     nd <- ncol(inputs.mL)

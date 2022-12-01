@@ -31,10 +31,10 @@ consider 4 inputs and 3 outputs.
 \examples{
 # Example. Replication of results in Wu,Tsai and Zhou (2011)
 data("Hotels")
-data_hotels <- read_data(Hotels,
-                         dmus = 1,
-                         inputs = 2:5,
-                         outputs = 6:8)
+data_hotels <- make_deadata(Hotels,
+                            dmus = 1,
+                            inputs = 2:5,
+                            outputs = 6:8)
 result <- model_nonradial(data_hotels,
                           orientation = "oo",
                           rts = "vrs")
@@ -42,7 +42,7 @@ efficiencies(result)
 
 }
 \seealso{
-\code{\link{read_data}}, \code{\link{model_nonradial}}
+\code{\link{make_deadata}}, \code{\link{model_nonradial}}
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

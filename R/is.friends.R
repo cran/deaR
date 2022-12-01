@@ -39,7 +39,9 @@
 #' 
 #' @examples 
 #' data("PFT1981")
-#' datadea <- read_data(PFT1981, ni = 5, no = 3)
+#' datadea <- make_deadata(PFT1981,
+#'                         ni = 5,
+#'                         no = 3)
 #' subset1 <- c(15, 16, 17, 19) # Subset of DMUs to be checked
 #' result1 <- is.friends(datadea = datadea,
 #'                       dmu_eval = subset1,
@@ -63,7 +65,7 @@ is.friends <- function(datadea,
   
   # Cheking whether datadea is of class "deadata" or not...  
   if (!is.deadata(datadea)) {
-    stop("Data should be of class deadata. Run read_data function first!")
+    stop("Data should be of class deadata. Run make_deadata function first!")
   }
   
   # Checking rts

@@ -32,11 +32,11 @@
 #' @examples 
 #' # Replication of results in Leon et. al (2003, p. 416)
 #' data("Leon2003")
-#' data_example <- read_data_fuzzy(Leon2003,
-#'                                 inputs.mL = 2, 
-#'                                 inputs.dL = 3, 
-#'                                 outputs.mL = 4, 
-#'                                 outputs.dL = 5)
+#' data_example <- make_deadata_fuzzy(Leon2003,
+#'                                    inputs.mL = 2, 
+#'                                    inputs.dL = 3, 
+#'                                    outputs.mL = 4, 
+#'                                    outputs.dL = 5)
 #' result <- modelfuzzy_possibilistic(data_example, 
 #'                                    h = seq(0, 1, by = 0.1), 
 #'                                    orientation = "io", 
@@ -75,7 +75,7 @@ modelfuzzy_possibilistic <-
  
   # Cheking whether datadea is of class "deadata_fuzzy" or not...  
   if (!is.deadata_fuzzy(datadea)) {
-    stop("Data should be of class deadata_fuzzy. Run read_data_fuzzy function first!")
+    stop("Data should be of class deadata_fuzzy. Run make_deadata_fuzzy function first!")
   }
     
   if (!is.null(datadea$ud_inputs) || !is.null(datadea$ud_outputs)) {

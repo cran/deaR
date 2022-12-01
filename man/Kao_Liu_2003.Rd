@@ -43,12 +43,12 @@ fuzzy number Y = (0.41; 0.69; 1.0).
 }
 \examples{
 # Example. Replication of results in Kao and Liu (2003, p.152)
-data_example <- read_data_fuzzy(Kao_Liu_2003,
-                                dmus = 1,
-                                inputs.mL = 2,
-                                outputs.mL = 3:7,
-                                outputs.dL = c(NA, NA, 8, NA, 10),
-                                outputs.dR = c(NA, NA, 9, NA, 11))
+data_example <- make_deadata_fuzzy(Kao_Liu_2003,
+                                   dmus = 1,
+                                   inputs.mL = 2,
+                                   outputs.mL = 3:7,
+                                   outputs.dL = c(NA, NA, 8, NA, 10),
+                                   outputs.dR = c(NA, NA, 9, NA, 11))
 result <- modelfuzzy_kaoliu(data_example,
                             kaoliu_modelname = "basic",
                             orientation = "oo",
@@ -59,7 +59,7 @@ eff
 
 }
 \seealso{
-\code{\link{read_data_fuzzy}}, \code{\link{model_basic}}
+\code{\link{make_deadata_fuzzy}}, \code{\link{model_basic}}
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

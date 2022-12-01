@@ -35,20 +35,20 @@ crisp data.
 
 # Example. Reading the data.
 data("FuzzyExample")
-datafuzzy <- read_data_fuzzy(FuzzyExample, 
-                             inputs.mL = c(2, 3, 7),
-                             inputs.mR = c(NA, 4, NA),
-                             inputs.dL = c(NA, 5, 8),
-                             inputs.dR = c(NA, 6, NA),
-                             outputs.mL = c(9, 10 , 13),
-                             outputs.mR = c(NA, 11, NA),
-                             outputs.dL = c(NA, 12, 14),
-                             outputs.dR = c(NA, NA, 15))
+datafuzzy <- make_deadata_fuzzy(FuzzyExample, 
+                                inputs.mL = c(2, 3, 7),
+                                inputs.mR = c(NA, 4, NA),
+                                inputs.dL = c(NA, 5, 8),
+                                inputs.dR = c(NA, 6, NA),
+                                outputs.mL = c(9, 10 , 13),
+                                outputs.mR = c(NA, 11, NA),
+                                outputs.dL = c(NA, 12, 14),
+                                outputs.dR = c(NA, NA, 15))
                                                              
 
 }
 \seealso{
-\code{\link{read_data_fuzzy}}
+\code{\link{make_deadata_fuzzy}}
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

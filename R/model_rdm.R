@@ -72,7 +72,7 @@ model_rdm <-
     
     # Cheking whether datadea is of class "deadata" or not...  
     if (!is.deadata(datadea)) {
-      stop("Data should be of class deadata. Run read_data function first!")
+      stop("Data should be of class deadata. Run make_deadata function first!")
     }
       
     # Checking orientation

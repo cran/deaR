@@ -86,9 +86,9 @@
 #' # Example 1.
 #' # Arbitrary formulation. Input-oriented model under constant returns-to-scale.
 #' data("Golany_Roll_1989")
-#' data_example <- read_data(datadea = Golany_Roll_1989, 
-#'                           inputs = 2:4, 
-#'                           outputs = 5:6)
+#' data_example <- make_deadata(datadea = Golany_Roll_1989, 
+#'                              inputs = 2:4, 
+#'                              outputs = 5:6)
 #' result <- cross_efficiency(data_example, 
 #'                            orientation = "io", 
 #'                            rts = "crs", 
@@ -99,9 +99,9 @@
 #' # Example 2.
 #' # Benevolent formulation (method II). Input-oriented.
 #' data("Golany_Roll_1989")
-#' data_example <- read_data(datadea = Golany_Roll_1989, 
-#'                           inputs = 2:4, 
-#'                           outputs = 5:6)
+#' data_example <- make_deadata(datadea = Golany_Roll_1989, 
+#'                              inputs = 2:4, 
+#'                              outputs = 5:6)
 #' result <- cross_efficiency(data_example, 
 #'                            orientation = "io", 
 #'                            selfapp = TRUE)
@@ -111,9 +111,9 @@
 #' # Example 3.
 #' # Benevolent formulation (method III). Input-oriented.
 #' data("Golany_Roll_1989")
-#' data_example <- read_data(datadea = Golany_Roll_1989, 
-#'                           inputs = 2:4, 
-#'                           outputs = 5:6)
+#' data_example <- make_deadata(datadea = Golany_Roll_1989, 
+#'                              inputs = 2:4, 
+#'                              outputs = 5:6)
 #' result <- cross_efficiency(data_example, 
 #'                            orientation = "io", 
 #'                            selfapp = TRUE)
@@ -123,9 +123,9 @@
 #' # Example 4.
 #' # Arbitrary formulation. Output-oriented.
 #' data("Golany_Roll_1989")
-#' data_example <- read_data(datadea = Golany_Roll_1989,
-#'                           inputs = 2:4, 
-#'                           outputs = 5:6)
+#' data_example <- make_deadata(datadea = Golany_Roll_1989,
+#'                              inputs = 2:4, 
+#'                              outputs = 5:6)
 #' result <- cross_efficiency(data_example, 
 #'                            orientation = "oo", 
 #'                            selfapp = TRUE)
@@ -135,9 +135,9 @@
 #' # Example 5.
 #' # Arbitrary formulation. Input-oriented model under vrs returns-to-scale.
 #' data("Lim_Zhu_2015")
-#' data_example <- read_data(Lim_Zhu_2015,
-#'                           ni = 1, 
-#'                           no = 5)
+#' data_example <- make_deadata(Lim_Zhu_2015,
+#'                              ni = 1, 
+#'                              no = 5)
 #' cross <- cross_efficiency(data_example,
 #'                           epsilon = 0,
 #'                           orientation = "io",

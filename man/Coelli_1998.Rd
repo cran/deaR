@@ -33,10 +33,10 @@ data("Coelli_1994")
 # Selection of prices: data_prices is the trasnpose where the prices for inputs are. 
 data_prices <- t(Coelli_1998[, 5:6]) 
 
-data_example <- read_data(Coelli_1998,
-                          dmus = 1,
-                          ni = 2,
-                          no = 1)
+data_example <- make_deadata(Coelli_1998,
+                             dmus = 1,
+                             ni = 2,
+                             no = 1)
 result <- model_profit(data_example,
                        price_input = data_prices,
                        rts = "crs", 
@@ -46,7 +46,7 @@ efficiencies(result)
 
 }
 \seealso{
-\code{\link{read_data}}
+\code{\link{make_deadata}}
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

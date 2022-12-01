@@ -69,9 +69,9 @@ desirability of the adjustments of the current input (or output) levels.
 }
 \examples{
  data("Fortune500")
- data_deaps <- read_data(datadea = Fortune500,
-                         ni = 3, 
-                         no = 2)
+ data_deaps <- make_deadata(datadea = Fortune500,
+                            ni = 3, 
+                            no = 2)
  result <- model_deaps(data_deaps, 
                        weight_eff = c(1, 2, 3), 
                        orientation = "io", 

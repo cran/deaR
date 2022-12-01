@@ -1,6 +1,7 @@
 #' @title read_malmquist
 #'  
-#' @description This function creates, from a data frame, a list \code{deadata}.
+#' @description This function creates, from a data frame, a list of
+#' \code{deadata} objects.
 #'
 #' @usage read_malmquist(datadea,
 #'                nper = NULL,
@@ -56,8 +57,9 @@ read_malmquist <- function(datadea,
                            nper = NULL,
                            percol = NULL,
                            arrangement  = c("horizontal","vertical"),
-                           ...) 
-  {
+                           ...) {
+  
+  #.Deprecated("make_malmquist")
   
   # Checking datadea
   if (!is.data.frame(datadea)) {

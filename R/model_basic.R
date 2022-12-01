@@ -161,9 +161,9 @@
 #' data("PFT1981") 
 #' # Selecting DMUs in Program Follow Through (PFT)
 #' PFT <- PFT1981[1:49, ] 
-#' PFT <- read_data(PFT, 
-#'                  inputs = 2:6, 
-#'                  outputs = 7:9 )
+#' PFT <- make_deadata(PFT, 
+#'                     inputs = 2:6, 
+#'                     outputs = 7:9 )
 #' eval_pft <- model_basic(PFT, 
 #'                         orientation = "io", 
 #'                         rts = "crs")
@@ -178,10 +178,10 @@
 #' # Replication of results in Hua and Bian (2007).
 #' data("Hua_Bian_2007")
 #' # The third output is an undesirable output.
-#' data_example <- read_data(Hua_Bian_2007, 
-#'                           ni = 2,
-#'                           no = 3, 
-#'                           ud_outputs = 3) 
+#' data_example <- make_deadata(Hua_Bian_2007, 
+#'                              ni = 2,
+#'                              no = 3, 
+#'                              ud_outputs = 3) 
 #' # Translation parameter (vtrans_o) is set to 1500                          
 #' result <- model_basic(data_example, 
 #'                       orientation = "oo", 
@@ -194,10 +194,10 @@
 #' # Replication of results in Ruggiero (2007).
 #' data("Ruggiero2007") 
 #' # The second input is a non-discretionary input.
-#' datadea <- read_data(Ruggiero2007, 
-#'                      ni = 2,
-#'                      no = 1, 
-#'                      nd_inputs = 2) 
+#' datadea <- make_deadata(Ruggiero2007, 
+#'                         ni = 2,
+#'                         no = 1, 
+#'                         nd_inputs = 2) 
 #' result <- model_basic(datadea,
 #'                       orientation = "io", 
 #'                       rts = "crs")
@@ -232,7 +232,7 @@ model_basic <-
  
   # Cheking whether datadea is of class "deadata" or not...  
   if (!is.deadata(datadea)) {
-    stop("Data should be of class deadata. Run read_data function first!")
+    stop("Data should be of class deadata. Run make_deadata function first!")
   }
   
   # Checking orientation
@@ -542,7 +542,7 @@ model_basic <-
           res <- lp(obj, f.obj, f.con, f.dir, f.rhs)
         }
         
-        if(res$status == 0) {
+        if (res$status == 0) {
           
           res <- res$solution
           

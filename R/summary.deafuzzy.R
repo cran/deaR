@@ -5,14 +5,14 @@
 #' @param object An object of class \code{"dea_fuzzy"} obtained with a fuzzy dea 
 #'  model function (\code{modelfuzzy_guotanaka}, \code{modelfuzzy_kaoliu},
 #'  \code{modelfuzzy_possibilistic}).
-#' @param ... Extra options
-#' @param exportExcel Logical value. If TRUE (default) the results are also exported to an Excel file
-#' @param filename Character string. Absolute filename (including path) of the exported Excel file. 
-#'  If NULL, then the name of the file will be "ResultsDEA"+timestamp.xlsx.
+#' @param ... Extra options.
+#' @param exportExcel Logical value. If TRUE (FALSE by default) the results are
+#' also exported to an Excel file.
+#' @param filename Character string. Absolute file name (including path) of the exported Excel file. 
+#'  If NULL, then the file name will be "ResultsDEA" + timestamp.xlsx.
 #' @param returnList Logical value. If TRUE then the results are given as a list of data frames. 
 #'  If FALSE (default) all the data frames are merged into a single data frame.
 #' 
-#'   
 #' @return If the model is that from Guo and Tanaka (\code{modelfuzzy_guotanaka}), it returns a data.frame
 #' with columns: DMU, alpha cuts and efficiencies.
 #' For the possibilistic model (\code{modelfuzzy_possibilistic}) it returns a data.frame with columns:
@@ -22,7 +22,7 @@
 #' the lambda values and the targets.
 #' 
 #' If \code{exportExcel} is TRUE, then an Excel file will be created containing as many
-#' sheets as necessary  depending on the variables returned.
+#' sheets as necessary depending on the variables returned.
 #' 
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).
@@ -38,16 +38,16 @@
 #' 
 #' @examples
 #' data("Leon2003")
-#' data_example <- read_data_fuzzy(Leon2003,
-#'                                 inputs.mL = 2, 
-#'                                 inputs.dL = 3, 
-#'                                 outputs.mL = 4, 
-#'                                 outputs.dL = 5)
+#' data_example <- make_deadata_fuzzy(Leon2003,
+#'                                    inputs.mL = 2, 
+#'                                    inputs.dL = 3, 
+#'                                    outputs.mL = 4, 
+#'                                    outputs.dL = 5)
 #' result <- modelfuzzy_possibilistic(data_example, 
 #'                                    h = seq(0, 1, by = 0.1), 
 #'                                    orientation = "io", 
 #'                                    rts = "vrs")
-#' summary(result, exportExcel = FALSE)
+#' summary(result)
 #' 
 #' @references 
 #' Leon, T.; Liern, V. Ruiz, J.; Sirvent, I. (2003). "A Possibilistic Programming
@@ -60,8 +60,11 @@
 #' 
 #' @export
 
-summary.dea_fuzzy <- function(object, ..., exportExcel = TRUE, filename = NULL, returnList = FALSE){
-  
+summary.dea_fuzzy <- function(object,
+                              ...,
+                              exportExcel = FALSE,
+                              filename = NULL,
+                              returnList = FALSE) {
   
   if (!is.dea_fuzzy(object)) {
     stop("Input should be of class dea_fuzzy!")

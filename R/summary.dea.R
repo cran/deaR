@@ -3,9 +3,10 @@
 #' @description Summary of the results obtained by a conventiona DEA model.
 #' 
 #' @param object An object of class \code{"dea"} obtained by a dea model function.
-#' @param exportExcel Logical value. If TRUE (default) the results are also exported to an Excel file
-#' @param filename Character string. Absolute filename (including path) of the exported Excel file. 
-#'  If NULL, then the name of the file will be "ResultsDEA"+timestamp.xlsx.
+#' @param exportExcel Logical value. If TRUE (FALSE by default) the results are
+#'  also exported to an Excel file.
+#' @param filename Character string. Absolute file name (including path) of the exported Excel file. 
+#'  If NULL, then the file name will be "ResultsDEA" + timestamp.xlsx.
 #' @param returnList Logical value. If TRUE then the results are given as a list of data frames. 
 #'  If FALSE (default) all the data frames are merged into a single data frame.
 #' @param ... Ignored. Used for compatibility issues.
@@ -13,7 +14,7 @@
 #' @return Depending on the model it returns a single data.frame containing: efficiencies, 
 #' slacks, lambdas, targets, references or a list of data.frames with the cross-efficiencies computed 
 #' with different methods (Arbitrary, Method II or Method III (see CITA)) or, in case the model is a
-#'  malmquist index, a single data.frame with the coefficients for the different periods.
+#' Malmquist index, a single data.frame with the coefficients for the different periods.
 #'         
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).
@@ -31,13 +32,13 @@
 #' data("PFT1981") 
 #' # Selecting DMUs in Program Follow Through (PFT)
 #' PFT <- PFT1981[1:49, ] 
-#' PFT <- read_data(PFT, 
-#'                  inputs = 2:6, 
-#'                  outputs = 7:9 )
+#' PFT <- make_deadata(PFT, 
+#'                     inputs = 2:6, 
+#'                     outputs = 7:9 )
 #' eval_pft <- model_basic(PFT, 
 #'                         orientation = "io", 
 #'                         rts = "crs")
-#' summary(eval_pft, exportExcel = FALSE)
+#' summary(eval_pft)
 #' 
 #' @references 
 #' Charnes, A.; Cooper, W.W.; Rhodes, E. (1981). "Evaluating Program and Managerial 
@@ -53,7 +54,7 @@
 #' @export
 
 summary.dea <- function(object, 
-                        exportExcel = TRUE,
+                        exportExcel = FALSE,
                         filename = NULL, 
                         returnList = FALSE,
                         ...) {

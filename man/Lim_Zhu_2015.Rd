@@ -31,10 +31,10 @@ Authors consider one input and five outputs.
 # Example. Arbitrary formulation.
 # Input-oriented model under variable returns-to-scale.
 data("Lim_Zhu_2015")
-data_example <- read_data(Lim_Zhu_2015,
-                          dmus = 1,
-                          ni = 1,
-                          no = 5)
+data_example <- make_deadata(Lim_Zhu_2015,
+                             dmus = 1,
+                             ni = 1,
+                             no = 5)
 cross <- cross_efficiency(data_example,
                           epsilon = 0,
                           orientation = "io",
@@ -46,7 +46,7 @@ cross$Arbitrary$e
 
 }
 \seealso{
-\code{\link{read_data}}, \code{\link{model_multiplier}},
+\code{\link{make_deadata}}, \code{\link{model_multiplier}},
 \code{\link{cross_efficiency}}
 }
 \author{

@@ -58,9 +58,9 @@
 #' # Selection of prices: input_prices is the transpose where the prices for inputs are. 
 #' input_prices <- t(Coelli_1998[, 5:6]) 
 #' 
-#' data_example1 <- read_data(Coelli_1998,
-#'                            ni = 2,
-#'                            no = 1)
+#' data_example1 <- make_deadata(Coelli_1998,
+#'                               ni = 2,
+#'                               no = 1)
 #' result1 <- model_profit(data_example1,
 #'                        price_input = input_prices,
 #'                        rts = "crs", 
@@ -72,9 +72,9 @@
 #' data("Coelli_1998")
 #' # Selection of prices for output: output_prices is the transpose where the prices for outputs are. 
 #' output_prices <- t(Coelli_1998[, 7]) 
-#' data_example2 <- read_data(Coelli_1998,
-#'                           ni = 2,
-#'                           no = 1)
+#' data_example2 <- make_deadata(Coelli_1998,
+#'                              ni = 2,
+#'                              no = 1)
 #' result2 <- model_profit(data_example2,
 #'                        price_output = output_prices,
 #'                        rts = "crs", 
@@ -88,9 +88,9 @@
 #' # the transpose where the prices (for inputs and outputs) are. 
 #' input_prices <- t(Coelli_1998[, 5:6]) 
 #' output_prices <- t(Coelli_1998[, 7]) 
-#' data_example3 <- read_data(Coelli_1998,
-#'                            ni = 2,
-#'                            no = 1)
+#' data_example3 <- make_deadata(Coelli_1998,
+#'                               ni = 2,
+#'                               no = 1)
 #' result3 <- model_profit(data_example3,
 #'                         price_input = input_prices,
 #'                         price_output = output_prices,
@@ -121,7 +121,7 @@ model_profit <-
     
   # Cheking whether datadea is of class "deadata" or not...  
   if (!is.deadata(datadea)) {
-    stop("Data should be of class deadata. Run read_data function first!")
+    stop("Data should be of class deadata. Run make_deadata function first!")
   }
     
   # Checking rts

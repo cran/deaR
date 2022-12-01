@@ -74,9 +74,9 @@
 #' # To replicate the results in Simar y Wilson (1998, p. 58) you have to
 #' # set B=2000 (in the example B = 100 to save time)
 #' data("Electric_plants")
-#' data_example <- read_data(Electric_plants, 
-#'                           ni = 3, 
-#'                           no = 1)
+#' data_example <- make_deadata(Electric_plants, 
+#'                              ni = 3, 
+#'                              no = 1)
 #' result <- bootstrap_basic(datadea = data_example,
 #'                              orientation = "io",
 #'                              rts = "vrs",
@@ -100,7 +100,7 @@ bootstrap_basic <- function(datadea,
  
   # Cheking whether datadea is of class "deadata" or not...  
   if (!is.deadata(datadea)) {
-    stop("Data should be of class deadata. Run read_data function first!")
+    stop("Data should be of class deadata. Run make_deadata function first!")
   }
   if (!is.null(datadea$ud_inputs) || !is.null(datadea$ud_outputs)) {
     warning("This model does not take into account the undesirable feature for inputs/outputs.")
@@ -289,5 +289,6 @@ bootstrap_basic <- function(datadea,
               rts = rts, L = L, U = U, score = score, bandwith = h, score_bc = score_bc,
               bias = bias, descriptives = descriptives, CI = CI,
               estimates_bootstrap = estimates_bootstrap, data = datadea)
-  return(structure(res, class = "dea"))
+  #return(structure(res, class = "dea"))
+  return(res)
 }

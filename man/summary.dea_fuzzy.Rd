@@ -4,19 +4,20 @@
 \alias{summary.dea_fuzzy}
 \title{Summary Fuzzy DEA models.}
 \usage{
-\method{summary}{dea_fuzzy}(object, ..., exportExcel = TRUE, filename = NULL, returnList = FALSE)
+\method{summary}{dea_fuzzy}(object, ..., exportExcel = FALSE, filename = NULL, returnList = FALSE)
 }
 \arguments{
 \item{object}{An object of class \code{"dea_fuzzy"} obtained with a fuzzy dea 
 model function (\code{modelfuzzy_guotanaka}, \code{modelfuzzy_kaoliu},
 \code{modelfuzzy_possibilistic}).}
 
-\item{...}{Extra options}
+\item{...}{Extra options.}
 
-\item{exportExcel}{Logical value. If TRUE (default) the results are also exported to an Excel file}
+\item{exportExcel}{Logical value. If TRUE (FALSE by default) the results are
+also exported to an Excel file.}
 
-\item{filename}{Character string. Absolute filename (including path) of the exported Excel file. 
-If NULL, then the name of the file will be "ResultsDEA"+timestamp.xlsx.}
+\item{filename}{Character string. Absolute file name (including path) of the exported Excel file. 
+If NULL, then the file name will be "ResultsDEA" + timestamp.xlsx.}
 
 \item{returnList}{Logical value. If TRUE then the results are given as a list of data frames. 
 If FALSE (default) all the data frames are merged into a single data frame.}
@@ -31,23 +32,23 @@ It will contain a data.frame with the efficiencies (if any), the slacks and supe
 the lambda values and the targets.
 
 If \code{exportExcel} is TRUE, then an Excel file will be created containing as many
-sheets as necessary  depending on the variables returned.
+sheets as necessary depending on the variables returned.
 }
 \description{
 Summary of the results obtained by a fuzzy DEA model.
 }
 \examples{
 data("Leon2003")
-data_example <- read_data_fuzzy(Leon2003,
-                                inputs.mL = 2, 
-                                inputs.dL = 3, 
-                                outputs.mL = 4, 
-                                outputs.dL = 5)
+data_example <- make_deadata_fuzzy(Leon2003,
+                                   inputs.mL = 2, 
+                                   inputs.dL = 3, 
+                                   outputs.mL = 4, 
+                                   outputs.dL = 5)
 result <- modelfuzzy_possibilistic(data_example, 
                                    h = seq(0, 1, by = 0.1), 
                                    orientation = "io", 
                                    rts = "vrs")
-summary(result, exportExcel = FALSE)
+summary(result)
 
 }
 \references{

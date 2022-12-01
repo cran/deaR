@@ -73,9 +73,9 @@
 #' @examples 
 #' # Replication of results in Du, Liang and Zhu (2010, Table 6, p.696)
 #' data("Power_plants")
-#' Power_plants <- read_data(Power_plants, 
-#'                           ni = 4, 
-#'                           no = 2)
+#' Power_plants <- make_deadata(Power_plants, 
+#'                              ni = 4, 
+#'                              no = 2)
 #' result <- model_addsupereff(Power_plants, 
 #'                             rts = "crs")  
 #' efficiencies(result)
@@ -103,7 +103,7 @@ model_addsupereff <-
     
   # Cheking whether datadea is of class "deadata" or not...  
   if (!is.deadata(datadea)) {
-    stop("Data should be of class deadata. Run read_data function first!")
+    stop("Data should be of class deadata. Run make_deadata function first!")
   }
       
   # Checking rts

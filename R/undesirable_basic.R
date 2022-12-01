@@ -1,8 +1,7 @@
 #' @title Undesirable inputs and outputs for basic DEA model.
 #'  
-#' @description This function transforms, according to Seiford and Zhu (2002),
-#' a deadata or deadata_fuzzy class with undesirable inputs/outputs into a
-#' deadata or deadata_fuzzy class with no undesirable inputs/outputs.
+#' @description This function transforms a deadata or deadata_fuzzy class with
+#' undesirable inputs/outputs according to Seiford and Zhu (2002).
 #' Onwards, it is recommended to use a DEA model with variable returns to scale (vrs).
 #'
 #' @usage undesirable_basic(datadea,
@@ -18,7 +17,8 @@
 #' @param vtrans_o Numeric vector of translation for undesirable outputs, analogous to
 #'  \code{vtrans_i}, but applied to outputs.
 #'
-#' @return An object of class \code{deadata} or \code{deadata_fuzzy}.
+#' @return An list with the transformed object of class \code{deadata} or \code{deadata_fuzzy}
+#' and the corresponding translation vectors \code{vtrans_i} and \code{vtrans_o}.
 #' 
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).
@@ -43,10 +43,10 @@
 #' @examples
 #' data("Hua_Bian_2007")
 #' # The third output is an undesirable output.
-#' data_example <- read_data(Hua_Bian_2007,
-#'                           ni = 2, 
-#'                           no = 3, 
-#'                           ud_outputs = 3) 
+#' data_example <- make_deadata(Hua_Bian_2007,
+#'                              ni = 2, 
+#'                              no = 3, 
+#'                              ud_outputs = 3) 
 #' # rts must be "vrs" for undesirable inputs/outputs:
 #' # Translation parameter is set to (max + 1)
 #' result <- model_basic(data_example,
@@ -142,7 +142,7 @@ undesirable_basic <- function(datadea,
     u_datadea$output <- output
     
     return(list(
-      u_datadea = structure(u_datadea, class = "deadata"),
+      u_datadea = u_datadea,
       vtrans_i = vtrans_i,
       vtrans_o = vtrans_o))
   
@@ -249,13 +249,13 @@ undesirable_basic <- function(datadea,
     u_datadea$output <- output
     
     return(list(
-      u_datadea = structure(u_datadea, class = "deadata_fuzzy"),
+      u_datadea = u_datadea,
       vtrans_i = vtrans_i,
       vtrans_o = vtrans_o))
     
   } else {
     stop("Data should be of class deadata or deadata_fuzzy.
-         Run read_data or read_data_fuzzy function first!")
+         Run make_deadata or make_deadata_fuzzy function first!")
   }
     
 }

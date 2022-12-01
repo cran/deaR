@@ -27,17 +27,17 @@ Data of 17 supply chain (buyer-supplier relationship in manufacturing).
 # Example. FDH input-oriented.
 # Replication of results in Sanei and Mamizadeh Chatghayeb (2013)
 data("Supply_Chain")
-data_fdh1 <- read_data(Supply_Chain,
-                       dmus = 1,
-                       inputs = 2:4,
-                       outputs = 5:6)
+data_fdh1 <- make_deadata(Supply_Chain,
+                          dmus = 1,
+                          inputs = 2:4,
+                          outputs = 5:6)
 # by default orientation = "io"
 result <- model_fdh(data_fdh1)
 efficiencies(result)
 
 }
 \seealso{
-\code{\link{read_data}}, \code{\link{model_fdh}}
+\code{\link{make_deadata}}, \code{\link{model_fdh}}
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

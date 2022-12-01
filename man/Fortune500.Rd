@@ -28,10 +28,10 @@ This dataset consists of 15 firms from the Fortune 500 list 1995
 }
 \examples{
 data("Fortune500")
-data_Fortune <- read_data(datadea = Fortune500,
-                          dmus = 1,
-                          inputs = 2:4,
-                          outputs = 5:6)
+data_Fortune <- make_deadata(datadea = Fortune500,
+                             dmus = 1,
+                             inputs = 2:4,
+                             outputs = 5:6)
 result <- model_multiplier(data_Fortune,
                            epsilon = 1e-6,
                            orientation = "io",
@@ -43,7 +43,7 @@ multipliers(result)
 
 }
 \seealso{
-\code{\link{read_data}}, \code{\link{model_multiplier}}
+\code{\link{make_deadata}}, \code{\link{model_multiplier}}
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

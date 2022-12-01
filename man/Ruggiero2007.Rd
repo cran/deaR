@@ -27,10 +27,10 @@ Simulated data of 35 DMUs with two inputs and one output.
 # Example. Replication of results in Ruggiero (2007).
 data("Ruggiero2007")
 # the second input is a non-discretionary input
-datadea <- read_data(Ruggiero2007,
-                     ni = 2,
-                     no = 1,
-                     nd_inputs = 2)
+datadea <- make_deadata(Ruggiero2007,
+                        ni = 2,
+                        no = 1,
+                        nd_inputs = 2)
 result <- model_basic(datadea,
                       orientation = "io",
                       rts = "crs")
@@ -39,7 +39,7 @@ slacks(result)
 
 }
 \seealso{
-\code{\link{read_data}}, \code{\link{model_basic}}
+\code{\link{make_deadata}}, \code{\link{model_basic}}
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

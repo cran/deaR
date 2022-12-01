@@ -29,10 +29,10 @@ Data adapted from Tomkins and Green (1988).  13 DMUs using 3 inputs to produce 2
 \examples{
 # Example.
 data("Doyle_Green_1994")
-data_example <- read_data(datadea = Doyle_Green_1994,
-                         dmus = 1,
-                         inputs = 6:7,
-                         outputs = 2:5)
+data_example <- make_deadata(datadea = Doyle_Green_1994,
+                            dmus = 1,
+                            inputs = 6:7,
+                            outputs = 2:5)
 result <- cross_efficiency(data_example,
                            orientation = "io",
                            selfapp = TRUE)
@@ -45,7 +45,7 @@ result$M3_agg$cross_eff
 
 }
 \seealso{
-\code{\link{read_data}}, \code{\link{model_multiplier}},
+\code{\link{make_deadata}}, \code{\link{model_multiplier}},
 \code{\link{cross_efficiency}}
 }
 \author{

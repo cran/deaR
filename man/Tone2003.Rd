@@ -25,10 +25,10 @@ Data of 9 DMUs producing 2 outputs, being second ouput undesirable, by using 1 i
 \examples{
 # Example. Replication of results in Tone (2003), pp 10-11.
 data("Tone2003")
-data_example <- read_data(Tone2003,
-                          ni = 1,
-                          no = 2,
-                          ud_outputs = 2)
+data_example <- make_deadata(Tone2003,
+                             ni = 1,
+                             no = 2,
+                             ud_outputs = 2)
 result <- model_sbmeff(data_example,
                        rts = "vrs")
 efficiencies(result)
@@ -36,7 +36,7 @@ targets(result)
 
 }
 \seealso{
-\code{\link{read_data}}, \code{\link{model_sbmeff}}
+\code{\link{make_deadata}}, \code{\link{model_sbmeff}}
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

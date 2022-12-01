@@ -23,9 +23,9 @@
 #' University of Valencia (Spain)
 #' 
 #' @examples
-#' data_example <- read_data(datadea = Fortune500,
-#'                           inputs = 2:4, 
-#'                           outputs = 5:6)
+#' data_example <- make_deadata(datadea = Fortune500,
+#'                              inputs = 2:4, 
+#'                              outputs = 5:6)
 #' result <- model_basic(data_example)
 #' plot(result)
 #' 

@@ -72,9 +72,9 @@ a DMU is efficient when the objective value (\code{objval}) is zero.
 x <- c(2, 3, 6, 9, 5, 4, 10) 
 y <- c(2, 5, 7, 8, 3, 1, 7)
 data_example <- data.frame(dmus = letters[1:7], x, y)
-data_example <- read_data(data_example, 
-                          ni = 1, 
-                          no = 1)
+data_example <- make_deadata(data_example, 
+                             ni = 1, 
+                             no = 1)
 result <- model_additive(data_example, 
                          rts = "vrs")
 efficiencies(result)
@@ -86,8 +86,11 @@ lambdas(result)
 x <- c(2, 3, 6, 9, 5, 4, 10) 
 y <- c(2, 5, 7, 8, 3, 1, 7)
 data_example <- data.frame(dmus = letters[1:7], x, y)
-data_example <- read_data(data_example, ni = 1, no = 1)
-result2 <- model_additive(data_example, rts = "vrs",
+data_example <- make_deadata(data_example,
+                             ni = 1,
+                             no = 1)
+result2 <- model_additive(data_example,
+                          rts = "vrs",
                           weight_slack_i = 1 / data_example[["input"]],
                           weight_slack_o = 1 / data_example[["output"]])
 slacks(result2)
@@ -97,7 +100,9 @@ slacks(result2)
 x <- c(2, 3, 6, 9, 5, 4, 10) 
 y <- c(2, 5, 7, 8, 3, 1, 7)
 data_example <- data.frame(dmus = letters[1:7], x, y)
-data_example <- read_data(data_example, ni = 1, no = 1)
+data_example <- make_deadata(data_example,
+                             ni = 1,
+                             no = 1)
 range_i <- apply(data_example[["input"]], 1, max) -
            apply(data_example[["input"]], 1, min)
 range_o <- apply(data_example[["output"]], 1, max) -

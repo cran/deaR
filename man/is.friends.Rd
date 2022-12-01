@@ -33,7 +33,9 @@ Checks whether a subset of DMUs is friends or not, according to Tone (2010).
 }
 \examples{
 data("PFT1981")
-datadea <- read_data(PFT1981, ni = 5, no = 3)
+datadea <- make_deadata(PFT1981,
+                        ni = 5,
+                        no = 3)
 subset1 <- c(15, 16, 17, 19) # Subset of DMUs to be checked
 result1 <- is.friends(datadea = datadea,
                       dmu_eval = subset1,

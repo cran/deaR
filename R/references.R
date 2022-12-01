@@ -27,9 +27,9 @@
 #' data("Departments")
 #' # Calculate Total income
 #' Departments$Total_income <- Departments[, 5] + Departments[, 6] + Departments[, 7] 
-#' data_DEA1 <- read_data(Departments,
-#'                        inputs = 9,
-#'                        outputs = c(2, 3, 4, 12))
+#' data_DEA1 <- make_deadata(Departments,
+#'                           inputs = 9,
+#'                           outputs = c(2, 3, 4, 12))
 #' result <- model_basic(data_DEA1, 
 #'                       orientation = "io",
 #'                       rts = "crs")
@@ -78,6 +78,7 @@ references <- function(deasol,
       referencelist <- vector(mode = "list", length = nineff) # Preallocate vector
       if (nineff == 0) {
         warning("There are no inefficient DMUs!")
+        referencelist <- NULL
       } else {
         for (i in 1:nineff) {
           aux <- which(lamb[ineff_rows[i], ] > thr)

@@ -63,7 +63,7 @@ SEC = Scale Efficiency Change, TC = Technological Change, MI = Malmquist Index
 # Example 1. With dataset in wide format.
 # Replication of results in Wang and Lan (2011, p. 2768)
 data("Economy")
-data_example <- read_malmquist(datadea = Economy,
+data_example <- make_malmquist(datadea = Economy,
                                nper = 5, 
                                arrangement = "horizontal",
                                ni = 2, 
@@ -76,7 +76,7 @@ tech <- result$tc
 # Example 2. With dataset in long format.
 # Replication of results in Wang and Lan (2011, p. 2768)
 data("EconomyLong")
-data_example2 <- read_malmquist(EconomyLong,
+data_example2 <- make_malmquist(EconomyLong,
                                 percol = 2, 
                                 arrangement = "vertical",
                                 inputs = 3:4, 
@@ -88,7 +88,7 @@ tech2 <- result2$tc
 
 # Example 3. Replication of results in Grifell-Tatje and Lovell (1999, p. 100).
 data("Grifell_Lovell_1999")
-data_example <- read_malmquist(Grifell_Lovell_1999,
+data_example <- make_malmquist(Grifell_Lovell_1999,
                                percol = 1,
                                dmus = 2,
                                inputs = 3,

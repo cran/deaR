@@ -27,9 +27,9 @@ Data of 5 DMUs producing 2 outputs by using 2 inputs
 \examples{
 # Example. Replication of results in Tone (2001, p. 505)
 data("Tone2001")
-data_example <- read_data(Tone2001,
-                          ni = 2,
-                          no = 2)
+data_example <- make_deadata(Tone2001,
+                             ni = 2,
+                             no = 2)
 result <- model_sbmeff(data_example,
                        orientation = "no",
                        rts = "crs")
@@ -38,7 +38,7 @@ slacks(result)
 
 }
 \seealso{
-\code{\link{read_data}}, \code{\link{model_sbmeff}}
+\code{\link{make_deadata}}, \code{\link{model_sbmeff}}
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

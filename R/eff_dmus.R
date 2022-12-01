@@ -25,9 +25,9 @@
 #' University of Valencia (Spain) 
 #' 
 #' @examples
-#' dataFortune <- read_data(Fortune500,
-#'                          ni = 3,
-#'                          no = 2)
+#' dataFortune <- make_deadata(Fortune500,
+#'                             ni = 3,
+#'                             no = 2)
 #' ccrFortune <- model_basic(dataFortune)
 #' eff_dmus(ccrFortune)
 #' 

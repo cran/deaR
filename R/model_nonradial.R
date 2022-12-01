@@ -67,9 +67,9 @@
 #' @examples 
 #' # Replication of results in Wu, Tsai and Zhou (2011)
 #' data("Hotels")
-#' data_hotels <- read_data(Hotels, 
-#'                          inputs = 2:5, 
-#'                          outputs = 6:8)
+#' data_hotels <- make_deadata(Hotels, 
+#'                             inputs = 2:5, 
+#'                             outputs = 6:8)
 #' result <- model_nonradial(data_hotels, 
 #'                           orientation = "oo", 
 #'                           rts = "vrs")
@@ -97,7 +97,7 @@ model_nonradial <-
     
   # Cheking whether datadea is of class "deadata" or not...  
   if (!is.deadata(datadea)) {
-    stop("Data should be of class deadata. Run read_data function first!")
+    stop("Data should be of class deadata. Run make_deadata function first!")
   }
     
   # Checking orientation

@@ -25,7 +25,8 @@ read_malmquist(datadea,
 An object of class \code{deadata}
 }
 \description{
-This function creates, from a data frame, a list \code{deadata}.
+This function creates, from a data frame, a list of
+\code{deadata} objects.
 }
 \examples{
 # Example 1. If you have a dataset in wide format.

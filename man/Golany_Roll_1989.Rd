@@ -28,10 +28,10 @@ Data of 13 DMUs using 3 inputs to produce 2 outputs.
 \examples{
 # Example.
 data("Golany_Roll_1989")
-data_example <- read_data(datadea = Golany_Roll_1989,
-                          dmus = 1,
-                          inputs = 2:4,
-                          outputs = 5:6)
+data_example <- make_deadata(datadea = Golany_Roll_1989,
+                             dmus = 1,
+                             inputs = 2:4,
+                             outputs = 5:6)
 result <- cross_efficiency(data_example,
                            orientation = "io",
                            selfapp = TRUE)
@@ -40,7 +40,7 @@ result$Arbitrary$e
 
 }
 \seealso{
-\code{\link{read_data}}, \code{\link{model_multiplier}}, \code{\link{cross_efficiency}}
+\code{\link{make_deadata}}, \code{\link{model_multiplier}}, \code{\link{cross_efficiency}}
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

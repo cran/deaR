@@ -69,9 +69,9 @@ DMUs, \code{m} inputs and \code{s} outputs.
 \examples{
 # Replication of results in Tone(2002, p.39)
 data("Power_plants")
-data_example <- read_data(Power_plants,
-                          ni = 4,
-                          no = 2)
+data_example <- make_deadata(Power_plants,
+                             ni = 4,
+                             no = 2)
 result <- model_sbmsupereff(data_example,
                             orientation = "io",
                             rts = "crs") 

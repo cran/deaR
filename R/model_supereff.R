@@ -40,9 +40,9 @@
 #' # Example 1.
 #' # Replication of results in Tone (2002, p.38)
 #' data("Power_plants")
-#' data_example <- read_data(Power_plants, 
-#'                           ni = 4, 
-#'                           no = 2)
+#' data_example <- make_deadata(Power_plants, 
+#'                              ni = 4, 
+#'                              no = 2)
 #' result <- model_supereff(data_example, 
 #'                          orientation = "io", 
 #'                          rts = "crs") 
@@ -52,9 +52,9 @@
 #' # Results of Super-efficiency with vrs returns to scale show infeasibility solutions 
 #' # for DMUs D4 and D6 (these DMUs are not shown in deaR results).
 #' data("Power_plants")
-#' data_example2 <- read_data(Power_plants, 
-#'                            ni = 4, 
-#'                            no = 2) 
+#' data_example2 <- make_deadata(Power_plants, 
+#'                               ni = 4, 
+#'                               no = 2) 
 #' result2 <- model_supereff(data_example2, 
 #'                           orientation = "io", 
 #'                           rts = "vrs") 
@@ -81,7 +81,7 @@ model_supereff <-
     
   # Cheking whether datadea is of class "deadata" or not...  
   if (!is.deadata(datadea)) {
-    stop("Data should be of class deadata. Run read_data function first!")
+    stop("Data should be of class deadata. Run make_deadata function first!")
   }
     
   optlist <- list(...)

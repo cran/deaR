@@ -70,9 +70,9 @@
 #' 
 #' @examples 
 #'  data("Fortune500")
-#'  data_deaps <- read_data(datadea = Fortune500,
-#'                          ni = 3, 
-#'                          no = 2)
+#'  data_deaps <- make_deadata(datadea = Fortune500,
+#'                             ni = 3, 
+#'                             no = 2)
 #'  result <- model_deaps(data_deaps, 
 #'                        weight_eff = c(1, 2, 3), 
 #'                        orientation = "io", 
@@ -104,7 +104,7 @@ model_deaps <-
     
   # Cheking whether datadea is of class "deadata" or not...  
   if (!is.deadata(datadea)) {
-    stop("Data should be of class deadata. Run read_data function first!")
+    stop("Data should be of class deadata. Run make_deadata function first!")
   }
     
   # Checking orientation

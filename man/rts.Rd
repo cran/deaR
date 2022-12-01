@@ -2,7 +2,7 @@
 % Please edit documentation in R/rts.R
 \name{rts}
 \alias{rts}
-\title{RTS}
+\title{Returns to scale}
 \usage{
 rts(deamodel,
            thr = 1e-4)
@@ -18,9 +18,9 @@ Extract the returns to scale.
 }
 \examples{
 data("Coll_Blasco_2006")
-data_example <- read_data(Coll_Blasco_2006,
-                          ni = 2, 
-                          no = 2)
+data_example <- make_deadata(Coll_Blasco_2006,
+                             ni = 2, 
+                             no = 2)
 result <- model_basic(data_example, 
                       orientation = "io", 
                       rts ="crs")
