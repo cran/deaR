@@ -11,7 +11,7 @@ make_malmquist(datadea,
                ...)
 }
 \arguments{
-\item{datadea}{Dataframe with DEA data.}
+\item{datadea}{Data frame with DEA data.}
 
 \item{nper}{Number of time periods (with dataset in wide format).}
 
@@ -19,7 +19,7 @@ make_malmquist(datadea,
 
 \item{arrangement}{Horizontal with data in wide format. Vertical with data in long format.}
 
-\item{...}{Other options to be passed to the make_deadata function}
+\item{...}{Other options to be passed to the \code{make_deadata} function.}
 }
 \value{
 An object of class \code{deadata}

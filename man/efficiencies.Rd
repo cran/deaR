@@ -7,12 +7,12 @@
 efficiencies(x, ...)
 }
 \arguments{
-\item{x}{DEA / DEA fuzzy object}
+\item{x}{An object of class \code{dea}, \code{dea_fuzzy} or \code{dea_stoch}.}
 
-\item{...}{ignored}
+\item{...}{ignored.}
 }
 \description{
 Extract the scores (optimal objective values) of the evaluated
-DMUs from a DEA / DEA fuzzy solution. Note that these scores may not always
-be interpreted as efficiencies.
+DMUs from a conventional, fuzzy or stochastic DEA solution. Note that these
+scores may not always be interpreted as efficiencies.
 }

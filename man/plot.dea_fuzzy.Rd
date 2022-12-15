@@ -7,10 +7,10 @@
 \method{plot}{dea_fuzzy}(x, showPlots = TRUE, ...)
 }
 \arguments{
-\item{x}{An object of class \code{"dea_fuzzy"} obtained by a fuzzy DEA model function.}
+\item{x}{An object of class \code{dea_fuzzy} obtained by a fuzzy DEA model function.}
 
 \item{showPlots}{Logical. When TRUE (default) the plots are shown one by one. When it 
-is FALSE the plots are not shown and are returned by the function (invisiblily) as a 
+is FALSE the plots are not shown and are returned by the function (invisibly) as a 
 list.}
 
 \item{...}{Ignored, for compatibility issues.}
@@ -19,7 +19,7 @@ list.}
 Depending on the model, it returns some plots.
 }
 \description{
-Plot some attribute of a fuzzy DEA model (Guo-Tanaka, Kao-Liu  and
+Plot some attributes of a fuzzy DEA model (Guo-Tanaka, Kao-Liu  and
 possibilistic models).
 }
 \references{

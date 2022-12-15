@@ -7,28 +7,36 @@
 \method{efficiencies}{dea_fuzzy}(x, ...)
 }
 \arguments{
-\item{x}{Object of class dea or dea_fuzzy obtained with some of the dea model functions.}
+\item{x}{Object of class \code{dea_fuzzy} obtained with some of the fuzzy DEA
+\code{modelfuzzy_*} functions.}
 
-\item{...}{Other options (for compatibiliy)}
+\item{...}{Other options (for compatibility).}
 }
 \description{
 Extract the scores (optimal objective values) of the evaluated DMUs
-from a DEA fuzzy solution. Note that these scores may not always be interpreted
+from a fuzzy DEA solution. Note that these scores may not always be interpreted
 as efficiencies.
 }
 \examples{
-# Replication results model DEA1 in Tomkins and Green (1988)
-data("Departments")
-# Calculate Total income
-Departments$Total_income <- Departments[, 5] + Departments[, 6] + Departments[, 7] 
-data_DEA1 <- make_deadata(Departments,
-                          inputs = 9,
-                          outputs = c(2, 3, 4, 12))
-result <- model_basic(data_DEA1, 
-                      orientation = "io",
-                      rts = "crs")
-efficiencies(result) # Table 3 (p.156) 
+# Replication of results in Boscá, Liern, Sala and Martínez (2011, p.125)
+data("Leon2003")
+data_example <- make_deadata_fuzzy(datadea = Leon2003,
+                                   inputs.mL = 2, 
+                                   inputs.dL = 3, 
+                                   outputs.mL = 4, 
+                                   outputs.dL = 5)
+result <- modelfuzzy_kaoliu(data_example,
+                            kaoliu_modelname = "basic", 
+                            alpha = seq(0, 1, by = 0.1), 
+                            orientation = "io", 
+                            rts = "vrs")
+efficiencies(result) 
  
+}
+\references{
+Boscá, J.E.; Liern, V.; Sala, R.; Martínez, A. (2011). "Ranking Decision Making
+Units by Means of Soft Computing DEA Models". International Journal of Uncertainty,
+Fuzziness and Knowledge-Based Systems, 19(1), p.115-134.
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

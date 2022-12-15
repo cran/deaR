@@ -7,7 +7,7 @@
 \method{plot}{dea}(x, tol = 1e-04, showPlots = TRUE, ...)
 }
 \arguments{
-\item{x}{An object of class \code{"dea"} obtained by a DEA model function.}
+\item{x}{An object of class \code{dea} obtained by a DEA model function.}
 
 \item{tol}{Numeric. Absolute tolerance for numeric comparisons. By default, it is 1e-4.}
 
@@ -31,7 +31,7 @@ plot(result)
 
 }
 \references{
-#' Zhu, J. (2014). Quantitative Models for Performance Evaluation and Benchmarking.
+Zhu, J. (2014). Quantitative Models for Performance Evaluation and Benchmarking.
 Data Envelopment Analysis with Spreadsheets. 3rd Edition Springer, New York.
 \doi{10.1007/978-3-319-06647-9}
 }

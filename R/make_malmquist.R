@@ -9,11 +9,11 @@
 #'                arrangement  = c("horizontal", "vertical"),
 #'                ...) 
 #'              
-#' @param datadea Dataframe with DEA data.
+#' @param datadea Data frame with DEA data.
 #' @param nper Number of time periods (with dataset in wide format).
 #' @param percol Column of time period (with dataset in long format).
 #' @param arrangement Horizontal with data in wide format. Vertical with data in long format.
-#' @param ... Other options to be passed to the make_deadata function
+#' @param ... Other options to be passed to the \code{make_deadata} function.
 #'
 #' @return An object of class \code{deadata}
 #' 

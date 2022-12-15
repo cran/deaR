@@ -2,7 +2,7 @@
 #'   
 #' @description Plot some attribute of a DEA model.
 #' 
-#' @param x An object of class \code{"dea"} obtained by a DEA model function.
+#' @param x An object of class \code{dea} obtained by a DEA model function.
 #' @param tol Numeric. Absolute tolerance for numeric comparisons. By default, it is 1e-4.
 #' @param showPlots Logical. When TRUE (default) the plots are shown one by one. When it 
 #' is FALSE the plots are not shown and are returned by the function (invisibly) as a list.
@@ -30,7 +30,7 @@
 #' plot(result)
 #' 
 #' @references
-#' #' Zhu, J. (2014). Quantitative Models for Performance Evaluation and Benchmarking.
+#' Zhu, J. (2014). Quantitative Models for Performance Evaluation and Benchmarking.
 #' Data Envelopment Analysis with Spreadsheets. 3rd Edition Springer, New York.
 #' \doi{10.1007/978-3-319-06647-9}
 #'
@@ -92,8 +92,8 @@ plot.dea <- function(x,
         layout(title = titles[[i]])
       if (showPlots) {
         if (i > 1) invisible(readline(prompt = "Press [enter] to continue"))
-        pdf(NULL)
-        show(p[[i]])
+        #pdf(NULL)
+        print(p[[i]])
       }
     }
     names(p) <- titles

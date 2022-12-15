@@ -1,4 +1,4 @@
-#' @title Radial superefficiency basic DEA model
+#' @title Radial super-efficiency basic DEA model
 #'   
 #' @description Solve Andersen and Petersen radial Super-efficiency DEA model. 
 #' 
@@ -8,7 +8,7 @@
 #'                supereff_modelname = c("basic"),
 #'                ...)
 #' 
-#' @param datadea The data, including DMUs, inputs and outputs.
+#' @param datadea An object of class \code{deadata}.
 #' @param dmu_eval A numeric vector containing which DMUs have to be evaluated.
 #' If \code{NULL} (default), all DMUs are considered.
 #' @param dmu_ref A numeric vector containing which DMUs are the evaluation reference set.
@@ -68,15 +68,13 @@
 #' @seealso \code{\link{model_basic}}, \code{\link{model_sbmsupereff}},
 #' \code{\link{model_addsupereff}}
 #' 
-#' @import lpSolve
-#' 
 #' @export
   
 model_supereff <-
   function(datadea,
            dmu_eval = NULL,
            dmu_ref = NULL,
-           supereff_modelname = c("basic"), #"deaps", "fdh", "multiplier"), This super-efficiency model also gives feasible solutions for this models.
+           supereff_modelname = c("basic"), #"deaps", "fdh", "multiplier"), This super-efficiency model also gives feasible solutions for these models.
            ...) {
     
   # Cheking whether datadea is of class "deadata" or not...  
@@ -140,7 +138,7 @@ model_supereff <-
     
     if ((ii %in% dmu_ref) && (!is.null(DMU[[i]]$lambda))) {
       newlambda <- rep(0, ndr)
-      newlambda[dmu_ref == ii] <- 0
+      # newlambda[dmu_ref == ii] <- 0
       newlambda[dmu_ref != ii] <- DMU[[i]]$lambda
       names(newlambda) <- dmunames[dmu_ref]
       DMU[[i]]$lambda <- newlambda

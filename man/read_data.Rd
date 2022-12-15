@@ -49,63 +49,6 @@ Alternatively to \code{datadea}, it can be a matrix with the outputs (DMUs in co
 
 \item{ud_outputs}{A numeric vector containing the indices of undesirable (bad) outputs.}
 }
-\value{
-An object of class \code{deadata}
-}
 \description{
-This function creates, from a data frame, a \code{deadata} structure,
-which is as list with fields \code{input}, \code{output}, \code{dmunames},
-\code{nc_inputs}, \code{nc_outputs}, \code{nd_inputs}, \code{nd_outputs}.
-}
-\examples{
-data("Coll_Blasco_2006")
-data_example <- read_data(datadea = Coll_Blasco_2006,
-                          ni = 2, 
-                          no = 2)
-# This is the same as:
-data_example <- read_data(Coll_Blasco_2006,
-                          inputs = 2:3, 
-                          outputs = 4:5)
-# And the same as:
-dmunames <- c("A", "B", "C", "D", "E", "F")
-nd <- length(dmunames) # Number of DMUs
-inputnames <- c("Employees", "Capital")
-ni <- length(inputnames) # Number of Inputs
-outputnames <- c("Vehicles", "Orders")
-no <- length(outputnames) # Number of Outputs
-inputs <- matrix(c(8, 8, 11, 15, 14, 12, 12, 13, 11, 18, 18, 20),
-                 nrow = ni, ncol = nd, dimnames = list(inputnames, dmunames))
-outputs <- matrix(c(14, 20, 25, 42, 8, 30, 25, 8, 40, 22, 24, 30),
-                  nrow = no, ncol = nd, dimnames = list(outputnames, dmunames))
-data_example <- read_data(inputs = inputs,
-                          outputs = outputs)                
-# If the first input is a non-controllable input:
-data_example <- read_data(Coll_Blasco_2006,
-                          inputs = 2:3,
-                          outputs = 4:5, 
-                          nc_inputs = 1)
-# If the second output is a non-discretionary output:
-data_example <- read_data(Coll_Blasco_2006,
-                          inputs = 2:3, 
-                          outputs = 4:5, 
-                          nd_outputs = 2)
-# If the second input is a non-discretionary input and the second output is an undesirable:
-data_example <- read_data(Coll_Blasco_2006,
-                          inputs = 2:3, 
-                          outputs = 4:5, 
-                          nd_inputs = 2, 
-                          ud_outputs = 2)
-
-}
-\author{
-\strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).
-\emph{Quantitative Methods for Measuring Culture (MC2). Applied Economics.}
-
-\strong{Vicente Bolós} (\email{vicente.bolos@uv.es}).
-\emph{Department of Business Mathematics}
-
-\strong{Rafael Benítez} (\email{rafael.suarez@uv.es}).
-\emph{Department of Business Mathematics}
-
-University of Valencia (Spain)
+This function is deprecated. Use \code{make_deadata} instead.
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/model_supereff.R
 \name{model_supereff}
 \alias{model_supereff}
-\title{Radial superefficiency basic DEA model}
+\title{Radial super-efficiency basic DEA model}
 \usage{
 model_supereff(datadea,
                dmu_eval = NULL,
@@ -11,7 +11,7 @@ model_supereff(datadea,
                ...)
 }
 \arguments{
-\item{datadea}{The data, including DMUs, inputs and outputs.}
+\item{datadea}{An object of class \code{deadata}.}
 
 \item{dmu_eval}{A numeric vector containing which DMUs have to be evaluated.
 If \code{NULL} (default), all DMUs are considered.}

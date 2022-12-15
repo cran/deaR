@@ -1,10 +1,12 @@
 #' @title Objective scores
 #'   
-#' @description Extract the scores (optimal objective values) of the evaluated DMUs from a DEA solution.
-#' Note that these scores may not always be interpreted as efficiencies.
+#' @description Extract the scores (optimal objective values) of the evaluated
+#' DMUs from a conventional DEA solution. Note that these scores may not always be
+#' interpreted as efficiencies.
 #' 
-#' @param x Object of class dea or dea_fuzzy obtained with some of the dea model functions.
-#' @param ... Other options (for compatibility reasons)
+#' @param x Object of class \code{dea} obtained with some of the conventional DEA
+#' \code{model_*} functions.
+#' @param ... Other options (for compatibility reasons).
 #'   
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).
@@ -17,6 +19,11 @@
 #' \emph{Department of Business Mathematics}
 #'
 #' University of Valencia (Spain)
+#' 
+#' @references 
+#' Tomkins, C.; Green, R. (1988). “An Experiment in the Use of Data Envelopment
+#' Analysis for Evaluating the Efficiency of UK University Departments of
+#' Accounting”. Financial Accountability and Management 4(2): 147.
 #' 
 #' @examples 
 #' # Replication results model DEA1 in Tomkins and Green (1988)

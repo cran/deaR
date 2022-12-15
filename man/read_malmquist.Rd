@@ -11,7 +11,7 @@ read_malmquist(datadea,
                ...)
 }
 \arguments{
-\item{datadea}{Dataframe with DEA data.}
+\item{datadea}{Data frame with DEA data.}
 
 \item{nper}{Number of time periods (with dataset in wide format).}
 
@@ -19,47 +19,8 @@ read_malmquist(datadea,
 
 \item{arrangement}{Horizontal with data in wide format. Vertical with data in long format.}
 
-\item{...}{Other options to be passed to the read_data function}
-}
-\value{
-An object of class \code{deadata}
+\item{...}{Other options to be passed to the \code{make_deadata} function.}
 }
 \description{
-This function creates, from a data frame, a list of
-\code{deadata} objects.
-}
-\examples{
-# Example 1. If you have a dataset in wide format.
-data("Economy")
-data_example <- read_malmquist(datadea = Economy, 
-                               nper = 5, 
-                               arrangement = "horizontal",
-                               ni = 2, 
-                               no = 1)
-# This is the same as:
-data_example <- read_malmquist(datadea = Economy,
-                               nper = 5, 
-                               arrangement = "horizontal",
-                               inputs = 2:3, 
-                               outputs = 4)
-# Example 2. If you have a dataset in long format.
-data("EconomyLong")
-data_example2 <- read_malmquist(EconomyLong,
-                                percol = 2, 
-                                arrangement = "vertical",
-                                inputs = 3:4, 
-                                outputs = 5)
-
-}
-\author{
-\strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).
-\emph{Quantitative Methods for Measuring Culture (MC2). Applied Economics.}
-
-\strong{Vicente Bolós} (\email{vicente.bolos@uv.es}).
-\emph{Department of Business Mathematics}
-
-\strong{Rafael Benítez} (\email{rafael.suarez@uv.es}).
-\emph{Department of Business Mathematics}
-
-University of Valencia (Spain)
+This function is deprecated. Use \code{make_malmquist} instead.
 }

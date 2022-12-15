@@ -25,7 +25,7 @@
 #'   calculated from data on time spent with child on school-related topics such
 #'   as reading together, etc.).}
 #'   \item{X5 = Teachers}{Number of Teachers (number of teachers at a given site).}
-#'   \item{Progrmam}{PFT or NFT.}
+#'   \item{Program}{PFT or NFT.}
 #' }
 #' 
 #' @source Charnes, A.; Cooper, W.W.; Rhodes, E. (1981). "Evaluating Program and

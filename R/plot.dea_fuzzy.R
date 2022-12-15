@@ -1,11 +1,11 @@
 #' @title Plot for fuzzy DEA models.
 #'   
-#' @description Plot some attribute of a fuzzy DEA model (Guo-Tanaka, Kao-Liu  and
+#' @description Plot some attributes of a fuzzy DEA model (Guo-Tanaka, Kao-Liu  and
 #' possibilistic models).
 #' 
-#' @param x An object of class \code{"dea_fuzzy"} obtained by a fuzzy DEA model function.
+#' @param x An object of class \code{dea_fuzzy} obtained by a fuzzy DEA model function.
 #' @param showPlots Logical. When TRUE (default) the plots are shown one by one. When it 
-#' is FALSE the plots are not shown and are returned by the function (invisiblily) as a 
+#' is FALSE the plots are not shown and are returned by the function (invisibly) as a 
 #' list.
 #' @param ... Ignored, for compatibility issues.
 #' 
