@@ -7,7 +7,7 @@
 \method{summary}{dea}(object, exportExcel = FALSE, filename = NULL, returnList = FALSE, ...)
 }
 \arguments{
-\item{object}{An object of class \code{"dea"} obtained by a dea model function.}
+\item{object}{An object of class \code{"dea"} obtained by a DEA model function.}
 
 \item{exportExcel}{Logical value. If TRUE (FALSE by default) the results are
 also exported to an Excel file.}
@@ -27,7 +27,7 @@ with different methods (Arbitrary, Method II or Method III (see CITA)) or, in ca
 Malmquist index, a single data.frame with the coefficients for the different periods.
 }
 \description{
-Summary of the results obtained by a conventiona DEA model.
+Summary of the results obtained by a conventional DEA model.
 }
 \examples{
 data("PFT1981") 
@@ -46,7 +46,7 @@ summary(eval_pft)
 Charnes, A.; Cooper, W.W.; Rhodes, E. (1981). "Evaluating Program and Managerial 
 Efficiency: An Application of Data Envelopment Analysis to Program Follow Through", 
 Management Science, 27(6), 668-697. 
-\url{https://pubsonline.informs.org/doi/abs/10.1287/mnsc.27.6.668}
+\doi{10.1287/mnsc.27.6.668}
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

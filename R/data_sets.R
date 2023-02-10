@@ -149,7 +149,7 @@
 #' Data: Zhu (2014).
 #'
 #' This dataset consists of 15 firms from the Fortune 500 list 1995
-#' (\url{https://fortune.com/fortune500/}) with 3 inputs and 2 outputs.
+#' (\url{https://fortune.com/ranking/fortune500/}) with 3 inputs and 2 outputs.
 #' 
 #' @usage data("Fortune500")
 #' 
@@ -1189,7 +1189,7 @@
 
 #' Data: Tone (2003).
 #'
-#' Data of 9 DMUs producing 2 outputs, being second ouput undesirable, by using 1 input.
+#' Data of 9 DMUs producing 2 outputs, being second output undesirable, by using 1 input.
 #'  
 #' @usage data("Tone2003")
 #' 
@@ -1230,6 +1230,57 @@
 #' @seealso \code{\link{make_deadata}}, \code{\link{model_sbmeff}}
 
 "Tone2003"
+
+
+#' Data: Coelli, Grifell-Tatje, and Perelman (2002).
+#'
+#' Data of 28 airlines with 2 outputs and 4 inputs.
+#'  
+#' @usage data("Airlines")
+#' 
+#' @format Data frame with 28 rows and 7 columns. Definition of outputs (Y) and inputs (X):
+#' \describe{
+#'   \item{y1 = Pass}{Passenger-kilometers flown}
+#'   \item{y2 = Cargo}{Freight tonne-kilometers flown}
+#'   \item{x1 = Lab}{Labor (number of employees)}
+#'   \item{x2 = Fuel}{Fuel (millions of gallons)}
+#'   \item{x3 = Matl}{Other inputs (millions of U.S. dollar equivalent)
+#'   consisting of operating and maintenance expenses excluding labor and fuel expenses}
+#'   \item{x4 = Cap}{Capital (sum of the maximum takeoff weights of all aircraft
+#'   flown multiplied by the number of days flown)}
+#' }
+#' 
+#' @source Coelli, T.; Griffel-Tatje, E.; Perelman, S. (2002). "Capacity Utilization
+#' and Profitability: A Decomposition of Short-Run Profit Efficiency",
+#' International Journal of Production Economics 79, 261–278.
+#'
+#' @author
+#' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).
+#' \emph{Quantitative Methods for Measuring Culture (MC2). Applied Economics.}
+#'
+#' \strong{Vicente Bolos} (\email{vicente.bolos@@uv.es}).
+#' \emph{Department of Business Mathematics}
+#'
+#' \strong{Rafael Benitez} (\email{rafael.suarez@@uv.es}).
+#' \emph{Department of Business Mathematics}
+#'
+#' University of Valencia (Spain)
+#'
+#' @examples
+#' # Example. Replication of results in Aparicio et al. (2007).
+#' data("Airlines")
+#' data_example <- make_deadata(Airlines,
+#'                              inputs = 4:7,
+#'                              outputs = 2:3)
+#' result <- model_sbmeff(data_example)
+#' efficiencies(result)
+#' result2 <- model_sbmeff(data_example,
+#'                         kaizen = TRUE)
+#' efficiencies(result2)
+#'
+#' @seealso \code{\link{make_deadata}}, \code{\link{model_sbmeff}}
+
+"Airlines"
 
 
 #' Data: Grifell-Tatjé and Lovell (1999).

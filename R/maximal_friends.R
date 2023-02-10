@@ -1,7 +1,7 @@
 #' @title Maximal friends of a set of DMUs.
 #'   
 #' @description Finds the maximal friends subsets of a given set of DMUs, according to Tone (2010).
-#'              It uses a descending algorithm in order to find directly maximal subsets.
+#'              It uses an ascending algorithm in order to find directly maximal subsets.
 #' 
 #' @usage maximal_friends(datadea,
 #'              dmu_ref = NULL,
@@ -9,7 +9,7 @@
 #'              tol = 1e-6,
 #'              silent = FALSE)
 #' 
-#' @param datadea The data, including \code{n} DMUs, \code{m} inputs and \code{s} outputs.
+#' @param datadea A \code{deadata} object with \code{n} DMUs, \code{m} inputs and \code{s} outputs.
 #' @param dmu_ref A numeric vector containing which DMUs are the evaluation reference set,
 #'                i.e. the cluster of DMUs from which we want to find maximal friends.
 #'                If \code{NULL} (default), all DMUs are considered.
@@ -83,16 +83,18 @@ maximal_friends <- function(datadea,
   }
   names(dmu_ref) <- dmunames[dmu_ref]
   
-  
   # Find efficient DMUs in dmu_ref
-  result_sbm <- model_sbmeff(datadea = datadea,
-                             dmu_eval = dmu_ref,
-                             dmu_ref = dmu_ref,
-                             rts = rts)
-  eff <- efficiencies(result_sbm)
-  #lambself <- diag(lambdas(result_sbm)) # For rts = "grs", efficiency is not reliable
-  #effDMUs <- dmu_ref[(eff >= 1 - tol) | (lambself >= tol)]
-  effDMUs <- dmu_ref[eff >= (1 - tol)]
+  result_add <- model_additive(datadea = datadea,
+                               dmu_eval = dmu_ref,
+                               dmu_ref = dmu_ref,
+                               rts = rts)
+  objval <- unlist(lapply(result_add$DMU, function(x) x$objval))
+  slacksio <- slacks(result_add)
+  slacks_input <- t(slacksio$slack_input) / datadea$input[, dmu_ref]
+  slacks_output <- t(slacksio$slack_output) / datadea$output[, dmu_ref]
+  slacks_matrix <- rbind(slacks_input, slacks_output)
+  objval <- colSums(slacks_matrix)
+  effDMUs <- dmu_ref[which(objval <= tol)]
   ne <- length(effDMUs)
   
   input_eff <- matrix(input[, effDMUs], nrow = ni)

@@ -1,8 +1,8 @@
 #' @title deadata class print method
 #'   
-#' @description Print method for deadata class.
+#' @description Print method for \code{deadata} class.
 #' 
-#' @param x A deadata object (as returned by make_deadata function).
+#' @param x A \code{deadata} object (as returned by \code{make_deadata} function).
 #' @param ... For compatibility issues.
 #'   
 #' @author 

@@ -5,7 +5,7 @@
 #' @note If \code{maxslack} is \code{FALSE}, the slacks computed in the first stage
 #' are supposed to be the max slacks.
 #' 
-#' @param deasol An object of class \code{"dea"} obtained by a dea model function.
+#' @param deasol An object of class \code{"dea"} obtained by a DEA model function.
 #' @param tol Numeric. Absolute tolerance for numeric comparisons in efficiency scores.
 #' By default, it is 1e-4.
 #' 

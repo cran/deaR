@@ -2,7 +2,7 @@
 #'   
 #' @description Summary of the results obtained by a fuzzy DEA model.
 #' 
-#' @param object An object of class \code{"dea_fuzzy"} obtained with a fuzzy dea 
+#' @param object An object of class \code{"dea_fuzzy"} obtained with a fuzzy DEA 
 #'  model function (\code{modelfuzzy_guotanaka}, \code{modelfuzzy_kaoliu},
 #'  \code{modelfuzzy_possibilistic}).
 #' @param ... Extra options.

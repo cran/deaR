@@ -20,7 +20,7 @@ model_sbmsupereff(datadea,
                   returnlp = FALSE)
 }
 \arguments{
-\item{datadea}{The data, including DMUs, inputs and outputs.}
+\item{datadea}{A \code{deadata} object, including DMUs, inputs and outputs.}
 
 \item{dmu_eval}{A numeric vector containing which DMUs have to be evaluated.
 If \code{NULL} (default), all DMUs are considered.}

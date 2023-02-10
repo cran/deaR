@@ -19,7 +19,7 @@
 #'              returnlp = FALSE,
 #'              ...)
 #' 
-#' @param datadea The data, including \code{n} DMUs, \code{m} inputs and \code{s} outputs.
+#' @param datadea A \code{deadata} object with \code{n} DMUs, \code{m} inputs and \code{s} outputs.
 #' @param dmu_eval A numeric vector containing which DMUs have to be evaluated.
 #' If \code{NULL} (default), all DMUs are considered.
 #' @param dmu_ref A numeric vector containing which DMUs are the evaluation reference set.
@@ -71,8 +71,12 @@
 #' Text with Models, Applications, References and DEA-Solver Software. 2nd Edition. Springer,
 #' New York. \doi{10.1007/978-0-387-45283-8}
 #' 
+#' Aparicio, J.; Ruiz, J.L.; Sirvent, I. (2007) "Closest targets and minimum
+#' distance to the Pareto-efficient frontier in DEA", Journal of Productivity
+#' Analysis, 28, 209-218. \doi{10.1007/s11123-007-0039-5}
+#' 
 #' @examples 
-#' # Replication of results in Tone (2001, p.505)
+#' # Example 1. Replication of results in Tone (2001, p.505)
 #' data("Tone2001")
 #' data_example <- make_deadata(Tone2001, 
 #'                              ni = 2, 
@@ -88,7 +92,7 @@
 #' slacks(result_SBM)
 #' slacks(result_CCR)
 #'  
-#' # Example. Replication of results in Tone (2003), pp 10-11 case 1:1.
+#' # Example 2. Replication of results in Tone (2003), pp 10-11 case 1:1.
 #' data("Tone2003")
 #' data_example <- make_deadata(Tone2003,
 #'                              ni = 1,
@@ -98,7 +102,15 @@
 #'                        rts = "vrs")
 #' efficiencies(result)
 #' targets(result)
-#'  
+#' 
+#' # Example 3. Replication of results in Aparicio (2007).
+#' data("Airlines")
+#' datadea <- make_deadata(Airlines,
+#'                         inputs = 4:7,
+#'                         outputs = 2:3)
+#' result <- model_sbmeff(datadea = datadea, kaizen = TRUE)
+#' efficiencies(result)
+#' targets(result)  
 #'  
 #' @seealso \code{\link{model_nonradial}}, \code{\link{model_deaps}},
 #' \code{\link{model_profit}}, \code{\link{model_sbmsupereff}}
@@ -384,7 +396,7 @@ model_sbmeff <-
                                dmu_eval = dmu_eval,
                                dmu_ref = dmu_ref,
                                rts = rts)
-    eff_sbm <- efficiencies(result_sbm)
+    eff_sbm <- unlist(lapply(result_sbm$DMU, function(x) x$efficiency))
     effDMUs <- dmu_eval[eff_sbm >= (1 - tol)]
     ineffDMUs <- dmu_eval[!dmu_eval %in% effDMUs]
     nineffDMUs <- length(ineffDMUs)

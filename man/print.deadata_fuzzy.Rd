@@ -7,12 +7,12 @@
 \method{print}{deadata_fuzzy}(x, ...)
 }
 \arguments{
-\item{x}{A deadata_fuzzy object (as returned by make_deadata_fuzzy function).}
+\item{x}{A \code{deadata_fuzzy} object (as returned by \code{make_deadata_fuzzy} function).}
 
 \item{...}{For compatibility issues.}
 }
 \description{
-Print method for deadata_fuzzy class.
+Print method for \code{deadata_fuzzy} class.
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

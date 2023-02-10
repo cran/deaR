@@ -1,8 +1,8 @@
 #' @title Summary conventional DEA models.
 #'   
-#' @description Summary of the results obtained by a conventiona DEA model.
+#' @description Summary of the results obtained by a conventional DEA model.
 #' 
-#' @param object An object of class \code{"dea"} obtained by a dea model function.
+#' @param object An object of class \code{"dea"} obtained by a DEA model function.
 #' @param exportExcel Logical value. If TRUE (FALSE by default) the results are
 #'  also exported to an Excel file.
 #' @param filename Character string. Absolute file name (including path) of the exported Excel file. 
@@ -44,7 +44,7 @@
 #' Charnes, A.; Cooper, W.W.; Rhodes, E. (1981). "Evaluating Program and Managerial 
 #' Efficiency: An Application of Data Envelopment Analysis to Program Follow Through", 
 #' Management Science, 27(6), 668-697. 
-#' \url{https://pubsonline.informs.org/doi/abs/10.1287/mnsc.27.6.668}
+#' \doi{10.1287/mnsc.27.6.668}
 #' 
 #' @method summary dea
 #' 

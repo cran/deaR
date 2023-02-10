@@ -29,7 +29,7 @@
 #'                  compute_lambda = TRUE,
 #'                  ...)
 #' 
-#' @param datadea The data, including DMUs, inputs and outputs.
+#' @param datadea A \code{deadata} object, including DMUs, inputs and outputs.
 #' @param dmu_eval A numeric vector containing which DMUs have to be evaluated.
 #' If \code{NULL} (default), all DMUs are considered.
 #' @param dmu_ref A numeric vector containing which DMUs are the evaluation reference set.

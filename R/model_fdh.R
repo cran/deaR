@@ -8,7 +8,7 @@
 #'           fdh_modelname = c("basic"),
 #'           ...)
 #' 
-#' @param datadea The data, including DMUs, inputs and outputs.
+#' @param datadea A \code{deadata} object, including DMUs, inputs and outputs.
 #' @param fdh_modelname A string containing the name of the model to apply FDH.
 #' For now, only "basic" is available.
 #' @param ... \code{dmu_eval}, \code{dmu_ref}, \code{orientation} and other model parameters.

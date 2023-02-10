@@ -7,7 +7,8 @@
 lambdas(deasol)
 }
 \arguments{
-\item{deasol}{Object of class dea or dea_fuzzy obtained with some of the DEA model functions.}
+\item{deasol}{Object of class \code{dea} or \code{dea_fuzzy} obtained with
+some of the DEA model functions.}
 }
 \description{
 Extract the lambdas of the DMUs from a dea or dea_fuzzy solution.

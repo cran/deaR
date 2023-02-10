@@ -113,25 +113,40 @@ is.friends <- function(datadea,
     ud_outputs = datadea$ud_outputs
   ), class = "deadata")
   
-  result_sbm <- model_sbmeff(datadea = datadeatest,
-                             dmu_ref = c(dmu_ref, nd + 1),
-                             dmu_eval = nd + 1,
-                             rts = rts)
-  eff <- result_sbm$DMU[[1]]$efficiency
+  # result_sbm <- model_sbmeff(datadea = datadeatest,
+  #                            dmu_ref = c(dmu_ref, nd + 1),
+  #                            dmu_eval = nd + 1,
+  #                            rts = rts)
+  # eff <- result_sbm$DMU[[1]]$efficiency
   
-  if (!is.numeric(eff)) {
+  result_add <- model_additive(datadea = datadeatest,
+                               dmu_ref = c(dmu_ref, nd + 1),
+                               dmu_eval = nd + 1,
+                               rts = rts)
+  objval <- result_add$DMU[[1]]$objval
+  
+  if (is.numeric(objval)) {
+    slacks_input <- result_add$DMU[[1]]$slack_input / datadeatest$input[, nd + 1]
+    slacks_output <- result_add$DMU[[1]]$slack_output / datadeatest$output[, nd + 1]
+    if (any(c(slacks_input, slacks_output) >= tol)) {
+    #if (objval >= tol) {
+      eff <- 0
+    } else {
+      eff <- 1
+    }
+  } else {
     result_radial <- model_basic(datadea = datadeatest,
                                  dmu_ref = c(dmu_ref, nd + 1),
                                  dmu_eval = nd + 1,
                                  rts = rts)
     eff <- result_radial$DMU[[1]]$efficiency
-    slacks_input <- result_radial$DMU[[1]]$slacks_input
-    slacks_output <- result_radial$DMU[[1]]$slacks_output
-    if ((is.numeric(eff)) && (eff >= 1 - tol) && sum(c(slacks_input, slacks_output)) >= tol) eff <- 0
+    slacks_input <- result_radial$DMU[[1]]$slack_input / datadeatest$input[, nd + 1]
+    slacks_output <- result_radial$DMU[[1]]$slack_output / datadeatest$output[, nd + 1]
+    if ((is.numeric(eff)) && (eff >= 1 - tol) && any(c(slacks_input, slacks_output) >= tol)) eff <- 0
   }
   
   if (!is.numeric(eff)) {
-    eff <- 1
+    eff <- 0
     warning("Error in the computation of SBM efficiency inside is.friends with DMUs ", toString(dmu_eval))
   }
   

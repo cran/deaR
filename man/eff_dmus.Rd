@@ -7,7 +7,7 @@
 eff_dmus(deasol, tol = 1e-04)
 }
 \arguments{
-\item{deasol}{An object of class \code{"dea"} obtained by a dea model function.}
+\item{deasol}{An object of class \code{"dea"} obtained by a DEA model function.}
 
 \item{tol}{Numeric. Absolute tolerance for numeric comparisons in efficiency scores.
 By default, it is 1e-4.}

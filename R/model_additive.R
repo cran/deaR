@@ -2,7 +2,7 @@
 #'   
 #' @description Solve the additive model of Charnes et. al (1985). With the current
 #' version of deaR, it is possible to solve input-oriented, output-oriented,
-#' and non-oriented additive dea model under constant and non-constant returns-to-scale.
+#' and non-oriented additive model under constant and non-constant returns to scale.
 #' 
 #' Besides, the user can set weights for the input slacks and/or output slacks. So,
 #' it is also possible to solve weighted additive models. For example: Measure of
@@ -24,7 +24,7 @@
 #'                returnlp = FALSE,
 #'                ...)
 #' 
-#' @param datadea The data, including \code{n} DMUs, \code{m} inputs and \code{s} outputs.
+#' @param datadea A \code{deadata} object with \code{n} DMUs, \code{m} inputs and \code{s} outputs.
 #' @param dmu_eval A numeric vector containing which DMUs have to be evaluated.
 #' If \code{NULL} (default), all DMUs are considered.
 #' @param dmu_ref A numeric vector containing which DMUs are the evaluation reference set.

@@ -13,7 +13,7 @@
 #'                 h = NULL,
 #'                 alpha = 0.05)
 #' 
-#' @param datadea The data, including \code{n} DMUs, \code{m} inputs and \code{s} outputs.
+#' @param datadea A \code{deadata} object with \code{n} DMUs, \code{m} inputs and \code{s} outputs.
 #' @param orientation A string, equal to "io" (input oriented) or "oo" (output oriented).
 #' @param rts A string, determining the type of returns to scale, equal to "crs" (constant),
 #' "vrs" (variable), "nirs" (non-increasing), "ndrs" (non-decreasing) or "grs" (generalized).

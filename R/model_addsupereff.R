@@ -17,7 +17,7 @@
 #'                   returnlp = FALSE,
 #'                   ...)
 #' 
-#' @param datadea The data, including \code{n} DMUs, \code{m} inputs and \code{s} outputs.
+#' @param datadea A \code{deadata} object with \code{n} DMUs, \code{m} inputs and \code{s} outputs.
 #' @param dmu_eval A numeric vector containing which DMUs have to be evaluated.
 #' If \code{NULL} (default), all DMUs are considered.
 #' @param dmu_ref A numeric vector containing which DMUs are the evaluation reference set.
@@ -361,7 +361,7 @@ model_addsupereff <-
                     dmu_ref = dmu_ref,
                     weight_slack_i = weight_slack_i,
                     weight_slack_o = weight_slack_o,
-                    orientation = "NA")
+                    orientation = NA)
   
   return(structure(deaOutput, class = "dea"))
   

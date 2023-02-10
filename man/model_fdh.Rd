@@ -9,7 +9,7 @@ model_fdh(datadea,
           ...)
 }
 \arguments{
-\item{datadea}{The data, including DMUs, inputs and outputs.}
+\item{datadea}{A \code{deadata} object, including DMUs, inputs and outputs.}
 
 \item{fdh_modelname}{A string containing the name of the model to apply FDH.
 For now, only "basic" is available.}

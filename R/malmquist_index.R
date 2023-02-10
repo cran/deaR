@@ -17,7 +17,8 @@
 #'                 vtrans_i = NULL,
 #'                 vtrans_o = NULL)
 #' 
-#' @param datadealist A list with the data at different times, including DMUs, inputs and outputs.
+#' @param datadealist A list with the data (\code{deadata} objects) at different
+#' times, including DMUs, inputs and outputs.
 #' @param dmu_eval A numeric vector containing which DMUs have to be evaluated.
 #' If \code{NULL} (default), all DMUs are considered.
 #' @param dmu_ref A numeric vector containing which DMUs are the evaluation reference set.

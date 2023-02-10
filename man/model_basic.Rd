@@ -25,7 +25,7 @@ model_basic(datadea,
             ...)
 }
 \arguments{
-\item{datadea}{The data, including \code{n} DMUs, \code{m} inputs and \code{s}
+\item{datadea}{A \code{deadata} object with \code{n} DMUs, \code{m} inputs and \code{s}
 outputs.}
 
 \item{dmu_eval}{A numeric vector containing which DMUs have to be evaluated.

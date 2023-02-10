@@ -1,8 +1,8 @@
 #' @title deadata_fuzzy class print method
 #'   
-#' @description Print method for deadata_fuzzy class.
+#' @description Print method for \code{deadata_fuzzy} class.
 #' 
-#' @param x A deadata_fuzzy object (as returned by make_deadata_fuzzy function).
+#' @param x A \code{deadata_fuzzy} object (as returned by \code{make_deadata_fuzzy} function).
 #' @param ... For compatibility issues.
 #'   
 #' @author 

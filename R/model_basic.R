@@ -48,7 +48,7 @@
 #'             silent_ud = FALSE,
 #'             ...)
 #' 
-#' @param datadea The data, including \code{n} DMUs, \code{m} inputs and \code{s}
+#' @param datadea A \code{deadata} object with \code{n} DMUs, \code{m} inputs and \code{s}
 #' outputs.
 #' @param dmu_eval A numeric vector containing which DMUs have to be evaluated.
 #' If \code{NULL} (default), all DMUs are considered.

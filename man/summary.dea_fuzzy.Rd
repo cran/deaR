@@ -7,7 +7,7 @@
 \method{summary}{dea_fuzzy}(object, ..., exportExcel = FALSE, filename = NULL, returnList = FALSE)
 }
 \arguments{
-\item{object}{An object of class \code{"dea_fuzzy"} obtained with a fuzzy dea 
+\item{object}{An object of class \code{"dea_fuzzy"} obtained with a fuzzy DEA 
 model function (\code{modelfuzzy_guotanaka}, \code{modelfuzzy_kaoliu},
 \code{modelfuzzy_possibilistic}).}
 

@@ -24,7 +24,7 @@ data("Fortune500")
 }
 \description{
 This dataset consists of 15 firms from the Fortune 500 list 1995
-(\url{https://fortune.com/fortune500/}) with 3 inputs and 2 outputs.
+(\url{https://fortune.com/ranking/fortune500/}) with 3 inputs and 2 outputs.
 }
 \examples{
 data("Fortune500")

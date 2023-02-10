@@ -16,7 +16,8 @@ malmquist_index(datadealist,
                 vtrans_o = NULL)
 }
 \arguments{
-\item{datadealist}{A list with the data at different times, including DMUs, inputs and outputs.}
+\item{datadealist}{A list with the data (\code{deadata} objects) at different
+times, including DMUs, inputs and outputs.}
 
 \item{dmu_eval}{A numeric vector containing which DMUs have to be evaluated.
 If \code{NULL} (default), all DMUs are considered.}

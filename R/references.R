@@ -7,8 +7,8 @@
 #'            thr = 1e-4)
 #' 
 #' @param deasol Object of class \code{dea} obtained with some of the DEA model functions.
-#' @param thr Tolerance threshold (for avoiding missdetection of  efficient 
-#' DMUs due to roundoff errors)
+#' @param thr Tolerance threshold (for avoiding miss detection of efficient 
+#' DMUs due to round off errors)
 #'   
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).

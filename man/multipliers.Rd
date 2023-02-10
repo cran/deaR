@@ -7,10 +7,12 @@
 multipliers(deasol)
 }
 \arguments{
-\item{deasol}{Object of class dea or dea_fuzzy obtained with some of the DEA model functions.}
+\item{deasol}{Object of class \code{dea} or \code{dea_fuzzy} obtained with
+some of the DEA model functions.}
 }
 \description{
-Extract the multipliers of the DMUs from a dea or dea_fuzzy solution.
+Extract the multipliers of the DMUs from a \code{dea} or
+\code{dea_fuzzy} solution.
 }
 \examples{
 data("Coll_Blasco_2006")

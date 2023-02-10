@@ -5,8 +5,8 @@
 #' @usage rts(deamodel,
 #'            thr = 1e-4)
 #'            
-#' @param deamodel Object of class dea obtained with some of the dea functions.
-#' @param thr Threshold for the tolerance for considering something = 1.
+#' @param deamodel Object of class \code{dea} obtained with some of the DEA model functions.
+#' @param thr Threshold for the tolerance for considering something equal to 1.
 #' Defaults to 1e-4.
 #' 
 #' @author 

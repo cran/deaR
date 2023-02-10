@@ -14,7 +14,7 @@ bootstrap_basic(datadea,
                 alpha = 0.05)
 }
 \arguments{
-\item{datadea}{The data, including \code{n} DMUs, \code{m} inputs and \code{s} outputs.}
+\item{datadea}{A \code{deadata} object with \code{n} DMUs, \code{m} inputs and \code{s} outputs.}
 
 \item{orientation}{A string, equal to "io" (input oriented) or "oo" (output oriented).}
 

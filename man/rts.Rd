@@ -8,9 +8,9 @@ rts(deamodel,
            thr = 1e-4)
 }
 \arguments{
-\item{deamodel}{Object of class dea obtained with some of the dea functions.}
+\item{deamodel}{Object of class \code{dea} obtained with some of the DEA model functions.}
 
-\item{thr}{Threshold for the tolerance for considering something = 1.
+\item{thr}{Threshold for the tolerance for considering something equal to 1.
 Defaults to 1e-4.}
 }
 \description{

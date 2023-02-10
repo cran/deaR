@@ -8,7 +8,7 @@
 #'                   vtrans_i = NULL,
 #'                   vtrans_o = NULL)
 #' 
-#' @param datadea The data, including DMUs, inputs and outputs.
+#' @param datadea A \code{deadata} object, including DMUs, inputs and outputs.
 #' @param vtrans_i Numeric vector of translation for undesirable inputs. If \code{vtrans_i[i]} is
 #' \code{NA}, then it applies the "max + 1" translation to the i-th undesirable input.
 #' If \code{vtrans_i} is a constant, then it applies the same translation to all

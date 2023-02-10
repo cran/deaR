@@ -18,7 +18,7 @@ model_addsupereff(datadea,
                   ...)
 }
 \arguments{
-\item{datadea}{The data, including \code{n} DMUs, \code{m} inputs and \code{s} outputs.}
+\item{datadea}{A \code{deadata} object with \code{n} DMUs, \code{m} inputs and \code{s} outputs.}
 
 \item{dmu_eval}{A numeric vector containing which DMUs have to be evaluated.
 If \code{NULL} (default), all DMUs are considered.}

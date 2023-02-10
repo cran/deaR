@@ -1,10 +1,12 @@
 #' @title Multipliers
 #'   
-#' @description Extract the multipliers of the DMUs from a dea or dea_fuzzy solution.
+#' @description Extract the multipliers of the DMUs from a \code{dea} or
+#' \code{dea_fuzzy} solution.
 #' 
 #' @usage multipliers(deasol)
 #' 
-#' @param deasol Object of class dea or dea_fuzzy obtained with some of the DEA model functions.
+#' @param deasol Object of class \code{dea} or \code{dea_fuzzy} obtained with
+#' some of the DEA model functions.
 #'   
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).

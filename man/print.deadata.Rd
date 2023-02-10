@@ -7,12 +7,12 @@
 \method{print}{deadata}(x, ...)
 }
 \arguments{
-\item{x}{A deadata object (as returned by make_deadata function).}
+\item{x}{A \code{deadata} object (as returned by \code{make_deadata} function).}
 
 \item{...}{For compatibility issues.}
 }
 \description{
-Print method for deadata class.
+Print method for \code{deadata} class.
 }
 \author{
 \strong{Vicente Coll-Serrano} (\email{vicente.coll@uv.es}).

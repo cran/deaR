@@ -9,7 +9,7 @@ undesirable_basic(datadea,
                   vtrans_o = NULL)
 }
 \arguments{
-\item{datadea}{The data, including DMUs, inputs and outputs.}
+\item{datadea}{A \code{deadata} object, including DMUs, inputs and outputs.}
 
 \item{vtrans_i}{Numeric vector of translation for undesirable inputs. If \code{vtrans_i[i]} is
 \code{NA}, then it applies the "max + 1" translation to the i-th undesirable input.

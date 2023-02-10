@@ -4,7 +4,8 @@
 #' 
 #' @usage lambdas(deasol)
 #' 
-#' @param deasol Object of class dea or dea_fuzzy obtained with some of the DEA model functions.
+#' @param deasol Object of class \code{dea} or \code{dea_fuzzy} obtained with
+#' some of the DEA model functions.
 #'   
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).
