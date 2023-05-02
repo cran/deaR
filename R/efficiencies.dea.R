@@ -37,7 +37,8 @@
 #'                       orientation = "io",
 #'                       rts = "crs")
 #' efficiencies(result) # Table 3 (p.156) 
-#'  
+#'
+#' @method efficiencies dea  
 #' @export
 
 efficiencies.dea <-

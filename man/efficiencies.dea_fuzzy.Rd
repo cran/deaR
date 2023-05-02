@@ -31,7 +31,7 @@ result <- modelfuzzy_kaoliu(data_example,
                             orientation = "io", 
                             rts = "vrs")
 efficiencies(result) 
- 
+
 }
 \references{
 Boscá, J.E.; Liern, V.; Sala, R.; Martínez, A. (2011). "Ranking Decision Making

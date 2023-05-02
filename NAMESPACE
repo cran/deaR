@@ -2,6 +2,7 @@
 
 S3method(efficiencies,dea)
 S3method(efficiencies,dea_fuzzy)
+S3method(efficiencies,default)
 S3method(plot,dea)
 S3method(plot,dea_fuzzy)
 S3method(print,deadata)

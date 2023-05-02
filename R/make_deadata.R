@@ -117,20 +117,18 @@ make_deadata <- function(datadea = NULL,
     output <- outputs
     dmunames <- colnames(inputs)
     if (is.null(dmunames)) {
-      dmunames <- paste("DMU", 1:nd, sep = "")
-      colnames(input) <- dmunames
+      dmunames <- paste0("DMU", 1:nd)
     }
-    colnames(output) <- dmunames
     ni <- nrow(inputs)
     no <- nrow(outputs)
     inputnames <- rownames(inputs)
     if (is.null(inputnames)) {
-      inputnames <- paste("Input", 1:ni, sep = "")
+      inputnames <- paste0("Input", 1:ni)
       rownames(input) <- inputnames
     }
     outputnames <- rownames(outputs)
     if (is.null(outputnames)) {
-      outputnames <- paste("Output", 1:no, sep = "")
+      outputnames <- paste0("Output", 1:no)
       rownames(output) <- outputnames
     }
   } else {
@@ -177,15 +175,13 @@ make_deadata <- function(datadea = NULL,
       stop("There must be more than one DMU.")
     }
     if (is.null(dmus)) {
-      dmunames <- paste("DMU", 1:nd, sep = "")
+      dmunames <- paste0("DMU", 1:nd)
     } else {
       if (length(dmus) > 1) {
-        stop("Invalid DMU names specification. Provide either a single
-             column number or name.")
+        stop("Invalid DMU names specification. Provide either a single column number or name.")
       } else {
         if (!class(dmus) %in% c("integer", "numeric", "character")) {
-          stop("Invalid DMU names specification. Please give either the column
-               number or name.")
+          stop("Invalid DMU names specification. Please give either the column number or name.")
         } else {
           if (is.character(dmus) && !(dmus %in% colnames(datadea))) {
             stop(" Invalid DMU names. Please either give the DMU column number or name.")
@@ -195,8 +191,7 @@ make_deadata <- function(datadea = NULL,
           }
         }
     }
-      
-      dmunames <- datadea[, dmus]
+    dmunames <- as.character(datadea[, dmus])
   }
     
     if (is.character(inputs)) {
@@ -219,10 +214,14 @@ make_deadata <- function(datadea = NULL,
     output <- t(output)
     rownames(input) <- inputnames
     rownames(output) <- outputnames
-    colnames(input) <- dmunames
-    colnames(output) <- dmunames
   
   }
+  
+  # Avoiding numeric names bug
+  numnames <- !grepl('\\D', dmunames)
+  dmunames[numnames] <- paste0("DMU", dmunames[numnames])
+  colnames(input) <- dmunames
+  colnames(output) <- dmunames
   
   # Checking non-controllable inputs/outputs
   if ((!is.null(nc_inputs)) && (!all(nc_inputs %in% 1:ni))) {
@@ -271,12 +270,12 @@ make_deadata <- function(datadea = NULL,
   minio <- min(min(input), min(output), na.rm = TRUE)
   if (minio > 0) {
     if (maxio / minio > 1e6) {
-      warning("There are data with very different orders of magnitude. Try to redefine
-              the units of measure or some linear problems may be ill-posed.")
+      warning("There are data with very different orders of magnitude. Try to redefine the units of measure or some linear problems may be ill-posed.
+  (This is a warning, not an error.)")
     }
   } else {
-    warning("There are negative or zero data. Try to translate the base point of the
-            inputs/outputs with negative data in order to get only positive values.")
+    warning("There are negative or zero data. Try to translate the base point of the inputs/outputs with negative data in order to get only positive values.
+  (This is a warning, not an error.)")
   }
 
   res <- list(

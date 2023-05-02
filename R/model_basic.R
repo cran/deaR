@@ -265,8 +265,7 @@ model_basic <-
           warning("Undesirable (bad) outputs with no output-oriented model.")
         }
         if (rts != "vrs") {
-          warning("Returns to scale may be changed to variable (vrs) because there
-                are data with undesirable inputs/outputs.")
+          warning("Returns to scale may be changed to variable (vrs) because there are data with undesirable inputs/outputs.")
         }
       }
     }

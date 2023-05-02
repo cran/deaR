@@ -117,15 +117,13 @@ make_deadata_fuzzy <- function(datadea,
     output.mL <- outputs.mL
     dmunames <- colnames(inputs.mL)
     if (is.null(dmunames)) {
-      dmunames <- paste("DMU", 1:nd, sep = "")
-      colnames(input.mL) <- dmunames
+      dmunames <- paste0("DMU", 1:nd)
     }
-    colnames(output.mL) <- dmunames
     ni <- nrow(inputs.mL)
     no <- nrow(outputs.mL)
     inputnames <- rownames(inputs.mL)
     if (is.null(inputnames)) {
-      inputnames <- paste("Input", 1:ni, sep = "")
+      inputnames <- paste0("Input", 1:ni)
       rownames(input.mL) <- inputnames
     }
     outputnames <- rownames(outputs.mL)
@@ -228,15 +226,14 @@ make_deadata_fuzzy <- function(datadea,
     
     # Checking dmu
     if (is.null(dmus)) {
-      dmunames <- paste("DMU", seq_along(datadea), sep = "")
+      dmunames <- paste0("DMU", seq_along(datadea))
     } else {
       if (length(dmus) > 1) {
         stop("Invalid dmu names specification. Provide either a single
              column number or name.")
       } else {
         if (!class(dmus) %in% c("integer", "numeric", "character")) {
-          stop("Invalid dmu names specification. Please give either the column
-               number or name.")
+          stop("Invalid dmu names specification. Please give either the column number or name.")
         } else {
           if (is.character(dmus) & !(dmus %in% colnames(datadea))) {
             stop(" Invalid dmu names. Please either give the dmu column number or name.")
@@ -247,7 +244,7 @@ make_deadata_fuzzy <- function(datadea,
         }
       }
       
-      dmunames <- datadea[, dmus]
+      dmunames <- as.character(datadea[, dmus])
     }
     
     nd <- length(dmunames) # Number of DMUs
@@ -266,8 +263,6 @@ make_deadata_fuzzy <- function(datadea,
     }
     input.mL <- t(datadea[, inputs.mL])
     output.mL <- t(datadea[, outputs.mL])
-    colnames(input.mL) <- dmunames
-    colnames(output.mL) <- dmunames
     rownames(input.mL) <- inputnames
     rownames(output.mL) <- outputnames
     
@@ -307,6 +302,12 @@ make_deadata_fuzzy <- function(datadea,
     
   }
   
+  # Avoiding numeric names bug
+  numnames <- !grepl('\\D', dmunames)
+  dmunames[numnames] <- paste0("DMU", dmunames[numnames])
+  
+  colnames(input.mL) <- dmunames
+  colnames(output.mL) <- dmunames
   colnames(input.mR) <- dmunames
   rownames(input.mR) <- inputnames
   colnames(output.mR) <- dmunames

@@ -29,7 +29,7 @@ result <- model_basic(data_DEA1,
                       orientation = "io",
                       rts = "crs")
 efficiencies(result) # Table 3 (p.156) 
- 
+
 }
 \references{
 Tomkins, C.; Green, R. (1988). “An Experiment in the Use of Data Envelopment

@@ -88,7 +88,7 @@ summary.dea <- function(object,
     eff <- efficiencies(object)
     eff <- data.frame(eff, stringsAsFactors = FALSE)
     eff <-
-      data.frame(cbind(data.frame(DMU = rownames(eff)), eff), row.names = NULL)
+      data.frame(cbind(data.frame(DMU = names(object$dmu_eval)), eff), row.names = NULL)
     
     # slacks
     if (!modelname %in% c("multiplier")) {
@@ -96,7 +96,7 @@ summary.dea <- function(object,
       s[sapply(s, is.null)] <- NULL
       s <- data.frame(s, stringsAsFactors = FALSE)
       s <-
-        data.frame(cbind(data.frame(DMU = rownames(s)), s),
+        data.frame(cbind(data.frame(DMU = names(object$dmu_eval)), s),
                    row.names = NULL,
                    stringsAsFactors = FALSE)
       
@@ -106,7 +106,7 @@ summary.dea <- function(object,
     # Lambdas
     lmbd <- lambdas(object)
     lamb <- data.frame(lmbd, stringsAsFactors = FALSE)
-    lamb <- data.frame(cbind(data.frame(DMU = rownames(lamb)), lamb),
+    lamb <- data.frame(cbind(data.frame(DMU = names(object$dmu_eval)), lamb),
                        row.names = NULL,
                        stringsAsFactors = FALSE)
     
@@ -114,7 +114,7 @@ summary.dea <- function(object,
     tar <- targets(object)
     tar <- do.call(cbind, tar)
     tar <- data.frame(tar, stringsAsFactors = FALSE)
-    tar <- data.frame(cbind(data.frame(DMU = rownames(tar)), tar),
+    tar <- data.frame(cbind(data.frame(DMU = names(object$dmu_eval)), tar),
                       row.names = NULL,
                       stringsAsFactors = FALSE)
     
@@ -135,7 +135,7 @@ summary.dea <- function(object,
     
     refnames <- unique(unlist(lapply(ref, function (x)
       names(x))))
-    dmunames <- as.character(lamb$DMU)
+    dmunames <- names(object$dmu_eval) # as.character(lamb$DMU)
     urefnames <- names(ref)
     
     RefMat <-
@@ -157,12 +157,12 @@ summary.dea <- function(object,
     RefMatdf <-
       data.frame(cbind(data.frame(DMU = dmunames), data.frame(RefMat)),
                  row.names = NULL)
-    
+    colnames(RefMatdf) <- c("DMU", colnames(RefMat))
     # Returns
     returns <- rts(object)
     returns <- data.frame(returns)
     returns <-
-      data.frame(cbind(data.frame(DMU = rownames(returns)), returns),
+      data.frame(cbind(data.frame(DMU = names(object$dmu_eval)), returns),
                  row.names = NULL,
                  stringsAsFactors = FALSE)
     

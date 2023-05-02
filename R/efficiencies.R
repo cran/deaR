@@ -13,6 +13,8 @@ efficiencies <- function(x, ...) {
   UseMethod("efficiencies", x)
 }
 
+#' @export
+#' 
 efficiencies.default <- function(x, ...) {
   "Unknown class"
 }

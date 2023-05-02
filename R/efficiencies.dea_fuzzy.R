@@ -39,7 +39,8 @@
 #'                             orientation = "io", 
 #'                             rts = "vrs")
 #' efficiencies(result) 
-#'  
+#'
+#' @method efficiencies dea_fuzzy  
 #' @export
 
 efficiencies.dea_fuzzy <-
