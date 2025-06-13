@@ -58,7 +58,7 @@ multipliers <-
           
           multlist <- list(multiplier_input = round(multiplier_input,6), 
                            multiplier_output = round(multiplier_output,6), 
-                           multiplier_rts = round(multiplier_rts),4)
+                           multiplier_rts = multiplier_rts)
         } else {
           
           multlist <- list(multiplier_input = round(multiplier_input,6), 

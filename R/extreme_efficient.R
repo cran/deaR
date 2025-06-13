@@ -9,13 +9,13 @@
 #' 
 #' @param datadea A \code{deadata} object with \code{n} DMUs, \code{m} inputs and \code{s} outputs.
 #' @param dmu_ref A numeric vector containing which DMUs are the evaluation reference set,
-#'                i.e. the cluster of DMUs from which we want to find a extreme efficient DMUs subset.
+#'                i.e. the cluster of DMUs from which we want to find an extreme efficient DMUs subset.
 #'                If \code{NULL} (default), all DMUs are considered.
 #' @param rts A string, determining the type of returns to scale, equal to "crs" (constant),
 #'            "vrs" (variable), "nirs" (non-increasing) or "ndrs" (non-decreasing).
 #' @param tol Numeric, a tolerance margin for checking efficiency. It is 1e-6 by default.
 #' 
-#' @return A numeric vector representing a extreme efficient subset of DMUs.
+#' @return A numeric vector representing an extreme efficient subset of DMUs.
 #' 
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).
@@ -39,7 +39,7 @@
 #' datadea <- make_deadata(PFT1981,
 #'                         ni = 5,
 #'                         no = 3)
-#' # We find a extreme efficient subset from a cluster formed by the first 20 DMUs
+#' # We find an extreme efficient subset from a cluster formed by the first 20 DMUs
 #' result <- extreme_efficient(datadea = datadea,
 #'                             dmu_ref = 1:20)
 #' 
@@ -112,7 +112,7 @@ extreme_efficient <- function(datadea,
   }
   f.dir <- c(rep("=", ni + no), f.dir.rs)
   # Si hay DMUs iguales o proporcionales hay que quedarse con una.
-  # Lo hago al reves para ir quitando las ultimas y quedame con la primera.
+  # Lo hago al reves para ir quitando las ultimas y quedarme con la primera.
   for (i in ne:1) {
     ii <- effDMUs[i]
     input_i <- matrix(input[, effDMUs[-i]], nrow = ni)

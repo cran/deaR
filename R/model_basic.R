@@ -191,7 +191,7 @@
 #' 1 / eff # results M5 in Table 6-5 (p.119)
 #' 
 #' # Example 3. Basic DEA model with non-discretionary (fixed) inputs.
-#' # Replication of results in Ruggiero (2007).
+#' # Replication of results in Ruggiero (2007), Table 5.1, BM column.
 #' data("Ruggiero2007") 
 #' # The second input is a non-discretionary input.
 #' datadea <- make_deadata(Ruggiero2007, 

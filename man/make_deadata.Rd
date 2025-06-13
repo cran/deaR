@@ -15,7 +15,9 @@ make_deadata(datadea = NULL,
           nd_inputs = NULL,
           nd_outputs = NULL,
           ud_inputs = NULL, 
-          ud_outputs = NULL)
+          ud_outputs = NULL,
+          bnd_inputs = NULL,
+          bnd_outputs = NULL)
 }
 \arguments{
 \item{datadea}{Data frame with DEA data.}
@@ -48,6 +50,12 @@ Alternatively to \code{datadea}, it can be a matrix with the outputs (DMUs in co
 \item{ud_inputs}{A numeric vector containing the indices of undesirable (good) inputs.}
 
 \item{ud_outputs}{A numeric vector containing the indices of undesirable (bad) outputs.}
+
+\item{bnd_inputs}{A numeric vector of length \code{ni} with the lower bounds of inputs
+and upper bounds of undesirable (good) inputs. NA for unbounded inputs.}
+
+\item{bnd_outputs}{A numeric vector of length \code{no} with the upper bounds of outputs
+and lower bounds of undesirable (bad) outputs. NA for unbounded outputs.}
 }
 \value{
 An object of class \code{deadata}
@@ -89,12 +97,19 @@ data_example <- make_deadata(Coll_Blasco_2006,
                              inputs = 2:3, 
                              outputs = 4:5, 
                              nd_outputs = 2)
-# If the second input is a non-discretionary input and the second output is an undesirable:
+# If the second input is a non-discretionary input and the second output is undesirable:
 data_example <- make_deadata(Coll_Blasco_2006,
                              inputs = 2:3, 
                              outputs = 4:5, 
                              nd_inputs = 2, 
                              ud_outputs = 2)
+# If the first input is lower bounded by 5 and the second output is upper bounded by 50:
+data_example <- make_deadata(Coll_Blasco_2006,
+                             inputs = 2:3,
+                             outputs = 4:5,
+                             bnd_inputs = c(5, NA),
+                             bnd_outputs = c(NA, 50))
+                                           
 
 }
 \author{

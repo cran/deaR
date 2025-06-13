@@ -119,7 +119,12 @@ summary.dea <- function(object,
                       stringsAsFactors = FALSE)
     
     if (modelname == "multiplier") {
-      mult <- multipliers(object)[1:2]
+      if ("multiplier_rts" %in% names(object$DMU[[1]])) {
+        nmult <- 3
+      } else {
+        nmult <- 2
+      }
+      mult <- multipliers(object)[1:nmult]
       mult <- do.call(cbind, mult)
       mult <- data.frame(mult, stringsAsFactors = FALSE)
       mult <-

@@ -13,7 +13,7 @@ extreme_efficient(datadea,
 \item{datadea}{A \code{deadata} object with \code{n} DMUs, \code{m} inputs and \code{s} outputs.}
 
 \item{dmu_ref}{A numeric vector containing which DMUs are the evaluation reference set,
-i.e. the cluster of DMUs from which we want to find a extreme efficient DMUs subset.
+i.e. the cluster of DMUs from which we want to find an extreme efficient DMUs subset.
 If \code{NULL} (default), all DMUs are considered.}
 
 \item{rts}{A string, determining the type of returns to scale, equal to "crs" (constant),
@@ -22,7 +22,7 @@ If \code{NULL} (default), all DMUs are considered.}
 \item{tol}{Numeric, a tolerance margin for checking efficiency. It is 1e-6 by default.}
 }
 \value{
-A numeric vector representing a extreme efficient subset of DMUs.
+A numeric vector representing an extreme efficient subset of DMUs.
 }
 \description{
 Find a set of extreme efficient DMUs from a \code{deadata} object.
@@ -32,7 +32,7 @@ data("PFT1981")
 datadea <- make_deadata(PFT1981,
                         ni = 5,
                         no = 3)
-# We find a extreme efficient subset from a cluster formed by the first 20 DMUs
+# We find an extreme efficient subset from a cluster formed by the first 20 DMUs
 result <- extreme_efficient(datadea = datadea,
                             dmu_ref = 1:20)
 

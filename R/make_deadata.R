@@ -15,7 +15,9 @@
 #'           nd_inputs = NULL,
 #'           nd_outputs = NULL,
 #'           ud_inputs = NULL, 
-#'           ud_outputs = NULL)
+#'           ud_outputs = NULL,
+#'           bnd_inputs = NULL,
+#'           bnd_outputs = NULL)
 #'              
 #' @param datadea Data frame with DEA data.
 #' @param dmus Column (number or name) of DMUs (optional). By default, it is the
@@ -36,6 +38,10 @@
 #' @param nd_outputs A numeric vector containing the indices of non-discretionary outputs.
 #' @param ud_inputs A numeric vector containing the indices of undesirable (good) inputs.
 #' @param ud_outputs A numeric vector containing the indices of undesirable (bad) outputs.
+#' @param bnd_inputs A numeric vector of length \code{ni} with the lower bounds of inputs
+#' and upper bounds of undesirable (good) inputs. NA for unbounded inputs.
+#' @param bnd_outputs A numeric vector of length \code{no} with the upper bounds of outputs
+#' and lower bounds of undesirable (bad) outputs. NA for unbounded outputs.
 #'
 #' @return An object of class \code{deadata}
 #' 
@@ -83,12 +89,19 @@
 #'                              inputs = 2:3, 
 #'                              outputs = 4:5, 
 #'                              nd_outputs = 2)
-#' # If the second input is a non-discretionary input and the second output is an undesirable:
+#' # If the second input is a non-discretionary input and the second output is undesirable:
 #' data_example <- make_deadata(Coll_Blasco_2006,
 #'                              inputs = 2:3, 
 #'                              outputs = 4:5, 
 #'                              nd_inputs = 2, 
 #'                              ud_outputs = 2)
+#' # If the first input is lower bounded by 5 and the second output is upper bounded by 50:
+#' data_example <- make_deadata(Coll_Blasco_2006,
+#'                              inputs = 2:3,
+#'                              outputs = 4:5,
+#'                              bnd_inputs = c(5, NA),
+#'                              bnd_outputs = c(NA, 50))
+#'                                            
 #' 
 #' @export
 
@@ -103,7 +116,9 @@ make_deadata <- function(datadea = NULL,
                          nd_inputs = NULL,
                          nd_outputs = NULL,
                          ud_inputs = NULL,
-                         ud_outputs = NULL) {
+                         ud_outputs = NULL,
+                         bnd_inputs = NULL,
+                         bnd_outputs = NULL) {
   
   if (is.matrix(inputs) && is.matrix(outputs)) {
     nd <- ncol(inputs)
@@ -265,6 +280,46 @@ make_deadata <- function(datadea = NULL,
     names(ud_outputs) <- outputnames[ud_outputs]
   }
   
+  # Checking bounded inputs/outputs
+  if (!is.null(bnd_inputs)) {
+    print("This is a test. Bounded inputs are not yet implemented in models.")
+    if (length(bnd_inputs) != ni) {
+      stop("Invalid inputs bounds matrix.")
+    }
+    names(bnd_inputs) <- inputnames
+    if (is.null(ud_inputs)) {
+      if (isTRUE(any((input >= bnd_inputs) == FALSE))) {
+        stop("Inputs lower bounds are not respected by data.")
+      }
+    } else {
+      if (isTRUE(any((input[ud_inputs, ] <= bnd_inputs[ud_inputs]) == FALSE))) {
+        stop("Undesirable (good) inputs upper bounds are not respected by data.")
+      }
+      if (isTRUE(any((input[-ud_inputs, ] >= bnd_inputs[-ud_inputs]) == FALSE))) {
+        stop("Inputs lower bounds are not respected by data.")
+      }
+    }
+  }
+  if (!is.null(bnd_outputs)) {
+    print("This is a test. Bounded outputs are not yet implemented in models.")
+    if (length(bnd_outputs) != no) {
+      stop("Invalid outputs bounds matrix.")
+    }
+    names(bnd_outputs) <- outputnames
+    if (is.null(ud_outputs)) {
+      if (isTRUE(any((output <= bnd_outputs) == FALSE))) {
+        stop("Outputs upper bounds are not respected by data.")
+      }
+    } else {
+      if (isTRUE(any((output[ud_outputs, ] >= bnd_outputs[ud_outputs]) == FALSE))) {
+        stop("Undesirable (bad) outputs lower bounds are not respected by data.")
+      }
+      if (isTRUE(any((output[-ud_outputs, ] <= bnd_outputs[-ud_outputs]) == FALSE))) {
+        stop("Outputs upper bounds are not respected by data.")
+      }
+    }
+  }
+  
   # Checking orders of magnitude in data
   maxio <- max(max(input), max(output), na.rm = TRUE)
   minio <- min(min(input), min(output), na.rm = TRUE)
@@ -287,7 +342,9 @@ make_deadata <- function(datadea = NULL,
     nd_inputs = nd_inputs,
     nd_outputs = nd_outputs,
     ud_inputs = ud_inputs,
-    ud_outputs = ud_outputs
+    ud_outputs = ud_outputs,
+    bnd_inputs = bnd_inputs,
+    bnd_outputs = bnd_outputs
     )
   return(structure(res, class = "deadata"))
 }
