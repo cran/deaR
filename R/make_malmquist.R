@@ -15,7 +15,7 @@
 #' @param arrangement Horizontal with data in wide format. Vertical with data in long format.
 #' @param ... Other options to be passed to the \code{make_deadata} function.
 #'
-#' @return An object of class \code{deadata}
+#' @returns An object of class \code{deadata}. Function \code{malmquist_index} can be applied.
 #' 
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).

@@ -10,8 +10,13 @@ targets(deasol)
 \item{deasol}{Object of class \code{dea} or \code{dea_fuzzy} obtained with some
 of the DEA model functions.}
 }
+\value{
+A list with the targets for each evaluated DMU.
+}
 \description{
 Extract the targets of the DMUs from a \code{dea} or \code{dea_fuzzy} solution.
+We note that we call "targets" to the "efficient projections"
+in the strongly efficient frontier.
 }
 \examples{
 data("Coll_Blasco_2006")

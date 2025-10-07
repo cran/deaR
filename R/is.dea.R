@@ -4,7 +4,8 @@
 #' @usage is.dea(x)
 #' 
 #' @param x Any \bold{R} object.
-#' @return Returns \code{TRUE} if its argument is a dea object (that is, has "dea" 
+#' 
+#' @returns Returns \code{TRUE} if its argument is a \code{dea} object (that is, has "dea" 
 #'   amongst its classes) and \code{FALSE} otherwise.
 #'   
 #' @author 

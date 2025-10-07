@@ -10,6 +10,9 @@ slacks(deasol)
 \item{deasol}{Object of class \code{dea} or \code{dea_fuzzy} obtained with some
 of the DEA model functions.}
 }
+\value{
+A list with the optimal slacks for each evaluated DMU.
+}
 \description{
 Extract the slacks of the DMUs from a \code{dea} or \code{dea_fuzzy} solution.
 }

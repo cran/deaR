@@ -41,7 +41,9 @@
 #' @param vtrans_o Numeric vector of translation for undesirable outputs in
 #' non-directional basic models, analogous to \code{vtrans_i}, but applied to outputs.
 #'   
-#' @return A numeric list with Malmquist index and other parameters.
+#' @returns A numeric list with Malmquist index and other necessary information
+#' to replicate the results, such as the name of the model and parameters
+#' \code{orientation}, \code{rts}, \code{dmu_eval} and \code{dmu_ref}.
 #' 
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).

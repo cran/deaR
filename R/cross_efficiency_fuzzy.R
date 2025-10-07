@@ -16,6 +16,10 @@
 #' @param h A numeric vector with the h-levels (in [0,1]).
 #' @param selfapp Logical. If it is \code{TRUE}, self-appraisal is included in the
 #' average scores of \code{A} and \code{e}.
+#' 
+#' @returns A list with the results along with any other necessary information to
+#' replicate the results, such as the name of the model and parameters \code{orientation},
+#' \code{rts}, \code{selfapp} and \code{h}.
 #'   
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).

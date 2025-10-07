@@ -59,12 +59,20 @@ also known as SBM-Max, is computed.}
 \item{silent}{Logical. If \code{FALSE} (default) it prints all the messages from
 function \code{maximal_friends}.}
 
-\item{compute_target}{Logical. If it is \code{TRUE}, it computes targets.}
+\item{compute_target}{Logical. If it is \code{TRUE}, it computes targets.
+We note that we call "targets" to the "efficient projections"
+in the strongly efficient frontier.}
 
 \item{returnlp}{Logical. If it is \code{TRUE}, it returns the linear problems
 (objective function and constraints). If \code{kaizen} is \code{TRUE} it is ignored.}
 
 \item{...}{Other options (currently not implemented)}
+}
+\value{
+A list of class \code{dea} with the results for the evaluated DMUs (\code{DMU} component),
+ along with any other necessary information to replicate the results, such as
+ the name of the model and parameters \code{orientation}, \code{rts},
+ \code{dmu_eval} and \code{dmu_ref}.
 }
 \description{
 Calculate the SBM model proposed by Tone (2001).

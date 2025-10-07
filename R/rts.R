@@ -9,6 +9,9 @@
 #' @param thr Threshold for the tolerance for considering something equal to 1.
 #' Defaults to 1e-4.
 #' 
+#' @returns A dataframe with some information about returns to scale (rts),
+#' depending on the model.
+#' 
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).
 #' \emph{Quantitative Methods for Measuring Culture (MC2). Applied Economics.}
@@ -66,12 +69,12 @@ rts <- function(deamodel,
       } else {
         res <- data.frame(lambsum = lambsum)
       }
-    }else{
+    } else{
       warning("Only input/output orientations are implemented!")
       res <- data.frame(lambsum = lambsum)
     }
     
-  }else {
+  } else {
     if ("multiplier_rts" %in% names(deamodel$DMU[[1]])) {
       k <- do.call(rbind, lapply(deamodel$DMU, function(x) x$multiplier_rts))
       dimnames(k)[[2]] <- "k"

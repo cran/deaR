@@ -51,6 +51,13 @@
 #' @param returnqp Logical. If it is \code{TRUE}, it returns the quadratic problems
 #' (objective function and constraints) of stage 1.
 #' @param ... Other parameters, like the initial vector \code{X}, to be passed to the solver.
+#' 
+#' @returns A list of class \code{dea} with the results for the evaluated DMUs (\code{DMU} component,
+#' we note that we call "targets" to the "efficient projections"
+#' in the strongly efficient frontier),
+#'  along with any other necessary information to replicate the results, such as
+#'  the name of the model and parameters \code{d_input}, \code{d_output}, \code{rts},
+#'  \code{dmu_eval} and \code{dmu_ref}.
 #'
 #' @author
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).
@@ -68,7 +75,7 @@
 #' 
 #' "A new family of models with generalized orientation in data envelopment
 #' analysis". V. J. Bolós, R. Benítez, V. Coll-Serrano. International
-#' Transactions in Operational Research. Accepted
+#' Transactions in Operational Research. \doi{10.1111/itor.70063}
 #'
 #' @examples
 #' 
@@ -372,6 +379,13 @@ model_qgo <-
           names(slack_input) <- inputnames
           slack_output <- target_output - proj_output
           names(slack_output) <- outputnames
+          
+          # Cambio de notación: El target es lo que era la proyección y la proyección
+          # eficiente es lo que era el target.
+          effproj_input <- target_input
+          effproj_output <- target_output
+          target_input <- proj_input
+          target_output <- proj_output
 
         } else {
           
@@ -386,13 +400,6 @@ model_qgo <-
           effproj_output <- NA
           
         }
-      
-        # Cambio de notación: El target es lo que era la proyección y la proyección
-        # eficiente es lo que era el target.
-        effproj_input <- target_input
-        effproj_output <- target_output
-        target_input <- proj_input
-        target_output <- proj_output
 
         DMU[[i]] <- list(efficiency = rho,
                          beta = beta,

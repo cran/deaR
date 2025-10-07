@@ -13,6 +13,10 @@ rts(deamodel,
 \item{thr}{Threshold for the tolerance for considering something equal to 1.
 Defaults to 1e-4.}
 }
+\value{
+A dataframe with some information about returns to scale (rts),
+depending on the model.
+}
 \description{
 Extract the returns to scale.
 }

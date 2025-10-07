@@ -4,7 +4,8 @@
 #' @usage is.deadata(x)
 #' 
 #' @param x Any \bold{R} object.
-#' @return Returns \code{TRUE} if its argument is a deadata object (that is, has "deadata" 
+#' 
+#' @returns Returns \code{TRUE} if its argument is a \code{deadata} object (that is, has "deadata" 
 #'   amongst its classes) and \code{FALSE} otherwise.
 #'   
 #' @author 

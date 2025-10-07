@@ -4,7 +4,8 @@
 #' @usage is.deadata_fuzzy(x)
 #' 
 #' @param x Any \bold{R} object.
-#' @return Returns \code{TRUE} if its argument is a deadata_fuzzy object (that is, has "deadata_fuzzy" 
+#' 
+#' @returns Returns \code{TRUE} if its argument is a \code{deadata_fuzzy} object (that is, has "deadata_fuzzy" 
 #'   amongst its classes) and \code{FALSE} otherwise.
 #'   
 #' @author 

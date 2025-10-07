@@ -84,7 +84,8 @@ rectangular or crisp, then \code{inputs.dR} must be NULL (default) or equal to
 \item{ud_outputs}{A numeric vector containing the indices of undesirable (bad) outputs.}
 }
 \value{
-An object of class \code{deadata_fuzzy}.
+An object of class \code{deadata_fuzzy}. Any function \code{modelfuzzy_*}
+can be applied.
 }
 \description{
 This function creates, from a data frame, a \code{deadata_fuzzy}

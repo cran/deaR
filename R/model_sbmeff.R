@@ -43,10 +43,17 @@
 #' @param tol Numeric, a tolerance margin for checking efficiency (only for the kaizen version).
 #' @param silent Logical. If \code{FALSE} (default) it prints all the messages from
 #' function \code{maximal_friends}.
-#' @param compute_target Logical. If it is \code{TRUE}, it computes targets. 
+#' @param compute_target Logical. If it is \code{TRUE}, it computes targets.
+#' We note that we call "targets" to the "efficient projections"
+#' in the strongly efficient frontier.
 #' @param returnlp Logical. If it is \code{TRUE}, it returns the linear problems
 #' (objective function and constraints). If \code{kaizen} is \code{TRUE} it is ignored.
 #' @param ... Other options (currently not implemented)
+#' 
+#' @returns A list of class \code{dea} with the results for the evaluated DMUs (\code{DMU} component),
+#'  along with any other necessary information to replicate the results, such as
+#'  the name of the model and parameters \code{orientation}, \code{rts},
+#'  \code{dmu_eval} and \code{dmu_ref}.
 #' 
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).

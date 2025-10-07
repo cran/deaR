@@ -12,6 +12,9 @@
 
 \item{...}{Other options (for compatibility reasons).}
 }
+\value{
+A numeric vector with the optimal objective scores for each evaluated DMU.
+}
 \description{
 Extract the scores (optimal objective values) of the evaluated
 DMUs from a conventional DEA solution. Note that these scores may not always be

@@ -43,7 +43,7 @@
 #' @param bnd_outputs A numeric vector of length \code{no} with the upper bounds of outputs
 #' and lower bounds of undesirable (bad) outputs. NA for unbounded outputs.
 #'
-#' @return An object of class \code{deadata}
+#' @returns An object of class \code{deadata}. Any function \code{model_*} can be applied.
 #' 
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).

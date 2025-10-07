@@ -4,9 +4,11 @@
 #' 
 #' @usage modelfuzzy_kaoliu(datadea,
 #'                   dmu_eval = NULL,
-#'                   kaoliu_modelname = c("basic", "additive", "addsupereff", 
-#'                     "deaps", "fdh", "multiplier", "nonradial", "profit",
-#'                     "rdm", "sbmeff", "sbmsupereff", "supereff"),
+#'                   kaoliu_modelname = c("basic", "additive", "addmin",
+#'                                        "addsupereff", "deaps", "dir", "fdh",
+#'                                        "lgo", "multiplier", "nonradial",
+#'                                        "profit", "qgo", "rdm", "sbmeff",
+#'                                        "sbmsupereff", "supereff"),
 #'                   alpha = 1,
 #'                   ...)
 #' 
@@ -18,7 +20,12 @@
 #' it determines the number of alpha-cuts, equispatially distributed in [0,1]. 
 #' @param ... \code{dmu_ref}, \code{orientation}, \code{rts} and other model parameters.
 #'   
-#' @return An object of class \code{deadata_fuzzy}.
+#' @returns A list of class \code{dea_fuzzy} with the results for the evaluated DMUs (\code{DMU} component,
+#' we note that we call "targets" to the "efficient projections"
+#' in the strongly efficient frontier),
+#'  along with any other necessary information to replicate the results, such as
+#'  the name of the model and parameters \code{orientation}, \code{rts}, \code{alpha},
+#'  \code{dmu_eval} and \code{dmu_ref}.
 #' 
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).
@@ -100,9 +107,9 @@
 modelfuzzy_kaoliu <-
   function(datadea,
            dmu_eval = NULL,
-           kaoliu_modelname = c("basic", "additive", "addsupereff", "deaps", "fdh",
-                                "multiplier", "nonradial", "profit", "rdm", "sbmeff",
-                                "sbmsupereff", "supereff"),
+           kaoliu_modelname = c("basic", "additive", "addmin", "addsupereff", "deaps",
+                                "dir", "fdh", "lgo", "multiplier", "nonradial", "profit",
+                                "qgo", "rdm", "sbmeff", "sbmsupereff", "supereff"),
            alpha = 1,
            ...) {
  

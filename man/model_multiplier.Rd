@@ -43,6 +43,14 @@ function and constraints).}
 
 \item{...}{Ignored, for compatibility issues.}
 }
+\value{
+A list of class \code{dea} with the results for the evaluated DMUs (\code{DMU} component,
+we note that we call "targets" to the "efficient projections"
+in the strongly efficient frontier),
+ along with any other necessary information to replicate the results, such as
+ the name of the model and parameters \code{orientation}, \code{rts},
+ \code{dmu_eval} and \code{dmu_ref}.
+}
 \description{
 Solve input-oriented and output-oriented basic DEA  models
 (multiplicative form) under constant (CCR DEA model), variable (BCC DEA model),

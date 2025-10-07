@@ -10,7 +10,7 @@ is.dea(x)
 \item{x}{Any \bold{R} object.}
 }
 \value{
-Returns \code{TRUE} if its argument is a dea object (that is, has "dea" 
+Returns \code{TRUE} if its argument is a \code{dea} object (that is, has "dea" 
   amongst its classes) and \code{FALSE} otherwise.
 }
 \description{

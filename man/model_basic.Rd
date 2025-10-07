@@ -78,7 +78,8 @@ then it applies the "max + 1" translation to all undesirable inputs.}
 non-directional orientation, analogous to \code{vtrans_i}, but applied to outputs.}
 
 \item{compute_target}{Logical. If it is \code{TRUE}, it computes targets of the
-max slack solution.}
+max slack solution. We note that we call "targets" to the "efficient projections"
+in the strongly efficient frontier.}
 
 \item{compute_multiplier}{Logical. If it is \code{TRUE}, it computes multipliers
 (dual solution) when \code{orientation} is "io" or "oo".}
@@ -90,6 +91,12 @@ max slack solution.}
 of \code{malmquist_index} function with undesirable variables.}
 
 \item{...}{Ignored, for compatibility issues.}
+}
+\value{
+A list of class \code{dea} with the results for the evaluated DMUs (\code{DMU} component),
+ along with any other necessary information to replicate the results, such as
+ the name of the model and parameters \code{orientation}, \code{rts},
+ \code{dmu_eval} and \code{dmu_ref}.
 }
 \description{
 It solves input and output oriented, along with directional, basic

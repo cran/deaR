@@ -66,6 +66,14 @@ slacks for the max slack solution.}
 
 \item{...}{Other parameters, like the initial vector \code{X}, to be passed to the solver.}
 }
+\value{
+A list of class \code{dea} with the results for the evaluated DMUs (\code{DMU} component,
+we note that we call "targets" to the "efficient projections"
+in the strongly efficient frontier),
+ along with any other necessary information to replicate the results, such as
+ the name of the model and parameters \code{d_input}, \code{d_output}, \code{rts},
+ \code{dmu_eval} and \code{dmu_ref}.
+}
 \description{
 It solves quadratically constrained CRS generalized oriented DEA
 models, using alabama solver. By default, models are solved in a two-stage
@@ -86,7 +94,7 @@ efficiencies(eval_pft)
 \references{
 "A new family of models with generalized orientation in data envelopment
 analysis". V. J. Bolós, R. Benítez, V. Coll-Serrano. International
-Transactions in Operational Research. Accepted
+Transactions in Operational Research. \doi{10.1111/itor.70063}
 }
 \seealso{
 \code{\link{model_basic}}, \code{\link{model_dir}}, \code{\link{model_lgo}}

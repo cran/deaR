@@ -21,6 +21,9 @@ read_malmquist(datadea,
 
 \item{...}{Other options to be passed to the \code{make_deadata} function.}
 }
+\value{
+An object of class \code{deadata}. Function \code{malmquist_index} can be applied.
+}
 \description{
 This function is deprecated. Use \code{make_malmquist} instead.
 }

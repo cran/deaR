@@ -1,15 +1,15 @@
 Package: deaR
 Type: Package
 Title: Conventional and Fuzzy Data Envelopment Analysis
-Version: 1.5
+Version: 1.5.1
 Authors@R: c(person(given = "Vicente",
-                      family = "Coll-Serrano",
-                      role = "aut",
-                      email = "vicente.coll@uv.es"),
-               person(given = "Vicente",
                       family = "Bolos",
                       role = c("aut", "cre"),
                       email = "vicente.bolos@uv.es"),
+               person(given = "Vicente",
+                      family = "Coll-Serrano",
+                      role = "aut",
+                      email = "vicente.coll@uv.es"),
                person(given = "Rafael",
                       family = c("Benitez", "Suarez"),
                       role = "aut",
@@ -19,14 +19,14 @@ Description: Set of functions for Data Envelopment Analysis. It runs both classi
 License: GPL
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Depends: R (>= 3.5)
 Imports: lpSolve, ggplot2, tidyr, plotly, igraph, writexl, dplyr,
         methods, gridExtra, grDevices, optiSolve
 NeedsCompilation: no
-Packaged: 2025-06-13 07:57:56 UTC; Vicente
-Author: Vicente Coll-Serrano [aut],
-  Vicente Bolos [aut, cre],
+Packaged: 2025-10-07 08:48:47 UTC; Vicente
+Author: Vicente Bolos [aut, cre],
+  Vicente Coll-Serrano [aut],
   Rafael Benitez Suarez [aut]
 Repository: CRAN
-Date/Publication: 2025-06-13 12:10:13 UTC
+Date/Publication: 2025-10-07 09:40:02 UTC

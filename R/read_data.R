@@ -35,6 +35,8 @@
 #' @param ud_inputs A numeric vector containing the indices of undesirable (good) inputs.
 #' @param ud_outputs A numeric vector containing the indices of undesirable (bad) outputs.
 #' 
+#' @returns An object of class \code{deadata}. Any function \code{model_*} can be applied.
+#' 
 #' @export
 
 read_data <- function(datadea = NULL,

@@ -44,6 +44,13 @@
 #' function and constraints).
 #' @param compute_lambda Logical. If it is \code{TRUE}, it computes the dual problem and lambdas.
 #' @param ... Ignored, for compatibility issues.
+#' 
+#' @returns A list of class \code{dea} with the results for the evaluated DMUs (\code{DMU} component,
+#' we note that we call "targets" to the "efficient projections"
+#' in the strongly efficient frontier),
+#'  along with any other necessary information to replicate the results, such as
+#'  the name of the model and parameters \code{orientation}, \code{rts},
+#'  \code{dmu_eval} and \code{dmu_ref}.
 #'      
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).

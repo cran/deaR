@@ -11,10 +11,10 @@
 #'  If FALSE (default) all the data frames are merged into a single data frame.
 #' @param ... Ignored. Used for compatibility issues.
 #'   
-#' @return Depending on the model it returns a single data.frame containing: efficiencies, 
-#' slacks, lambdas, targets, references or a list of data.frames with the cross-efficiencies computed 
+#' @returns Depending on the model it returns a single data frame containing: efficiencies, 
+#' slacks, lambdas, targets, references or a list of data frames with the cross-efficiencies computed 
 #' with different methods (Arbitrary, Method II or Method III (see CITA)) or, in case the model is a
-#' Malmquist index, a single data.frame with the coefficients for the different periods.
+#' Malmquist index, a single data frame with the coefficients for the different periods.
 #'         
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).

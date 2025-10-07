@@ -76,7 +76,9 @@ or \code{maximal_friends} functions, and for checking targets.}
 \item{silent}{Logical. If \code{FALSE}, it prints all the messages from
 function \code{maximal_friends}.}
 
-\item{compute_target}{Logical. If it is \code{TRUE} (default), it computes targets.}
+\item{compute_target}{Logical. If it is \code{TRUE} (default), it computes targets.
+We note that we call "targets" to the "efficient projections"
+in the strongly efficient frontier.}
 
 \item{check_target}{Logical. If it is \code{TRUE}, it checks the efficiency of targets.
 If a target is not efficient, the method has failed.}
@@ -85,6 +87,12 @@ If a target is not efficient, the method has failed.}
 (objective function and constraints).}
 
 \item{...}{For compatibility issues.}
+}
+\value{
+A list of class \code{dea} with the results for the evaluated DMUs (\code{DMU} component),
+ along with any other necessary information to replicate the results, such as
+ the name of the model and parameters \code{orientation}, \code{rts},
+ \code{dmu_eval} and \code{dmu_ref}.
 }
 \description{
 Solve the weighted version of the additive-min (mADD) model of

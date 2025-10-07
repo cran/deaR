@@ -37,6 +37,12 @@ and \code{h} = "h4" is the bandwidth provided by a Gaussian kernel density estim
 
 \item{alpha}{Between 0 and 1 (for confidence intervals).}
 }
+\value{
+A list with the results (\code{score} and \code{score_bc} components)
+along with any other necessary information to replicate the results, such as
+the name of the model and parameters \code{orientation}, \code{rts}, \code{bandwidth},
+\code{bias}, \code{CI} (confidence intervals) and \code{descriptives}.
+}
 \description{
 To bootstrap efficiency scores, deaR uses the algorithm proposed
 by Simar and Wilson (1998). For now, the function bootstrap_basic can only be

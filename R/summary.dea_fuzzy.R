@@ -13,12 +13,12 @@
 #' @param returnList Logical value. If TRUE then the results are given as a list of data frames. 
 #'  If FALSE (default) all the data frames are merged into a single data frame.
 #' 
-#' @return If the model is that from Guo and Tanaka (\code{modelfuzzy_guotanaka}), it returns a data.frame
+#' @returns If the model is that from Guo and Tanaka (\code{modelfuzzy_guotanaka}), it returns a data frame
 #' with columns: DMU, alpha cuts and efficiencies.
-#' For the possibilistic model (\code{modelfuzzy_possibilistic}) it returns a data.frame with columns:
+#' For the possibilistic model (\code{modelfuzzy_possibilistic}) it returns a data frame with columns:
 #' DMU, alpha-cuts, efficiencies and the corresponding lambda values
 #' For the Kao-Liu model (\code{modelfuzzy_kaoliu}), the result may depend on the crisp sub-model used. 
-#' It will contain a data.frame with the efficiencies (if any), the slacks and superslacks (if any), 
+#' It will contain a data frame with the efficiencies (if any), the slacks and superslacks (if any), 
 #' the lambda values and the targets.
 #' 
 #' If \code{exportExcel} is TRUE, then an Excel file will be created containing as many

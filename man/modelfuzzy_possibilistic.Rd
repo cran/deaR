@@ -23,7 +23,12 @@ If \code{NULL} (default), all DMUs are considered.}
 \item{...}{\code{dmu_ref}, \code{orientation}, \code{rts} and other model parameters.}
 }
 \value{
-An object of class \code{deadata_fuzzy}.
+A list of class \code{dea_fuzzy} with the results for the evaluated DMUs (\code{DMU} component,
+we note that we call "targets" to the "efficient projections"
+in the strongly efficient frontier),
+ along with any other necessary information to replicate the results, such as
+ the name of the model and parameters \code{orientation}, \code{rts}, \code{h},
+ \code{dmu_eval} and \code{dmu_ref}.
 }
 \description{
 Solve the possibilistic fuzzy DEA model proposed by León et. al (2003).

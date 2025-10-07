@@ -22,7 +22,7 @@ make_malmquist(datadea,
 \item{...}{Other options to be passed to the \code{make_deadata} function.}
 }
 \value{
-An object of class \code{deadata}
+An object of class \code{deadata}. Function \code{malmquist_index} can be applied.
 }
 \description{
 This function creates, from a data frame, a list of

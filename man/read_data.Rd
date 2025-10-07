@@ -49,6 +49,9 @@ Alternatively to \code{datadea}, it can be a matrix with the outputs (DMUs in co
 
 \item{ud_outputs}{A numeric vector containing the indices of undesirable (bad) outputs.}
 }
+\value{
+An object of class \code{deadata}. Any function \code{model_*} can be applied.
+}
 \description{
 This function is deprecated. Use \code{make_deadata} instead.
 }

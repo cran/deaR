@@ -7,6 +7,9 @@
 #' @param x An object of class \code{dea}, \code{dea_fuzzy} or \code{dea_stoch}.
 #' @param ... ignored.
 #' 
+#' @returns A matrix or numeric vector with the optimal objective scores for each
+#' evaluated DMU.
+#' 
 #' @export 
 
 efficiencies <- function(x, ...) {

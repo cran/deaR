@@ -9,7 +9,7 @@
 #' @param tol Numeric. Absolute tolerance for numeric comparisons in efficiency scores.
 #' By default, it is 1e-4.
 #' 
-#' @return A numeric vector containing which DMUs has been evaluated as efficient.
+#' @returns A numeric vector containing which DMUs has been evaluated as efficient.
 #' This vector is empty if there is not any efficient DMU.
 #' 
 #' @author 

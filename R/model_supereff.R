@@ -17,6 +17,13 @@
 #' apply super-efficiency.
 #' @param ... \code{orientation}, \code{rts} and other model parameters.
 #' 
+#' @returns A list of class \code{dea} with the results for the evaluated DMUs (\code{DMU} component,
+#' we note that we call "targets" to the "efficient projections"
+#' in the strongly efficient frontier),
+#'  along with any other necessary information to replicate the results, such as
+#'  the name of the model and parameters \code{orientation}, \code{rts},
+#'  \code{dmu_eval} and \code{dmu_ref}.
+#' 
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).
 #' \emph{Quantitative Methods for Measuring Culture (MC2). Applied Economics.}

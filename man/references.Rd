@@ -11,7 +11,10 @@ references(deasol,
 \item{deasol}{Object of class \code{dea} obtained with some of the DEA model functions.}
 
 \item{thr}{Tolerance threshold (for avoiding miss detection of efficient 
-DMUs due to round off errors)}
+DMUs due to round off errors).}
+}
+\value{
+A list with the references for each evaluated DMU.
 }
 \description{
 Extract the reference set for each DMU (inefficient DMUs and

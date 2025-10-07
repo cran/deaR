@@ -10,7 +10,7 @@ is.deadata(x)
 \item{x}{Any \bold{R} object.}
 }
 \value{
-Returns \code{TRUE} if its argument is a deadata object (that is, has "deadata" 
+Returns \code{TRUE} if its argument is a \code{deadata} object (that is, has "deadata" 
   amongst its classes) and \code{FALSE} otherwise.
 }
 \description{

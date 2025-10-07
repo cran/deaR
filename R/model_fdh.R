@@ -13,6 +13,12 @@
 #' For now, only "basic" is available.
 #' @param ... \code{dmu_eval}, \code{dmu_ref}, \code{orientation} and other model parameters.
 #' Parameters like \code{rts}, \code{max_slack} and \code{returnlp} are ignored.
+#' 
+#' @returns A list of class \code{dea} with the results for the evaluated DMUs (\code{DMU} component,
+#' we note that we call "targets" to the "efficient projections"
+#' in the strongly efficient frontier),
+#'  along with any other necessary information to replicate the results, such as
+#'  the name of the model.
 #'     
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).

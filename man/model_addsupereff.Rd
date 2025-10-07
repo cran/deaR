@@ -54,12 +54,19 @@ or "grs" (generalized).}
 \item{U}{Upper bound for the generalized returns to scale (grs).}
 
 \item{compute_target}{Logical. If it is \code{TRUE}, it computes targets,
-projections and slacks.}
+projections and slacks. We note that we call "targets" to the "efficient projections"
+in the strongly efficient frontier.}
 
 \item{returnlp}{Logical. If it is \code{TRUE}, it returns the linear problems
 (objective function and constraints).}
 
 \item{...}{Ignored, for compatibility issues.}
+}
+\value{
+A list of class \code{dea} with the results for the evaluated DMUs (\code{DMU} component),
+ along with any other necessary information to replicate the results, such as
+ the name of the model and parameters \code{orientation}, \code{rts},
+ \code{dmu_eval} and \code{dmu_ref}.
 }
 \description{
 Solve the additive super-efficiency model proposed by Du, Liang

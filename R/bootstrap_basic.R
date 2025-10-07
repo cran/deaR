@@ -28,6 +28,11 @@
 #' \code{h} = "h3" is the value of h1 adjusted for scale and sample size (Daraio and Simar, 2007 p.61),
 #' and \code{h} = "h4" is the bandwidth provided by a Gaussian kernel density estimate. 
 #' @param alpha Between 0 and 1 (for confidence intervals).
+#' 
+#' @returns A list with the results (\code{score} and \code{score_bc} components)
+#' along with any other necessary information to replicate the results, such as
+#' the name of the model and parameters \code{orientation}, \code{rts}, \code{bandwidth},
+#' \code{bias}, \code{CI} (confidence intervals) and \code{descriptives}.
 #'   
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).
@@ -175,7 +180,7 @@ bootstrap_basic <- function(datadea,
     score[i] <- lp(obj, f.obj, f.con, f.dir, f.rhs)$solution[1]
   }
   if (orientation == "io") {
-    score_sp <- 1/score
+    score_sp <- 1 / score
   } else {
     score_sp <-  score
   }
@@ -286,7 +291,7 @@ bootstrap_basic <- function(datadea,
                              median_estimates_boot)
   
   res <- list(modelname = "bootstrap", orientation = orientation, 
-              rts = rts, L = L, U = U, score = score, bandwith = h, score_bc = score_bc,
+              rts = rts, L = L, U = U, score = score, bandwidth = h, score_bc = score_bc,
               bias = bias, descriptives = descriptives, CI = CI,
               estimates_bootstrap = estimates_bootstrap, data = datadea)
   #return(structure(res, class = "dea"))

@@ -47,7 +47,9 @@ or "oo" (output-oriented).}
 \item{U}{Upper bound for the generalized returns to scale (grs).}
 
 \item{compute_target}{Logical. If it is \code{TRUE}, it computes targets,
-superslacks (\code{t_input} and \code{t_output}) and slacks.}
+superslacks (\code{t_input} and \code{t_output}) and slacks.
+We note that we call "targets" to the "efficient projections"
+in the strongly efficient frontier.}
 
 \item{compute_rho}{Logical. If it is \code{TRUE}, it computes the SBM efficiency
 score (applying \code{model_sbmeff}) of the DMU (\code{project_input}, \code{project_output}).}
@@ -61,6 +63,12 @@ from function \code{maximal_friends}.}
 
 \item{returnlp}{Logical. If it is \code{TRUE}, it returns the linear problems
 (objective function and constraints).}
+}
+\value{
+A list of class \code{dea} with the results for the evaluated DMUs (\code{DMU} component),
+ along with any other necessary information to replicate the results, such as
+ the name of the model and parameters \code{orientation}, \code{rts},
+ \code{dmu_eval} and \code{dmu_ref}.
 }
 \description{
 Slack based measure of superefficiency model (Tone 2002) with \code{n}

@@ -8,7 +8,7 @@
 #' is FALSE the plots are not shown and are returned by the function (invisibly) as a list.
 #' @param ... Ignored, for compatibility issues.
 #'   
-#' @return Depending on the model, it returns some plots.
+#' @returns Depending on the model, it returns some plots.
 #'        
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).

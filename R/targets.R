@@ -1,11 +1,15 @@
 #' @title Targets
 #'   
 #' @description Extract the targets of the DMUs from a \code{dea} or \code{dea_fuzzy} solution.
+#' We note that we call "targets" to the "efficient projections"
+#' in the strongly efficient frontier.
 #' 
 #' @usage targets(deasol)
 #' 
 #' @param deasol Object of class \code{dea} or \code{dea_fuzzy} obtained with some
 #' of the DEA model functions.
+#' 
+#' @returns A list with the targets for each evaluated DMU.
 #'   
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).
@@ -34,37 +38,51 @@
 targets <- function(deasol) {
   
   targetlist <- NULL
+  warning("We note that we call 'targets' to the 'efficient projections' in the
+          strongly efficient frontier.")
   
   if (is.dea(deasol)) {
     
     target_input <- NULL
     target_output <- NULL
-    if ("target_input" %in% names(deasol$DMU[[1]])) {
-      target_input <- do.call(rbind, lapply(deasol$DMU, function(x)
-        x$target_input))
-      target_output <- do.call(rbind, lapply(deasol$DMU, function(x)
-        x$target_output))
-    }
     
-    project_input <- NULL
-    project_output <- NULL
-    if (deasol$modelname %in% c("addsupereff", "sbmsupereff")) {
-      project_input <- do.call(rbind, lapply(deasol$DMU, function(x)
-        x$project_input))
-      project_output <- do.call(rbind, lapply(deasol$DMU, function(x)
-        x$project_output))
-      targetlist <- list(project_input = project_input,
-                         project_output = project_output,
-                         target_input = target_input,
-                         target_output = target_output)
-      
-    } else {
+    if (deasol$modelname %in% c("lgo", "qgo")) {
+      project_input <- NULL
+      project_output <- NULL
+      target_input <- do.call(rbind, lapply(deasol$DMU, function(x)
+        x$effproj_input))
+      target_output <- do.call(rbind, lapply(deasol$DMU, function(x)
+        x$effproj_output))
       targetlist <- list(target_input = target_input,
                          target_output = target_output)
+    } else {
+      if ("target_input" %in% names(deasol$DMU[[1]])) {
+        target_input <- do.call(rbind, lapply(deasol$DMU, function(x)
+          x$target_input))
+        target_output <- do.call(rbind, lapply(deasol$DMU, function(x)
+          x$target_output))
+      }
+      
+      project_input <- NULL
+      project_output <- NULL
+      if (deasol$modelname %in% c("addsupereff", "sbmsupereff")) {
+        project_input <- do.call(rbind, lapply(deasol$DMU, function(x)
+          x$project_input))
+        project_output <- do.call(rbind, lapply(deasol$DMU, function(x)
+          x$project_output))
+        targetlist <- list(project_input = project_input,
+                           project_output = project_output,
+                           target_input = target_input,
+                           target_output = target_output)
+        
+      } else {
+        targetlist <- list(target_input = target_input,
+                           target_output = target_output)
+      }
     }
     
     if(is.null(target_input) && is.null(project_input)) {
-      stop("No target/project parameters in this solution!")
+      stop("No target/projection parameters in this solution!")
     }
     
   } else if (is.dea_fuzzy(deasol)) {
@@ -151,6 +169,31 @@ targets <- function(deasol) {
                              target_output.B = target_output.B)
           
         } else {
+          if (grepl("lgo", deasol$modelname) || grepl("qgo", deasol$modelname)) {
+            target_input.W <- array(0,
+                                    dim = c(nde, ni, nalpha),
+                                    dimnames = list(dmunames_eval, inputnames, names(deasol$alphacut)))
+            target_input.B <- target_input.W
+            
+            for (i in 1:nalpha) {
+              target_input.W[, , i] <- do.call(rbind, lapply(deasol$alphacut[[i]]$DMU$Worst, function(x)
+                x$effproj_input))
+              target_input.B[, , i] <- do.call(rbind, lapply(deasol$alphacut[[i]]$DMU$Best, function(x)
+                x$effproj_input))
+            }
+            
+            target_output.W <- array(0,
+                                     dim = c(nde, no, nalpha),
+                                     dimnames = list(dmunames_eval, outputnames, names(deasol$alphacut)))
+            target_output.B <- target_output.W
+            
+            for (i in 1:nalpha) {
+              target_output.W[, , i] <- do.call(rbind, lapply(deasol$alphacut[[i]]$DMU$Worst, function(x)
+                x$effproj_output))
+              target_output.B[, , i] <- do.call(rbind, lapply(deasol$alphacut[[i]]$DMU$Best, function(x)
+                x$effproj_output))
+            }
+          }
           targetlist <- list(target_input.W = target_input.W,
                              target_input.B = target_input.B,
                              target_output.W = target_output.W,
@@ -160,7 +203,7 @@ targets <- function(deasol) {
       }
       
       if(is.null(target_input.W) && is.null(project_input.W)) {
-        stop("No target/project parameters in this solution!")
+        stop("No target/projection parameters in this solution!")
       }
       
     } else if (grepl("possibilistic", deasol$modelname)) {

@@ -87,7 +87,8 @@
 #' @param vtrans_o Numeric vector of translation for undesirable outputs with
 #' non-directional orientation, analogous to \code{vtrans_i}, but applied to outputs.
 #' @param compute_target Logical. If it is \code{TRUE}, it computes targets of the
-#' max slack solution. 
+#' max slack solution. We note that we call "targets" to the "efficient projections"
+#' in the strongly efficient frontier. 
 #' @param compute_multiplier Logical. If it is \code{TRUE}, it computes multipliers
 #' (dual solution) when \code{orientation} is "io" or "oo".
 #' @param returnlp Logical. If it is \code{TRUE}, it returns the linear problems
@@ -95,6 +96,11 @@
 #' @param silent_ud Logical. For internal use, to avoid multiple warnings in the execution
 #' of \code{malmquist_index} function with undesirable variables.
 #' @param ... Ignored, for compatibility issues.
+#'  
+#' @returns A list of class \code{dea} with the results for the evaluated DMUs (\code{DMU} component),
+#'  along with any other necessary information to replicate the results, such as
+#'  the name of the model and parameters \code{orientation}, \code{rts},
+#'  \code{dmu_eval} and \code{dmu_ref}.
 #'   
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).

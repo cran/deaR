@@ -15,7 +15,7 @@
 #'            "vrs" (variable), "nirs" (non-increasing) or "ndrs" (non-decreasing).
 #' @param tol Numeric, a tolerance margin for checking efficiency. It is 1e-6 by default.
 #' 
-#' @return A numeric vector representing an extreme efficient subset of DMUs.
+#' @returns A numeric vector representing an extreme efficient subset of DMUs.
 #' 
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).

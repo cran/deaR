@@ -17,7 +17,7 @@
 #' @param vtrans_o Numeric vector of translation for undesirable outputs, analogous to
 #'  \code{vtrans_i}, but applied to outputs.
 #'
-#' @return An list with the transformed object of class \code{deadata} or \code{deadata_fuzzy}
+#' @returns An list with the transformed object of class \code{deadata} or \code{deadata_fuzzy}
 #' and the corresponding translation vectors \code{vtrans_i} and \code{vtrans_o}.
 #' 
 #' @author 

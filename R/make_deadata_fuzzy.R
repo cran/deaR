@@ -70,7 +70,8 @@
 #' @param ud_inputs A numeric vector containing the indices of undesirable (good) inputs.
 #' @param ud_outputs A numeric vector containing the indices of undesirable (bad) outputs.
 #'
-#' @return An object of class \code{deadata_fuzzy}.
+#' @returns An object of class \code{deadata_fuzzy}. Any function \code{modelfuzzy_*}
+#' can be applied.
 #'  
 #' @examples
 #' # Example 1. If inputs and/or outputs are symmetric triangular fuzzy numbers

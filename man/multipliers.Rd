@@ -10,6 +10,9 @@ multipliers(deasol)
 \item{deasol}{Object of class \code{dea} or \code{dea_fuzzy} obtained with
 some of the DEA model functions.}
 }
+\value{
+A list with the multipliers of the evaluated DMUs.
+}
 \description{
 Extract the multipliers of the DMUs from a \code{dea} or
 \code{dea_fuzzy} solution.

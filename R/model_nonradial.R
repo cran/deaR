@@ -33,10 +33,16 @@
 #' If output-oriented, it is a value, vector of length \code{m}, or matrix \code{m} x
 #' \code{ne} with the weights of the input slacks for the max slack solution.
 #' @param compute_target Logical. If it is \code{TRUE}, it computes targets of the
-#' max slack solution. 
+#' max slack solution. We note that we call "targets" to the "efficient projections"
+#' in the strongly efficient frontier.
 #' @param returnlp Logical. If it is \code{TRUE}, it returns the linear problems
 #' (objective function and constraints) of stage 1.
 #' @param ... Ignored, for compatibility issues.
+#' 
+#' @returns A list of class \code{dea} with the results for the evaluated DMUs (\code{DMU} component),
+#'  along with any other necessary information to replicate the results, such as
+#'  the name of the model and parameters \code{orientation}, \code{rts},
+#'  \code{dmu_eval} and \code{dmu_ref}.
 #'   
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).

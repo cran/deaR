@@ -10,6 +10,9 @@ lambdas(deasol)
 \item{deasol}{Object of class \code{dea} or \code{dea_fuzzy} obtained with
 some of the DEA model functions.}
 }
+\value{
+A matrix with parameters lambda for each evaluated DMU.
+}
 \description{
 Extract the lambdas of the DMUs from a dea or dea_fuzzy solution.
 }

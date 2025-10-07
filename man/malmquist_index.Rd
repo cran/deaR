@@ -50,7 +50,9 @@ then it applies the "max + 1" translation to all undesirable inputs.}
 non-directional basic models, analogous to \code{vtrans_i}, but applied to outputs.}
 }
 \value{
-A numeric list with Malmquist index and other parameters.
+A numeric list with Malmquist index and other necessary information
+to replicate the results, such as the name of the model and parameters
+\code{orientation}, \code{rts}, \code{dmu_eval} and \code{dmu_ref}.
 }
 \description{
 This function calculates the input/output oriented

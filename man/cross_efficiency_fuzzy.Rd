@@ -20,6 +20,11 @@ If it is of class \code{dea_fuzzy} it must have been obtained with \code{modelfu
 \item{selfapp}{Logical. If it is \code{TRUE}, self-appraisal is included in the
 average scores of \code{A} and \code{e}.}
 }
+\value{
+A list with the results along with any other necessary information to
+replicate the results, such as the name of the model and parameters \code{orientation},
+\code{rts}, \code{selfapp} and \code{h}.
+}
 \description{
 Computes the cross-efficiency fuzzy tables from DEA fuzzy data or a
 Guo-Tanaka DEA model solution.

@@ -34,6 +34,11 @@
 #' @param returnlp Logical. If it is \code{TRUE}, it returns the linear problems
 #' (objective function and constraints) of stage 1.
 #' @param ... Ignored, for compatibility issues.
+#' 
+#' @returns A list of class \code{dea} with the results for the evaluated DMUs (\code{DMU} component),
+#'  along with any other necessary information to replicate the results, such as
+#'  the name of the model and parameters \code{orientation}, \code{rts},
+#'  \code{dmu_eval} and \code{dmu_ref}.
 #'
 #' @references
 #' Coelli, T.; Prasada Rao, D.S.; Battese, G.E. (1998). An introduction to efficiency

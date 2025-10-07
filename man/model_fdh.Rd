@@ -17,6 +17,13 @@ For now, only "basic" is available.}
 \item{...}{\code{dmu_eval}, \code{dmu_ref}, \code{orientation} and other model parameters.
 Parameters like \code{rts}, \code{max_slack} and \code{returnlp} are ignored.}
 }
+\value{
+A list of class \code{dea} with the results for the evaluated DMUs (\code{DMU} component,
+we note that we call "targets" to the "efficient projections"
+in the strongly efficient frontier),
+ along with any other necessary information to replicate the results, such as
+ the name of the model.
+}
 \description{
 FDH model allows the free disposability to construct the production
 possibility set. The central feature of the FDH model is the lack of convexity

@@ -17,7 +17,7 @@
 #'            "vrs" (variable), "nirs" (non-increasing) or "ndrs" (non-decreasing).
 #' @param tol Numeric, a tolerance margin for checking efficiency. It is 1e-6 by default.
 #' 
-#' @return Returns \code{TRUE} if \code{dmu_eval} is friends of \code{dmu_ref},
+#' @returns Returns \code{TRUE} if \code{dmu_eval} is friends of \code{dmu_ref},
 #'         and \code{FALSE} otherwise.
 #'  
 #' @author 

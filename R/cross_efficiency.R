@@ -51,6 +51,12 @@
 #' estimations.
 #' @param M3 Logical. If it is \code{TRUE}, it computes Method III for aggresive/benevolent
 #' estimations.
+#' 
+#' @returns A list with the results for each method (\code{Arbitrary}, \code{M2_agg},
+#'  \code{M2_ben}, \code{M3_agg} and \code{M3_ben} components),
+#'  along with any other necessary information to replicate the results, such as
+#'  the name of the model and parameters \code{orientation}, \code{rts}, \code{selfapp},
+#'  \code{dmu_eval} and \code{dmu_ref}.
 #'
 #' @references
 #' Sexton, T.R., Silkman, R.H.; Hogan, A.J. (1986). Data envelopment analysis: critique

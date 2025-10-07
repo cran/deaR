@@ -17,7 +17,7 @@
 #'
 #' University of Valencia (Spain)
 #' 
-#' @return Returns \code{TRUE} if its argument is a dea_fuzzy object (that is, has "dea_fuzzy" 
+#' @returns Returns \code{TRUE} if its argument is a \code{dea_fuzzy} object (that is, has "dea_fuzzy" 
 #'   amongst its classes) and \code{FALSE} otherwise.
 #'   
 #' @export

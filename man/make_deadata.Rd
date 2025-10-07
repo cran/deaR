@@ -58,7 +58,7 @@ and upper bounds of undesirable (good) inputs. NA for unbounded inputs.}
 and lower bounds of undesirable (bad) outputs. NA for unbounded outputs.}
 }
 \value{
-An object of class \code{deadata}
+An object of class \code{deadata}. Any function \code{model_*} can be applied.
 }
 \description{
 This function creates, from a data frame, a \code{deadata} structure,

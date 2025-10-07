@@ -21,10 +21,10 @@ If FALSE (default) all the data frames are merged into a single data frame.}
 \item{...}{Ignored. Used for compatibility issues.}
 }
 \value{
-Depending on the model it returns a single data.frame containing: efficiencies, 
-slacks, lambdas, targets, references or a list of data.frames with the cross-efficiencies computed 
+Depending on the model it returns a single data frame containing: efficiencies, 
+slacks, lambdas, targets, references or a list of data frames with the cross-efficiencies computed 
 with different methods (Arbitrary, Method II or Method III (see CITA)) or, in case the model is a
-Malmquist index, a single data.frame with the coefficients for the different periods.
+Malmquist index, a single data frame with the coefficients for the different periods.
 }
 \description{
 Summary of the results obtained by a conventional DEA model.

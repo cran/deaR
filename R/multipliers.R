@@ -7,6 +7,8 @@
 #' 
 #' @param deasol Object of class \code{dea} or \code{dea_fuzzy} obtained with
 #' some of the DEA model functions.
+#' 
+#' @returns A list with the multipliers of the evaluated DMUs.
 #'   
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).

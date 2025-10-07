@@ -12,6 +12,10 @@
 
 \item{...}{Other options (for compatibility).}
 }
+\value{
+A matrix of size (number of evaluated DMUs) x (number of h-levels)
+with the optimal objective scores.
+}
 \description{
 Extract the scores (optimal objective values) of the evaluated DMUs
 from a fuzzy DEA solution. Note that these scores may not always be interpreted

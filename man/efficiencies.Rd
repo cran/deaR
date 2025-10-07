@@ -11,6 +11,10 @@ efficiencies(x, ...)
 
 \item{...}{ignored.}
 }
+\value{
+A matrix or numeric vector with the optimal objective scores for each
+evaluated DMU.
+}
 \description{
 Extract the scores (optimal objective values) of the evaluated
 DMUs from a conventional, fuzzy or stochastic DEA solution. Note that these

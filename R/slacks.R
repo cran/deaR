@@ -6,6 +6,8 @@
 #' 
 #' @param deasol Object of class \code{dea} or \code{dea_fuzzy} obtained with some
 #' of the DEA model functions.
+#' 
+#' @returns A list with the optimal slacks for each evaluated DMU.
 #'   
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).

@@ -18,7 +18,7 @@
 #' @param tol Numeric, a tolerance margin for checking efficiency. It is 1e-6 by default.
 #' @param silent Logical, if \code{FALSE} (default) steps are printed.
 #' 
-#' @return A list with numeric vectors representing maximal friends subsets of DMUs.
+#' @returns A list with numeric vectors representing maximal friends subsets of DMUs.
 #' 
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).

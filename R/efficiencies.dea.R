@@ -7,6 +7,8 @@
 #' @param x Object of class \code{dea} obtained with some of the conventional DEA
 #' \code{model_*} functions.
 #' @param ... Other options (for compatibility reasons).
+#' 
+#' @returns A numeric vector with the optimal objective scores for each evaluated DMU.
 #'   
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).

@@ -7,6 +7,9 @@
 #' @param x Object of class \code{dea_fuzzy} obtained with some of the fuzzy DEA
 #' \code{modelfuzzy_*} functions.
 #' @param ... Other options (for compatibility).
+#' 
+#' @returns A matrix of size (number of evaluated DMUs) x (number of h-levels)
+#' with the optimal objective scores.
 #'   
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).

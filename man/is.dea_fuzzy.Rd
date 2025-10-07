@@ -10,7 +10,7 @@ is.dea_fuzzy(x)
 \item{x}{Any \bold{R} object.}
 }
 \value{
-Returns \code{TRUE} if its argument is a dea_fuzzy object (that is, has "dea_fuzzy" 
+Returns \code{TRUE} if its argument is a \code{dea_fuzzy} object (that is, has "dea_fuzzy" 
   amongst its classes) and \code{FALSE} otherwise.
 }
 \description{

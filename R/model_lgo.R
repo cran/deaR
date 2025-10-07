@@ -46,6 +46,13 @@
 #' @param returnlp Logical. If it is \code{TRUE}, it returns the linear problems
 #' (objective function and constraints) of stage 1.
 #' @param ... Ignored, for compatibility issues.
+#' 
+#' @returns A list of class \code{dea} with the results for the evaluated DMUs (\code{DMU} component,
+#' we note that we call "targets" to the "efficient projections"
+#' in the strongly efficient frontier),
+#'  along with any other necessary information to replicate the results, such as
+#'  the name of the model and parameters \code{orientation_param}, \code{rts},
+#'  \code{dmu_eval} and \code{dmu_ref}.
 #'   
 #' @author 
 #' \strong{Vicente Coll-Serrano} (\email{vicente.coll@@uv.es}).
@@ -396,6 +403,13 @@ model_lgo <-
           (1 + beta * sum(dir_output[, i] / output[, ii]) / no)
         names(rho) <- "rho"
         
+        # Cambio de notación: El target es lo que era la proyección y la proyección
+        # eficiente es lo que era el target.
+        effproj_input <- target_input
+        effproj_output <- target_output
+        target_input <- proj_input
+        target_output <- proj_output
+        
       } else {
         
         rho <- NA
@@ -409,13 +423,6 @@ model_lgo <-
         effproj_output <- NA
         
       }
-      
-      # Cambio de notación: El target es lo que era la proyección y la proyección
-      # eficiente es lo que era el target.
-      effproj_input <- target_input
-      effproj_output <- target_output
-      target_input <- proj_input
-      target_output <- proj_output
       
       DMU[[i]] <- list(efficiency = rho,
                        beta = beta,
