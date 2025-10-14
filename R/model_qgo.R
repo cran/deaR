@@ -1,8 +1,8 @@
 #' @title Quadratically Constrained CRS Generalized Oriented DEA model.
 #'
 #' @description It solves quadratically constrained CRS generalized oriented DEA
-#' models, using alabama solver. By default, models are solved in a two-stage
-#' process (slacks are maximized).
+#' models (see Bolós et al. 2026), using alabama solver. By default, models are
+#' solved in a two-stage process (slacks are maximized).
 #'
 #' @usage model_qgo(datadea,
 #'             dmu_eval = NULL,
@@ -13,6 +13,7 @@
 #'             L = 1,
 #'             U = 1,
 #'             give_X = TRUE,
+#'             force_quad = FALSE,
 #'             maxslack = TRUE,
 #'             weight_slack_i = 1,
 #'             weight_slack_o = 1,
@@ -38,9 +39,13 @@
 #' "vrs" (variable), "nirs" (non-increasing), "ndrs" (non-decreasing) or "grs" (generalized).
 #' @param L Lower bound for the generalized returns to scale (grs).
 #' @param U Upper bound for the generalized returns to scale (grs).
-#' @param give_X Logical. If it is \code{TRUE}, it uses an initial vector (given by
-#' the evaluated DMU) for the solver, except for "cccp". If it is \code{FALSE}, the initial vector is given
+#' @param give_X Logical. If it is \code{TRUE} (default), it uses an initial vector (given by
+#' the evaluated DMU) for the solver. If it is \code{FALSE}, the initial vector is given
 #' internally by the solver and it is usually randomly generated.
+#' @param force_quad Logical. If it is \code{FALSE} (default) it uses the linear
+#' model \code{model_lgo} to get the results, in some particular cases in which
+#' the results of \code{model_qgo} can be deduced from the results of \code{model_lgo},
+#' see V. J. Bolós et al. (2026).
 #' @param maxslack Logical. If it is \code{TRUE}, it computes the max slack solution.
 #' @param weight_slack_i A value, vector of length \code{m}, or matrix \code{m} x \code{ne}
 #' (where \code{ne} is the length of \code{dmu_eval}) with the weights of the input slacks
@@ -50,7 +55,8 @@
 #' slacks for the max slack solution.
 #' @param returnqp Logical. If it is \code{TRUE}, it returns the quadratic problems
 #' (objective function and constraints) of stage 1.
-#' @param ... Other parameters, like the initial vector \code{X}, to be passed to the solver.
+#' @param ... Other parameters to be passed to the solver \code{solvecop} from package
+#' \code{optiSolve}.
 #' 
 #' @returns A list of class \code{dea} with the results for the evaluated DMUs (\code{DMU} component,
 #' we note that we call "targets" to the "efficient projections"
@@ -73,8 +79,8 @@
 #'
 #' @references
 #' 
-#' "A new family of models with generalized orientation in data envelopment
-#' analysis". V. J. Bolós, R. Benítez, V. Coll-Serrano. International
+#' Bolós, V.J.; Benítez, R.; Coll-Serrano, V (2026). "A new family of models
+#' with generalized orientation in data envelopment analysis". International
 #' Transactions in Operational Research. \doi{10.1111/itor.70063}
 #'
 #' @examples
@@ -104,36 +110,41 @@ model_qgo <-
            L = 1,
            U = 1,
            give_X = TRUE,
+           force_quad = FALSE,
            maxslack = TRUE,
            weight_slack_i = 1,
            weight_slack_o = 1,
            returnqp = FALSE,
            ...) {
-
+    
+    if (returnqp && !force_quad) {
+      force_quad <- TRUE
+    }
+    
     # Cheking whether datadea is of class "deadata" or not...
     if (!is.deadata(datadea)) {
       stop("Data should be of class deadata. Run make_deadata function first!")
     }
-
+    
     # Checking undesirable inputs/outputs
     if (!is.null(datadea$ud_inputs) || !is.null(datadea$ud_outputs)) {
       warning("This model does not take into account the undesirable feature for inputs/outputs.")
     }
-
+    
     # Checking non controllable inputs/outputs
     if (!is.null(datadea$nc_inputs) || !is.null(datadea$nc_outputs)) {
       warning("This model does not take into account the non controllable feature for inputs/outputs.")
     }
-
+    
     # Checking non discretionary inputs/outputs
     if (!is.null(datadea$nd_inputs) || !is.null(datadea$nd_outputs)) {
       warning("This model does not take into account the non discretionary feature for inputs/outputs.")
     }
-
+    
     # Checking rts
     rts <- tolower(rts)
     rts <- match.arg(rts)
-
+    
     if (rts == "grs") {
       if (L > 1) {
         stop("L must be <= 1.")
@@ -142,13 +153,13 @@ model_qgo <-
         stop("U must be >= 1.")
       }
     }
-
+    
     # Checking solver
     solver <- "alabama"
-
+    
     dmunames <- datadea$dmunames
     nd <- length(dmunames) # number of dmus
-
+    
     if (is.null(dmu_eval)) {
       dmu_eval <- 1:nd
     } else if (!all(dmu_eval %in% (1:nd))) {
@@ -156,7 +167,7 @@ model_qgo <-
     }
     names(dmu_eval) <- dmunames[dmu_eval]
     nde <- length(dmu_eval)
-
+    
     if (is.null(dmu_ref)) {
       dmu_ref <- 1:nd
     } else if (!all(dmu_ref %in% (1:nd))) {
@@ -164,21 +175,21 @@ model_qgo <-
     }
     names(dmu_ref) <- dmunames[dmu_ref]
     ndr <- length(dmu_ref)
-
+    
     input <- datadea$input
     output <- datadea$output
     inputnames <- rownames(input)
     outputnames <- rownames(output)
     ni <- nrow(input)
     no <- nrow(output)
-
+    
     namevar1 <- c(paste("lambda", 1:ndr, sep = "_"),
                   paste("phi", 1:no, sep = "_"),
                   "beta")
     namevar2 <- c(paste("lambda", 1:ndr, sep = "_"),
                   paste("slack_I", 1:ni, sep = "_"),
                   paste("slack_O", 1:no, sep = "_"))
-
+    
     if (is.matrix(d_input)) {
       if ((nrow(d_input) != ni) || (ncol(d_input) != nde)) {
         stop("Invalid input orientation matrix (number of inputs x number of evaluated DMUs).")
@@ -193,7 +204,7 @@ model_qgo <-
     }
     rownames(d_input) <- inputnames
     colnames(d_input) <- dmunames[dmu_eval]
-
+    
     if (is.matrix(d_output)) {
       if ((nrow(d_output) != no) || (ncol(d_output) != nde)) {
         stop("Invalid output orientation matrix (number of outputs x number of evaluated DMUs).")
@@ -208,26 +219,22 @@ model_qgo <-
     }
     rownames(d_output) <- outputnames
     colnames(d_output) <- dmunames[dmu_eval]
-
+    
     inputref <- matrix(input[, dmu_ref], nrow = ni)
     outputref <- matrix(output[, dmu_ref], nrow = no)
-
-    target_input <- NULL
-    target_output <- NULL
-    orientation_param <- NULL
-
+    
     DMU <- vector(mode = "list", length = nde)
     names(DMU) <- dmunames[dmu_eval]
-
+    
     ###########################
-
+    
     # Objective function coefficients stage 1
     f.obj <- linfun(a = c(rep(0, ndr + no), 1), id = namevar1)
-
+    
     # Lower and upper bounds constraints stage 1
     lbcon1 <- lbcon(val = 0, id = namevar1)
     ubcon1 <- NULL
-
+    
     if (rts == "crs") {
       f.con.rs <- NULL # Stage 1
       f.con2.rs <- NULL # Stage 2
@@ -253,9 +260,9 @@ model_qgo <-
         ubcon1 <- ubcon(val = rep(U, ndr), id = namevar1[1:ndr])
       }
     }
-
+    
     if (maxslack && (!returnqp)) {
-
+      
       # Checking weights
       if (is.matrix(weight_slack_i)) {
         if ((nrow(weight_slack_i) != ni) || (ncol(weight_slack_i) != nde)) {
@@ -268,7 +275,7 @@ model_qgo <-
       }
       rownames(weight_slack_i) <- inputnames
       colnames(weight_slack_i) <- dmunames[dmu_eval]
-
+      
       if (is.matrix(weight_slack_o)) {
         if ((nrow(weight_slack_o) != no) || (ncol(weight_slack_o) != nde)) {
           stop("Invalid weight output matrix (number of outputs x number of evaluated DMUs).")
@@ -280,154 +287,256 @@ model_qgo <-
       }
       rownames(weight_slack_o) <- outputnames
       colnames(weight_slack_o) <- dmunames[dmu_eval]
-
+      
       # Constraints matrix stage 2
       f.con2.1 <- cbind(inputref, diag(ni), matrix(0, nrow = ni, ncol = no))
       f.con2.2 <- cbind(outputref, matrix(0, nrow = no, ncol = ni), -diag(no))
       f.con2 <- rbind(f.con2.1, f.con2.2, f.con2.rs)
-
+      
       # Directions vector stage 2
       f.dir2 <- c(rep("=", ni + no), f.dir.rs)
-
+      
     }
-
+    
     # Linear Directions vector stage 1
     f.dir <- c(rep("<=", ni), rep(">=", no), f.dir.rs)
-
+    
     for (i in 1:nde) {
-
+      
       ii <- dmu_eval[i]
-
-      # Linear Constraints matrix stage 1
-      f.con.1 <- cbind(inputref, matrix(0, nrow = ni, ncol = no), input[, ii] * d_input[, i])
-      f.con.2 <- cbind(outputref, -output[, ii] * diag(no), matrix(0, nrow = no, ncol = 1))
-      f.con <- rbind(f.con.1, f.con.2, f.con.rs)
-
-      # Linear Right hand side vector stage 1
-      f.rhs <- c(input[, ii], rep(0, no), f.rhs.rs)
       
-      rownames(f.con) <- paste("lc", 1:nrow(f.con), sep = "") # to prevent names errors in lincon
-      lincon1 <- lincon(A = f.con, dir = f.dir, val = f.rhs, id = namevar1)
-      
-      # Quadratic constraints stage 1
-      qclist <- vector("list", no)
-      for (ir in 1:no) {
-        qcmat <- matrix(0, nrow = ndr + no + 1, ncol = ndr + no + 1)
-        qcmat[ndr + no + 1, ndr + ir] <- d_output[ir, i] / 2
-        qcmat[ndr + ir, ndr + no + 1] <- d_output[ir, i] / 2
-        avec <- rep(0, ndr + no + 1)
-        avec[ndr + ir] <- -1
-        qclist[[ir]] <- quadcon(Q = qcmat, a = avec, val = -1, id = namevar1)
-      }
-      names(qclist) <- paste("qc", 1:no, sep = "")
-
-      mycop <- cop(f = f.obj, max = TRUE, lb = lbcon1, ub = ubcon1, lc = lincon1)
-      mycop$qc <- qclist
-
-      if (returnqp) {
-
-        DMU[[i]] <- mycop
-
-      } else {
-
-        # Initial vector
-        if ((ii %in% dmu_ref) && give_X) {
-          Xini <- c(rep(0, ndr), rep(1, no), 1)
-          Xini[which(dmu_ref == ii)] <- 1
-          names(Xini) <- namevar1
+      if (all(d_output[, i] == 0) && (force_quad == FALSE)) { ####### Particular case 1
+        
+        if (maxslack) {
+          auxws_i <- weight_slack_i[, i]
+          auxws_o <- weight_slack_o[, i]
         } else {
-          Xini <- NULL
+          auxws_i <- 1
+          auxws_o <- 1
         }
-
-        res <- solvecop(op = mycop, solver = solver, quiet = TRUE, X = Xini, ...)
-
-        if (res$status == "successful convergence") {
-
-          res <- res$x
-          beta <- res[ndr + no + 1]
-
-          rho <- (1 - sum(d_input[, i]) * beta / ni) * no /
-            (sum(1/(1 - beta * d_output[, i])))
-          names(rho) <- "rho"
-
-          proj_input <- input[, ii] * (1 - beta * d_input[, i])
-          names(proj_input) <- inputnames
-          proj_output <- output[, ii] / (1 - beta * d_output[, i])
-          names(proj_output) <- outputnames
-
-          if (maxslack) {
-
-            # Objective function coefficients stage 2
-            f.obj2 <- c(rep(0, ndr), weight_slack_i[, i], weight_slack_o[, i])
-
-            # Right hand side vector stage 2
-            f.rhs2 <- c(proj_input, proj_output, f.rhs.rs)
-
-            res <- lp("max", f.obj2, f.con2, f.dir2, f.rhs2)$solution
-
+        DMU[[i]] <- model_lgo(datadea = datadea,
+                              dmu_eval = ii,
+                              dmu_ref = dmu_ref,
+                              d_input = d_input[, i],
+                              d_output = d_output[, i],
+                              rts = rts,
+                              L = L,
+                              U = U,
+                              maxslack = maxslack,
+                              weight_slack_i = auxws_i,
+                              weight_slack_o = auxws_o)$DMU[[1]]
+        
+      } else if (all(d_input[, i] == 0) && all(d_output[, i] == d_output[1, i])
+                 && (force_quad == FALSE)) {                  ####### Particular case 2
+        
+        if (maxslack) {
+          auxws_i <- weight_slack_i[, i]
+          auxws_o <- weight_slack_o[, i]
+        } else {
+          auxws_i <- 1
+          auxws_o <- 1
+        }
+        DMU[[i]] <- model_lgo(datadea = datadea,
+                              dmu_eval = ii,
+                              dmu_ref = dmu_ref,
+                              d_input = d_input[, i],
+                              d_output = d_output[, i],
+                              rts = rts,
+                              L = L,
+                              U = U,
+                              maxslack = maxslack,
+                              weight_slack_i = auxws_i,
+                              weight_slack_o = auxws_o)$DMU[[1]]
+        beta_L <- DMU[[i]]$beta
+        DMU[[i]]$beta <- beta_L / (1 + beta_L * d_output[1, i])
+        
+      } else if (all(d_input[, i] == d_input[1, i]) && all(d_output[, i] == d_output[1, i])
+                 && (force_quad == FALSE)) {                  ####### Particular case 3
+        
+        if (maxslack) {
+          auxws_i <- weight_slack_i[, i]
+          auxws_o <- weight_slack_o[, i]
+        } else {
+          auxws_i <- 1
+          auxws_o <- 1
+        }
+        DMU[[i]] <- model_lgo(datadea = datadea,
+                              dmu_eval = ii,
+                              dmu_ref = dmu_ref,
+                              d_input = d_input[, i],
+                              d_output = d_output[, i],
+                              rts = rts,
+                              L = L,
+                              U = U,
+                              maxslack = FALSE)$DMU[[1]]
+        di <- d_input[1, i]
+        do <- d_output[1, i]
+        beta_L <- DMU[[i]]$beta
+        beta_Q <- (di + do - sqrt((di + do)^2 - 4 * beta_L * di * do * (di + do) /
+                                    (1 + beta_L * do))) / (2 * di * do)
+        DMU[[i]]$beta <- beta_Q
+        theta <- 1 - beta_Q * di
+        phi <- 1 / (1 - beta_Q * do)
+        target_input <- theta * input[, ii]
+        DMU[[i]]$target_input <- target_input
+        target_output <- phi * output[, ii]
+        DMU[[i]]$target_output <- target_output
+        
+        # Objective function coefficients stage 2
+        f.obj2 <- c(rep(0, ndr), weight_slack_i[, i], weight_slack_o[, i])
+        
+        # Right hand side vector stage 2
+        f.rhs2 <- c(target_input, target_output, f.rhs.rs)
+        
+        res <- lp("max", f.obj2, f.con2, f.dir2, f.rhs2)$solution
+        
+        lambda <- res[1 : ndr]
+        names(lambda) <- dmunames[dmu_ref]
+        DMU[[i]]$lambda <- lambda
+        
+        effproj_input <- as.vector(inputref %*% lambda)
+        names(effproj_input) <- inputnames
+        effproj_output <- as.vector(outputref %*% lambda)
+        names(effproj_output) <- outputnames
+        DMU[[i]]$effproj_input <- effproj_input
+        DMU[[i]]$effproj_output <- effproj_output
+        
+        slack_input <- target_input - effproj_input
+        names(slack_input) <- inputnames
+        slack_output <- effproj_output - target_output
+        names(slack_output) <- outputnames
+        DMU[[i]]$slack_input <- slack_input
+        DMU[[i]]$slack_output <- slack_output
+        
+      } else {                                              ######### General case
+        
+        # Linear Constraints matrix stage 1
+        f.con.1 <- cbind(inputref, matrix(0, nrow = ni, ncol = no), input[, ii] * d_input[, i])
+        f.con.2 <- cbind(outputref, -output[, ii] * diag(no), matrix(0, nrow = no, ncol = 1))
+        f.con <- rbind(f.con.1, f.con.2, f.con.rs)
+        
+        # Linear Right hand side vector stage 1
+        f.rhs <- c(input[, ii], rep(0, no), f.rhs.rs)
+        
+        rownames(f.con) <- paste("lc", 1:nrow(f.con), sep = "") # to prevent names errors in lincon
+        lincon1 <- lincon(A = f.con, dir = f.dir, val = f.rhs, id = namevar1)
+        
+        # Quadratic constraints stage 1
+        qclist <- vector("list", no)
+        for (ir in 1:no) {
+          qcmat <- matrix(0, nrow = ndr + no + 1, ncol = ndr + no + 1)
+          qcmat[ndr + no + 1, ndr + ir] <- d_output[ir, i] / 2
+          qcmat[ndr + ir, ndr + no + 1] <- d_output[ir, i] / 2
+          avec <- rep(0, ndr + no + 1)
+          avec[ndr + ir] <- -1
+          qclist[[ir]] <- quadcon(Q = qcmat, a = avec, val = -1, id = namevar1)
+        }
+        names(qclist) <- paste("qc", 1:no, sep = "")
+        
+        mycop <- cop(f = f.obj, max = TRUE, lb = lbcon1, ub = ubcon1, lc = lincon1)
+        mycop$qc <- qclist
+        
+        if (returnqp) {
+          
+          DMU[[i]] <- mycop
+          
+        } else {
+          
+          # Initial vector
+          if ((ii %in% dmu_ref) && give_X) {
+            Xini <- c(rep(0, ndr), rep(1, no), 0)
+            Xini[which(dmu_ref == ii)] <- 1
+            names(Xini) <- namevar1
+          } else {
+            Xini <- NULL
           }
-
-          lambda <- res[1 : ndr]
-          names(lambda) <- dmunames[dmu_ref]
-
-          target_input <- as.vector(inputref %*% lambda)
-          names(target_input) <- inputnames
-          target_output <- as.vector(outputref %*% lambda)
-          names(target_output) <- outputnames
-
-          slack_input <- proj_input - target_input
-          names(slack_input) <- inputnames
-          slack_output <- target_output - proj_output
-          names(slack_output) <- outputnames
           
-          # Cambio de notación: El target es lo que era la proyección y la proyección
-          # eficiente es lo que era el target.
-          effproj_input <- target_input
-          effproj_output <- target_output
-          target_input <- proj_input
-          target_output <- proj_output
-
-        } else {
+          res <- solvecop(op = mycop, solver = solver, quiet = TRUE, X = Xini, ...)
           
-          rho <- NA
-          beta <- NA
-          lambda <- NA
-          target_input <- NA
-          target_output <- NA
-          slack_input <- NA
-          slack_output <- NA
-          effproj_input <- NA
-          effproj_output <- NA
+          if (res$status == "successful convergence") {
+            
+            res <- res$x
+            beta <- res[ndr + no + 1]
+            names(beta) <- NULL
+            
+            rho <- (1 - sum(d_input[, i]) * beta / ni) * no /
+              (sum(1/(1 - beta * d_output[, i])))
+            names(rho) <- "rho"
+            
+            target_input <- input[, ii] * (1 - beta * d_input[, i])
+            names(target_input) <- inputnames
+            target_output <- output[, ii] / (1 - beta * d_output[, i])
+            names(target_output) <- outputnames
+            
+            if (maxslack) {
+              
+              # Objective function coefficients stage 2
+              f.obj2 <- c(rep(0, ndr), weight_slack_i[, i], weight_slack_o[, i])
+              
+              # Right hand side vector stage 2
+              f.rhs2 <- c(target_input, target_output, f.rhs.rs)
+              
+              res <- lp("max", f.obj2, f.con2, f.dir2, f.rhs2)$solution
+              
+            }
+            
+            lambda <- res[1 : ndr]
+            names(lambda) <- dmunames[dmu_ref]
+            
+            effproj_input <- as.vector(inputref %*% lambda)
+            names(effproj_input) <- inputnames
+            effproj_output <- as.vector(outputref %*% lambda)
+            names(effproj_output) <- outputnames
+            
+            slack_input <- target_input - effproj_input
+            names(slack_input) <- inputnames
+            slack_output <- effproj_output - target_output
+            names(slack_output) <- outputnames
+            
+          } else {
+            
+            rho <- NA
+            beta <- NA
+            lambda <- NA
+            target_input <- NA
+            target_output <- NA
+            slack_input <- NA
+            slack_output <- NA
+            effproj_input <- NA
+            effproj_output <- NA
+            
+          }
+          
+          DMU[[i]] <- list(efficiency = rho,
+                           beta = beta,
+                           lambda = lambda,
+                           target_input = target_input, target_output = target_output,
+                           slack_input = slack_input, slack_output = slack_output,
+                           effproj_input = effproj_input, effproj_output = effproj_output)
           
         }
-
-        DMU[[i]] <- list(efficiency = rho,
-                         beta = beta,
-                         lambda = lambda,
-                         target_input = target_input, target_output = target_output,
-                         slack_input = slack_input, slack_output = slack_output,
-                         effproj_input = effproj_input, effproj_output = effproj_output)
-
       }
-
     }
-
-    deaOutput <- list(modelname = "qgo",
-                      d_input = d_input,
-                      d_output = d_output,
-                      rts = rts,
-                      L = L,
-                      U = U,
-                      DMU = DMU,
-                      data = datadea,
-                      rho = rho,
-                      beta = beta,
-                      dmu_eval = dmu_eval,
-                      dmu_ref = dmu_ref,
-                      maxslack = maxslack,
-                      weight_slack_i = weight_slack_i,
-                      weight_slack_o = weight_slack_o)
-
-    return(structure(deaOutput, class = "dea"))
-
+    
+    orientation_param <- list(
+      d_input = d_input,
+      d_output = d_output)
+    
+    deaOutput <- structure(
+      list(modelname = "qgo",
+           orientation_param = orientation_param,
+           rts = rts,
+           L = L,
+           U = U,
+           DMU = DMU,
+           data = datadea,
+           dmu_eval = dmu_eval,
+           dmu_ref = dmu_ref,
+           maxslack = maxslack,
+           weight_slack_i = weight_slack_i,
+           weight_slack_o = weight_slack_o),
+      class = "dea")
+    
+    return(deaOutput)
+    
   }

@@ -1,4 +1,4 @@
-328a936641814c5302b9764dbe26d66a *DESCRIPTION
+c43cafd55c38a84e183c40ea43b04792 *DESCRIPTION
 c416b367c89e39008a76c516aa8d5379 *NAMESPACE
 66353d9181854ca2c9f41de45b6c4832 *R/bootstrap_basic.R
 fbd1e10be364db09a12848c35a976213 *R/cross_efficiency.R
@@ -27,11 +27,11 @@ b7b03de97b1b940161f0094e069b1178 *R/model_additive.R
 83620894c46e08b4607083ed3102c218 *R/model_deaps.R
 a548fa6916488c80d033d02b44899e52 *R/model_dir.R
 a68f87f5fd1cf4d158f47a3b7b6c10d9 *R/model_fdh.R
-957d815aea58f32e7494b9fc2c3ef6f6 *R/model_lgo.R
+7ba9c64fd93907fbc0ce4f4c8fa1541d *R/model_lgo.R
 69c87edaf82f0841348072c0a7c6b5ba *R/model_multiplier.R
 fc5906bab0aa15902503350c90fec4cf *R/model_nonradial.R
 f71369f7b477d371bc5c1cdeb417c5a8 *R/model_profit.R
-c47823cbb437f047c29ac4c3438bb91d *R/model_qgo.R
+738d0d7760a5ce983812a8e503c65ad5 *R/model_qgo.R
 0f0941107b1f27d025f939bf381df125 *R/model_rdm.R
 4c4b020517edd5ee4fb468f6ffb13563 *R/model_sbmeff.R
 b1f1085502275f0ad95215bee4c7ac72 *R/model_sbmsupereff.R
@@ -81,6 +81,7 @@ d64260ce89b1dc734fdbc2308188fdb8 *data/Power_plants.RData
 eacb907ed5ddf644781e0546ef2e80bf *data/Supply_Chain.RData
 b2ccd7168881a6e3c07b59a216aedfb1 *data/Tone2001.RData
 24208fdd2e38e9224b6e1e1ebdaf23bf *data/Tone2003.RData
+c9126290f7ce2119ddd0c8bfaa7af758 *inst/CITATION
 322cbff987840d676a7ee39465dc226c *man/Airlines.Rd
 5e358b151d5a6e3d1a633dcdc392cee0 *man/Coelli_1998.Rd
 24e230d0c9bdd2cdf6830e29c7cba7ee *man/Coll_Blasco_2006.Rd
@@ -134,11 +135,11 @@ edbcc4345aaaf1bd905bb54d25fc4942 *man/model_additive.Rd
 19fe99a79fe6a20279161ca6ea528227 *man/model_deaps.Rd
 d27859f4b95ce9ac57445a778915bd5b *man/model_dir.Rd
 8f1c4a2b8b5d3897414b3d96a7a8df29 *man/model_fdh.Rd
-90bc4a798bb94d2fa29ccf77c36992de *man/model_lgo.Rd
+4fdb100bf6254254f943ad459b7de30e *man/model_lgo.Rd
 3db54dcb4bd165ddfc4d4f057cfbb1ff *man/model_multiplier.Rd
 781ac071cb6331d555c976614ff2d139 *man/model_nonradial.Rd
 129a6d9923d57e3030b39fe8fc313fd3 *man/model_profit.Rd
-30426dde8f0ee8cd246813c996257ee7 *man/model_qgo.Rd
+a01221514c01c42c9ee1df698b19b2a7 *man/model_qgo.Rd
 0e8acac04cf9eeccb7bfd08e64a83755 *man/model_rdm.Rd
 c74418ff17ce4652dd4aef136aa8e0bf *man/model_sbmeff.Rd
 1d0b0da5fadf7b1f81fd2d4b94e1083d *man/model_sbmsupereff.Rd

@@ -1,0 +1,22 @@
+citHeader("To cite deaR in publications use:")
+
+bibentry(
+  bibtype = "Article",
+  title = "deaR: Conventional and fuzzy DEA models with R",
+  author = c(
+    person("V. J.", "Bolós"),
+    person("R.", "Benítez"),
+    person("V.", "Coll-Serrano")
+  ),
+  journal = "SoftwareX",
+  year = "2025",
+  volume = "31",
+  pages = "102266, 1–6",
+  doi = "10.1016/j.softx.2025.102266",
+  textVersion = paste(
+    "Bolós, V. J., Benítez, R., & Coll-Serrano, V. (2025).",
+    "deaR: Conventional and fuzzy DEA models with R.",
+    "SoftwareX, 31, 102266, 1–6.",
+    "https://doi.org/10.1016/j.softx.2025.102266"
+  )
+)

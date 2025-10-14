@@ -1,7 +1,8 @@
 #' @title Linear Generalized Oriented DEA model.
 #'   
-#' @description It solves linear generalized oriented DEA models. By default,
-#' models are solved in a two-stage process (slacks are maximized).  
+#' @description It solves linear generalized oriented DEA models (see Bolós et
+#' al. 2026). By default, models are solved in a two-stage process (slacks are
+#' maximized).  
 #' 
 #' @usage model_lgo(datadea,
 #'             dmu_eval = NULL,
@@ -67,6 +68,10 @@
 #' University of Valencia (Spain)
 #'  
 #' @references 
+#' 
+#' Bolós, V.J.; Benítez, R.; Coll-Serrano, V (2026). "A new family of models
+#' with generalized orientation in data envelopment analysis". International
+#' Transactions in Operational Research. \doi{10.1111/itor.70063}
 #' 
 #' Chambers, R.G.; Chung, Y.; Färe, R. (1996). "Benefit and Distance Functions",
 #' Journal of Economic Theory, 70(2), 407-419. 
@@ -199,13 +204,6 @@ model_lgo <-
   outputref <- matrix(output[, dmu_ref], nrow = no)
   
   ncd_inputs <- c(nc_inputs, nd_inputs)
-  
-  target_input <- NULL
-  target_output <- NULL
-  multiplier_input <- NULL
-  multiplier_output <- NULL
-  multiplier_rts <- NULL
-  orientation_param <- NULL
   
   DMU <- vector(mode = "list", length = nde)
   names(DMU) <- dmunames[dmu_eval]
@@ -366,49 +364,42 @@ model_lgo <-
           slack_output <- res[(ndr + ni + 1) : (ndr + ni + no)]
           names(slack_output) <- outputnames
           
-          target_input <- as.vector(inputref %*% lambda)
-          target_output <- as.vector(outputref %*% lambda)
-          names(target_input) <- inputnames
-          names(target_output) <- outputnames
+          effproj_input <- as.vector(inputref %*% lambda)
+          effproj_output <- as.vector(outputref %*% lambda)
+          names(effproj_input) <- inputnames
+          names(effproj_output) <- outputnames
           
         } else {
           
           lambda <- res[2 : (ndr + 1)]
           names(lambda) <- dmunames[dmu_ref]
           
-          target_input <- as.vector(inputref %*% lambda)
-          names(target_input) <- inputnames
-          target_output <- as.vector(outputref %*% lambda)
-          names(target_output) <- outputnames
+          effproj_input <- as.vector(inputref %*% lambda)
+          names(effproj_input) <- inputnames
+          effproj_output <- as.vector(outputref %*% lambda)
+          names(effproj_output) <- outputnames
           
-          slack_input <- input[, ii] - beta * dir_input[, i] - target_input
+          slack_input <- input[, ii] - beta * dir_input[, i] - effproj_input
           slack_input[ud_inputs] <- input[ud_inputs, ii] + beta * dir_input[ud_inputs, i] -
-            target_input[ud_inputs]
-          slack_input[ncd_inputs] <- input[ncd_inputs, ii] - target_input[ncd_inputs]
+            effproj_input[ud_inputs]
+          slack_input[ncd_inputs] <- input[ncd_inputs, ii] - effproj_input[ncd_inputs]
           names(slack_input) <- inputnames
-          slack_output <- target_output - output[, ii] - beta * dir_output[, i]
-          slack_output[ud_outputs] <- target_output[ud_outputs] - output[ud_outputs, ii] +
+          slack_output <- effproj_output - output[, ii] - beta * dir_output[, i]
+          slack_output[ud_outputs] <- effproj_output[ud_outputs] - output[ud_outputs, ii] +
             beta * dir_output[ud_outputs, i]
-          slack_output[ncd_outputs] <- target_output[ncd_outputs] - output[ncd_outputs, ii]
+          slack_output[ncd_outputs] <- effproj_output[ncd_outputs] - output[ncd_outputs, ii]
           names(slack_output) <- outputnames
           
         }
         
-        proj_input <- target_input + slack_input
-        proj_output <- target_output - slack_output
-        names(proj_input) <- inputnames
-        names(proj_output) <- outputnames
+        target_input <- effproj_input + slack_input
+        target_output <- effproj_output - slack_output
+        names(target_input) <- inputnames
+        names(target_output) <- outputnames
         
         rho <- (1 - sum(dir_input[, i] / input[, ii]) * beta / ni) /
           (1 + beta * sum(dir_output[, i] / output[, ii]) / no)
         names(rho) <- "rho"
-        
-        # Cambio de notación: El target es lo que era la proyección y la proyección
-        # eficiente es lo que era el target.
-        effproj_input <- target_input
-        effproj_output <- target_output
-        target_input <- proj_input
-        target_output <- proj_output
         
       } else {
         

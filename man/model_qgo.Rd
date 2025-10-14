@@ -13,6 +13,7 @@ model_qgo(datadea,
             L = 1,
             U = 1,
             give_X = TRUE,
+            force_quad = FALSE,
             maxslack = TRUE,
             weight_slack_i = 1,
             weight_slack_o = 1,
@@ -47,9 +48,14 @@ to output oriented.}
 
 \item{U}{Upper bound for the generalized returns to scale (grs).}
 
-\item{give_X}{Logical. If it is \code{TRUE}, it uses an initial vector (given by
-the evaluated DMU) for the solver, except for "cccp". If it is \code{FALSE}, the initial vector is given
+\item{give_X}{Logical. If it is \code{TRUE} (default), it uses an initial vector (given by
+the evaluated DMU) for the solver. If it is \code{FALSE}, the initial vector is given
 internally by the solver and it is usually randomly generated.}
+
+\item{force_quad}{Logical. If it is \code{FALSE} (default) it uses the linear
+model \code{model_lgo} to get the results, in some particular cases in which
+the results of \code{model_qgo} can be deduced from the results of \code{model_lgo},
+see V. J. Bolós et al. (2026).}
 
 \item{maxslack}{Logical. If it is \code{TRUE}, it computes the max slack solution.}
 
@@ -64,7 +70,8 @@ slacks for the max slack solution.}
 \item{returnqp}{Logical. If it is \code{TRUE}, it returns the quadratic problems
 (objective function and constraints) of stage 1.}
 
-\item{...}{Other parameters, like the initial vector \code{X}, to be passed to the solver.}
+\item{...}{Other parameters to be passed to the solver \code{solvecop} from package
+\code{optiSolve}.}
 }
 \value{
 A list of class \code{dea} with the results for the evaluated DMUs (\code{DMU} component,
@@ -76,8 +83,8 @@ in the strongly efficient frontier),
 }
 \description{
 It solves quadratically constrained CRS generalized oriented DEA
-models, using alabama solver. By default, models are solved in a two-stage
-process (slacks are maximized).
+models (see Bolós et al. 2026), using alabama solver. By default, models are
+solved in a two-stage process (slacks are maximized).
 }
 \examples{
 
@@ -92,8 +99,8 @@ efficiencies(eval_pft)
 
 }
 \references{
-"A new family of models with generalized orientation in data envelopment
-analysis". V. J. Bolós, R. Benítez, V. Coll-Serrano. International
+Bolós, V.J.; Benítez, R.; Coll-Serrano, V (2026). "A new family of models
+with generalized orientation in data envelopment analysis". International
 Transactions in Operational Research. \doi{10.1111/itor.70063}
 }
 \seealso{

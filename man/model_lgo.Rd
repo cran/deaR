@@ -70,8 +70,9 @@ in the strongly efficient frontier),
  \code{dmu_eval} and \code{dmu_ref}.
 }
 \description{
-It solves linear generalized oriented DEA models. By default,
-models are solved in a two-stage process (slacks are maximized).
+It solves linear generalized oriented DEA models (see Bolós et
+al. 2026). By default, models are solved in a two-stage process (slacks are
+maximized).
 }
 \examples{
 
@@ -86,6 +87,10 @@ efficiencies(eval_pft)
  
 }
 \references{
+Bolós, V.J.; Benítez, R.; Coll-Serrano, V (2026). "A new family of models
+with generalized orientation in data envelopment analysis". International
+Transactions in Operational Research. \doi{10.1111/itor.70063}
+
 Chambers, R.G.; Chung, Y.; Färe, R. (1996). "Benefit and Distance Functions",
 Journal of Economic Theory, 70(2), 407-419. 
 
