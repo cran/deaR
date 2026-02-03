@@ -93,7 +93,7 @@ structure, which is as list with fields \code{input}, \code{output} and
 \code{dmunames}. At the same time, \code{input} and \code{output} are lists with fields
 \code{mL}, \code{mR}, \code{dL} and \code{dR}.
 
-\figure{fuzzynumbers.jpg}{options: width="100\%" alt="Figure: fuzzynumbers.jpg"}
+\figure{fuzzynumbers.jpg}{options: alt="Figure: fuzzynumbers.jpg"}
 }
 \examples{
 # Example 1. If inputs and/or outputs are symmetric triangular fuzzy numbers

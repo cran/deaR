@@ -11,7 +11,7 @@ Data frame with 13 rows and 6 columns. Definition of inputs (X) and outputs (Y):
   \item{x2}{Input 2}
   \item{x3}{Input 3}
   \item{y1}{Output 1}
-  \item{y1}{Output 2}
+  \item{y2}{Output 2}
 }
 }
 \source{

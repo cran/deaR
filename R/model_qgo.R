@@ -13,6 +13,7 @@
 #'             L = 1,
 #'             U = 1,
 #'             give_X = TRUE,
+#'             n_attempts_max = 5,
 #'             force_quad = FALSE,
 #'             maxslack = TRUE,
 #'             weight_slack_i = 1,
@@ -42,6 +43,8 @@
 #' @param give_X Logical. If it is \code{TRUE} (default), it uses an initial vector (given by
 #' the evaluated DMU) for the solver. If it is \code{FALSE}, the initial vector is given
 #' internally by the solver and it is usually randomly generated.
+#' @param n_attempts_max A value with the maximum number of attempts if the solver
+#' does not converge. Each attempt uses a different initial vector.
 #' @param force_quad Logical. If it is \code{FALSE} (default) it uses the linear
 #' model \code{model_lgo} to get the results, in some particular cases in which
 #' the results of \code{model_qgo} can be deduced from the results of \code{model_lgo},
@@ -110,6 +113,7 @@ model_qgo <-
            L = 1,
            U = 1,
            give_X = TRUE,
+           n_attempts_max = 5,
            force_quad = FALSE,
            maxslack = TRUE,
            weight_slack_i = 1,
@@ -121,7 +125,7 @@ model_qgo <-
       force_quad <- TRUE
     }
     
-    # Cheking whether datadea is of class "deadata" or not...
+    # Checking whether datadea is of class "deadata" or not...
     if (!is.deadata(datadea)) {
       stop("Data should be of class deadata. Run make_deadata function first!")
     }
@@ -442,16 +446,30 @@ model_qgo <-
           
         } else {
           
-          # Initial vector
-          if ((ii %in% dmu_ref) && give_X) {
-            Xini <- c(rep(0, ndr), rep(1, no), 0)
-            Xini[which(dmu_ref == ii)] <- 1
-            names(Xini) <- namevar1
-          } else {
-            Xini <- NULL
-          }
+          n_attempts <- 1
           
-          res <- solvecop(op = mycop, solver = solver, quiet = TRUE, X = Xini, ...)
+          while (n_attempts <= n_attempts_max) {
+            
+            # Initial vector
+            if ((n_attempts == 1) && give_X && (ii %in% dmu_ref)) {
+              Xini <- c(rep(0, ndr), rep(1, no), 0.001)
+              Xini[which(dmu_ref == ii)] <- 1
+              names(Xini) <- namevar1
+            } else if ((n_attempts == 2) && give_X && (ii %in% dmu_ref)) {
+              Xini <- c(rep(0, ndr), rep(1, no), 0.5)
+              Xini[which(dmu_ref == ii)] <- 1
+              names(Xini) <- namevar1
+            } else {
+              Xini <- NULL
+            }
+            
+            res <- solvecop(op = mycop, solver = solver, quiet = TRUE, X = Xini, ...)
+            if (res$status == "successful convergence") {
+              n_attempts <- n_attempts_max
+            }
+            n_attempts <- n_attempts + 1
+            
+          }
           
           if (res$status == "successful convergence") {
             

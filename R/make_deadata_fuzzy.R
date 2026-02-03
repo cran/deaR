@@ -5,7 +5,7 @@
 #' \code{dmunames}. At the same time, \code{input} and \code{output} are lists with fields
 #' \code{mL}, \code{mR}, \code{dL} and \code{dR}.
 #' 
-#' \figure{fuzzynumbers.jpg}{options: width="100\%" alt="Figure: fuzzynumbers.jpg"}
+#' \figure{fuzzynumbers.jpg}{options: alt="Figure: fuzzynumbers.jpg"}
 #'
 #' @usage make_deadata_fuzzy(datadea,
 #'                 dmus = 1,

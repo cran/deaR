@@ -113,7 +113,7 @@ modelfuzzy_kaoliu <-
            alpha = 1,
            ...) {
  
-  # Cheking whether datadea is of class "deadata_fuzzy" or not...  
+  # Checking whether datadea is of class "deadata_fuzzy" or not...  
   if (!is.deadata_fuzzy(datadea)) {
     stop("Data should be of class deadata_fuzzy. Run make_deadata_fuzzy function first!")
   }

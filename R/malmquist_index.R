@@ -174,7 +174,7 @@ malmquist_index <- function(datadealist,
     stop("Number of times should be >= 2.")
   }
   
-  # Cheking data
+  # Checking data
   for (t in 1:nt) {
     if (!is.deadata(datadealist[[t]])) {
       stop("Data should be of class deadata. Run make_deadata function first!")

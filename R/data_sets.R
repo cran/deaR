@@ -501,7 +501,7 @@
 #'   \item{x2}{Input 2}
 #'   \item{x3}{Input 3}
 #'   \item{y1}{Output 1}
-#'   \item{y1}{Output 2}
+#'   \item{y2}{Output 2}
 #' }
 #' 
 #' @source Golany, B.; Roll, Y. (1989). "An Application Procedure for DEA". Omega,

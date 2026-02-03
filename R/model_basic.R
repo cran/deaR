@@ -169,7 +169,7 @@
 #' PFT <- PFT1981[1:49, ] 
 #' PFT <- make_deadata(PFT, 
 #'                     inputs = 2:6, 
-#'                     outputs = 7:9 )
+#'                     outputs = 7:9)
 #' eval_pft <- model_basic(PFT, 
 #'                         orientation = "io", 
 #'                         rts = "crs")
@@ -236,7 +236,7 @@ model_basic <-
            silent_ud = FALSE,
            ...) {
  
-  # Cheking whether datadea is of class "deadata" or not...  
+  # Checking whether datadea is of class "deadata" or not...  
   if (!is.deadata(datadea)) {
     stop("Data should be of class deadata. Run make_deadata function first!")
   }

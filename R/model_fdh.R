@@ -76,7 +76,7 @@ model_fdh <-
            fdh_modelname = c("basic"), # It can be generalized to other models in the future
            ...) {
     
-  # Cheking whether datadea is of class "deadata" or not...  
+  # Checking whether datadea is of class "deadata" or not...  
   if (!is.deadata(datadea)) {
     stop("Data should be of class deadata. Run make_deadata function first!")
   }

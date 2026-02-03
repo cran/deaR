@@ -143,7 +143,7 @@ model_sbmeff <-
            compute_target = TRUE,
            returnlp = FALSE, ...) {
     
-  # Cheking whether datadea is of class "deadata" or not...  
+  # Checking whether datadea is of class "deadata" or not...  
   if (!is.deadata(datadea)) {
     stop("Data should be of class deadata. Run make_deadata function first!")
   }
