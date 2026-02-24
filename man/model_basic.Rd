@@ -82,7 +82,8 @@ max slack solution. We note that we call "targets" to the "efficient projections
 in the strongly efficient frontier.}
 
 \item{compute_multiplier}{Logical. If it is \code{TRUE}, it computes multipliers
-(dual solution) when \code{orientation} is "io" or "oo".}
+(dual solution) when \code{orientation} is "io" or "oo". If there are undesirable variables,
+multipliers are only computed for variable returns to scale.}
 
 \item{returnlp}{Logical. If it is \code{TRUE}, it returns the linear problems
 (objective function and constraints) of stage 1.}

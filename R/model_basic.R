@@ -90,7 +90,8 @@
 #' max slack solution. We note that we call "targets" to the "efficient projections"
 #' in the strongly efficient frontier. 
 #' @param compute_multiplier Logical. If it is \code{TRUE}, it computes multipliers
-#' (dual solution) when \code{orientation} is "io" or "oo".
+#' (dual solution) when \code{orientation} is "io" or "oo". If there are undesirable variables,
+#' multipliers are only computed for variable returns to scale.
 #' @param returnlp Logical. If it is \code{TRUE}, it returns the linear problems
 #' (objective function and constraints) of stage 1.
 #' @param silent_ud Logical. For internal use, to avoid multiple warnings in the execution
@@ -250,6 +251,7 @@ model_basic <-
   rts <- match.arg(rts)
   
   # Checking undesirable io and rts
+  cambio_ud <- FALSE
   if (!is.null(datadea$ud_inputs) || !is.null(datadea$ud_outputs)) {
     if (orientation != "dir") {
       datadea_old <- datadea
@@ -270,9 +272,19 @@ model_basic <-
         if (!is.null(datadea$ud_outputs) && (orientation != "oo")) {
           warning("Undesirable (bad) outputs with no output-oriented model.")
         }
-        if (rts != "vrs") {
-          warning("Returns to scale may be changed to variable (vrs) because there are data with undesirable inputs/outputs.")
+        # if (rts != "vrs") {
+        #   warning("Returns to scale may be changed to variable (vrs) because there are data with undesirable inputs/outputs. For non variable returns to scale, it is recommended to use directional model (orientation = \"dir\") with dir_output = 0 (input-oriented) or dir_input = 0 (output-oriented).")
+        # }
+      }
+      if (rts != "vrs") {
+        cambio_ud <- TRUE
+        if (orientation == "io") {
+          dir_output <- 0
+        } else {
+          dir_input <- 0
         }
+        orientation_old <- orientation
+        orientation <- "dir"
       }
     }
   }
@@ -763,11 +775,26 @@ model_basic <-
           
         }
         
-        DMU[[i]] <- list(beta = beta,
-                         lambda = lambda,
-                         slack_input = slack_input, slack_output = slack_output,
-                         target_input = target_input, target_output = target_output
-                         )
+        if (cambio_ud) {
+          orientation <- orientation_old
+          orientation_param <- NULL
+          if (orientation == "io") {
+            efficiency <- 1 - beta
+          } else {
+            efficiency <- 1 + beta
+          }
+          DMU[[i]] <- list(efficiency = efficiency,
+                           lambda = lambda,
+                           slack_input = slack_input, slack_output = slack_output,
+                           target_input = target_input, target_output = target_output
+          )
+        } else {
+          DMU[[i]] <- list(beta = beta,
+                           lambda = lambda,
+                           slack_input = slack_input, slack_output = slack_output,
+                           target_input = target_input, target_output = target_output
+          )
+        }
         
       }
       

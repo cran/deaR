@@ -1,4 +1,4 @@
-aa6fad6b4d53015ff023e7aae7acb7f6 *DESCRIPTION
+098097deb40298b2adc16516c2b365ec *DESCRIPTION
 c416b367c89e39008a76c516aa8d5379 *NAMESPACE
 66353d9181854ca2c9f41de45b6c4832 *R/bootstrap_basic.R
 fbd1e10be364db09a12848c35a976213 *R/cross_efficiency.R
@@ -23,7 +23,7 @@ c42987b49e01a1d0564b53666f4bd1ca *R/lambdas.R
 9f29f8532c9ece414e7d8d1876ec5f6c *R/model_additive.R
 e516edf3226bceba19cc5c69cb0d49e8 *R/model_addmin.R
 99c649388594033d60a45c1636471185 *R/model_addsupereff.R
-3ca316a46d2cd882cf52c1693fdfcbea *R/model_basic.R
+3cf26a64da5cf7fdeacd3d689592776a *R/model_basic.R
 16a4200d44c99e0eb1618bd694af2284 *R/model_deaps.R
 d88abbcc258fe57a2dc5b39f67c942e1 *R/model_dir.R
 186d8014f698c49efb4bc280197b5b12 *R/model_fdh.R
@@ -132,7 +132,7 @@ f43a9250aaf09492a87d199ce95b980f *man/maximal_friends.Rd
 edbcc4345aaaf1bd905bb54d25fc4942 *man/model_additive.Rd
 4ab32161d0e5c5ee20cfd0e515544215 *man/model_addmin.Rd
 70e1afec6e747cef7163ca3683bc923e *man/model_addsupereff.Rd
-6e6a9cccd2ce00489974e2aabbde5dde *man/model_basic.Rd
+5e2ba0fd0fb7693c7362051b58af8fab *man/model_basic.Rd
 19fe99a79fe6a20279161ca6ea528227 *man/model_deaps.Rd
 d27859f4b95ce9ac57445a778915bd5b *man/model_dir.Rd
 8f1c4a2b8b5d3897414b3d96a7a8df29 *man/model_fdh.Rd

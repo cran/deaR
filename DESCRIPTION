@@ -1,7 +1,7 @@
 Package: deaR
 Type: Package
 Title: Conventional and Fuzzy Data Envelopment Analysis
-Version: 1.5.3
+Version: 1.5.4
 Authors@R: c(person(given = "Vicente",
                       family = "Bolos",
                       role = c("aut", "cre"),
@@ -24,9 +24,9 @@ Depends: R (>= 3.5)
 Imports: lpSolve, ggplot2, tidyr, plotly, igraph, writexl, dplyr,
         methods, gridExtra, grDevices, optiSolve
 NeedsCompilation: no
-Packaged: 2026-02-03 09:41:17 UTC; Vicente
+Packaged: 2026-02-24 10:48:06 UTC; Vicente
 Author: Vicente Bolos [aut, cre],
   Vicente Coll-Serrano [aut],
   Rafael Benitez Suarez [aut]
 Repository: CRAN
-Date/Publication: 2026-02-03 12:30:02 UTC
+Date/Publication: 2026-02-24 12:00:02 UTC
